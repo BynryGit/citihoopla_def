@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="tab-pane " id="tab1">
+
+
+    <div class="form-body">
+
+        <div class="col-md-3">
+            <div class="row">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="user-image">
+                        <div class="fileinput-new thumbnail" style="width: 272px; height: 178px;">
+                            <img id="user_img" src="{% static 'vendor/default.png' %}" alt="">
+                        </div>
+                        <div class="fileinput-preview fileinput-exists thumbnail" style="width: 272px; height: 178px;"> </div>
+                        <div class="user-image-buttons">
+                            <span class="btn btn-azure btn-file btn-sm"><span
+                                    class="fileinput-new"><i
+                                    class="fa fa-pencil"></i></span><span
+                                    class="fileinput-exists"><i
+                                    class="fa fa-pencil"></i></span>
+                                <input type="file"
+                                       class="form-control"
+                                       name="display_image"
+                                       accept="image/*"
+                                       id="display_image">
+                            </span>
+                            <a href="#"
+                               class="btn fileinput-exists btn-red btn-sm"
+                               data-dismiss="fileinput">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="u11" style="font-size:14px">Select Business Category </label>
+                        <input type="hidden" id="user_id"
+                               value="{{user_id}}"></input>
+                        <span class="required"> * </span>
+                        <select data-level="0"
+                                class="form-control "
+                                onchange="check_cat(1,this)"
+                                id="categ" name="categ">
+                            <option value="">Select
+                                Category
+                            </option>
+                            {% for cat in category_list %}
+                            <option value="{{ cat.category_id }}">
+                                {{ cat.category }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="lvl1_row" style="display: none">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="u11" style="font-size:14px">Level 1 </label>
+                        <input type="hidden" id="user_id"
+                               value="{{ user_id }}"></input>
+                        <span class="required"> * </span>
+                        <select class="form-control subcat_select"
+                                onchange="check_cat(2,this)"
+                                id="lvl1" name="lvl1">
+                            <option value=""></option>
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="lvl2_row" style="display: none">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="u11" style="font-size:14px">Level 2 </label>
+                        <input type="hidden" id="user_id"
+                               value="{{ user_id }}"></input>
+                        <span class="required"> * </span>
+                        <select class="form-control subcat_select"
+                                onchange="check_cat(3,this)"
+                                id="lvl2" name="lvl1">
+                            <option value=""></option>
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="lvl3_row" style="display: none">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="u11" style="font-size:14px">Level 3 </label>
+                        <input type="hidden" id="user_id"
+                               value="{{ user_id }}"></input>
+                        <span class="required"> * </span>
+                        <select class="form-control subcat_select"
+                                onchange="check_cat(4,this)"
+                                id="lvl3" name="lvl1">
+                            <option value=""></option>
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="lvl4_row" style="display: none">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="u11" style="font-size:14px">Level 4 </label>
+                        <input type="hidden" id="user_id"
+                               value="{{ user_id }}"></input>
+                        <span class="required"> * </span>
+                        <select class="form-control subcat_select"
+                                onchange="check_cat(5,this)"
+                                id="lvl4" name="lvl1">
+                            <option value=""></option>
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="lvl5_row" style="display: none">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="u11" style="font-size:14px">Level 5 </label>
+                        <input type="hidden" id="user_id"
+                               value="{{ user_id }}"></input>
+                        <span class="required"> * </span>
+                        <select class="form-control subcat_select"
+                                id="lvl5" name="lvl5">
+                            <option value=""></option>
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="col-md-6">
+
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label> Keywords / Tags </label>
+                    <input type="text"
+                           class="bootstrap-tagsinput"
+                           onKeyPress="return disableEnterKey(e)"
+                           style="padding: 9px;"
+                           id="advert_keywords"
+                           name="advert_keywords"
+                           placeholder="Enter keywords"
+                           data-role="tagsinput"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <h4>Basic Details
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="border_s">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label ">
+                                    Advert Title
+                                    <span class="required"> * </span>
+                                </label>
+                                <input type="text"
+                                       id="advert_title"
+                                       name="advert_title"
+                                       class="form-control"/> </input>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label ">Short
+                                    Description (Max
+                                    5000 characters)
+                                    <span class="required"> * </span>
+                                </label>
+                                <textarea id="short_discription" maxlength="5000"
+                                          class="form-control"></textarea>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6"
+                     style="padding-left: 17.7%;">
+                    <div class="form-group">
+                        <label class="control-label ">Main
+                            Display Image
+                            <!--  <span class="required"> * </span> -->
+                        </label>
+                    </div>
+
+                </div>
+
+
+                <input type="hidden" id="image_space"
+                       name=""
+                       class="form-control"/> </input>
+                <input type="hidden" id="video_space"
+                       name=""
+                       class="form-control"/> </input>
+                <input type="hidden"
+                       id="image_and_video_space"
+                       name=""
+                       class="form-control"/> </input>
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label ">Product
+                            Description (Max 5000
+                            characters)
+                        </label>
+                        <textarea type="text"
+                                  name="product_discription"
+                                  id="product_discription"
+                                  maxlength="5000"
+                                  class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label ">Discount
+                            Description (Max 5000
+                            characters)
+                            <!-- <span class="required"> * </span> -->
+                        </label>
+                            <textarea type="text"
+                                      name="discount_discription"
+                                      maxlength="5000"
+                                      id="discount_discription"
+                                      class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label> Currency </label>
+                        <select class="form-control "
+                                id="currency"
+                                name="currency">
+                            <option value="">Select
+                                Currency
+                            </option>
+                            {% for cur in currency %}
+                            <option value="{{ cur.currency_id }}">
+                                {{ cur.currency }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label">Website
+                        </label>
+                        <input type="URL"
+                               class="form-control "
+                               name="website"
+                               id="website"/>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="product_name_price">
+                <div class="row ">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Product
+                                Name
+                            </label>
+                            <input type="text"
+                                   name="product_name"
+                                   id="product_name"
+                                   class="form-control product_name_cls"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Product
+                                Price
+                            </label>
+                            <input type="text"
+                                   onkeypress="return validateFloatKeyPresss(this,event);"
+                                   name="product_price"
+                                   id="product_price"
+                                   class="form-control product_price_cls"/></input>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg add-product-and-price"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-phone">
+                <div class="row ">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Phone
+                                Category
+                                <span class="required"> * </span>
+                            </label>
+                            <select class="form-control phone_type sel2"
+                                    id="phcat"
+                                    onchange=""
+                                    name="phonec">
+                                <option value="0">Select
+                                    Category
+                                </option>
+
+                                <option value="3">
+                                    Mobile
+                                </option>
+                                <option value="4">
+                                    Landline
+                                </option>
+                            </select>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Phone
+                                No
+                                <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   onkeypress="return validateFloatKeyPresss(this,event);"
+                                   name="phone_no"
+                                   id="phone_no"
+                                   class="form-control phone_number"/></input>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg add-category-and-phone"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label ">Email
+                            (Primary)
+                            <span class="required"> * </span>
+                        </label>
+                        <input type="text"
+                               name="email_primary"
+                               id="email_primary"
+                               class="form-control"/></input>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label class="control-label ">Email
+                            (Secondary)
+                        </label>
+                        <input type="text"
+                               name="email_secondary"
+                               id="email_secondary"
+                               class="form-control"/> </input>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group ">
+                                <label class="control-label">Address
+                                    Line 1
+                                    <span class="required"> * </span>
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="address_line1"
+                                       id="address_line1"/></input>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label">Address
+                                    Line 2
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="address_line2"
+                                       id="address_line2"/>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group form-height">
+                                <label class="control-label ">Area
+                                    <span class="required"> * </span>
+                                </label>
+                                <input type="text"
+                                       name="area"
+                                       id="area"
+                                       class="form-control"/>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-height">
+                                <label class="control-label ">Landmark
+                                    <!--  <span class="required"> * </span> -->
+                                </label>
+                                <input type="text"
+                                       name="landmark"
+                                       id="landmark"
+                                       class="form-control"/>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group form-height">
+                                <label class="control-label ">State
+                                    <span class="required"> * </span>
+                                </label>
+                                <select class="form-control sel2"
+                                        onchange=""
+                                        id="statec"
+                                        name="statec">
+                                    <option value="">
+                                        Select State
+                                    </option>
+                                    {% for state in state_list %}
+                                    <option value="{{ state.state_id }}">
+                                        {{state.state_name}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group form-height">
+                                <label class="control-label ">City
+                                    <span class="required"> * </span>
+                                </label>
+                                <select class="form-control "
+                                        id="city"
+                                        name="city">
+                                    <option value="">
+                                        Select City
+                                    </option>
+                                </select>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group form-height">
+                                <label class="control-label ">Pincode
+                                    <span class="required"> * </span>
+                                </label>
+                                <select class="form-control "
+                                        id="pincode"
+                                        name="pincode">
+                                    <option value="">
+                                        Select Pincode
+                                    </option>
+                                </select>
+                                <label class="error"
+                                       style="color:red; display:none;"></label>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class='map-wrapper'>
+
+                                <div id="map">
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label ">Lat
+                                </label>
+                                <input type="text"
+                                       name="lat"
+                                       id="lat"
+                                       class="form-control"
+                                       disabled="disabled"/>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label ">Long
+                                    <!--  <span class="required"> * </span> -->
+                                </label>
+                                <input type="text" name="long" id="lng" class="form-control" disabled="disabled"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label ">Working Hours </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="working_hours">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label ">Day
+                                <!-- <span class="required"> * </span> -->
+                            </label>
+                            <select class="form-control opening_day week_days sel2" id="day" name="day" name="options2">
+                                <option value="">Select Day</option>
+                                <option value="All">All</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                            <label class="error" style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label ">Start
+                            Time
+                        </label>
+                        <input id="start1" class="starttime time_start strt_wrk" placeholder="Select Start Time"
+                               style="width: 100%;"/>
+                        <label class="error" style="color:red; display:none;"></label>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label ">End
+                            Time
+                        </label>
+                        <input id="end1" class="endtime time_end end_wrk" placeholder="Select End Time"
+                               style="width: 100%;"/>
+                        <label class="error" style="color:red; display:none;"></label>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg " onclick="add_working()"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label ">
+                            Any Other Details (Max 5000
+                            characters)
+                        </label>
+                            <textarea
+                                    name="any_other_details"
+                                    maxlength="5000"
+                                    id="any_other_details"
+                                    class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-lg-12">
+                    <label class="control-label ">
+                        Listing Image(s)</label><label
+                        id="lbl_upl"
+                        style="color:white">&nbsp You
+                    can
+                    Upload upto 10 attachments
+                    only</label>
+                    <div class="dropzone"
+                         style=" min-height: 70px; border-color: #e4e5e7 !important;"
+                         id="my-awesome-dropzone-3"></div>
+                    <input type="hidden"
+                           class="form-control"
+                           id="attachment"
+                           name="attachments">
+                    <input type="hidden"
+                           class="form-control"
+                           id="attachments"
+                           name="attachment">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-lg-12">
+                    <div>
+                        <label>Advert
+                            Video(s)</label><label
+                            id="ac_lbl_upl"
+                            style="color:white">&nbsp
+                        You can
+                        Upload upto 10 attachments
+                        only</label>
+
+                        <div class="dropzone"
+                             style=" min-height: 70px; border-color: #e4e5e7 !important;"
+                             id="my-active-dropzone"></div>
+                        <input type="hidden"
+                               class="form-control"
+                               id="ac_attachment"
+                               name="ac_attachments">
+                        <input type="hidden"
+                               class="form-control"
+                               id="ac_attachments"
+                               name="ac_attachment">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="property_desc">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <h4>Property Details
+                    </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="border_s">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Property Market Rate (Per
+                            Sq Feet)
+                            <span class="required"> * </span>
+                        </label>
+                        <input type="text"
+                               onkeypress="return validateFloatKeyPresss(this,event);"
+                               name="pro_mark_rate"
+                               id="pro_mark_rate"
+                               class="form-control"/>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>Possession Status
+                            <span class="required"> * </span>
+                        </label>
+                        <select class="form-control sel2 property_status"
+                                id="possesion_status"
+                                name="possesion_status">
+                            <option value="">Select
+                                Status
+                            </option>
+                            <option value="Ready & Available">
+                                Ready & Available
+                            </option>
+                            <option value="Under Construction">
+                                Under Construction
+                            </option>
+                        </select>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dateofdelivery">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group"
+                             id="ddelivery">
+                            <label>Date of Delivery
+                                <span class="required"> * </span>
+                            </label>
+                            <div class="input-group"
+                                 data-date-format="dd-mm-yyyy"
+                                 data-date-start-date="+0d">
+                                <input type="text"
+                                       class="form-control date-picker"
+                                       id="date_of_delivery"
+                                       name="date_of_delivery"
+                                       readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label ">Other
+                            Projects (Max 5000
+                            characters)
+                            <!-- <span class="required"> * </span> -->
+                        </label>
+                        <textarea type="text"
+                                  name="other_projects"
+                                  maxlength="5000"
+                                  id="other_projects"
+                                  class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-left: 1px;">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="control-label "
+                               style="margin-left: -14px;">Available
+                            Amenities
+                            <span class="required"> * </span>
+                        </label>
+                        <div class="row amenity_check">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="car"
+                                           class="amenity">
+                                    Car Parking</input>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="club"
+                                           class="amenity">
+                                    Club House</input>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="swim"
+                                           class="amenity">
+                                    Swimming
+                                    Pool</input>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="power"
+                                           class="amenity">
+                                    24 Hours Power
+                                    Backup</input>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="gym"
+                                           class="amenity">
+                                    Gymanasium</input>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="kids"
+                                           class="amenity">
+                                    Kids Play
+                                    Area</input>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="rain_water"
+                                           class="amenity">
+                                    Rain Water
+                                    Harvesting</input>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input type="checkbox"
+                                           id="inlineCheckbox21"
+                                           value="ame"
+                                           class="amenity">
+                                    Garden</input>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="any-other-amenities">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Any
+                                Other Amenities
+                                <!-- <span class="required"> * </span> -->
+                            </label>
+                            <input type="text"
+                                   name="other_amenity"
+                                   class="form-control extra_ame"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg anyother_amenity"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="near-by-attraction">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Near
+                                By Attraction
+                                <!--    <span class="required"> * </span> -->
+                            </label>
+                            <input type="text"
+                                   name="near_attraction"
+                                   class="form-control near_by_attr"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg near_attraction"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="near-shopping-market">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Nearest
+                                Shopping Mall/Market
+                                <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   name="near_shopping"
+                                   class="form-control near_shop_mal"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Distance
+                                From Property (In Km)
+                            </label>
+                            <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   onkeypress="return validateFloatKeyPresss(this,event);"
+                                   name="dis_frm_prop"
+                                   class="form-control near_shop_d"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg near_shops"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="near-school">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Nearest
+                                School
+                                <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   name="near_school"
+                                   class="form-control ner_sch"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Distance
+                                From Property (In Km)
+                            </label>
+                            <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   onkeypress="return validateFloatKeyPresss(this,event);"
+                                   name="dis_frm_prop"
+                                   class="form-control ner_schd"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg near_schools"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="near-hospital">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Nearest
+                                Hospital
+                                <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   name="name"
+                                   class="form-control ner_hos"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label ">Distance
+                                From Property (In Km)
+                            </label>
+                            <span class="required"> * </span>
+                            </label>
+                            <input type="text"
+                                   onkeypress="return validateFloatKeyPresss(this,event);"
+                                   name="dis_frm_prop"
+                                   class="form-control ner_hosd"/>
+                            <label class="error"
+                                   style="color:red; display:none;"></label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <a class="fa fa-plus-circle fa-lg near_hospitals"
+                               style="margin-top:33px;"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>Railway Station (In Km)
+                            <span class="required"> * </span>
+                        </label>
+                        <input type="text"
+                               onkeypress="return validateFloatKeyPresss(this,event);"
+                               name="dis_rail_stat"
+                               id="dis_rail_stat"
+                               class="form-control"/>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>Airport (In Km)
+                            <span class="required"> * </span>
+                        </label>
+                        <input type="text"
+                               onkeypress="return validateFloatKeyPresss(this,event);"
+                               name="dis_airport"
+                               id="dis_airport"
+                               class="form-control"/>
+                        <label class="error"
+                               style="color:red; display:none;"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-actions text-right">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-9">
+
+                <a type="button"
+                   href="/advert-management/?user_id={{user_id}}"
+                   class="btn default">Cancel</a>
+                <button type="submit" id="save-advert"
+                        class="btn green">Submit
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

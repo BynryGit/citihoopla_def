@@ -1,0 +1,67 @@
+from django.shortcuts import render
+
+# Create your views here.
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout
+from django.contrib.auth import login
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import cache_control
+from django.contrib import auth
+from digispaceapp.models import *
+import urllib
+import smtplib
+from smtplib import SMTPException
+#from captcha_form import CaptchaForm
+from django.shortcuts import *
+
+# importing mysqldb and system packages
+import MySQLdb, sys
+from django.db.models import Q
+from django.db.models import F
+from django.db import transaction
+import pdb
+import csv
+import json
+#importing exceptions
+from django.db import IntegrityError
+from captcha_form import CaptchaForm
+import operator
+from django.db.models import Q
+from datetime import date, timedelta
+
+# HTTP Response
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+
+
+@csrf_exempt
+def consumer_signup(request):
+	try:
+		consumer_obj=ConsumerProfile(
+			consumer_name=request.POST.get('username'),
+			consumer_contact_no=request.POST.get('contact_no'),
+			consumer_email_id=request.POST.get('emailid'),
+			consumer_email_id=request.POST.get('email'),
+            consumer_created_date = datetime.now(),
+			consumer_status = '1',
+            consumer_created_by=request.POST.get('username'),
+            consumer_updated_by=request.POST.get('username'),
+            consumer_updated_date=datetime.now()
+
+		);
+		consumer_obj.save();
+		user_obj.set_password(request.POST.get('password'));
+		user_obj.save();
+
+		data={
+			'success':'true',
+			'message':'User Created Successfully.'
+		}
+	except Exception, e:
+		data={
+			'success':'false',
+			'message':str(e)
+		}
+	return HttpResponse(json.dumps(data),content_type='application/json') 

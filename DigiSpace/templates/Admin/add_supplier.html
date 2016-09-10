@@ -1,0 +1,3059 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.3
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    {% load staticfiles %}
+    <head>
+        <meta charset="utf-8" />
+        <title>City Hoopla | Add Subscriber</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+       <!-- BEGIN GLOBAL MANDATORY STYLES -->
+       <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet" type="text/css" /> 
+       <link href="{% static 'vendor/bootstrap-fileinput/jasny-bootstrap.min.css' %}" rel="stylesheet" media="screen">
+       <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" /> 
+        <link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/uniform/css/uniform.default.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+<!--         <link href="{% static 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.css' %}" rel="stylesheet" type="text/css" /> -->
+        <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+<!--         <link href="{% static 'assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet" type="text/css" /> -->
+        <link href="{% static 'assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <link href="{% static 'assets/layouts/layout2/css/layout.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/layouts/layout2/css/themes/blue.min.css' %}" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="{% static 'assets/layouts/layout2/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END THEME LAYOUT STYLES -->
+        <link rel="shortcut icon" href="favicon.ico" /> </head>
+    <!-- END HEAD -->
+    <style type="text/css">
+.has-success .control-label{
+	color : #333;
+}
+
+.has-success .form-control {
+	border: 1px solid #C2CAD8;
+}
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
+}
+
+#loading{
+	width: 36%;
+	height: 22px;
+	position: absolute;
+	top: 26%;
+	left: 32%;
+	margin: -28px 0px 0px -25px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 500;
+	color: #000;
+}
+
+		div.dataTables_wrapper div.dataTables_info {
+    padding-top: 8px;
+    white-space: nowrap;
+    display: none;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    display: none;
+}
+
+div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+    display: none;
+}
+
+.border_s{
+
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.input-large{
+	width: 100% !important;
+}
+.page-header.navbar .page-logo .logo-default {
+    margin: 2px 0 0;
+    width: 105px;
+    background: rgba(255, 255, 255, 0.48);
+}
+
+.page-header.navbar .page-logo {
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+@media (max-width: 767px){
+.page-header.navbar {
+     background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+}
+
+.user-image img {
+                max-width: 100%;
+            }
+            .fileinput .thumbnail>img {
+                height: 178px !important;
+            }
+            .fileinput-preview.thumbnail {
+                max-width: 278px;
+            }
+
+.btn-azure:hover {
+    background-color: #0095C8;
+    border-color: #0095C8;
+    color: #ffffff;
+}
+
+.btn-file {
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+
+.user-image .user-image-buttons {
+    position: absolute;
+    top: 20%;
+    left: 7%;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.btn-red:hover {
+    background-color: #da4f4a !important;
+    border-color: #da4f4a;
+    color: #ffffff;
+    display: none;
+}
+
+.btn-red{
+    display: none;
+}
+
+.btn-sm, .btn-group-sm>.btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn {
+    transition: all 0.3s ease 0s !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    position: relative;
+}
+
+.fileinput .btn {
+    vertical-align: middle;
+}
+
+	</style>
+
+     <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
+        <!-- BEGIN HEADER -->
+                <div id="processing" style="display:none;">
+				<div id="loading">
+					<img  src="{% static 'assets/loading-bars.gif' %}" style="height : 100px;">
+					
+				</div>	
+  			</div>
+        <div class="page-header navbar navbar-fixed-top">
+                 <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="/dashboard/">
+                         <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo" class="logo-default"/> </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top">
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            <!-- BEGIN NOTIFICATION DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <!-- <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-bell"></i>
+                                    <span class="badge badge-default"> 7 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3>
+                                            <span class="bold">12 pending</span> notifications</h3>
+                                        <a href="page_user_profile_1.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">just now</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-success">
+                                                            <i class="fa fa-plus"></i>
+                                                        </span> New user registered. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">3 mins</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> Server #12 overloaded. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">10 mins</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-warning">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span> Server #2 not responding. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">14 hrs</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bullhorn"></i>
+                                                        </span> Application error. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">2 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> Database overloaded 68%. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">3 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> A user IP blocked. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">4 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-warning">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span> Storage Server #4 not responding dfdfdfd. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">5 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bullhorn"></i>
+                                                        </span> System Error. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">9 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span> Storage server failed. </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li> -->
+                            <!-- END NOTIFICATION DROPDOWN -->   
+                            <!-- BEGIN USER LOGIN DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                   <!--  <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg' %}" /> -->
+                                    <span class="username username-hide-on-mobile"> {{ username }} </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <!-- <li>
+                                        <a href="page_user_profile_1.html">
+                                            <i class="icon-user"></i> My Profile </a>
+                                    </li> -->
+                                    <li>
+                                        <a href="/log-out/">
+                                            <i class="icon-key"></i> Log Out </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END USER LOGIN DROPDOWN -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+        <!-- BEGIN HEADER & CONTENT DIVIDER -->
+        <div class="clearfix"> </div>
+        <!-- END HEADER & CONTENT DIVIDER -->
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- END SIDEBAR -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    {% include 'Admin/side-panel.html' %}
+                    <!-- END SIDEBAR MENU -->
+                </div>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN CONTENT BODY -->
+                <div class="page-content">
+                	<h3 class="page-title"> Subscribers</h3> 
+                    <!-- BEGIN PAGE HEADER-->
+                   <div class="page-bar">
+                        <ul class="page-breadcrumb">
+                          <li>
+                                Customers
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                              <a href="/subscriber/">Subscribers</a>
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                                <span>Add</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- END PAGE HEADER-->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="portlet light  ">
+                                <div class="portlet-body form">
+                                    <!-- BEGIN FORM-->
+                                    <div class="row">
+                                    	<div class="col-lg-12">
+                                    	 <div class="portlet-body">
+				                               <div class="portlet light " id="form_wizard_1">
+                              
+                                <div class="portlet-body form">
+                                    <form class="form-vertical" id="submit_form" enctype="multipart/form-data" method="POST">
+ 														{% csrf_token %}                                        
+                                        <div class="form-wizard">
+                                            <div class="form-body">
+                                                <ul class="nav nav-pills nav-justified steps">
+                                                    <li>
+                                                        <a href="#tab1" data-toggle="tab" class="step">
+                                                            <span class="number"> 1 </span>
+                                                            <span class="desc">
+                                                                <i class="fa fa-check"></i> Business Details </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab2" data-toggle="tab" class="step ">
+                                                            <span class="number"> 2 </span>
+                                                            <span class="desc">
+                                                                <i class="fa fa-check"></i> Service Details </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab3" data-toggle="tab" class="step ">
+                                                            <span class="number"> 3 </span>
+                                                            <span class="desc">
+                                                                <i class="fa fa-check"></i> Billing Setup </span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab4" data-toggle="tab" class="step">
+                                                            <span class="number"> 4 </span>
+                                                            <span class="desc">
+                                                                <i class="fa fa-check"></i> Confirm </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div id="bar" class="progress progress-striped" role="progressbar">
+                                                    <div class="progress-bar progress-bar-success"> </div>
+                                                </div>
+                                                <div class="tab-content">
+                                                  <!--   <div class="alert alert-danger display-none">
+                                                        <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below. </div>
+                                                    <div class="alert alert-success display-none">
+                                                        <button class="close" data-dismiss="alert"></button> Your form validation is successful! </div> -->
+                                                    <div class="tab-pane active" id="tab1">
+                                                        <!-- <h3 class="block">Provide your account details</h3> -->
+                                                        <div class="form-group">
+                                                        	 <div class="row">
+                                                        	 	<div class="col-lg-8">
+                                                        	 	<div class="row">
+                                                        	 		<div class="col-md-6">
+	                                                            <label class="control-label">Business Name
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <input id="business_name"  class="form-control" />
+																						 <label class="error" style="color:red; display:none;"></label>                                                          	
+                                                          	</div>
+                                                          	
+                                                          	
+                                                          	<div class="col-md-6">
+	                                                            <label class="control-label">Phone No (Mobile)
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                             <input id="phone_no" maxlength="10" class="form-control" onkeypress="return validateIntKeyPress(this,event);"  />
+                                                          		<label class="error" style="color:red; display:none;"></label>                                                          	
+                                                          	</div>
+                                                         </div> 	
+                                                          	
+                                                         <div class="row form-group" style="margin-top: 15px ! important;"> 
+                                                         	
+                                                          	<div class="col-md-6 ">
+	                                                            <label class="control-label">Phone No (Secondary)
+	                                                            </label>
+	                                                                <input type="text" onkeypress="return validateIntKeyPress(this,event);" maxlength="10"  id="sec_phone_no" class="form-control"   />
+                                                          				<label class="error" style="color:red; display:none;"></label>                                                          	                                                          	
+                                                          	</div>
+                                                          	
+                                                          	<div class="col-md-6">
+                                                            <label class="control-label">Email Primary
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                                <input type="text" id="pri_email" class="form-control"  />  
+                                                          		<label class="error" style="color:red; display:none;"></label>                                                          	                                                            
+                                                            </div>
+                                                            
+                                                             <div class="col-md-6" style="margin-top: 15px ! important;">
+                                                            <label class="control-label">Email Secondary
+                                                            </label>
+                                                                <input type="text" id="sec_email" class="form-control" />  
+                                                          		<label class="error" style="color:red; display:none;"></label>                                                          	                                                            
+                                                            </div>
+                                                        	</div>
+                                                       </div> 
+                                                       
+                                                     <!--   <div class="col-lg-4">
+						                                           
+						                                                <label class="control-label ">Logo     
+						                                                </label>
+						                                                  <input type="file" id="logo" name="logo" class="form-control" placeholder="Upload Logo"> 
+						                                                  <label class="error" style="color:red; display:none;"></label>                                                          	                           
+						                                            
+					                                            </div> -->
+                                                       
+                                                        <div class="col-lg-4" >
+                                                                <div class="form-group">
+                                                                    <label class="control-label ">Logo
+                                                                    
+                                                                    </label>
+                                                                </div>
+                                                                <div class="fileinput fileinput-new"
+                                                                     data-provides="fileinput">
+                                                                    <div class="user-image">
+                                                                        <div class="fileinput-new thumbnail"
+                                                                             style="width: 272px; height: 178px;">
+                                                                            <img id="user_img"
+                                                                                 src="{% static 'vendor/default.png' %}"
+                                                                                 alt="">
+                                                                        </div>
+                                                                        <div class="fileinput-preview fileinput-exists thumbnail"
+                                                                             style="width: 272px; height: 178px;">
+
+                                                                        </div>
+                                                                        <div class="user-image-buttons">
+                                                                                    <span class="btn btn-azure btn-file btn-sm"><span
+                                                                                            class="fileinput-new"><i
+                                                                                            class="fa fa-pencil"></i></span><span
+                                                                                            class="fileinput-exists"><i
+                                                                                            class="fa fa-pencil"></i></span>
+                                                                                        <input type="file" id="logo" name="logo" accept="image/*" class="form-control" placeholder="Upload Logo">
+                                                                                    </span>
+                                                                            <a href="#"
+                                                                               class="btn fileinput-exists btn-red btn-sm"
+                                                                               data-dismiss="fileinput">
+                                                                                <i class="fa fa-times"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div> 
+                                                      </div>
+                                                    </div>  
+                                                     
+                                                      	
+                                                        <div class="form-group">
+                                                        	 <div class="row">
+                                                        	 	<div class="col-lg-6">
+	                                                            <label class="control-label">Address Line 1
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <input type="text" class="form-control"  id="address1" />
+                                                          		<label class="error" style="color:red; display:none;"></label>                                                          	                                                        		
+                                                        		</div>
+                                                        		<div class="col-lg-6">
+	                                                            <label class="control-label">Address Line 2
+	                                                            </label>
+	                                                                <input type="text" class="form-control"  id="address2" />
+                                                        		</div>
+                                                        	</div>
+                                                        </div>	
+                                                        
+                                                        <div class="form-group">
+                                                        	 <div class="row">
+ 																				 <div class="col-lg-4">
+ 																				 		<label class="control-label">State
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <select id="state" name="state" class="form-control" required> 
+																						 	<option value="">Select State</option>                        
+															                        {% for state in state_list %}	
+															                        <option value="{{ state.state_id }}"> {{ state.state_name }}</option>
+															                        {% endfor %}
+															                     </select>
+															               <label class="error" style="color:red; display:none;"></label>                                                          	                                                        		
+ 																				 </div>
+ 																				 
+ 																				 <div class="col-lg-4">
+ 																				 		<label class="control-label">City
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <select name="city" id="city" class="form-control" required="">
+															                     	<option value="">Select City</option>
+															                     </select>
+															                     <label class="error" style="color:red; display:none;"></label>
+ 																				 </div>
+ 																				 
+ 																				 <div class="col-lg-4">
+ 																				 		<label class="control-label">Pincode
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+                                                 					<select name="pincode" id="pincode"  class="form-control" required="">
+															                     	<option value="">Select Pincode</option>
+															                     </select>
+															                   <label class="error" style="color:red; display:none;"></label>  
+ 																				 </div>
+                                                        	</div>
+                                                       </div> 	
+
+                                                       <div class="form-group">
+                                                        	<div class="row">
+                                                        	 	<div class="col-lg-12">
+                                                            <label class="control-label">About Business (Max 5000 characters) 
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                                <textarea class="form-control" id="business" maxlength="5000" value="" name="business" ></textarea> 
+                                                          		<label class="error" style="color:red; display:none;"></label>                                                                                                               		                                                            
+                                                            </div>
+                                                        	</div>
+                                                       </div>
+                                                       
+                                                        <div class="form-group">
+                                                        	<div class="row">
+                                                        	 	<div class="col-lg-12">
+                                                            <h3>Contact Details</h3>
+                                                                
+                                                            </div>
+                                                        	</div>
+                                                       </div>
+                                                       <div class="form-group">
+                                                        	<div class="row">
+ 																				 <div class="col-lg-4">
+ 																				 		<label class="control-label">Name
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <input type="text" id="user_name" class="form-control" name="name" />
+                                                          		<label class="error" style="color:red; display:none;"></label>                                                                                                                 		
+ 																				 </div>
+ 																				 
+ 																				 
+ 																				 <div class="col-lg-4">
+ 																				 		<label class="control-label">Email
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <input type="text" id="user_email" class="form-control" name="city" />
+ 																		            <label class="error" style="color:red; display:none;"></label>                                                                                                                 				 
+ 																				 </div>
+ 																				 
+ 																				 <div class="col-lg-4">
+ 																				 		<label class="control-label">Contact No
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <input type="text" maxlength="10" id="user_contact_no" class="form-control" onkeypress="return validateIntKeyPress(this,event);" name="contact_no" />
+ 																				 		<label class="error" style="color:red; display:none;"></label>
+ 																				 </div>
+                                                        	</div>
+                                                       </div>
+                                                       <div class="row">
+                                                       	<div class="col-lg-12 text-right">
+                                                       		<button type="submit" id="save-quit"  class="btn btn-outline red" >Save & Quit</button>
+                                                        	<button type="submit" id="save-continue"  class="btn btn-outline green" >Save & Continue</button>
+                                                       	</div>
+                                                       </div>
+                                                    </div>
+                                                    <div class="tab-pane " id="tab2">
+                                                    	<label class="control-label ">Business Category  
+						                                                </label>
+                                                        <div class="form-group border_s">
+                                                        	  <div class="row" id="mydiv"> 
+                                                            <div class="col-lg-12">
+						                                                <label class="control-label " >Select Business  
+						                                                    <span class="required"> * </span>
+						                                                </label>
+																					<!-- new code-->
+																							
+																							<ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+						                                                    	<div class="col-lg-12">
+							           														{% for category in category_list %}
+							                                                      <div class="col-lg-3">    
+							                                                       <li>   
+							                                                        <label>
+							                                                            <input type="radio" class="radio" name="category" value="{{category.category_name}}" /> {{category.category_name}}</label>
+							                                                       </li>
+							                                                     </div>
+							                                                     {% endfor %}	
+							                                                    </div>
+							                                                           
+						                                                    </ul>
+																							
+																					<!-- end code-->						                                                
+						                                  
+                                                        			</div>
+                                                        		</div>
+                                                        	<label class="error" style="color:red; display:none;"></label>	
+                                                      	</div>
+                                                      	<label class="control-label ">Subscription Plans 
+						                                                </label>  
+                                                      <div class=" border_s">
+                                                       <div class="form-group">
+                                                        <div class="row" id="service"> 
+                                                            <div class="col-lg-12">
+                                                            <label class="control-label ">Select Service
+			                                                    <span class="required"> * </span>
+			                                                </label>
+			                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+			                                                     {% for service in service_list %}	
+			                                                    	<div class="col-lg-3"> 
+			                                                        <li>
+			                                                        <label>
+			                                                            <input type="radio" class="radio" name="service" value="{{service.service_name}}" /> {{service.service_name}} </label>
+			                                                        </li>
+			                                                       </div>
+			                                                        {% endfor %}
+			                         
+			                                                    </ul>
+                                                        </div>
+                                                      </div>
+                                                  <label class="error" style="color:red; display:none;"></label>	    
+                                                    </div>  
+                                                    
+                                                    <div class="form-group">
+                                                        <div class="row" id="duration"> 
+                                                            <div class="col-lg-12">
+                                                            <label class="control-label ">Duration
+			                                                    	<span class="required"> * </span>
+			                                                	</label>
+			                                                <div class="row ">
+			                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+			                                                    	<div class="col-lg-2 check-duration"> 
+			                                                        <li>
+			                                                        <label>
+			                                                            <input type="radio" class="radio" name="duration"  value="3" /> 3 Days </label>
+			                                                        </li>
+			                                                       </div>
+			                                                       	<div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            Start Date </label>
+				                                                        </li>
+			                                                      	</div>
+				                                                      <div class="col-lg-3">
+				                                                      <input type="text" id="dt1" disabled class="form-control duration date-picker" >
+				                                                      	
+				                                                    </div>
+				                                                    <div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            End Date </label>
+				                                                        </li>
+			                                                      	</div>
+			                                                      	<div class="col-lg-3">
+			                                                      	<input type="text" id="dt2" readonly class="form-control end-date" name="" /> 
+			                                                      		 
+			                                                        </div> 	 
+			                                                    </ul>
+			                                                  </div>	  
+			                                                  <div class="row "   style=" margin-top: 10px;">
+			                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+			                                                    	<div class="col-lg-2 check-duration"> 
+			                                                        <li>
+			                                                        <label>
+			                                                            <input type="radio" class="radio" name="duration" value="7" /> 7 Days </label>
+			                                                        </li>
+			                                                       </div>
+			                                                       	<div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            Start Date </label>
+				                                                        </li>
+			                                                      	</div>
+				                                                      <div class="col-lg-3">
+
+				                                                        <input type="text" id="dt3" disabled class="form-control duration date-picker" >
+
+				                                                    </div>
+				                                                    <div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            End Date </label>
+				                                                        </li>
+			                                                      	</div>
+			                                                      	<div class="col-lg-3">
+			                                                      	 <input type="text" id="dt4" readonly class="form-control" name="" /> 
+			                                                         </input>
+			                                                        </div> 	 
+			                                                    </ul>
+			                                                  </div>	  
+			                                                  <div class="row" style=" margin-top: 10px;">
+			                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+			                                                    	<div class="col-lg-2 check-duration"> 
+			                                                        <li>
+			                                                        <label>
+			                                                            <input type="radio" class="radio" name="duration" value="30" /> 30 Days  </label>
+			                                                        </li>
+			                                                       </div>
+			                                                       	<div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            Start Date </label>
+				                                                        </li>
+			                                                      	</div>
+				                                                      <div class="col-lg-3">
+
+				                                                        <input type="text" id="dt5" disabled class="form-control duration date-picker" name="">
+
+				                                                    </div>
+				                                                    <div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            End Date </label>
+				                                                        </li>
+			                                                      	</div>
+			                                                      	<div class="col-lg-3">
+			                                                      	 <input type="text" readonly id="dt6" class="form-control" name="" /> 
+			                                                         </input>
+			                                                        </div> 	 
+			                                                    </ul>
+			                                                  </div>	  
+			                                                  <div class="row" style=" margin-top: 10px;">
+			                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+			                                                    		
+			                                                    	<div class="col-lg-2 check-duration"> 
+			                                                        <li>
+			                                                        <label>
+			                                                            <input type="radio" class="radio" name="duration" value="90" /> 90 Days </label>
+			                                                        </li>
+			                                                       </div>
+			                                                       	<div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            Start Date </label>
+				                                                        </li>
+			                                                      	</div>
+				                                                      <div class="col-lg-3">
+
+				                                                        <input type="text" id="dt7" disabled class="form-control duration date-picker" name="">
+
+				                                                    </div>
+				                                                    <div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            End Date </label>
+				                                                        </li>
+			                                                      	</div>
+			                                                      	<div class="col-lg-3">
+			                                                      	 <input type="text" id="dt8" readonly class="end form-control" name="" /> 
+			                                                         </input>
+			                                                        </div> 	 
+			                                                    </ul>
+			                                                  </div>	  
+			                                                  <div class="row" style=" margin-top: 10px;">
+			                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+			                                                    	<div class="col-lg-2 check-duration" > 
+			                                                        <li>
+			                                                        <label>
+			                                                            <input type="radio" class="radio" name="duration" value="180" /> 180 Days </label>
+			                                                        </li>
+			                                                       </div>
+			                                                       	<div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            Start Date </label>
+				                                                        </li>
+			                                                      	</div>
+				                                                      <div class="col-lg-3">
+
+				                                                        <input type="text" id="dt9" disabled class="form-control duration date-picker" name="">
+
+				                                                    </div>
+				                                                    <div class="col-lg-2"> 
+				                                                        <li>
+				                                                        <label>
+				                                                            End Date </label>
+				                                                        </li>
+			                                                      	</div>
+			                                                      	<div class="col-lg-3">
+			                                                      	 <input type="text" id="dt10" readonly class="end form-control" name="" /> 
+			                                                         </input>
+			                                                        </div> 	 
+			                                                    </ul>
+			                                                  </div>	  	  
+                                                        </div>
+                                                      </div>
+                                                   <label id="selectedDuration"  style="color:red; display:none;"></label>   
+                                                   <label class="error" style="color:red; display:none;"></label>	   
+                                                    </div>  
+                                                      
+ 																			<div class="form-group">                                                     
+                                                        		<div class="row" id="premium_service">
+                                                            <div class="col-lg-12">
+						                                            	<div class="form-group">
+						                                                <label class="control-label ">Buy Premium Service
+
+						                                                </label>
+						                                                {% for advert in advert_service_list %}	
+						                                                    <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">     
+						                                                     <div class="row">
+						                                                      <div class="col-lg-4 check-advert"> 
+						                                                        <li>
+						                                                        <label>
+						                                                            <input type="checkbox" id="{{advert.advert_rate_card_id}}" value="{{advert.advert_service_name}}" onclick='check_advert({{advert.advert_rate_card_id}});' disabled="disabled" name="premium_service" class="premium_checkbox"  />{{advert.advert_service_name}}</label>
+						                                                        </li>
+						                                                      </div>
+						                                                      <div class="col-lg-3">
+
+						                                                        <input type="text" id="start_{{advert.advert_rate_card_id}}" disabled="disabled" class="form-control service-duration date-picker1" name="from">
+						                                                        </div>
+						                                                         <div class="col-lg-2">
+<!-- 						                                                        <input type="text" id="advert2" disabled="disabled" class="form-control days"  name="to" placeholder="No of days">  -->
+																										   <select id="day_{{advert.advert_rate_card_id}}" disabled="disabled" name="state" class="form-control days" > 
+
+																		                     	</select>						                                                        
+						                                                        </div>
+						                                                         <div class="col-lg-3">
+						                                                        <input type="text" id="end_{{advert.advert_rate_card_id}}"  class="form-control" readonly name="to"> 
+						                                                      </div>
+						                                                      </div>      			
+						                                                    </ul>
+						                                                    {% endfor %}
+						                                            		</div>
+						                                            	</div>	
+						                                            </div>
+						                                          <label id="mismatch-days" class="error" style="color:red; display:none;">gfhsdfhsdhsdhs</label>	   
+ 																				<label id="startdateemptyerror"  style="color:red; display:none;"></label>	  						                                          
+						                                          </div>
+						                                           
+                                                        </div>
+                                                        <br>
+                                                           <div class="row">
+                                                       	<div class="col-lg-12 text-right">
+                                                       		<button type="submit" id="save-service-detail"  class="btn btn-outline red" >Save & Quit</button>
+                                                        	<button type="submit" id="continue-service-detail"  class="btn btn-outline green" >Save & Continue</button>
+                                                       	</div>
+                                                       </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="tab3">
+                                                       <h3 class="block">Confirm your service</h3>
+                                                       	 <div class="row">
+                                                       	 	<div class="col-lg-offset-3 col-lg-6">
+	                                                      	<div class="form-group border_s">
+	                                                    				<div class="row control-label">
+		                                                            <label class="col-lg-5">Subscriber ID : </label>
+		                                                                <label class="col-lg-7" id="show_subscriber_id" > </label>
+                           	
+                                                            	 </div>
+                                                            		                                                      	  	
+	                                                      	  	<div class="row control-label">
+		                                                            <label class="col-lg-5">Business Name : </label>
+		                                                                <label class="col-lg-7" id="show_business_name" > </label>
+                           	
+                                                            	 </div>
+		                                                        	<div class="row control-label">
+		                                                            <label class="col-lg-5">Business Category : </label>
+		                                                                <label class="col-lg-7" id="show_category" > </label>
+                                                            	
+                                                            	 </div>
+                                                            	 <div class="row control-label">	
+			                                                            <label class="col-lg-5">Service : </label>
+
+			                                                                <label class="col-lg-7" id="show_service"> </label>
+
+			                                                       </div>
+			                                                         <div class="row control-label">  
+			                                                            <label class="col-lg-5">Duration : </label>
+
+			                                                                <label class="col-lg-7" id="show_duration" > </label>
+
+			                                                        </div>
+			                                                       <div class="row control-label"> 
+			                                                            <label class="col-lg-5">Premium Service(s) : </label>
+
+			                                                                <label class="col-lg-7" id="show_premium_service" > </label>
+
+			                                                      </div>
+			                                                     <div class="row control-label">  
+			                                                            <label class="col-lg-5">Duration(s) : </label>
+
+			                                                                <label class="col-lg-7" id="show_premium_service_duration" ></label>
+
+			                                                        </div>
+																					
+
+			                                                          
+		                                                        </div>
+	                                                        </div>
+	                                                       </div>
+                                                         <div class="row">
+                                                       	<div class="col-lg-12 text-right">
+<!--                                                        		<button type="submit" id="save-detail"  class="btn btn-outline red" >Quit</button> -->
+                                                        	<button type="submit" id="continue-detail"  class="btn btn-outline green" >Continue</button>
+                                                       	</div>
+                                                       </div> 
+	                                                      </div>  
+                                                    <div class="tab-pane" id="tab4">
+                                                        <div class="form-group">
+                                                        	  <div class="row">
+                                                        	  	<div class="col-lg-3">
+                                                            <label class="control-label">Generated Amount
+                                                                <span class="required"> * </span>
+                                                            </label>
+                                                                <input id="generated_amount" onkeyup="changeprice_edit()" readonly type="text" class="form-control" name="g_amount" />
+                                                              </div>
+                                                              
+                                                              <div class="col-lg-3">
+	                                                            <label class="control-label">Tax
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                               <select id="tax_type" name="tax_type" style="width:100%;" onchange="changeprice_edit()" class="form-control">
+
+			                         		               				
+													                      		 <option value=""> Tax Type</option>
+			                         		               				{% for tax in tax_list %}	
+															                        <option value="{{tax.tax_rate}}">{{tax.tax_type}}</option>
+															                        {% endfor %}
+
+													                  	   	</select>
+													                  	   	<label class="error" style="color:red; display:none;"></label>  
+                                                              </div> 
+                                                              
+                                                              <label class="error" style="color:red; display:none;"></label>     
+                                                              <div class="col-lg-3">
+	                                                            <label class="control-label">Payable Amount
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                                <input type="text" id="payable_amount" readonly class="form-control" name="g_amount" />
+                                                              </div>  
+                                                              <div class="col-lg-3">
+	                                                            <label class="control-label">Paid Amount
+	                                                            </label>
+	                                                                <input type="text" id="paid_amount"  onkeypress="return validateIntKeyPress(this,event);" class="form-control" name="g_amount" />
+                                                              <label class="error" style="color:red; display:none;"></label>     
+                                                              </div>
+                                                              
+                                                              
+                                                              
+                                                          
+                                                            </div>
+                                                            <br>
+                                                          <div class="row">  
+																			<div class="col-lg-12" id="payment_mode" >
+	                                                            <label class="control-label">Payment Mode
+	                                                                <span class="required"> * </span>
+	                                                            </label>
+	                                                               <ul class="radio-list list-inline" data-error-container="#form_2_membership_error">
+				                                                        <li>
+				                                                        <label>
+				                                                            <input type="radio" class="radio" name="payment_mode" value="cash" /> Cash </label>
+				                                                        </li>  
+				                                                       <li>   
+				                                                        <label>
+				                                                            <input type="radio" id="cheque" 
+                                                                            class="radio" name="payment_mode" value="cheque" /> Cheque </label>
+			                                                            <!-- <label>
+			                                                            <input type="radio" class="radio" name="payment_mode" value="bank_transfer" /> Bank Transfer </label> -->
+				                                                       </li>     
+				                                                    </ul>
+
+                                                              </div>
+                                                                  <label class="error col-md-12" style="color:red; display:none;"></label>
+                                                              </div>
+
+                                                              <div class="row" id="che">
+                                                    <label class="control-label" style="margin-left: 14px;">Cheque Details </label>  
+                                                        <div class="form-group">
+                                                              <div class="row" style="margin-left: 1px;">
+                                                                    <div class="col-lg-3">
+                                                                    <label class="control-label"> Bank Name
+                                                                        <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="text" class="form-control" id="bank_name" name="g_amount" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                </div> 
+                                                                
+                                                                <div class="col-lg-3">
+                                                                    <label class="control-label"> Bank Branch Name
+                                                                        <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="text" class="form-control" id="bank_branch_name" name="g_amount" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                </div> 
+                                                                
+                                                                <div class="col-lg-3">
+                                                                    <label class="control-label"> Cheque Number
+                                                                        <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" class="form-control" id="cheque_number" name="g_amount" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                </div>
+                                                            </div>    
+                                                        </div>  
+                                                  </div> 
+																			                                                           
+                                                                
+
+                                                  <!-- <div class="row" id="che">
+                                                    <label class="control-label">Cheque Details </label>  
+                                                    <div class=" border_s">     
+                                                        <div class="form-group">
+                                                        	  <div class="row">
+                                                        	  		<div class="col-lg-3">
+		                                                            <label class="control-label"> Bank Name
+		                                                                <span class="required"> * </span>
+		                                                            </label>
+	                                                                <input type="text" class="form-control" id="bank_name" name="g_amount" />
+                                                              	</div> 
+                                                              	
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> Cheque Number
+		                                                                <span class="required"> * </span>
+		                                                            </label>
+	                                                                <input type="text" class="form-control" id="check_number" name="g_amount" />
+                                                              	</div>
+                                                            </div>    
+                                                        </div>
+                                                    </div>  
+                                                  </div> --> 
+                                                  <!-- <div class="row" id="not">
+                                                    <label class="control-label">Note Denomination </label>  
+                                                    <div class=" border_s">     
+                                                        <div class="form-group">
+                                                        	  <div class="row">
+                                                        	  		<div class="col-lg-3">
+		                                                            <label class="control-label"> 50 Rs. 
+		                                                            </label>
+	                                                                <input type="text" class="form-control" id="rp_50" name="g_amount" />
+                                                              	</div> 
+                                                              	
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> 100 Rs.    
+		                                                            </label>
+	                                                                <input type="text" class="form-control" id="rp_100" name="g_amount" />
+                                                              	</div>
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> 500 Rs.    
+		                                                            </label>
+	                                                                <input type="text" class="form-control" id="rp_500" name="g_amount" />
+                                                              	</div>
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> 1000 Rs.    
+		                                                            </label>
+	                                                                <input type="text" class="form-control" id="rp_100" name="g_amount" />
+                                                              	</div>
+                                                            </div>    
+                                                        </div>
+                                                    </div>  
+                                                  </div> -->
+                                                  <!-- <div class="row" id="bankd">
+                                                    <label class="control-label">Bank Details </label>  
+                                                    <div class=" border_s">     
+                                                        <div class="form-group">
+                                                        	  <div class="row">
+                                                        	  		<div class="col-lg-3">
+		                                                            <label class="control-label"> Bank Name
+		                                                            </label>
+	                                                                <input type="text" id="bank_name1" class="form-control" name="g_amount" />
+                                                              	</div> 
+                                                              	
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> Branch Name    
+		                                                            </label>
+	                                                                <input type="text" id="branch_name" class="form-control" name="g_amount" />
+                                                              	</div>
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> IFSC Code   
+		                                                            </label>
+	                                                                <input type="text" id="ifsc_code" class="form-control" name="g_amount" />
+                                                              	</div>
+                                                              	<div class="col-lg-3">
+		                                                            <label class="control-label"> Account No    
+		                                                            </label>
+	                                                                <input type="text" id="account_no" class="form-control" name="g_amount" />
+                                                              	</div>
+                                                            </div>    
+                                                        </div>
+                                                    </div>  
+                                                  </div> -->   
+<!--                                                    <div class="form-group"  style="padding-top: 6px;"> -->
+                                                  	  <div class="row">
+                                                  	  	<div class="col-lg-12">
+                                                      <label class="control-label">Note
+                                                          <span class="required"> * </span>
+                                                      </label>
+                                                          <input  type="text" id="note" class="form-control" name="g_amount" />
+                                                        <label class="error col-md-12" style="color:red; display:none;"></label>
+                                                        </div>
+                                                        
+                                                           
+                                                      </div>
+                                                        
+<!--                                                  </div> -->
+																	<br>	
+                                                  
+                                                        <h3 style="text-align:center; margin-top:50px;">Do you want to add the Advert ?</h3>
+                                                        <div class="row">
+                                                        		<div class="col-lg-12">
+                                                        			<div class="col-lg-offset-5 col-lg-9">                                                        			
+                                                        				<button type="submit" class="save-advert btn btn-outline green">Yes</button>
+                                                       				<button type="submit" class="save btn btn-outline red">No</button>
+                                                        			</div> 
+                                                        		</div>
+                                                        </div>
+                                                </div>
+                                                </div>
+                                                    <!-- <div class="tab-pane" id="tab4">
+                                                        
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                                     	
+                                    	 </div>
+                                      </div>
+                                    <!-- END FORM-->
+                                </div>
+                            </div>
+                            <!-- END PORTLET-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
+        </div>
+       </div> 
+        <!-- END CONTAINER -->
+        <!-- /.modal -->
+            <div class="modal fade bs-modal-lg" id="large" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                            <h4 class="modal-title">Add User</h4>
+                        </div>
+                        <div class="modal-body"> 
+                        	<div class="row">
+				                 <div class="form-group col-md-4 ">
+			                      <label for="">Username</label>
+			                      <input type="text" class="form-control" placeholder="John Dave">
+	                    		  </div>
+	                    		  
+	                    		  <div class="form-group col-md-4 ">
+			                      <label for="">Contact No</label>
+			                      <input type="text" class="form-control" placeholder="9874562103">
+	                    		  </div>
+	                    		  
+	                    		   <div class="form-group col-md-4 ">
+			                      <label for="">Email ID</label>
+			                      <input type="text" class="form-control" placeholder="john@dave.com">
+	                    		  </div>
+                    			</div> 
+                    			 
+								<div class="row">
+                    		  <div class="form-group col-md-4 ">
+		                      <label >Role </label>                              
+                                  <select class="form-control select2me" name="options2">
+                                      <option value="">Select Role</option>
+                                      <option value="Option 1">Admin</option>
+                                      <option value="Option 2">Manager</option>
+                                  </select>
+                    			</div>
+                    			
+                    			<div class="form-group col-md-4 ">
+			                      <label for="">Password</label>
+			                      <input type="password" class="form-control" placeholder="*****">
+	                    		  </div>
+	                    		  
+	                    		  <div class="form-group col-md-4 ">
+			                      <label for="">Confirm Password</label>
+			                      <input type="password" class="form-control" placeholder="*****">
+	                    		  </div>
+                    		</div>	
+                         
+                        <div class="modal-footer">
+                            <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn green">Save changes</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+          </div>  
+      	<!-- /.modal -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner"> 2016 &copy; DigiSpace.
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+
+<div style="overflow-y:hidden;" id="affiliate-modal1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+
+                <div class="form-body">
+                    <h4 class="text-center">Subscriber added successfully with Transaction ID <span id="transaction_code1"></span></h4>
+                        </div>
+                        <div style="text-align:center !important;" class="modal-footer">
+							 <a href="/subscriber/"> <input type="submit" value="OK"
+                                   class="btn btn-primary" id="btn-loading-demo"></a>
+                            
+                        </div>
+                    </div>
+             
+
+            </div>
+
+        </div>
+    </div>    
+    
+    
+        
+<div style="overflow-y:hidden;" id="affiliate-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                
+                <div class="modal-body">
+
+                <div class="form-body">
+                    <h4 class="text-center">Subscriber added successfully</h4>
+                        </div>
+                        <div style="text-align:center !important;" class="modal-footer">
+							<a href="/subscriber/"> <input type="submit" value="OK"
+                                   class="btn btn-primary" id="btn-loading-demo"></a>
+                            
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+    </div>        
+  <div style="overflow-y:hidden;" id="error-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+            					<div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+                <div class="form-body">
+                    <h4 class="text-center">Subscriber with same email-Id already exists</h4>
+                        </div>
+                         <div style="text-align:center !important;" class="modal-footer">
+							 <input data-dismiss="modal" type="submit" value="OK"
+                                   class="btn btn-primary" id="btn-loading-demo">
+                            
+                        </div>   
+                        </div>
+                
+            </div>
+
+        </div>
+    </div>
+    
+<div style="overflow-y:hidden;" id="affiliate-modal2" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+                <div class="form-body">
+                    <h4 class="text-center">Subscriber added successfully with Transaction ID <span id="transaction_code2"></span></h4>
+                        </div>
+                         <div style="text-align:center !important;" class="modal-footer">
+							<input type="submit" value="OK"
+                                   class="btn btn-primary" onclick="redirect_to_retails()"  id="btn-loading-demo">
+                            
+                        </div>   
+                        </div>
+            </div>
+
+        </div>
+    </div>  
+    
+   <div style="overflow-y:hidden;" id="affiliate-modal3" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+                <div class="form-body">
+                   <h4 class="text-center">Subscriber added successfully with Payment ID <span id="transaction_code3"></span></h4>
+                        </div>
+                         <div style="text-align:center !important;" class="modal-footer">
+							<a href="/subscriber/"> <input type="submit" value="OK"
+                                   class="btn btn-primary" id="btn-loading-demo"></a>
+                            
+                        </div>   
+                        </div>
+            </div>
+
+        </div>
+    </div>         
+     
+<div style="overflow-y:hidden;" id="affiliate-modal4" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+                <div class="form-body">
+                   <h4 class="text-center">Subscriber added successfully with Payment ID <span id="transaction_code4"></span></h4>
+                        </div>
+                         <div style="text-align:center !important;" class="modal-footer">
+							  <input type="submit" value="OK"
+                                   class="btn btn-primary" id="advert-btn">
+                            
+                        </div>   
+                        </div>
+              
+            </div>
+
+        </div>
+    </div>     
+     
+     
+<div style="overflow-y:hidden;" id="error-modal1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+            <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+                <div class="form-body">
+                        <h4 class="text-center"><span id="error-message1"></span></h4>
+                        </div>
+                         <div style="text-align:center !important;" class="modal-footer">
+							  <input data-dismiss="modal" type="submit" value="OK"
+                                   class="btn btn-primary" id="btn-loading-demo">
+                            
+                        </div>   
+                        </div>        
+            </div>
+
+        </div>
+    </div>      
+     
+        <!-- END FOOTER -->
+        <!--[if lt IE 9]>
+<script src="{% static 'assets/global/plugins/respond.min.js' %}"></script>
+<script src="{% static 'assets/global/plugins/excanvas.min.js' %}"></script> 
+<![endif]-->
+<!-- BEGIN CORE PLUGINS -->
+        <script src="{% static 'assets/global/plugins/jquery.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/js.cookie.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/uniform/jquery.uniform.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{% static 'assets/global/plugins/select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-validation/js/jquery.validate.min.js' %}" type="text/javascript"></script>
+        <!-- <script src="{% static 'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}" type="text/javascript"></script>  -->
+        <!--  <script src="{% static 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js' %}" type="text/javascript"></script> -->  
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js" ></script> 
+        <script src="{% static 'assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/ckeditor/ckeditor.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-markdown/lib/markdown.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{% static 'assets/global/plugins/select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+			<script src="{% static 'vendor/bootstrap-fileinput/jasny-bootstrap.js' %}"></script>
+
+        <script src="{% static 'assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+         <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="{% static 'assets/pages/scripts/form-wizard.min.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+<!--         <script src="{% static 'assets/pages/scripts/form-validation.min.js' %}" type="text/javascript"></script> -->
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <script src="{% static 'assets/layouts/layout2/scripts/layout.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/layout2/scripts/demo.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/global/scripts/quick-sidebar.min.js' %}" type="text/javascript"></script>
+        <!-- END THEME LAYOUT SCRIPTS -->
+<script type="text/javascript">
+
+$("#customer_nav").addClass("active");
+$("#supplier_nav").addClass("active");
+
+function validateIntKeyPress(el, evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+$(document).ready(function(){
+  $("#state").select2({
+   
+});
+ $(".days").select2({  
+ width: '100%' 
+});
+ 
+ 
+$("#state").change(function () {
+	getCity();
+});
+$("#city").select2({
+	
+});
+$("#city").change(function () {
+	getPincode();
+});
+$("#pincode").select2({
+});
+
+$("#tax_type").select2({
+});
+});
+</script>
+
+<script type="text/javascript" >
+selected_duration = '';
+duration_start_date = '';
+duration_end_date = '';
+premium_day = [];
+premium_start_date = [];
+premium_end_date = [];
+randomstring='';
+ referanceDays = {
+	'3 Days' : "3 Days",
+	'7 Days'	: "3 Days,7 Days",
+	'30 Days'	: "3 Days,7 Days,30 Days",
+	'90 Days'	: "3 Days,7 Days,30 Days,90 Days",
+	'180 Days'	: "3 Days,7 Days,30 Days,90 Days,180 Days",
+	
+}
+var totalDays= 0;
+var daysSelected = {
+	'1': 0,
+	'2': 0,
+	'3': 0,
+	'4': 0,
+	'5': 0
+}
+
+$(document).ready(function () {
+selected_tax_type = ''
+$("input[name='duration']").on("change", function () {
+$('#duration').find('input:text').val('');
+}); 
+
+$("#che").hide();
+ $('input[type="radio"]').click(function() {
+       if($(this).attr('id') == 'cheque') {
+            $('#che').show();           
+       }
+
+       else {
+            $('#che').hide();   
+       }
+   });
+
+
+ 
+});
+
+Date.prototype.addDays = function(days) {
+    this.setDate(this.getDate() + parseInt(days));
+    return this;
+};
+
+
+
+
+
+$('.days').on('select2:close', function(e){ 
+    var prevDate = $(this).parent('div').prev('div').children('input').val();
+//var nextDate = $(this).parent('div').next('div').children('input').datepicker('getDate');
+var days = $(this).val();
+if(days == null){
+    days = 0;
+}
+var day1 = days
+var day = parseInt(day1) -1;
+premium_day.push(days);
+premium_start_date.push(prevDate);
+
+var date =  new Date(prevDate);
+date.addDays(day);
+value = days;
+
+var mo =  ((date.getMonth() + 1) < 10) ?'0'+(date.getMonth() + 1) : (date.getMonth() + 1);
+var d = (date.getDate() < 10) ? '0'+date.getDate() : date.getDate();
+
+date =   mo+'/' + d + '/' +  date.getFullYear();
+
+
+
+if(date<=duration_end_date){
+   $('#mismatch-days').css("display", "none");
+
+ 
+ if(days == 0){ 
+   $(this).parent('div').next('div').children('input').removeAttr('value');
+   
+}else{
+    $(this).parent('div').next('div').children('input').val(date);
+    premium_end_date.push(date.toString());
+}
+}
+else{
+    $('#mismatch-days').css("display", "block");
+   $('#mismatch-days').text("Premium Service end date should be less than or equal to Duration end date ");
+}
+
+
+});
+
+$('.check-duration').change(function(e){
+
+	e.preventDefault();
+	id = $(this).closest('div').next('div').next('div').find('input').attr('id'); 
+	totalDays = $(this).closest('div').find('input').val();
+
+	$(".duration").attr("disabled","disabled");
+	$(".service-duration").attr("disabled","disabled");		
+	$(".premium_checkbox").attr("disabled","disabled");		
+   $('#premium_service').find('input[type=checkbox]:checked').removeAttr('checked').closest('span').removeClass('checked');	
+ 	$('.end-date').val('');
+
+	if($(this).find("span").hasClass('checked')){
+	 	$('#'+id).removeAttr("disabled"); 
+	}
+	else{
+	 	$('#'+id).attr("disabled","disabled"); 
+	}
+	var key =  $(this).text().trim();
+ 		var list = referanceDays[key];
+ 		list = list.split(",");
+ 		$('.service-duration').val(''); 		
+ 		$('.days').html('').select2({data: {id:null, text: null}});
+ 		$('.days').attr("disabled","disabled");
+ 		 $('.days').append('<option disabled value="0">Days</option>');
+ 		$('.end-date').val('');
+ 		 var days = [3,7,30,90,180];
+ 		$.each(list, function (index, item) {
+ 						//$('.days').select2('val',list[0]);
+                  $('.days').append('<option value="'+days[index]+'">'+item+'</option>');
+                 // $('.days').select2('val',item);
+
+       });
+        
+
+});
+
+
+/*$('.check-advert').change(function(e){
+e.preventDefault();
+
+
+//id = $(this).closest('div').next('div').next('div').find('input').attr('id');
+id = $(this).closest('div').next('div').find('input').attr('id');
+id1 = $(this).closest('div').next('div').next('div').find('select').attr('id');
+id2 = $(this).closest('div').next('div').next('div').next('div').find('input').attr('id');
+
+var flag = document.getElementById(id).hasAttribute("disabled");
+
+if(flag == false)
+{
+ $('#'+id).attr("disabled", 'disabled');
+ $('#'+id1).attr("disabled", 'disabled');
+$('#'+id).val('');
+$('#'+id1).select2('val','0');
+$('#'+id2).val('');
+}
+else{
+ $('#'+id).removeAttr("disabled");
+ //$('#'+id1).removeAttr("disabled");
+
+}
+
+
+}); */
+
+$('.service-duration').change(function(e){
+e.preventDefault();
+
+var id = $(this).parent('div').next('div').find('select').attr('id');
+
+$('#'+id).removeAttr("disabled");
+$('#'+id).select2('val','');
+$('#'+id).parent('div').next('div').find('input').val('');
+
+});
+
+
+$('.duration').change(function(e){
+e.preventDefault();
+prevDate = $(this).val()
+
+var id = $(this).parent('div').parent('ul:first-child').find('input').val();
+
+
+//var nextDate = $(this).parent('div').next('div').children('input').datepicker('getDate');
+var days = parseInt(id) -1
+
+selected_duration = id;
+duration_start_date = prevDate
+date =  new Date(prevDate);
+date.addDays(days);
+//date = (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
+var mo =  ((date.getMonth() + 1) < 10) ?'0'+(date.getMonth() + 1) : (date.getMonth() + 1);
+var d = (date.getDate() < 10) ? '0'+date.getDate() : date.getDate();
+
+date =   mo+'/' + d + '/' +  date.getFullYear();
+
+duration_end_date = date; 
+setDatePicker(duration_start_date,duration_end_date);
+$(this).parent('div').next('div').next('div').find('input').val(date);
+
+ $('.premium_checkbox').each(function( index ) {
+ 	$(this).removeAttr('disabled');
+	$( this ).parents().eq(1).removeClass('disabled');
+  
+});
+});
+
+
+function getPincode(){
+			$('#pincode').select2('val','');
+        city_id = $('#city :selected').val();
+        if (city_id) {
+            $.ajax({
+                type: 'GET',
+                url: '/get-pincode/',
+                data: {'city_id': city_id},
+                 success: function (response) {
+                    $('#pincode').html('');
+                    $.each(response.pincode_list, function (index, item) {
+                        $('#pincode').append(item);
+                    });
+                    $('#pincode').val("");
+                },
+                error: function (response) {
+                    alert("Error!");
+                },
+
+            });
+        }
+        else {
+            $('#city').val("");
+        }
+    }
+
+
+function getCity() {
+			$('#city').select2('val','');
+			$('#pincode').select2('val','');
+        state_id = $('#state :selected').val();
+        if (state_id) {
+            $.ajax({
+                type: 'GET',
+                url: '/get-city/',
+                data: {'state_id': state_id},
+                success: function (response) {
+                		//alert('success');
+                    $('#city').html('');
+                    $.each(response.city_list, function (index, item) {
+                        $('#city').append(item);
+                    });
+                    $('#city').val("");
+                },
+
+                error: function (response) {
+                    alert("Error!");
+                },
+
+            });
+        }
+        else {
+            $('#city').val("");
+        }
+    }
+
+function checkBusinessName(business_name){
+	businessName = $(business_name).val()   
+  
+   if(businessName!=''){
+ 	$(business_name).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+    $(business_name).parent().children('.error').css("display", "block");
+    $(business_name).parent().children('.error').text("Please enter Business Name");
+   return false; 
+   }
+}
+
+
+function checkNumber(phone_no){
+	phoneno = $(phone_no).val()     
+   var phoneNumberPattern = /^[789]\d{9}$/;  
+   if(phoneNumberPattern.test(phoneno)){
+ 	$(phone_no).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+    $(phone_no).parent().children('.error').css("display", "block");
+    $(phone_no).parent().children('.error').text("Please enter valid Phone No");
+   return false; 
+   }
+}
+
+function checkSecNumber(sec_phone_no){
+	phoneno = $(sec_phone_no).val()     
+   var phoneNumberPattern = /^[789]\d{9}$/; 
+  if(phoneno=='')
+	{
+	return true;	
+	} 
+   else if(phoneNumberPattern.test(phoneno)){
+ 	$(sec_phone_no).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+    $(sec_phone_no).parent().children('.error').css("display", "block");
+    $(sec_phone_no).parent().children('.error').text("Please enter valid Phone No");
+   return false; 
+   }
+}
+
+function checkEmail(pri_email){
+	Email = $(pri_email).val()
+   var namePattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;  
+ 
+   if(namePattern.test(Email)){
+      $(pri_email).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+ 	$(pri_email).parent().children('.error').css("display", "block");
+   $(pri_email).parent().children('.error').text("Please enter valid Email");
+   return false; 
+   }
+}
+	
+function checkSecEmail(sec_email){
+	Email = $(sec_email).val()
+   var namePattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;  
+ 	 if(Email=='')
+	{
+	return true;	
+	} 
+   else if(namePattern.test(Email)){
+      $(sec_email).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+ 	$(sec_email).parent().children('.error').css("display", "block");
+   $(sec_email).parent().children('.error').text("Please enter valid Email");
+   return false; 
+   }
+}
+	
+function checkLogo(logo){
+
+
+resume = $(logo).val()
+   
+if(resume=='')
+{
+   $(logo).parent().children('.error').css("display", "none");
+	return true;
+}	
+else 
+{
+var val = $(logo).val().toLowerCase();
+var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(.png|.jpeg|.jpg)$");
+if(!(regex.test(val))) {
+ 	$(logo).parent().children('.error').css("display", "block");
+   $(logo).parent().children('.error').text("Please upload an Image");
+     return false; 
+}
+else {
+      $(logo).parent().children('.error').css("display", "none");
+	     return true;
+	}
+}   
+}	
+
+
+function checkaddress(address1){
+
+	if($(address1).val()!='')
+   {
+    $(address1).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+    $(address1).parent().children('.error').css("display", "block");
+    $(address1).parent().children('.error').text("Please enter valid Address Line 1");
+   return false; 
+   }
+}
+
+function checkState(state){
+
+
+
+  if($(state).val()!='' && $(state).val()!=null)
+   {
+   
+    $(state).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+    $(state).parent().children('.error').css("display", "block");
+    $(state).parent().children('.error').text("Please select State");
+   return false; 
+   }
+}
+function checkCity(city){
+ if($(city).val()!='' && $(city).val()!=null)
+   {
+   $(city).parent().children('.error').css("display", "none");
+   return true;
+   }
+
+   else {
+    $(city).parent().children('.error').css("display", "block");
+    $(city).parent().children('.error').text("Please select City");
+   return false; 
+   }
+}
+
+
+function checkPincode(pincode){
+ if($(pincode).val()!=null && $(pincode).val()!='')
+   {
+    $(pincode).parent().children('.error').css("display", "none");
+   return true;
+   }
+
+   else{
+    $(pincode).parent().children('.error').css("display", "block");
+    $(pincode).parent().children('.error').text("Please select Pincode");
+   return false; 
+   }
+}
+
+function checkBusiness(business){
+	if($(business).val()!='')
+   {
+    $( business).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+    $( business).parent().children('.error').css("display", "block");
+    $( business).parent().children('.error').text("Please enter about Business");
+   return false; 
+   }
+}
+
+	
+function checkUserName(user_name){
+ 	var namePattern = /^[a-zA-Z\s]+$/;  
+	first_name = $(user_name).val()  
+   if(namePattern.test(first_name)){
+
+ 	$(user_name).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+
+    $(user_name).parent().children('.error').css("display", "block");
+    $(user_name).parent().children('.error').text("Please enter valid Name");
+   return false; 
+   }
+}
+
+
+function checkUserContactNo(user_contact_no){
+
+   var namePattern = /^[789]\d{9}$/;  
+	contactno = $(user_contact_no).val()  
+   if(namePattern.test(contactno)){
+
+ 	$(user_contact_no).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+
+    $(user_contact_no).parent().children('.error').css("display", "block");
+    $(user_contact_no).parent().children('.error').text("Please enter valid Contact No");
+   return false; 
+   }
+}
+
+function checkUserEmail(user_email){
+	Email = $(user_email).val()
+   var namePattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;  
+ if(namePattern.test(Email)){
+      $(user_email).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+ 	$(user_email).parent().children('.error').css("display", "block");
+   $(user_email).parent().children('.error').text("Please enter valid Email");
+   return false; 
+   }
+}
+
+function validateData(){
+
+	if(checkBusinessName("#business_name")&checkNumber("#phone_no")&checkSecNumber("#sec_phone_no")&checkEmail("#pri_email")&checkSecEmail("#sec_email")&checkLogo("#logo")&checkaddress("#address1")&checkState("#state")&checkCity("#city")&checkPincode("#pincode")&checkBusiness('#business')&checkUserName('#user_name')&checkUserEmail('#user_email')&checkUserContactNo('#user_contact_no')){
+		return true;	
+	}
+	return false;
+}
+
+$("#save-quit").click(function(event)  {
+	     event.preventDefault();  			
+	if(validateData()){		
+	  	var input = document.getElementById("logo");  	  
+		file = input.files[0];
+		
+		
+	   var formData= new FormData();
+	
+		formData.append("logo",file);
+		formData.append("business_name",$('#business_name').val());
+		formData.append("phone_no",$('#phone_no').val());    
+		formData.append("sec_phone_no",$('#sec_phone_no').val());    
+		formData.append("email",$('#pri_email').val());    
+		formData.append("sec_email",$('#sec_email').val());
+		formData.append("address1",$('#address1').val());
+		formData.append("address2",$('#address2').val());
+		formData.append("state",$('#state').val());
+		formData.append("city",$('#city').val());
+		formData.append("pincode",$('#pincode').val());
+		formData.append("business",$('#business').val());
+		formData.append("user_name",$('#user_name').val());
+		formData.append("user_email",$('#user_email').val());
+		formData.append("user_contact_no",$('#user_contact_no').val());
+
+  			$.ajax({
+  				  
+				  type	: "POST",
+				   url : '/save-supplier/',
+ 					data : formData,
+					cache: false,
+		         processData: false,
+		    		contentType: false,                       
+              success: function (response) {
+	              if(response.success=='true'){
+	           	  		$("#affiliate-modal").modal('show');
+	              	}
+	      			if (response.success == "false") {
+							$("#error-modal").modal('show');                    
+	       			}							                        		                      		                       		
+               },
+               				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+               error : function(response){
+                  	alert("_Error");
+            	}              
+           });   
+  }
+});
+
+ $( ".date-picker" ).datepicker({ 
+ minDate: 0,
+ // dateFormat:'dd-mm-yy'
+		});
+
+
+
+function setDatePicker(startDate,endDate){
+ $( ".date-picker1" ).datepicker({
+
+ minDate: new Date(startDate),
+ maxDate: new Date(endDate),
+ // dateFormat:'dd-mm-yy'
+		});
+		}
+
+
+$("#save-continue").click(function(event)  {
+		  event.preventDefault();
+		 
+if(validateData()){
+	  	var input = document.getElementById("logo");  	  
+		file = input.files[0];
+	   var formData= new FormData();
+	
+		formData.append("logo",file);
+		formData.append("business_name",$('#business_name').val());
+		formData.append("phone_no",$('#phone_no').val());    
+		formData.append("sec_phone_no",$('#sec_phone_no').val());    
+		formData.append("email",$('#pri_email').val());    
+		formData.append("sec_email",$('#sec_email').val());
+		formData.append("address1",$('#address1').val());
+		formData.append("address2",$('#address2').val());
+		formData.append("state",$('#state').val());
+		formData.append("city",$('#city').val());
+		formData.append("pincode",$('#pincode').val());
+		formData.append("business",$('#business').val());
+		formData.append("user_name",$('#user_name').val());
+		formData.append("user_email",$('#user_email').val());
+		formData.append("user_contact_no",$('#user_contact_no').val());
+
+  			$.ajax({
+  				  
+				  type	: "POST",
+				   url : '/save-supplier/',
+ 					data : formData,
+					cache: false,
+		         processData: false,
+		    		contentType: false,                       
+              success: function (response) {
+	              if(response.success=='true'){
+	           	  		 $("#form_wizard_1").bootstrapWizard('show',1);   
+	              	}
+	      			if (response.success == "false") {
+							$("#error-modal").modal('show');                    
+	       			}							                        		                      		                       		
+               },
+               				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+               error : function(response){
+                  	alert("_Error");
+            	}              
+           });   
+	
+	}
+
+});
+
+function validateBusinessCategory(mydiv){
+
+var radioValue = $("input[name='category']:checked").val();
+if(radioValue)
+{
+   $(mydiv).parent().children('.error').css("display", "none");
+   return true;
+}
+else{
+	$(mydiv).parent().children('.error').css("display", "block");
+   $(mydiv).parent().children('.error').text("Please select Business");
+   return false; 
+}
+}
+
+function validateService(service){
+
+var radioValue = $("input[name='service']:checked").val();
+if(radioValue)
+{
+   $(service).parent().children('.error').css("display", "none");
+   return true;
+}
+else{
+	$(service).parent().children('.error').css("display", "block");
+   $(service).parent().children('.error').text("Please select Service");
+   return false; 
+}
+}
+
+function validateDuration(duration){
+
+var radioValue = $("input[name='duration']:checked").val();
+
+if(radioValue)
+{
+
+   $('#selectedDuration').css("display", "none");
+   return true;
+}
+else{
+
+	$('#selectedDuration').css("display", "block");
+   $('#selectedDuration').text("Please select Duration");
+   return false; 
+}
+}
+
+function validateDate(){
+
+
+if($("#dt1").val()!='' || $("#dt3").val()!='' || $("#dt5").val()!='' || $("#dt7").val()!='' || $("#dt9").val()!='')
+{
+   $(duration).parent().children('.error').css("display", "none");
+   return true;
+}
+else{
+	$(duration).parent().children('.error').css("display", "block");
+   $(duration).parent().children('.error').text("Please select Start Date");
+   return false; 
+}
+}
+
+
+
+function validateDate1(){
+var result = isStartDateTextfieldEmpty();
+if(result==false){
+	$('#startdateemptyerror').text("Please select Start Date");
+   $('#startdateemptyerror').css("display", "block");
+   return false;
+}
+else{
+  $('#startdateemptyerror').css("display", "none");
+  	return true;
+}
+}
+
+ function isStartDateTextfieldEmpty(){
+
+var status= true;
+ $.each($("input[name='premium_service']:checked"), function(){
+          var value = $(this).parents().eq(4).next('div').find('input').val().trim();
+         	
+          if(value != '')
+          {
+           return true;        
+          }
+          else{
+ 		
+           status = false;
+           return false;
+          }
+	           
+   });
+
+return status;	
+}	
+
+function isDayEmpty(){
+
+var status= true;
+ $.each($("input[name='premium_service']:checked"), function(){
+		id = $(this).parents().eq(4).next('div').find('input').attr('id');
+		var value = $('#'+id).parent('div').next('div').find('select').val(); 
+          if(value != null)
+          {
+           return true;        
+          }
+          else{	
+           status = false;
+           return false;
+          }
+	           
+   });
+return status;	
+}		
+		
+function checkDays(){
+x=0;
+ $.each($("input[name='premium_service']:checked"), function(){
+id = $(this).parents().eq(4).next('div').find('input').attr('id');
+id1 = $('#'+id).parent('div').next('div').find('select').val();
+val = isNaN(parseInt(id1))? 0 : parseInt(id1)
+x = x + val
+ });
+if(x<=totalDays)
+{
+   $('#mismatch-days').css("display", "none");
+   return true;
+}
+else{
+	$('#mismatch-days').css("display", "block");
+   $('#mismatch-days').text("Premium service days should be less than or equal to Duration");
+   return false; 
+}
+}
+	
+subscriber_id = '';		
+
+function days(){
+
+var result = isDayEmpty();
+if(result==false){
+	$(premium_service).parent().children('.error').css("display", "block");
+   $(premium_service).parent().children('.error').text("Please select No of Days");
+   return false;
+}
+else{
+   $(premium_service).parent().children('.error').css("display", "none");
+  	return true;
+}
+}
+
+function checkService(){
+
+	if(validateBusinessCategory("#mydiv")&validateService("#service")&validateDuration("#duration")){
+		return true;	
+	}
+	return false;
+}
+
+function checkDate()
+{
+if(validateDate("#duration")&validateDate1())
+{
+return true;
+}
+return false;
+}
+
+
+$("#save-service-detail").click(function(event){
+
+ event.preventDefault(); 
+	if(checkService()){
+		if(checkDate()){	
+		if(days()){
+		if(checkDays()){
+		var premium_day_list = [];		
+		var premium_service_list = [];
+      $.each($("input[name='premium_service']:checked"), function(){
+                premium_day_list.push($(this).parents().eq(4).next('div').next('div').find('select').val());           			                      
+                premium_service_list.push($(this).val());
+       });
+		var input = document.getElementById("logo");  	  
+		filep = input.files[0];
+	   var formData= new FormData();
+
+		formData.append("selected_duration",selected_duration);
+		formData.append("duration_start_date",duration_start_date);
+		formData.append("duration_end_date",duration_end_date);
+		formData.append("premium_day_list",premium_day_list);
+		formData.append("premium_start_date",premium_start_date);
+		formData.append("premium_end_date",premium_end_date);
+
+
+		formData.append("service",$("input[name='service']:checked").val());
+		formData.append("category",$("input[name='category']:checked").val());
+		formData.append("duration",$("input[name='duration']:checked").val());
+		formData.append("premium_service",premium_service_list);
+		formData.append("user_email",$('#user_email').val());
+
+		
+		$.ajax({
+			  type	: "POST",
+			   url : '/save-service/',
+				 data : formData,
+					cache: false,
+		         processData: false,
+		    		contentType: false,                       
+                       
+		     success: function (response) {
+		        if(response.success=='true'){
+		        $("#affiliate-modal1").modal('show');
+		        $("#transaction_code1").text(response.transaction_code);
+		        	}
+					if (response.success == "false") {
+						$("#error-modal1").modal('show');
+						$("#error-message1").text(response.message);                                        
+		 			}							                        		                      		                       		
+		      },
+		      				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+		      error : function(response){
+		         	alert("_Error");
+		   	}              
+		  });   	
+	}
+	}
+	}
+	}
+});
+
+
+/*checking start date and end date*/
+function validateStartAndEndDates(){
+    var status = true;
+    var msg = "";
+     $.each($("input[name='premium_service']:checked"), function(){            
+               var startdate = $(this).parents().eq(4).next('div').find('input').val();
+               var enddate = $(this).parents().eq(5).children().last().find('input').val();
+           
+                if(startdate == ''){
+                    status = false;
+                    msg = "Please select advert start date";
+                    return false;
+                }
+
+                else if(enddate == ''){
+                    status = false;
+                    msg = "Please select advert end date";
+                    return false;
+                }
+               
+       });
+     if(!status){
+     $("#mismatch-days").text(msg);
+     $("#mismatch-days").css('display','block');
+        }
+        else{
+    $("#mismatch-days").css('display','none');
+        }
+     return status;
+}
+
+
+$("#continue-service-detail").click(function(event)  {
+		event.preventDefault();
+		
+	if(checkService()){	
+		if(checkDate()){	
+		if(days()){
+		if(checkDays()){
+			var premium_day_list=[]
+			var premium_service_list = [];
+      $.each($("input[name='premium_service']:checked"), function(){
+               premium_day_list.push($(this).parents().eq(4).next('div').next('div').find('select').val());           			                                  
+                premium_service_list.push($(this).val());
+       });
+		var input = document.getElementById("logo");  	  
+		filep = input.files[0];
+	   var formData= new FormData();
+
+		formData.append("selected_duration",selected_duration);
+		formData.append("duration_start_date",duration_start_date);
+		formData.append("duration_end_date",duration_end_date);
+		formData.append("premium_day_list",premium_day_list);
+		formData.append("premium_start_date",premium_start_date);
+		formData.append("premium_end_date",premium_end_date);
+
+
+		formData.append("service",$("input[name='service']:checked").val());
+		formData.append("category",$("input[name='category']:checked").val());
+		formData.append("duration",$("input[name='duration']:checked").val());
+		formData.append("premium_service",premium_service_list);
+		formData.append("user_email",$('#user_email').val());
+		$.ajax({
+			  type	: "POST",
+			   url : '/save-service/',
+				 data : formData,
+					cache: false,
+		         processData: false,
+		    		contentType: false,                       
+                       
+		     success: function (response) {
+		        if(response.success=='true'){
+		        $("#affiliate-modal2").modal('show');
+		        $("#transaction_code2").text(response.transaction_code);
+		        subscriber_id = response.subscriber_id;
+
+		        	}
+					if (response.success == "false") {
+						$("#error-modal1").modal('show');
+						$("#error-message1").text(response.message);                                                            
+		 			}							                        		                      		                       		
+		      },
+		      				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+		      error : function(response){
+		         	alert("_Error");
+		   	}              
+		  });   
+	 		
+}
+}
+}
+ 	}
+});
+
+function redirect_to_retails()
+{
+	$("#affiliate-modal2").modal('hide');
+		var premium_service_list = [];
+		var premium_day_list = [];
+     $.each($("input[name=premium_service]:checked"), function(){  
+                premium_day_list.push(($(this).parents().eq(4).next('div').next('div').find('select').val())+ ' Days');           			          
+                premium_service_list.push($(this).val());
+       })
+       
+		 $("#form_wizard_1").bootstrapWizard('show',2);
+		  $('#show_subscriber_id').text(subscriber_id);		 
+		  $('#show_business_name').text($('#business_name').val());		 
+		  $('#show_category').text($("input[name='category']:checked").val());
+		  $('#show_service').text($("input[name='service']:checked").val());
+		  $('#show_duration').text($("input[name='duration']:checked").val()+ ' Days');
+		 $('#show_premium_service_duration').text(premium_day_list);
+		$('#show_premium_service').text(premium_service_list);		 
+
+
+}
+
+
+
+$("#continue-detail").click(function(event){
+event.preventDefault(); 
+var premium_service_list = [];
+var premium_day_list = [];
+
+      $.each($("input[name='premium_service']:checked"), function(){
+                premium_day_list.push($(this).parents().eq(4).next('div').next('div').find('select').val());           			                      
+                premium_service_list.push($(this).val());
+       });
+
+ var formData= new FormData();
+formData.append("category",$("input[name='category']:checked").val());  
+formData.append("service",$("input[name='service']:checked").val());  
+formData.append("duration",$("input[name='duration']:checked").val());  
+formData.append("premium_service_list",premium_service_list);  
+formData.append("premium_day",premium_day_list);  
+
+		
+		$.ajax({
+			  type	: "POST",
+			   url : '/get-amount/',
+				 data : formData,
+					cache: false,
+		         processData: false,
+		    		contentType: false,                       
+                       
+		     success: function (response) {
+		        if(response.success=='true'){
+		         $("#generated_amount").val(response.cost);
+		         $("#form_wizard_1").bootstrapWizard('show',3);
+		        	}
+					if (response.success == "false") {
+						$("#error-modal").modal('show');                    
+		 			}							                        		                      		                       		
+		      },
+		      				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+		      error : function(response){
+		         	alert("_Error");
+		   	}              
+		  }); 
+		  
+		
+		 
+});
+
+function check_advert(id)
+{
+var check_id = id;
+
+id = $('#'+check_id).parents().eq(4).next('div').find('input').attr('id');
+id1 = $('#'+id).parent('div').next('div').find('select').attr('id');
+id2 = $('#'+id1).parent('div').next('div').find('input').attr('id');
+
+var flag = document.getElementById(id).hasAttribute("disabled");
+
+if(flag == false)
+{
+$('#'+id).attr("disabled", 'disabled');
+$('#'+id1).attr("disabled", 'disabled');
+$('#'+id).val('');
+$('#'+id1).select2('val','0');
+$('#'+id2).val('');
+}
+else{
+ $('#'+id).removeAttr("disabled");
+}
+}
+
+
+function check_data()
+{
+if(checkTax("#tax_type")&checkPaymentMode()&checkbank()& checkbankbranch()&checknumber()&checkNote("#note")&checkPaidAmount('#paid_amount')){
+		return true;	
+	}
+	return false;
+}
+
+
+function checkTax(tax_type){
+
+ if($(tax_type).val()!='' && $(tax_type).val()!=null)
+   {
+
+   $(tax_type).parent().children('.error').css("display", "none");
+   return true;
+   }
+
+   else {
+
+    $('#tax_type').parent().children('.error').css("display", "block");
+    $('#tax_type').parent().children('.error').text("Please select Tax Type");
+   return false; 
+   }
+}
+
+function checkPaymentMode()
+{
+payment_mode = $("input[name='payment_mode']:checked").val()
+if(payment_mode)
+{ 
+
+  $("#payment_mode").parent().find('.error').css("display", "none");
+   return true;
+}
+else
+{
+
+	$("#payment_mode").parent().find('.error').css("display", "block");
+   $("#payment_mode").parent().find('.error').text("Please select Payment mode");
+   return false; 
+}
+}
+
+function checkbank()
+{
+payment_mode = $("input[name='payment_mode']:checked").val()
+var namePattern = /^[0-9]*$/;
+var bank =  $("#bank_name").val();
+if(payment_mode=="cheque")
+{ 
+        if($("#bank_name").val()==""){
+            $("#bank_name").parent().find('.error').css("display", "block");
+        $("#bank_name").parent().find('.error').text("Please enter Bank Name");
+        return false;
+}else{
+        
+        if(namePattern.test(bank)){
+        $("#bank_name").parent().find('.error').css("display", "block");
+        $("#bank_name").parent().find('.error').text("Please enter valid Bank Name");
+        return false;
+        
+        }else{
+
+            $("#bank_name").parent().find('.error').css("display", "none");
+        return true;
+        }
+}
+
+}
+else
+{
+   return true; 
+}
+}
+
+function checkbankbranch()
+{
+payment_mode = $("input[name='payment_mode']:checked").val()
+var namePattern = /^[0-9]*$/;
+var bankbranch =    $("#bank_branch_name").val();
+if(payment_mode=="cheque")
+{ 
+        if($("#bank_branch_name").val()==""){
+            $("#bank_branch_name").parent().find('.error').css("display", "block");
+        $("#bank_branch_name").parent().find('.error').text("Please enter Bank Branch Name");
+        return false;
+}else{
+    if(namePattern.test(bankbranch)){
+        $("#bank_branch_name").parent().find('.error').css("display", "block");
+        $("#bank_branch_name").parent().find('.error').text("Please enter valid Bank Branch Name");
+        return false;
+    }else{
+        $("#bank_branch_name").parent().find('.error').css("display", "none");
+   return true;
+   }
+}
+
+}
+else
+{
+   return true; 
+}
+}
+
+function checknumber()
+{
+payment_mode = $("input[name='payment_mode']:checked").val()
+if(payment_mode=="cheque")
+{ 
+        if($("#cheque_number").val()==""){
+            $("#cheque_number").parent().find('.error').css("display", "block");
+        $("#cheque_number").parent().find('.error').text("Please enter Cheque Number");
+        return false;
+}else{
+ $("#cheque_number").parent().find('.error').css("display", "none");
+   return true;
+}
+
+}
+else
+{
+   return true; 
+}
+}
+
+function checkNote(note){
+	note = $(note).val()
+	note = note.trim()
+ 	if(note!='')
+	{
+
+	  $("#note").parent().find('.error').css("display", "none");
+	return true;	
+	} 
+	else{
+
+	$("#note").parent().find('.error').css("display", "block");
+   $("#note").parent().find('.error').text("Please enter Note");
+   return false; 
+   }
+}
+
+function checkPaidAmount(paid_amount){
+	
+	amount = $(paid_amount).val()
+	payable_amount = $(payable_amount).val()
+ 	if(amount=='')
+	{
+
+	  $("#paid_amount").parent().find('.error').css("display", "none");
+	return true;	
+	} 
+	else{
+
+	if(parseInt(amount) > parseInt(payable_amount)){
+	$("#paid_amount").parent().find('.error').css("display", "block");
+   $("#paid_amount").parent().find('.error').text("Paid amount shoul be less than Payable Amount");
+   return false; 
+   }
+   else{
+	  $("#paid_amount").parent().find('.error').css("display", "none");
+	return true;	
+     
+   }
+   }
+}
+	
+
+$('.save-advert').click(function(event){
+event.preventDefault();
+if(check_data()){
+
+		var formData= new FormData();
+		formData.append("user_email",$('#user_email').val());
+
+		payment_mode = $("input[name='payment_mode']:checked").val()
+		formData.append("payment_mode",payment_mode);
+
+		formData.append("generated_amount",$('#generated_amount').val());
+		formData.append("payable_amount",$('#payable_amount').val());
+        formData.append("cheque_number",$('#cheque_number').val());
+        formData.append("bank_branch_name",$('#bank_branch_name').val());
+        formData.append("bank_name",$('#bank_name').val());
+		formData.append("paid_amount",$('#paid_amount').val());
+		formData.append("note",$('#note').val());
+		formData.append("selected_tax_type",selected_tax_type);
+
+
+	$.ajax({
+			  type	: "POST",
+			   url : '/register-supplier/',
+				 data : formData,
+				cache: false,
+		       processData: false,
+		    		contentType: false,                       
+                       
+		     success: function (response) {
+		        if(response.success=='true'){
+		        user_id = response.user_id
+		        $("#affiliate-modal4").modal('show');
+		         $("#transaction_code4").text(response.payment_code);
+		        	}
+					if (response.success == "false") {
+						$("#error-modal").modal('show');                    
+		 			}							                        		                      		                       		
+		      },
+		      				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+		      error : function(response){
+		         	alert("_Error");
+		   	}              
+		  });		
+		
+}
+});
+
+
+
+/*$('.save1').click(function(event){
+
+event.preventDefault();
+if(check_data()){
+	var formData= new FormData();
+		formData.append("user_email",$('#user_email').val());
+
+		payment_mode = $("input[name='payment_mode']:checked").val()
+		formData.append("payment_mode",payment_mode);
+
+		formData.append("generated_amount",$('#generated_amount').val());
+		formData.append("payable_amount",$('#payable_amount').val());
+		formData.append("paid_amount",$('#paid_amount').val());
+		formData.append("note",$('#note').val());
+		formData.append("selected_tax_type",selected_tax_type);
+
+	$.ajax({
+			  type	: "POST",
+			   url : '/register-supplier/',
+				 data : formData,
+				cache: false,
+		       processData: false,
+		    		contentType: false,                       
+                       
+		     success: function (response) {
+		        if(response.success=='true'){
+		         $("#affiliate-modal3").modal('show');
+		         $("#transaction_code3").text(response.payment_code);
+		        	}
+					if (response.success == "false") {
+						$("#error-modal").modal('show');                    
+		 			}							                        		                      		                       		
+		      },
+		      				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+		      error : function(response){
+		         	alert("_Error");
+		   	}              
+		  });		
+		
+}
+}); */
+
+user_id = ''
+
+$('.save').click(function(event){
+
+event.preventDefault();
+if(check_data()){
+	var formData= new FormData();
+		formData.append("user_email",$('#user_email').val());
+
+		payment_mode = $("input[name='payment_mode']:checked").val()
+		formData.append("payment_mode",payment_mode);
+
+		formData.append("generated_amount",$('#generated_amount').val());
+		formData.append("payable_amount",$('#payable_amount').val());
+        formData.append("cheque_number",$('#cheque_number').val());
+        formData.append("bank_branch_name",$('#bank_branch_name').val());
+        formData.append("bank_name",$('#bank_name').val());
+		formData.append("paid_amount",$('#paid_amount').val());
+		formData.append("note",$('#note').val());
+		formData.append("selected_tax_type",selected_tax_type);
+
+	$.ajax({
+			  type	: "POST",
+			   url : '/register-supplier/',
+				 data : formData,
+				cache: false,
+		       processData: false,
+		    		contentType: false,                       
+                       
+		     success: function (response) {
+		        if(response.success=='true'){
+		        
+		         $("#affiliate-modal3").modal('show');
+		         $("#transaction_code3").text(response.payment_code);
+		        	}
+					if (response.success == "false") {
+						$("#error-modal").modal('show');                    
+		 			}							                        		                      		                       		
+		      },
+		      				beforeSend: function () {
+            $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+		      error : function(response){
+		         	alert("_Error");
+		   	}              
+		  });		
+		
+}
+});
+
+//tax calculator
+var final_q;
+function changeprice_edit()
+{
+	if($("#tax_type").val()==15)
+	{
+	selected_tax_type = 'Service Tax 15%' 	
+	}
+	else
+	{
+	selected_tax_type = 'VAT 4%' 		
+	}
+
+	var price=$("#generated_amount").val();
+	var tax=$("#tax_type").val();
+	var amount=(tax/100)*price;
+	final_q= parseFloat(price) +parseFloat(amount);
+	$("#payable_amount").val(final_q);
+}
+
+document.getElementById("advert-btn").onclick = function () {
+        location.href = "/advert-management/?user_id="+user_id;
+    };
+
+ function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 43 || charCode == 45 ))
+            return false;
+        return true;
+    }
+
+    function validateFloatKeyPresss(el, evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        var number = el.value.split('+');
+        var number1 = el.value.split('-');
+        if (charCode != 45 && charCode != 43 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        //just one dot
+        if (number.length > 1 && charCode == 43) {
+            return false;
+        }
+        if (number1.length > 1 && charCode == 45) {
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
+
+    </body>
+
+</html><!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.3
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->

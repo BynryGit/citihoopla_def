@@ -1,0 +1,1307 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <!-- BEGIN HEAD -->
+{% load staticfiles %}
+    <head>
+    <head>
+    <meta charset="utf-8"/>
+    <title>City Hoopla | Edit Advert </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/uniform/css/uniform.default.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <!-- <link href="{% static 'assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet" type="text/css" /> -->
+    <link href="{% static 'assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components"
+          type="text/css"/>
+    <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="{% static 'assets/layouts/layout2/css/layout.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/layouts/layout2/css/themes/blue.min.css' %}" rel="stylesheet" type="text/css"
+          id="style_color"/>
+    <link href="{% static 'assets/layouts/layout2/css/custom.min.css' %}" rel="stylesheet" type="text/css"/>
+
+    <link href="{% static 'vendor/bootstrap-fileinput/jasny-bootstrap.min.css' %}" rel="stylesheet" media="screen">
+
+
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.2.504/styles/kendo.common-material.min.css"/>
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.2.504/styles/kendo.material.min.css"/>
+
+    <link href="{% static 'assets/pages/css/dropzone.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/custom/css/map.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/bootstrap-tagsinput.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- END THEME LAYOUT STYLES --> </head>
+    <!-- END HEAD -->
+
+
+
+
+
+      <style type="text/css">hortcut icon" href="favicon.ico" /> </head>
+    <!-- END HEAD -->
+
+.has-success .control-label{
+	color : #333;
+}
+
+.has-success .form-control {
+	border: 1px solid #C2CAD8;
+}
+
+		div.dataTables_wrapper div.dataTables_info {
+    padding-top: 8px;
+    white-space: nowrap;
+    display: none;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    display: none;
+}
+
+div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+    display: none;
+}
+
+.border_s{
+
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.fa-lg {
+    font-size: 2.333333em;
+    line-height: .75em;
+    vertical-align: -15%;
+}
+
+div.checker span {
+    display: -moz-inline-box;
+    display: inline-block;
+    zoom: 1;
+    text-align: center;
+    background-position: 0 -260px;
+
+}
+
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
+}
+
+#loading{
+    width: 36%;
+    height: 22px;
+    position: absolute;
+    top: 26%;
+    left: 32%;
+    margin: -28px 0px 0px -25px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+}
+
+.page-header.navbar .page-logo .logo-default {
+    margin: 2px 0 0;
+    width: 105px;
+    background: rgba(255, 255, 255, 0.48);
+}
+
+.page-header.navbar .page-logo {
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+.page-sidebar .page-sidebar-menu>li>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a {
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+  color:#fff;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: 'Regular';
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+li [class*=" fa-"], li [class*=" glyphicon-"], li [class*=" icon-"], li [class^=fa-], li [class^=glyphicon-], li [class^=icon-] {
+    display: inline-block;
+    width: 2em;
+    font-size: 22px;
+}
+
+
+
+@media (max-width: 767px){
+.page-header.navbar {
+     background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+}
+
+.form-height{
+height: 65px;
+}
+
+.user-image img {
+    max-width: 100%;
+}
+
+.fileinput .thumbnail>img {
+    height: 178px !important;
+}
+
+.fileinput-preview.thumbnail {
+    max-width: 278px;
+}
+
+.btn-azure:hover {
+    background-color: #0095C8;
+    border-color: #0095C8;
+    color: #ffffff;
+}
+
+.btn-file {
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+
+.user-image .user-image-buttons {
+    position: static;
+
+    <!--top: 20%;-->
+    <!--left: 37%;-->
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.btn-red:hover {
+    background-color: #da4f4a !important;
+    border-color: #da4f4a;
+    color: #ffffff;
+    display: none;
+}
+
+.btn-red{
+    display: none;
+}
+
+.btn-sm, .btn-group-sm>.btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn {
+    transition: all 0.3s ease 0s !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    position: relative;
+}
+
+.fileinput .btn {
+    vertical-align: middle;
+}
+
+.bootstrap-tagsinput {
+    line-height: 35px;
+    width: 980px;
+}
+
+.error{
+    font-family: 'Roboto Bold', 'Roboto';
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+}
+
+.form-wizard .steps > li.active > a.step .desc {
+    color: #2F353B;
+    font-weight: 700;
+    font-family: 'Roboto Bold', 'Roboto';
+}
+
+.portlet.light {
+    <!--padding: 0px 0px 4px;-->
+    <!--background-color: #eef1f5;-->
+}
+
+.form-wizard .steps, .form-wizard .steps > li > a.step {
+    <!--background-color: #eef1f5;-->
+    background-image: none;
+    border: 0;
+    box-shadow: none;
+    filter: none;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #6B6B6B;
+    border-bottom: 0;
+}
+
+
+#tab2 {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.map-wrapper {
+    float: left;
+    margin: 0px 0px 0 0px;
+}
+
+#map {
+    border: 1px solid #DDD;
+    width: 292px;
+    overflow: hidden;
+    height: 223px;
+    margin: 10px 0 10px 0;
+    -webkit-box-shadow: #AAA 0px 0px 15px;
+}
+
+#my-awesome-dropzone-3{
+    border: 3px dashed black !important;
+    min-height: 224px !important;
+    background: #ffffff;
+}
+
+#my-active-dropzone{
+    border: 3px dashed black !important;
+    min-height: 224px !important;
+    background: #ffffff;
+}
+
+.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.dropzone .dz-preview, .dropzone-previews .dz-preview {
+    background: rgba(255,255,255,0.8);
+    position: relative;
+    display: inline-block;
+    margin: 4px;
+    vertical-align: top;
+    border: 1px solid #acacac;
+    padding: 6px 6px 6px 6px;
+}
+
+.sel2{
+    width: 100%;
+}
+
+.tab-active{
+    background: rgb(13, 103, 230) none repeat scroll 0% 0% !important;
+    color: rgb(16, 245, 182) !important;
+}
+
+.sel2{
+    width: 100%;
+}
+
+.div-border-top{
+    border: 1px solid #cccccc;
+    border-bottom: none;
+}
+
+.div-border-bottom{
+    border: 1px solid #cccccc;
+    border-top: none;
+}
+
+.div-border-left-right{
+    border: 1px solid #cccccc;
+    border-top: none;
+    border-bottom: none;
+}
+
+.div-border{
+    border: 1px solid #cccccc;
+}
+
+.div-color{
+    background: #f3f2f2;
+}
+
+.form-control {
+    border: 1px solid #c0c0c0;
+}
+
+.brad-crum-1{
+    font-size:16px;
+    color: #3eb199;
+}
+
+.brad-crum-2{
+    font-size:16px;
+    color: #00448b;
+}
+
+.brad-crum-3{
+    font-size:16px;
+    color: #00448b;
+    font-weight:700;
+}
+
+.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
+    border-top: 1px solid #33b2c9;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 17px;
+}
+
+.page-sidebar .page-sidebar-menu > li:last-child > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li:last-child > a {
+    border-bottom: 1px solid #33b2c9 !important;
+}
+
+.page-sidebar, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover {
+
+    background-color: #0d67e6;
+    background-image: url(images/linear_bg_1.png);
+    background-repeat: repeat-y;
+    color: #ffffff;
+    font-weight:500;
+
+    /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+    /* Safari 5.1, Chrome 10+ */
+    background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+    /* Firefox 3.6+ */
+    background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+    /* IE 10 */
+    background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+.page-content-wrapper {
+    float: left;
+    width: 100%;
+    background-size: 16% auto !important;
+    background-color: #0d67e6;
+    background-image: url(images/linear_bg_1.png);
+    background-repeat: repeat-y;
+    font-weight:500;
+
+    /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+    /* Safari 5.1, Chrome 10+ */
+    background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+    /* Firefox 3.6+ */
+    background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+    /* IE 10 */
+    background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+.form-wizard .steps > li.active > a.step .number {
+    background-color: #0d67e6;
+    color: #fff;
+}
+
+.form-wizard .steps > li > a.step .number{
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+  color: #ffffff;
+  font-weight:500;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
+    text-align: left !important;
+}
+
+.page-sidebar .page-sidebar-menu > li > a > .title, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .title {
+    text-align: left !important;
+}
+
+.grey_color{
+    border: 1px solid rgb(72, 72, 72);
+    color: rgb(255, 255, 255);
+    background: rgb(72, 72, 72) none repeat scroll 0% 0%;
+    border-radius: 20px !important;
+}
+
+.done_btn{
+    color: rgb(255, 255, 255);
+    border-radius: 20px !important;
+    background-color: #0d67e6;
+    background-image: url(images/linear_bg_1.png);
+    background-repeat: repeat-y;
+
+    /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a)) !important;
+    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a)) !important;
+
+    /* Safari 5.1, Chrome 10+ */
+    background: -webkit-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -webkit-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+    /* Firefox 3.6+ */
+    background: -moz-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -moz-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+    /* IE 10 */
+    background: -ms-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -ms-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+}
+
+    </style>
+
+    <!-- END HEAD -->
+ 
+    <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
+       <!-- BEGIN HEADER -->
+<div id="processing" style="display:none;">
+    <div id="loading">
+        <img src="{% static 'assets/loading-bars.gif' %}" style="height : 100px;">
+
+    </div>
+</div>
+<!-- BEGIN HEADER -->
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner ">
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a href="index.html">
+                <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo"
+                     class="logo-default"/> </a>
+            <div class="menu-toggler sidebar-toggler">
+                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+            </div>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
+           data-target=".navbar-collapse"> </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN PAGE TOP -->
+        <div class="page-top">
+            <!-- BEGIN TOP NAVIGATION MENU -->
+           
+            <div class="top-menu" style="display:inline-block;">
+                <ul class="nav navbar-nav pull-right">
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <i class="icon-bell"></i>
+                            <span class="badge badge-default" style="    background-color: #d22917;"> 7 </span>
+                        </a>
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <img style="    width: 40px;" alt="" class="img-circle" src="{{logo}}">
+                            <span class="username username-hide-on-mobile"> Shubham Shirsode </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li>
+                                <a href="/subscriber-portal/subscriber-profile/?supplier_id={{request.session.supplier_id}}">
+                                    <i class="fa fa-user" aria-hidden="true"></i> My Profile </a>
+                            </li>
+                            <li>
+                                <a href="/subscriber-portal/log-out/">
+                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END PAGE TOP -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+        <!-- END HEADER -->
+        
+  <!-- BEGIN HEADER & CONTENT DIVIDER -->
+  <div class="clearfix"> </div>
+  <!-- END HEADER & CONTENT DIVIDER -->
+  
+        
+ <!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+
+        <div class="page-sidebar navbar-collapse collapse" style="height: 56.5% !important;">
+
+
+            <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu "
+                data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                <li class="nav-item ">
+                    <a href="index.html" class="nav-link nav-toggle tab-active" style="background-color: rgb(13, 103, 230);">
+                        <i class="fa fa-home" style="display: inline-block;  color: rgb(16, 245, 182) !important;" aria-hidden="true"></i>
+                        <span class="title" style="display: inline-block;"> Dashboard 
+                        <i class="fa fa-chevron-right" style="float:right; padding-top:7px;" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item  ">
+                    <a href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}" class="nav-link nav-toggle "
+                       style="background-color: rgb(13, 103, 230);">
+                        <i class="fa fa-users" style="display: inline-block;color: #ffffff !important;" aria-hidden="true"></i>
+                        <span class="title" style="display: inline-block; width: 72%;">  Advert
+
+                        </span>
+
+
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/subscriber-portal/subscriber-booking/?supplier_id={{request.session.supplier_id}}" class="nav-link nav-toggle"
+                       style="background-color: rgb(13, 103, 230);">
+                        <i class="fa fa-calendar-check-o" style="display: inline-block; color: #ffffff !important;" aria-hidden="true"></i>
+                        <span class="title" style="display: inline-block;">  Bookings </span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+    <!-- END SIDEBAR -->
+            
+            
+ <!-- BEGIN CONTENT -->
+ <div class="page-content-wrapper" >
+    <!-- BEGIN CONTENT BODY -->
+       <div class="page-content">
+ 
+      <!-- BEGIN Dashboard CONTENT -->
+	
+	   <div class="row">
+			<div class="col-lg-12">			
+				<div class="portlet light  ">
+			
+				       <!-- BEGIN PAGE HEADER-->
+
+                    <!-- BEGIN PAGE TITLE-->
+                         
+                         <div class="row" >
+  				
+						  		 <div class="col-md-12" style="margin-left: -14px;" >
+						  			 <div class="col-md-2"  style="font-family: 'Roboto Light', 'Roboto';  font-weight: 300; font-style: normal; font-size: 24px;color: #2F353B;margin-top: -25px;">
+						            <p> 
+						            <span> Dashboard </span>
+						            </p> 
+						          </div>
+						    
+						        <div class="col-lg-3" id="week" style="font-size: 12px;font-family: 'Roboto Light', 'Roboto';">
+                                 <select   class="form-control"  onchange="change_data();">
+
+												    <option   value="week" >Current Week</option>
+												    <option  value="month" >Current Month</option>
+
+											</select>
+                   		    </div>
+                   		
+                   		       
+                   		 </div>
+						      </div>
+						     
+                    <!-- END PAGE TITLE-->
+                    <!-- END PAGE HEADER-->
+                    
+  			<div class="portlet-body form">
+          <!-- BEGIN FORM-->
+
+							<div class="row">
+					       <div class="col-lg-12"  >
+					     			<div class="col-lg-2" style="border:1px solid #cccccc; margin-right: 23px;height: 110px; width: 210px;box-shadow: 2px 2px 5px #bdbcbc;">
+											<div  style="font-family: 'Roboto Light', 'Roboto';
+																	    font-weight: 300;
+																	    font-style: normal;
+																	    font-size: 30px;
+																	    color: #2F353B; padding-top: 19px;  " >
+												<center > <span id="disc1">{{avail_discount_count}}</span> </center>
+											</div>
+											<div style=" margin-top: 12px; font-family: 'Roboto Light', 'Roboto';">
+												<center>  Availed Discounts </center>
+											</div>   			
+					     			</div>
+					     			<div class="col-lg-2" style="border:1px solid #cccccc;margin-right: 23px;height: 110px; width: 210px;box-shadow: 2px 2px 5px #bdbcbc;">
+											    
+											    <div style="font-family: 'Roboto Light', 'Roboto';
+																	    font-weight: 300;
+																	    font-style: normal;
+																	    font-size: 30px;
+																	    color: #2F353B; padding-top: 19px;  ">
+												<center> <span id="disc2"> {{avail_callbacks_count}} </span></center>
+											</div>
+											<div style=" margin-top: 12px; font-family: 'Roboto Light', 'Roboto';">
+												<center>  No of Callbacks </center>
+											</div> 
+																     			
+					     			</div>
+					     			<div class="col-lg-2" style="border:1px solid #cccccc;margin-right: 23px;height: 110px; width: 210px;box-shadow: 2px 2px 5px #bdbcbc;" >
+					     					    <div style="font-family: 'Roboto Light', 'Roboto';
+																	    font-weight: 300;
+																	    font-style: normal;
+																	    font-size: 30px;
+																	    color: #2F353B; padding-top: 19px;  ">
+												<center> <span id="disc3"> {{avail_callsmade_count}} </span> </center>
+											</div>
+											<div style=" margin-top: 12px; font-family: 'Roboto Light', 'Roboto';">
+												<center>  No of Calls Made </center>
+											</div> 
+											
+					     			</div>
+					     			<div class="col-lg-2" style="border:1px solid #cccccc;margin-right: 23px;height: 110px; width: 210px;box-shadow: 2px 2px 5px #bdbcbc;">
+					     					<div style="font-family: 'Roboto Light', 'Roboto';
+																	    font-weight: 300;
+																	    font-style: normal;
+																	    font-size: 30px;
+																	    color: #2F353B; padding-top: 19px;  ">
+												<center> <span id="disc4"> {{avail_shares_count}} </span> </center>
+											</div>
+											<div style=" margin-top: 12px; font-family: 'Roboto Light', 'Roboto';">
+												<center>  Shares </center>
+											</div> 
+											
+					     			</div>
+			
+									              
+								
+					       </div>
+					     </div>
+					     
+					   <div class="row">
+					       <div class="col-lg-12" style="margin-left: -14px; margin-top: 41px;">
+					     		                          
+                          <div class="col-md-6 col-sm-6" style="width: 476px;">
+                                <!-- BEGIN PORTLET-->
+                                <div class="portlet light " style="border:1px solid #cccccc; box-shadow: 2px 2px 5px #bdbcbc;">
+                                    <div class="portlet-title">
+                                        <div class="">
+                                           <!--  <i class="icon-bar-chart font-green"></i> -->
+                                            <span  style="font-family: 'Roboto Light', 'Roboto';font-style: normal; font-size: 14px;">Total Bookings</span>
+                                            
+                                            <!-- <span class="caption-helper">daily stats</span> -->
+                                       
+                                        <span style="float: right;  font-family: 'Roboto Light', 'Roboto';font-style: normal; font-size: 12px;" > Last 12 months</span>
+                                      </div>
+                                    
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="portlet-body">
+                                            <div id="highchart_1" style="height:290px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END PORTLET-->
+                            </div>
+                        
+                        
+                        
+                          <div class="col-md-6 col-sm-6" style="width: 476px;padding-left: 0px;">
+                            <!-- BEGIN PORTLET-->
+                            <div class="portlet light " style="border:1px solid #cccccc; box-shadow: 2px 2px 5px #bdbcbc;">
+                                <div class="portlet-title" >
+                                    <div class="">
+                                        <i class="icon-share font-red-sunglo hide"></i>
+                                        <span style="font-family: 'Roboto Light', 'Roboto';font-style: normal; font-size: 14px;">Total Views</span>
+                                        <!-- <span class="caption-helper">daily stats</span> -->
+                                    </div>
+                                 
+                                </div>
+                                <div class="portlet-body">
+                                        <div id="Payment_Collection1" style="height: 300px;"> </div>
+                                </div>
+                            </div>
+
+                        </div>
+			
+					       </div>
+					     </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ </div>       <!-- END PORTLET--> 
+  	    	 
+                                    
+<!-- END CONTAINER -->
+  <!-- BEGIN FOOTER -->
+  <div class="page-footer">
+      <div class="page-footer-inner"> 2015 &copy; Metronic by keenthemes.
+          <a href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" title="Purchase Metronic just for 27$ and get lifetime updates for free" target="_blank">Purchase Metronic!</a>
+      </div>
+      <div class="scroll-to-top">
+          <i class="icon-arrow-up"></i>
+      </div>
+  </div>
+  <!-- END FOOTER -->
+
+        <!-- BEGIN CORE PLUGINS -->
+        <script src="{% static 'assets/global/plugins/jquery.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/js.cookie.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery.blockui.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/uniform/jquery.uniform.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'%}" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+         <script src="{% static 'assets/global/plugins/amcharts/amcharts/topup.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/moment.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/morris/morris.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/morris/raphael-min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/counterup/jquery.waypoints.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/counterup/jquery.counterup.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/amcharts.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/serial.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/pie.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/radar.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/themes/light.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/themes/patterns.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amcharts/themes/chalk.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/ammap/ammap.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/ammap/maps/js/worldLow.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/amcharts/amstockcharts/amstock.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/fullcalendar/fullcalendar.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/flot/jquery.flot.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/flot/jquery.flot.resize.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/flot/jquery.flot.categories.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery.sparkline.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/moment.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/scripts/datatable.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/datatables/datatables.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-daterangepicker/daterangepicker.min.js'%}" type="text/javascript"></script>
+<!--         <script src="{% static 'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js'%}" type="text/javascript"></script> -->
+<!-- 	        <script src="{% static 'assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js'%}" type="text/javascript"></script> -->
+<!--         <script src="{% static 'assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'%}" type="text/javascript"></script> -->
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="{% static 'assets/global/scripts/app.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/pages/scripts/components-date-time-pickers.min.js'%}" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <!--<script src="{% static 'assets/pages/scripts/table-datatables-responsive.js'%}" type="text/javascript"></script>-->
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="{% static 'assets/pages/scripts/dashboard.min.js'%}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <script src="{% static 'assets/layouts/layout2/scripts/layout.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/layout2/scripts/demo.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/global/scripts/quick-sidebar.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/highcharts/js/highcharts.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/highcharts/js/highcharts-3d.js'%}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/highcharts/js/highcharts-more.js'%}" type="text/javascript"></script>
+        <!-- END THEME LAYOUT SCRIPTS -->
+        
+<script type="text/javascript">
+
+
+
+function change_data(){
+
+ week_var = $('#week :selected').val();
+
+var supplier_id=110;
+
+	$.ajax({
+  	  	  type	: "GET",
+		  url 	: '/get-filter/',
+		  data : {'week_var':week_var,'supplier_id':supplier_id},                       
+		  
+
+	     success: function (response) {
+ 		console.log(response);
+	     		if(response.var1=='month'){
+	     		    $('#disc1').text(response.avail_discount_count);
+	     		    $('#disc2').text(response.avail_callbacks_count);
+	     		    $('#disc3').text(response.avail_callsmade_count);
+	     		    $('#disc4').text(response.avail_shares_count);
+
+
+					     		  	//for bookings		
+				  			$("#highchart_1").highcharts({
+				                chart:{
+				                    style:{
+				                        fontFamily:"Open Sans"
+				                    }
+				                },
+				                title:{
+				                    text:"",
+				                    x:-20
+				                },
+				                //subtitle:{text:"Source: WorldClimate.com",x:-20},
+				                xAxis:{
+				                    title:{
+				                        text:""
+				                    },
+				                    categories:["Week 1","Week 2","Week 3","Week 4","Week 5"]
+				                },
+				                yAxis:{
+				                    tickInterval: 2,
+				                    title:{
+				                        text:""
+				                    },
+				                    plotLines:[{value:0,width:1,color:"#808080"}]
+				                },
+				                tooltip:{
+				                    valueSuffix:""
+				                },
+				                legend:{
+				                    layout:"vertical",
+				                    align:"right",
+				                    verticalAlign:"middle",
+				                    borderWidth:0
+				                },
+				                series:[
+				                    {name: "Bookings",data:[response.coupon_code_count1,response.coupon_code_count2,response.coupon_code_count3,response.coupon_code_count4,response.coupon_code_count5]},
+				                ]
+				            });
+				            
+				           //for total view
+							var chart = AmCharts.makeChart( "Payment_Collection1", {
+							  "type": "serial",
+							  "theme": "light",
+							  "dataProvider": [ {
+							    "day": "Week 1",
+							    "visits": response.advert_total_count1
+							  }, {
+							    "day": "Week 2",
+							    "visits": response.advert_total_count2
+							  }, {
+							    "day": "Week 3",
+							    "visits": response.advert_total_count3
+							  }, {
+							    "day": "Week 4",
+							    "visits":response.advert_total_count4
+							  }, {
+							    "day": "Week 5",
+							    "visits":response.advert_total_count5
+							  }
+							  ],
+							  "valueAxes": [ {
+							    "gridColor": "#FFFFFF",
+							    "gridAlpha": 0.2,
+							    "dashLength": 0
+							  } ],
+							  "gridAboveGraphs": true,
+							  "startDuration": 1,
+							  "graphs": [ {
+							    "balloonText": "[[category]]: <b>[[value]]</b>",
+							    "fillAlphas": 0.8,
+							    "lineAlpha": 0.2,
+							    "type": "column",
+							    "autoColor": true,
+							    "valueField": "visits"
+							  } ],
+							  "chartCursor": {
+							    "categoryBalloonEnabled": false,
+							    "cursorAlpha": 0,
+							    "zoomable": false
+							  },
+							  "categoryField": "day",
+							  "categoryAxis": {
+							    "gridPosition": "start",
+							    "gridAlpha": 0,
+							    "tickPosition": "start",
+							    "tickLength": 20
+							  },
+							  "export": {
+							    "enabled": true
+							  }
+							
+							} ); 
+	     		
+	     		}
+	     		
+	     		else if (response.var1=='week') {
+	     		 	 $('#disc1').text(response.avail_discount_count);
+	     		    $('#disc2').text(response.avail_callbacks_count);
+	     		    $('#disc3').text(response.avail_callsmade_count);
+	     		    $('#disc4').text(response.avail_shares_count);
+	     		  			
+	     		  			$("#highchart_1").highcharts({
+				                chart:{
+				                    style:{
+				                        fontFamily:"Open Sans"
+				                    }
+				                },
+				                title:{
+				                    text:"",
+				                    x:-20
+				                },
+				                //subtitle:{text:"Source: WorldClimate.com",x:-20},
+				                xAxis:{
+				                    title:{
+				                        text:""
+				                    },
+				                    categories:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+				                },
+				                yAxis:{
+				                    tickInterval: 2,
+				                    title:{
+				                        text:""
+				                    },
+				                    plotLines:[{value:0,width:1,color:"#808080"}]
+				                },
+				                tooltip:{
+				                    valueSuffix:""
+				                },
+				                legend:{
+				                    layout:"vertical",
+				                    align:"right",
+				                    verticalAlign:"middle",
+				                    borderWidth:0
+				                },
+				                series:[
+				                    {name: "Bookings",data:[response.mon1,response.tue1,response.wen1,response.thus1,response.fri1,response.sat1,response.sun1]},
+				                ]
+				            });
+				            
+				           
+							var chart = AmCharts.makeChart( "Payment_Collection1", {
+							  "type": "serial",
+							  "theme": "light",
+							  "dataProvider": [ {
+							    "day": "Monday",
+							    "visits": response.mon2
+							  }, {
+							    "day": "Tuesday",
+							    "visits": response.tue2
+							  }, {
+							    "day": "Wednesday",
+							    "visits": response.wen2
+							  }, {
+							    "day": "Thursday",
+							    "visits":response.thus2
+							  }, {
+							    "day": "Friday",
+							    "visits":response.fri2
+							  }, {
+							    "day": "Saturday",
+							    "visits":response.sat2
+							  }, {
+							    "day": "Sunday",
+							    "visits":response.sun2
+							  }
+							  ],
+							  "valueAxes": [ {
+							    "gridColor": "#FFFFFF",
+							    "gridAlpha": 0.2,
+							    "dashLength": 0
+							  } ],
+							  "gridAboveGraphs": true,
+							  "startDuration": 1,
+							  "graphs": [ {
+							    "balloonText": "[[category]]: <b>[[value]]</b>",
+							    "fillAlphas": 0.8,
+							    "lineAlpha": 0.2,
+							    "type": "column",
+							    "autoColor": true,
+							    "valueField": "visits"
+							  } ],
+							  "chartCursor": {
+							    "categoryBalloonEnabled": false,
+							    "cursorAlpha": 0,
+							    "zoomable": false
+							  },
+							  "categoryField": "day",
+							  "categoryAxis": {
+							    "gridPosition": "start",
+							    "gridAlpha": 0,
+							    "tickPosition": "start",
+							    "tickLength": 20
+							  },
+							  "export": {
+							    "enabled": true
+							  }
+							
+							} ); 
+	     		
+	     		
+	     		
+	     		
+	     			
+	     		}
+	     		else {
+	     			$("#error-modal").modal('show');
+	     		}
+	      },
+	      error : function(response){
+	         	alert("_Error");
+	   	},
+	   		complete: function() {
+           		$("#job-post-form").show();
+   			   $("#processing").css('display','none');
+   	    }               
+	  });
+
+}
+	
+	
+  $("#highchart_1").highcharts({
+                chart:{
+                    style:{
+                        fontFamily:"Open Sans"
+                    }
+                },
+                title:{
+                    text:"",
+                    x:-20
+                },
+                //subtitle:{text:"Source: WorldClimate.com",x:-20},
+                xAxis:{
+                    title:{
+                        text:""
+                    },
+                    categories:["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"]
+                },
+                yAxis:{
+                    tickInterval: 2,
+                    title:{
+                        text:""
+                    },
+                    plotLines:[{value:0,width:1,color:"#808080"}]
+                },
+                tooltip:{
+                    valueSuffix:""
+                },
+                legend:{
+                    layout:"vertical",
+                    align:"right",
+                    verticalAlign:"middle",
+                    borderWidth:0
+                },
+                series:[
+                    {name: "Bookings",data:[{{jan}},{{feb}},{{mar}},{{apr}},{{may}},{{jun}},{{jul}},{{aug}},{{sep}},{{oct}},{{nov}},{{dec}}]},
+                ]
+            }) 
+            
+          
+
+var chart = AmCharts.makeChart( "Payment_Collection1", {
+
+
+  "type": "serial",
+  "theme": "light",
+  "dataProvider": [ {
+    "day": "Monday",
+    "visits": {{mon}}
+  }, {
+    "day": "Tuesday",
+    "visits": {{tue}}
+  }, {
+    "day": "Wednesday",
+    "visits": {{wen}}
+  }, {
+    "day": "Thursday",
+    "visits":{{thus}}
+  }, {
+    "day": "Friday",
+    "visits":{{fri}}
+  }, {
+    "day": "Saturday",
+    "visits":{{sat}}
+  }, {
+    "day": "Sunday",
+    "visits":{{sun}}
+  }],
+  "valueAxes": [ {
+
+   //"autoMargins":"false", 
+  //"marginRight":"5",
+
+
+    "gridColor": "#FFFFFF",
+    "gridAlpha": 0.2,
+    "dashLength": 0
+  } ],
+  "gridAboveGraphs": true,
+  "startDuration": 1,
+  "graphs": [ {
+    "balloonText": "[[category]]: <b>[[value]]</b>",
+    "fillAlphas": 0.8,
+    "lineAlpha": 0.2,
+    "type": "column",
+    "autoColor": true,
+    "valueField": "visits"
+  } ],
+  "chartCursor": {
+    "categoryBalloonEnabled": false,
+    "cursorAlpha": 0,
+    "zoomable": false
+  },
+  "categoryField": "day",
+  "categoryAxis": {
+    "gridPosition": "start",
+    "gridAlpha": 0,
+    "tickPosition": "start",
+    "tickLength": 20
+  },
+  "export": {
+    "enabled": true
+  }
+
+} );
+
+
+        
+
+
+
+</script>        
+ </body>
+</html>

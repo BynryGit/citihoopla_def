@@ -1,0 +1,136 @@
+{% load staticfiles %}
+{% load my_template_tag %}
+<script type="text/javascript">
+
+</script>
+<ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false"
+    data-auto-scroll="true" data-slide-speed="200">
+    {% if request.session.privileges|check_list:'View Dashboard Details,View Advert Performance,View Financial Details,View Selected Subscriber Details,All' == 'true' %}
+        <li id="dashboard_nav" class="nav-item start">
+            <a href="/dashboard/" class="nav-link nav-toggle">
+                <i class="icon-home"></i>
+                <span class="title">Dashboard</span>
+                <span class="selected"></span>
+                <span class="arrow open"></span>
+            </a>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'Consumer Management,Subscription Management,All' == 'true' %}
+        <li id="customer_nav" class="nav-item  ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-users"></i>
+                <span class="title">Customers </span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                {% if request.session.privileges|check_list:'Subscription Management,All' == 'true' %}
+                    <li id="supplier_nav" class="nav-item start ">
+                        <a href="/subscriber/" class="nav-link ">
+                            <i class="icon-user"></i>
+                            <span class="title">Subscribers</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if request.session.privileges|check_list:'Consumer Management,All' == 'true' %}
+                    <li id="consumer_nav" class="nav-item start ">
+                        <a href="/consumer/" class="nav-link ">
+                            <i class="icon-user"></i>
+                            <span class="title">Consumers</span>
+                            <span class="badge badge-success"></span>
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'Admin Management,All' == 'true' %}
+        <li id="admin_nav" class="nav-item  ">
+            <a href="/user/" class="nav-link nav-toggle">
+                <i class="icon-user"></i>
+                <span class="title">Admin </span>
+                <span class="arrow"></span>
+            </a>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'Rate Card Management,All' == 'true' %}
+        <li id="rate_card_nav" class="nav-item  ">
+            <a href="/rate-card/" class="nav-link nav-toggle">
+                <i class="icon-settings"></i>
+                <span class="title">Rate Card </span>
+                <span class="arrow"></span>
+            </a>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'Push Notification,All' == 'true' %}
+        <li id="notification_nav" class="nav-item  ">
+            <a href="javascript:;" class="nav-link nav-toggle">
+                <i class="icon-settings"></i>
+                <span class="title">Notifications</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                {% if request.session.privileges|check_list:'All' == 'true' %}
+                    <li id="sms_nav" class="nav-item start ">
+                        <a href="/send_sms/" class="nav-link ">
+                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                            <span class="title">SMS</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if request.session.privileges|check_list:'All' == 'true' %}
+                <li id="email_nav" class="nav-item start ">
+                    <a href="/send_email/" class="nav-link ">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <span class="title">Email</span>
+                        <span class="badge badge-success"></span>
+                    </a>
+                </li>
+                {% endif %}
+                {% if request.session.privileges|check_list:'Push Notification,All' == 'true' %}
+                <li id="push_nav" class="nav-item start ">
+                    <a href="/sms/" class="nav-link ">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <span class="title">Push</span>
+                        <span class="badge badge-success"></span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'Ref Data Management,Assign Roles,All' == 'true' %}
+        <li id="ref_data_nav" class="nav-item ">
+            <a class="nav-link nav-toggle">
+                <i class="icon-bulb"></i>
+                <span class="title">Reference Data </span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li id="city_nav" class="nav-item start ">
+                    <a href="/reference-data/" class="nav-link ">
+                        <i class="icon-bar-chart"></i>
+                        <span class="title"> City </span>
+                    </a>
+                </li>
+                <li id="category_nav" class="nav-item start ">
+                    <a href="/category/" class="nav-link ">
+                        <i class="icon-bulb"></i>
+                        <span class="title"> Category </span>
+                        <span class="badge badge-success"></span>
+                    </a>
+                </li>
+                {% if request.session.privileges|check_list:'Assign Roles,All' == 'true' %}
+                    <li id="user_role_nav" class="nav-item start ">
+                        <a href="/user-role/" class="nav-link ">
+                            <i class="icon-user"></i>
+                            <span class="title"> User Role </span>
+                            <span class="badge badge-success"></span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+    {% endif %}
+</ul>
