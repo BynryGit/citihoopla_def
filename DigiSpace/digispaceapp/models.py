@@ -731,6 +731,19 @@ class AdvertLike(models.Model):
     def __unicode__(self):
         return unicode(self.id)
 
+
+class AdvertReview(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    user_id = models.ForeignKey(ConsumerProfile, blank=True, null=True)
+    advert_id = models.ForeignKey(Advert, blank=True, null=True)
+    ratings = models.CharField(max_length=10,null=True, blank=True)
+    review = models.CharField(max_length=500, null=True, blank=True)
+    creation_date = models.DateTimeField(null=True, blank=True)
+
+    def __unicode__(self):
+        return unicode(self.id)
+
+
 class AdvertView(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     user_id = models.ForeignKey(ConsumerProfile, blank=True, null=True)
@@ -769,6 +782,7 @@ class AdvertShares(models.Model):
 
     def __unicode__(self):
         return unicode(self.id)
+
 
 class AdvertFavourite(models.Model):
     id = models.AutoField(primary_key=True, editable=False)

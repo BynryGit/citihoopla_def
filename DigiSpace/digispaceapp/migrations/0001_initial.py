@@ -32,12 +32,15 @@ class Migration(migrations.Migration):
                 ('advert_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
                 ('status', models.CharField(default=b'1', max_length=150, null=True, choices=[(b'1', b'1'), (b'0', b'0')])),
                 ('advert_name', models.CharField(max_length=50, null=True, blank=True)),
+                ('contact_name', models.CharField(max_length=50, null=True, blank=True)),
+                ('contact_no', models.CharField(max_length=50, null=True, blank=True)),
                 ('website', models.CharField(max_length=50, null=True, blank=True)),
                 ('latitude', models.CharField(max_length=50, null=True, blank=True)),
                 ('longitude', models.CharField(max_length=50, null=True, blank=True)),
                 ('short_description', models.CharField(max_length=5000, null=True, blank=True)),
                 ('product_description', models.CharField(max_length=5000, null=True, blank=True)),
                 ('discount_description', models.CharField(max_length=5000, null=True, blank=True)),
+                ('currency', models.CharField(max_length=50, null=True, blank=True)),
                 ('display_image', models.FileField(max_length=500, null=True, upload_to=b'images/user_images/', blank=True)),
                 ('address_line_1', models.CharField(max_length=50, null=True, blank=True)),
                 ('address_line_2', models.CharField(max_length=50, null=True, blank=True)),
@@ -87,6 +90,22 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='AdvertCallbacks',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='AdvertCallsMade',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='AdvertFavourite',
             fields=[
                 ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
@@ -129,9 +148,25 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='AdvertShares',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='AdvertSubscriptionMap',
             fields=[
                 ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='AdvertView',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
                 ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
             ],
         ),
@@ -160,6 +195,41 @@ class Migration(migrations.Migration):
                 ('business_updated_by', models.CharField(max_length=30, null=True, blank=True)),
                 ('business_updated_date', models.DateTimeField(default=datetime.datetime.now, null=True, blank=True)),
                 ('is_active', models.CharField(max_length=2, null=True, blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='CallerDetails',
+            fields=[
+                ('CallerID', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('first_name', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('last_name', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('IncomingTelNo', models.CharField(default=None, max_length=200, null=True, blank=True)),
+                ('email', models.CharField(default=None, max_length=200, null=True, blank=True)),
+                ('CallerArea', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('caller_created_date', models.DateTimeField(null=True, blank=True)),
+                ('caller_created_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('caller_updated_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('caller_updated_date', models.DateTimeField(null=True, blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='CallInfo',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('UCID', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('CallerID', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('CalledNo', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('CallStartTime', models.DateTimeField(null=True, blank=True)),
+                ('DialStartTime', models.DateTimeField(null=True, blank=True)),
+                ('DialEndTime', models.DateTimeField(null=True, blank=True)),
+                ('DisconnectType', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('CallStatus', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('CallDuration', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('CallType', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('AudioRecordingURL', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('DialedNumber', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('Department', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('Extn', models.CharField(default=None, max_length=100, null=True, blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -303,6 +373,7 @@ class Migration(migrations.Migration):
                 ('consumer_created_date', models.DateTimeField(null=True, blank=True)),
                 ('consumer_created_by', models.CharField(max_length=100, null=True, blank=True)),
                 ('consumer_updated_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('consumer_otp', models.CharField(max_length=100, null=True, blank=True)),
                 ('consumer_updated_date', models.DateTimeField(null=True, blank=True)),
                 ('sign_up_source', models.CharField(max_length=20, null=True, blank=True)),
                 ('consumer_profile_pic', models.ImageField(default=None, upload_to=b'images/user_images/', max_length=500, verbose_name=b'Image')),
@@ -368,6 +439,20 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='EnquiryDetails',
+            fields=[
+                ('EnquiryID', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('enquiryFor', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('SelectedArea', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('created_date', models.DateTimeField(null=True, blank=True)),
+                ('created_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('updated_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('updated_date', models.DateTimeField(null=True, blank=True)),
+                ('CallerID', models.ForeignKey(blank=True, to='digispaceapp.CallerDetails', null=True)),
+                ('SelectedCity', models.ForeignKey(blank=True, to='digispaceapp.City', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='NearByAttraction',
             fields=[
                 ('attraction_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
@@ -416,6 +501,29 @@ class Migration(migrations.Migration):
                 ('updated_by', models.CharField(max_length=500, null=True, blank=True)),
                 ('updation_date', models.DateTimeField(null=True, blank=True)),
                 ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Operator',
+            fields=[
+                ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, to=settings.AUTH_USER_MODEL)),
+                ('operator_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('operator_name', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('operator_email_id', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('operator_status', models.CharField(default=b'1', max_length=100, null=True, choices=[(b'1', b'1'), (b'0', b'0')])),
+                ('user_created_date', models.DateTimeField(null=True, blank=True)),
+                ('user_created_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('user_updated_by', models.CharField(max_length=100, null=True, blank=True)),
+                ('user_updated_date', models.DateTimeField(null=True, blank=True)),
+            ],
+            options={
+                'abstract': False,
+                'verbose_name': 'user',
+                'verbose_name_plural': 'users',
+            },
+            bases=('auth.user',),
+            managers=[
+                ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.CreateModel(
@@ -504,6 +612,7 @@ class Migration(migrations.Migration):
                 ('premium_service_updated_by', models.CharField(max_length=30, null=True, blank=True)),
                 ('premium_service_updated_date', models.DateTimeField(default=datetime.datetime.now, null=True, blank=True)),
                 ('business_id', models.ForeignKey(blank=True, to='digispaceapp.Business', null=True)),
+                ('category_id', models.ForeignKey(blank=True, to='digispaceapp.Category', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -593,6 +702,7 @@ class Migration(migrations.Migration):
                 ('logo', models.ImageField(default=None, null=True, upload_to=b'images/user_images/', blank=True)),
                 ('address1', models.CharField(default=None, max_length=100, null=True, blank=True)),
                 ('address2', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('area', models.CharField(default=None, max_length=100, null=True, blank=True)),
                 ('business_details', models.CharField(default=None, max_length=10000, null=True, blank=True)),
                 ('contact_person', models.CharField(default=None, max_length=100, null=True, blank=True)),
                 ('contact_no', models.CharField(default=None, max_length=100, null=True, blank=True)),
@@ -602,7 +712,13 @@ class Migration(migrations.Migration):
                 ('supplier_created_by', models.CharField(max_length=100, null=True, blank=True)),
                 ('supplier_updated_by', models.CharField(max_length=100, null=True, blank=True)),
                 ('supplier_updated_date', models.DateTimeField(null=True, blank=True)),
-                ('city', models.ForeignKey(blank=True, to='digispaceapp.City', null=True)),
+                ('notification_status', models.CharField(default=b'true', max_length=100, null=True, choices=[(b'true', b'true'), (b'false', b'false')])),
+                ('reminders_status', models.CharField(default=b'true', max_length=100, null=True, choices=[(b'true', b'true'), (b'false', b'false')])),
+                ('discounts_status', models.CharField(default=b'true', max_length=100, null=True, choices=[(b'true', b'true'), (b'false', b'false')])),
+                ('request_call_back_status', models.CharField(default=b'true', max_length=100, null=True, choices=[(b'true', b'true'), (b'false', b'false')])),
+                ('no_call_status', models.CharField(default=b'true', max_length=100, null=True, choices=[(b'true', b'true'), (b'false', b'false')])),
+                ('city_place_id', models.ForeignKey(blank=True, to='digispaceapp.City_Place', null=True)),
+                ('country_id', models.ForeignKey(blank=True, to='digispaceapp.Country', null=True)),
                 ('pincode', models.ForeignKey(blank=True, to='digispaceapp.Pincode', null=True)),
                 ('state', models.ForeignKey(blank=True, to='digispaceapp.State', null=True)),
             ],
@@ -690,6 +806,26 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(blank=True, to='digispaceapp.Tax', null=True),
         ),
         migrations.AddField(
+            model_name='enquirydetails',
+            name='SelectedPincode',
+            field=models.ForeignKey(blank=True, to='digispaceapp.Pincode', null=True),
+        ),
+        migrations.AddField(
+            model_name='enquirydetails',
+            name='category_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.Category', null=True),
+        ),
+        migrations.AddField(
+            model_name='enquirydetails',
+            name='subcategory_id1',
+            field=models.ForeignKey(blank=True, to='digispaceapp.CategoryLevel1', null=True),
+        ),
+        migrations.AddField(
+            model_name='enquirydetails',
+            name='subcategory_id2',
+            field=models.ForeignKey(blank=True, to='digispaceapp.CategoryLevel2', null=True),
+        ),
+        migrations.AddField(
             model_name='consumer_feedback',
             name='consumer_id',
             field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
@@ -715,6 +851,16 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(blank=True, to='digispaceapp.City_Place', null=True),
         ),
         migrations.AddField(
+            model_name='callerdetails',
+            name='CallerCity',
+            field=models.ForeignKey(blank=True, to='digispaceapp.City', null=True),
+        ),
+        migrations.AddField(
+            model_name='callerdetails',
+            name='CallerPincode',
+            field=models.ForeignKey(blank=True, to='digispaceapp.Pincode', null=True),
+        ),
+        migrations.AddField(
             model_name='business',
             name='category',
             field=models.ForeignKey(blank=True, to='digispaceapp.Category', null=True),
@@ -730,9 +876,19 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(blank=True, to='digispaceapp.Supplier', null=True),
         ),
         migrations.AddField(
+            model_name='advertview',
+            name='user_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
+        ),
+        migrations.AddField(
             model_name='advertsubscriptionmap',
             name='business_id',
             field=models.ForeignKey(blank=True, to='digispaceapp.Business', null=True),
+        ),
+        migrations.AddField(
+            model_name='advertshares',
+            name='user_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
         ),
         migrations.AddField(
             model_name='advertlike',
@@ -741,6 +897,16 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='advertfavourite',
+            name='user_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
+        ),
+        migrations.AddField(
+            model_name='advertcallsmade',
+            name='user_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
+        ),
+        migrations.AddField(
+            model_name='advertcallbacks',
             name='user_id',
             field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
         ),
@@ -786,8 +952,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='advert',
-            name='currency_id',
-            field=models.ForeignKey(blank=True, to='digispaceapp.Currency', null=True),
+            name='country_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.Country', null=True),
         ),
         migrations.AddField(
             model_name='advert',

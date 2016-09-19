@@ -507,7 +507,7 @@ hr {
     float: left;
     width: 100%;
     background-size: 16% auto !important;
-    -webkit-background-size: 20% auto !important;
+    -webkit-background-size: 16% auto !important;
     -ms-background-size: 16% auto !important;
     -o-background-size: 16% auto !important;
     background-color: #0d67e6;
@@ -670,17 +670,18 @@ hr {
     .vertical_center{
         position: relative;
         top: 50%;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+        -webkit-top: 50%;
+        -webkit-transform: translateY(50%);
+        -ms-transform: translateY(50%);
+        transform: translateY(50%);
     }
 
     .text_center{
         position: relative;
         top: 25%;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+        -webkit-transform: translateY(50%);
+        -ms-transform: translateY(50%);
+        transform: translateY(50%);
     }
 
 </style>
@@ -904,7 +905,7 @@ hr {
                                                             font-weight:700;
                                                             border-top-left-radius: 15px !important;
                                                             ">
-                                                        <span class="text_center">{{advert.advert_id}}</span>
+                                                        <span class="text_center vertical_center">{{advert.advert_id}}</span>
                                                     </div>
                                                     <div class="col-lg-6"
                                                          style="background-color: #f3f2f2; ">

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.3
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    {% load staticfiles %}
+    <head>
+        <meta charset="utf-8" />
+        <title>City Hoopla | Edit Subscriber</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet" type="text/css" />
+       
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/uniform/css/uniform.default.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+
+        <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css' %}" rel="stylesheet" type="text/css" />
+
+        <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <link href="{% static 'assets/layouts/layout2/css/layout.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/layouts/layout2/css/themes/blue.min.css' %}" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="{% static 'assets/layouts/layout2/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END THEME LAYOUT STYLES -->
+    <!-- END HEAD -->
+    <style type="text/css">
+.has-success .control-label{
+	color : #333;
+}
+
+.has-success .form-control {
+	border: 1px solid #C2CAD8;
+}
+
+
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
+}
+
+#loading{
+	width: 36%;
+	height: 22px;
+	position: absolute;
+	top: 26%;
+	left: 32%;
+	margin: -28px 0px 0px -25px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 500;
+	color: #000;
+}
+
+		div.dataTables_wrapper div.dataTables_info {
+    padding-top: 8px;
+    white-space: nowrap;
+    display: none;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    display: none;
+}
+
+div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+    display: none;
+}
+
+.border_s{
+
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.input-large{
+	width: 100% !important;
+}
+.page-header.navbar .page-logo .logo-default {
+    margin: 2px 0 0;
+    width: 105px;
+    background: rgba(255, 255, 255, 0.48);
+}
+
+.page-header.navbar .page-logo {
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+@media (max-width: 767px){
+.page-header.navbar {
+     background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+}
+
+	</style>
+
+     <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
+        <!-- BEGIN HEADER -->
+                 <div id="processing" style="display:none;">
+				<div id="loading">
+					<img  src="{% static 'assets/loading-bars.gif' %}" style="height : 100px;">
+					
+				</div>	
+  			</div>
+        <div class="page-header navbar navbar-fixed-top">
+                 <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="/dashboard/">
+                        <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo" class="logo-default"/> </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top">
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            <!-- BEGIN NOTIFICATION DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            
+                            <!-- END NOTIFICATION DROPDOWN -->   
+                            <!-- BEGIN USER LOGIN DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+
+                                    <span class="username username-hide-on-mobile"> {{ username }} </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <li>
+                                        <a href="/log-out/">
+                                            <i class="icon-key"></i> Log Out </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END USER LOGIN DROPDOWN -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+        <!-- BEGIN HEADER & CONTENT DIVIDER -->
+        <div class="clearfix"> </div>
+        <!-- END HEADER & CONTENT DIVIDER -->
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- END SIDEBAR -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                   
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                        <li class="nav-item start  open">
+                            <a href="/CTI-CRM/crm_home/" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">CRM</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>                 
+                        </li>
+                        
+                        
+                         
+                        
+                    </ul>
+                    <!-- END SIDEBAR MENU -->
+                </div>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN CONTENT BODY -->
+                <div class="page-content">
+                		<h3 class="page-title"> Enquiry 
+                    </h3>
+                    <!-- BEGIN PAGE HEADER-->
+                   <div class="page-bar">
+                        <ul class="page-breadcrumb">
+                          <li>
+                                Enquiry Form
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    
+                    <!-- END PAGE HEADER-->
+<div class="row">
+  			<div class="portlet-body form">
+				<div class="row">
+					<div class="col-lg-12">
+ 						<div class="portlet-body">
+ 							<div class="portlet light " id="form_wizard_1">
+  								<div class="portlet-body form">
+									<!-- <form class="form-vertical" id="submit_form" enctype="multipart/form-data" method="POST"> -->
+ 										{% csrf_token %}                                        
+ 										<div class="form-wizard">
+  											<div class="form-body">                                                                                                
+												<div class="tab-content">
+ 													<div class="tab-pane active" id="tab1">
+ 													{% csrf_token %} 
+ 										 <div class="row">
+                                  <div class="col-lg-12">
+                                  	  <div class="col-lg-4">                                  	 
+	                                      <div class="form-group">                                                       
+	                                          <label class="control-label ">Consumer Name : {{first_name}} {{last_name}}</label>                                                
+	                                      </div>
+	                                    </div>
+	                                    <div class="col-lg-4">                                  	 
+	                                      <div class="form-group">                                                       
+	                                          <label class="control-label ">Address : {{CallerArea}},{{CallerCity}}-{{CallerPincode}}</label>                                                
+	                                      </div>
+	                                    </div>
+                                  </div>
+									      </div>
+									      <div class="row">
+                                  <div class="col-lg-12">                                  	  
+	                                    <div class="col-lg-4">                                  	 
+	                                      <div class="form-group">                                                       
+	                                          <label class="control-label ">Phone Number : {{phone_number}}</label>                                                
+	                                      </div>
+	                                    </div>	
+	                                    <div class="col-lg-4">                                  	 
+	                                      <div class="form-group">                                                       
+	                                          <label class="control-label ">Email : {{email}}</label>                                                
+	                                      </div>
+	                                    </div>	
+                                  </div>
+									      </div>
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <div class="form-group">                                                       
+                                                <label class="control-label ">Search For</label>                                                
+                                                <input type="text" name="search1" onkeyup="getDetails();" id="search1" class="form-control "/>
+                                                <label id="error-demo" class="error" style="color:red;"></label> 
+                                                <!-- <select class="form-control sel2" id="search1" name="search1">                                                  
+                                                   {% for list in search_list %}                                                                                                     	
+                                                   		<option value="{{ list.list.category_list }}">{{ list.list.category_list }}</option>                                                   	
+                                                   {% endfor %}
+                                               </select> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group" >                                                       
+                                                <label class="control-label ">Area</label>                                                
+                                                <input type="text" name="area" onkeyup="getDetails();" id="area" class="form-control" />
+                                                <label id="error-demo" class="error1" style="color:red;"></label>                                                 
+                                            </div>
+                                        </div>
+									      </div>
+		<input type="hidden" id="alist" class="form-control "/>
+		<input type="hidden" id="cid" value="{{cid}}" class="form-control "/>
+									      <div class='panel-container'>															<div class="portlet-body">
+				                                    <table class="table table-striped table-bordered table-hover table-responsive" width="100%" id="advert_table">
+				                                        <thead>
+				                                            <tr>
+				                                            		<!-- <th style="text-align:center;"><INPUT type="checkbox" onchange="checkAll(this)" name="chk[]" /></th> -->
+				                                                <th style="text-align:center;">Business Name</th>
+				                                                <th style="text-align:center;">Category</th>
+				                                                <th style="text-align:center;">Sub Category 1</th>
+				                                                <th style="text-align:center;">Sub Category 2</th>
+				                                                <th style="text-align:center;">Address</th>
+				                                                				                                               
+				                                            </tr>
+				                                        </thead>
+				                                        <tbody id="advert_data">
+                                            				<tr>
+			                                                <!-- <td style="text-align:center;">N/A</td> -->
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                               		                                                
+			                                            </tr>
+                                        				</tbody>				                                        
+				                                    </table>
+				                                </div>													</div><!-- Tabs section 1 -->
+													
+										<div class="form-group hidedata1">
+								        	<div class="row">
+								        	 	<div class="col-md-offset-10 col-lg-2">
+								 					<a href="/CTI-CRM/crm_home/" type="button" class="btn btn-outline green" >Cancel</a>						
+								 					<button onclick="get_details()" type="button" id="send" class="btn btn-outline green">SAVE</button>						
+											 	</div> 	
+								        	</div>
+								       </div>
+       
+										<div class='panel-container'>		
+										<div class="col-lg-12">																																							 	<div id="all"> 
+										 
+										 	</div>
+										</div>
+										</div>
+										<hr>
+  		<!-- <div class="form-group">
+  	 		<div class="row">
+		  	 	<div class="col-lg-4">
+					<label class="control-label">Select Category</label>
+ 						<select name="ctype" id="ctype" class="form-control" required="">
+                  	<option value="">Select Category</option>                  		
+  			            {% for c in category_list %}	
+  			                   <option value="{{ c.category_id }}"> {{ c.category_name }}</option>
+		                  {% endfor %}	                
+                  </select> 
+				</div>
+	 			<div class="col-lg-4">
+					<label class="control-label">Select Subcategory 1</label>
+ 						<select name="ctype" id="ctype" class="form-control" required="">
+                  	<option value="">Select Subcategory</option>                  		
+  			            {% for c in subcategory_list1 %}	
+  			                   <option value="{{ c.category_id }}"> {{ c.category_name }}</option>
+		                  {% endfor %}	                
+                  </select> 
+				</div>
+				<div class="col-lg-4">
+					<label class="control-label">Select Subcategory 2</label>
+ 						<select name="ctype" id="ctype" class="form-control" required="">
+                  	<option value="">Select Subcategory</option>                  		
+  			            {% for c in subcategory_list2 %}	
+  			                   <option value="{{ c.category_id }}"> {{ c.category_name }}</option>
+		                  {% endfor %}	                
+                  </select> 
+				</div>
+			 	
+	  		</div>
+ 		</div>  -->
+ 		<!-- <div class="form-group">
+  			<div class="row">
+  				<div class="col-lg-4">
+					<label class="control-label">Select City</label>
+ 						<select name="city" id="city" class="form-control" required="">
+                  	<option value="">Select City</option>                  		
+  			            {% for city in city_list %}	
+  			                   <option value="{{ city.city_id }}"> {{ city.city_name }}</option>
+		                  {% endfor %}	                
+                  </select> 
+				</div> 	
+			 	<div class="col-lg-4">
+					<label class="control-label">Pincode</label>
+            		<input type="hidden" value="{{pincode}}" id="selectedPincode"/>
+	 					<select name="pincode" id="pincode" class="form-control" required="">
+                  	<option value="">Select Pincode </option>                  		
+  			            {% for pincode in pincode_list %}	
+	                   {% if pincode == user_pincode %}
+	                  <option selected value="{{user_pincode}}">{{user_pincode}}</option>
+	                  {% else %}
+	                  <option value="{{pincode}}"> {{pincode}}</option>
+	                  {% endif %}	                        
+	                  {% endfor %}	                
+                  </select> 
+				</div>
+				<div class="col-lg-4">
+					<label class="control-label">Area</label>
+					<input id="business_name" type="text" class="form-control" name="business_name" value="{{business_name}}"/>
+		 		</div>  		
+			 	
+  			</div>
+ 		</div> -->	
+ 		
+       <div class="form-group hidedata" id="pid" hidden>
+        	<div class="row">
+        		<div class="col-lg-12">
+					<label class="control-label">Preference for response</label><br>
+	  				<input class="checkbox1" type="checkbox" name="sms" value="sms" onclick="handleClick(this);"> SMS 
+				  	<input class="checkbox2" type="checkbox" name="email" value="email" onclick="handleClick(this);"> Email 
+				  	<input class="checkbox3" type="checkbox" name="callback" value="callback" onclick="handleClick(this);"> Call Back 
+			  	
+	        	 	<!-- <div class="col-lg-12">
+	        	 	<label class="control-label">Preference for response</label><br>
+	            <input type="radio" name="gender" value="male" checked> SMS
+	  				<input type="radio" name="gender" value="female"> Email
+	  				<input type="radio" name="gender" value="other"> Call back                                                                                                           		                                                            
+	            </div> -->
+	         </div>
+        	</div>
+       </div>
+       <div class="form-group hidedata" id="bid" hidden>
+        	<div class="row">
+        	 	<div class="col-md-offset-8 col-lg-4">
+ 					<a href="/crm_home/" type="button" class="btn btn-outline green" >Cancel</a>						
+ 					<button onclick="send_msg()" type="button" id="send" class="btn btn-outline green inputDisabled" disabled>Send</button>						
+ 					<button onclick="send_advert()" type="button" id="send_business" class="btn btn-outline green inputDisabled" disabled>Send To Business</button>						
+			 	</div> 	
+        	</div>
+       </div>
+
+ 
+ </div>
+</div>
+  </div>                                            
+ </div>
+<!-- </form> -->
+  </div>
+ </div>
+ 	
+ </div>
+  </div>
+</div>
+  </div>
+ </div>
+            </div>
+        </div>
+       </div> 
+
+            
+      	<!-- /.modal -->
+        <!-- BEGIN FOOTER -->
+        <div class="page-footer">
+            <div class="page-footer-inner"> 2016 &copy; DigiSpace.
+            </div>
+            <div class="scroll-to-top">
+                <i class="icon-arrow-up"></i>
+            </div>
+        </div>
+        
+
+
+
+          
+<div style="overflow-y:hidden;" id="error-modal1" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+		  		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+         </div>
+	      <div class="modal-body">
+   	      <div class="form-body">
+      	      <h4 class="text-center"><span id="error-message1"></span></h4>
+            </div>
+            <div style="text-align:center !important;" class="modal-footer">
+				   <input data-dismiss="modal" type="submit" value="OK" class="btn btn-primary" id="btn-loading-demo">                            
+            </div>   
+         </div>          
+     </div>
+  </div>
+</div>      
+       
+<div style="overflow-y:hidden;" id="response_modal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+		  		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+         </div>
+	      <div class="modal-body">
+   	      <div class="form-body">
+      	      <h4 class="text-center"><span id="error-message1"></span></h4>
+            </div>
+            <div style="text-align:center !important;" class="modal-footer">
+				   <input data-dismiss="modal" type="submit" value="OK" class="btn btn-primary" id="btn-loading-demo">                            
+            </div>   
+         </div>          
+     </div>
+  </div>
+</div>        
+       
+       
+<!-- BEGIN CORE PLUGINS -->
+        <script src="{% static 'assets/global/plugins/jquery.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/js.cookie.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/uniform/jquery.uniform.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-validation/js/jquery.validate.min.js' %}" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js" ></script> 
+        <script src="{% static 'assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/ckeditor/ckeditor.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-markdown/lib/markdown.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-markdown/js/bootstrap-markdown.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-wizard/jquery.bootstrap.wizard.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/pages/scripts/form-wizard.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/layout2/scripts/layout.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/layout2/scripts/demo.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/global/scripts/quick-sidebar.min.js' %}" type="text/javascript"></script>
+
+<script type="text/javascript">
+$('.sel2').select2();
+
+function get_details() {
+	searchfor = $("#search1" ).val();
+	area = $("#area" ).val();
+	cid = $("#cid" ).val();
+	
+	if ($("#alist").val()) {
+         $.ajax({
+             type: 'POST',
+             url: '/CTI-CRM/save-enquiry-details/',
+             data: {'alist': $("#alist").val(),'keyword':searchfor,'area':area,'cid':cid},
+             success: function (response) {
+             	if (response.success=='true') {             								      
+						$('.hidedata1').attr("hidden", "hidden");    
+						$('.hidedata').removeAttr("hidden");   	
+             	}
+             },
+             error: function (response) {
+                 alert("Error!");
+             },
+
+         });
+     }
+     else {
+         $('#city').val("");
+     }
+}
+
+
+function checkAll(ele) {
+     var checkboxes = document.getElementsByTagName('input');
+     
+     if (ele.checked) {
+     		$('.inputDisabled').removeAttr("disabled");
+         for (var i = 0; i < checkboxes.length; i++) { 
+         	 
+             if (checkboxes[i].type == 'checkbox') {
+             		var array1=[];
+                 checkboxes[i].checked = true;                                              
+                 
+		            $.each($(".checkbox:checked"), function(){            
+      	      	    array1.push($(this).val());
+         		   });               		        
+             }        
+         }
+         abc(array1);      
+     } else {
+     		$('.inputDisabled').attr("disabled", "disabled");
+         for (var i = 0; i < checkboxes.length; i++) {
+             console.log(i)
+             if (checkboxes[i].type == 'checkbox') {
+                 checkboxes[i].checked = false;
+             }
+         }
+     }
+ }
+ function abc(array1) {
+ 	a = array1;
+ 	alert(a); 
+ }
+ 
+function handleClick1(cb) {
+	
+		var checkedValue1 = $('.checkbox11:checked').val();
+		alert(checkedValue1);
+		var b=[];
+		if ($('.checkbox11:checked').val()) {
+	       b.push($(this).val());
+      } 
+      alert(b);      
+}
+
+function handleClick(cb) {
+	
+		//$('.inputDisabled').removeAttr("disabled");
+		var checkedValue1 = $('.checkbox1:checked').val();
+		var checkedValue2 = $('.checkbox2:checked').val();
+		var checkedValue3 = $('.checkbox3:checked').val();
+	
+	
+	if (checkedValue1) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else if (checkedValue2) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else if (checkedValue3) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else if (checkedValue1 && checkedValue2) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else if (checkedValue1 && checkedValue2 && checkedValue3) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else if (checkedValue2 && checkedValue3) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else if (checkedValue1 && checkedValue3) {
+		$('.inputDisabled').removeAttr("disabled");
+	}
+	else {
+		$('.inputDisabled').attr("disabled", "disabled");
+	}
+}
+
+function send_msg() {
+	alert('in send'+$("#alist").val());
+	
+	$('#error-message1').html('');
+	$('#error-message1').append('Data sent to Caller');
+	$("#error-modal1").modal('show');
+} 
+
+function send_advert() {
+	$('#error-message1').html('');
+	$('#error-message1').append('Data sent to Supplier');
+	$("#error-modal1").modal('show');
+}
+
+$("#city").change(function () {
+					getPincode();
+				});
+
+function getPincode(){
+     city_id = $('#city :selected').val();
+     if (city_id) {
+         $.ajax({
+             type: 'GET',
+             url: '/CTI-CRM/get-pincode-list/',
+             data: {'city_id': city_id},
+              success: function (response) {
+                 $('#pincode').html('');
+                 $.each(response.pincode_list, function (index, item) {
+                     $('#pincode').append(item);
+                 });
+                 $('#pincode').val("");
+             },
+             error: function (response) {
+                 alert("Error!");
+             },
+
+         });
+     }
+     else {
+         $('#city').val("");
+     }
+ }
+
+
+function getDetails(){
+	text_value = $("#search1" ).val();
+	area = $("#area" ).val();
+	//area = $.trim(area);
+	word = $.trim(text_value);
+	if (word.length<3) {
+		$('.error').text("Please enter atleast 3 characters");
+		$("#advert_data").html('');
+		$("#advert_data").append(			//'<tr><td style="text-align:center;">'+"N/A"+'</td>'+							'<tr><td style="text-align:center;">'+"N/A"+'</td>'+	
+			'<td style="text-align:center;">'+"N/A"+'</td>'+
+			'<td style="text-align:center;">'+"N/A"+'</td>'+
+			'<td style="text-align:center;">'+"N/A"+'</td>'+ 																							'<td style="text-align:center;">'+"N/A"+'</td>'																						);
+		return false;	
+	}
+	/*if (area.length<3) {
+		$('.error1').text("Please enter atleast 3 characters");
+		$("#advert_data").html('');
+		$("#advert_data").append(			//'<tr><td style="text-align:center;">'+"N/A"+'</td>'+							'<tr><td style="text-align:center;">'+"N/A"+'</td>'+	
+			'<td style="text-align:center;">'+"N/A"+'</td>'+
+			'<td style="text-align:center;">'+"N/A"+'</td>'+
+			'<td style="text-align:center;">'+"N/A"+'</td>'+ 																							'<td style="text-align:center;">'+"N/A"+'</td>'																						);
+		return false;	
+	}*/
+	else {	
+			$('.error').html('');
+			$('.error1').html('');
+			$("#advert_data").html('');
+			$.ajax({
+		      type : 'POST',
+		      url : '/CTI-CRM/enquiry-search-details/',
+		      data : {'keyword':text_value,'area':area},
+		      success: function (response) {  
+		      if (response.success=='true') {
+				      var a = [];
+		      		$.each(response.result_list, function (index,item) {		
+		      			a.push(item.supplier_id);
+		 					$("#advert_data").append(			  				//'<tr><td style="text-align:center;">'+'<input class="checkbox11" name="sid" type="checkbox" value='+item.supplier_id+' onclick="handleClick1(this);" />'+'</td>'+							  				'<tr><td style="text-align:center;">'+item.business_name+'</td>'+											'<td style="text-align:center;">'+item.category_name+'</td>'+																											'<td style="text-align:center;">'+item.subcategory1+'</td>'+																											'<td style="text-align:center;">'+item.subcategory2+'</td>'+																											'<td style="text-align:center;">'+item.address+'</td>'																											);
+						});
+						$("#alist").val(a);		
+		      } 
+		      else {
+		      	
+		      	$("#advert_data").append(		  			//'<tr><td style="text-align:center;">'+"N/A"+'</td>'+									'<tr><td style="text-align:center;">'+"N/A"+'</td>'+	
+					'<td style="text-align:center;">'+"N/A"+'</td>'+
+					'<td style="text-align:center;">'+"N/A"+'</td>'+
+					'<td style="text-align:center;">'+"N/A"+'</td>'+																									'<td style="text-align:center;">'+"N/A"+'</td>'																									);
+		      }                                
+		      
+			 			},
+					});
+	}	 			
+}
+
+
+
+</script>
+
+
+    </body>
+
+</html>

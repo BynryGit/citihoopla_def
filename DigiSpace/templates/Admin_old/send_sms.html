@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.3
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+{% load staticfiles %}
+    <head>
+        <meta charset="utf-8" />
+        <title>City Hoopla | Send SMS</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/uniform/css/uniform.default.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <link href="{% static 'assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/jquery-multi-select/css/multi-select.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+           <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END PAGE LEVEL PLUGINS -->
+                <!-- BEGIN PAGE LEVEL PLUGINS -->
+
+
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL STYLES -->
+        <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <link href="{% static 'assets/layouts/layout2/css/layout.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/layouts/layout2/css/themes/blue.min.css' %}" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="{% static 'assets/layouts/layout2/css/custom.min.css' %}" rel="stylesheet" type="text/css" />
+	     <link href="{% static 'assets/global/plugins/datatables/datatables.min.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css' %}" rel="stylesheet" type="text/css" />
+          
+        <!-- END THEME LAYOUT STYLES -->
+
+
+       <!-- END HEAD -->
+<style type="text/css">
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
+}
+
+#loading{
+	width: 36%;
+	height: 22px;
+	position: absolute;
+	top: 26%;
+	left: 32%;
+	margin: -28px 0px 0px -25px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 500;
+	color: #000;
+}
+
+body {
+
+    overflow-x: hidden;
+}
+
+		div.dataTables_wrapper div.dataTables_info {
+    padding-top: 8px;
+    white-space: nowrap;
+    display: none;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    display: none;
+}
+
+div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+    display: none;
+}
+
+#user_table tr td , #user_table th{
+	text-align: center;
+}
+
+.page-header.navbar .page-logo .logo-default {
+    margin: 2px 0 0;
+    width: 105px;
+    background: rgba(255, 255, 255, 0.48);
+}
+
+.page-header.navbar .page-logo {
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+@media (max-width: 767px){
+.page-header.navbar {
+     background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+}
+</style>
+
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
+    <!-- BEGIN HEADER -->
+			<div id="processing" style="display:none;">
+				<div id="loading">
+					<img  src="{% static 'assets/loading-bars.gif' %}" style="height : 100px;">
+					
+				</div>	
+  			</div>       
+        <div class="page-header navbar navbar-fixed-top">
+                 <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="/dashboard/">
+                         <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo" class="logo-default" /> </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top">
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                  <!--   <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg' %}" /> -->
+                                    <span class="username username-hide-on-mobile"> {{ username }} </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <!-- <li>
+                                        <a href="page_user_profile_1.html">
+                                            <i class="icon-user"></i> My Profile </a>
+                                    </li> -->
+                                    <li>
+                                        <a href="/log-out/">
+                                            <i class="icon-key"></i> Log Out </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END USER LOGIN DROPDOWN -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+        <!-- BEGIN HEADER & CONTENT DIVIDER -->
+        <div class="clearfix"> </div>
+        <!-- END HEADER & CONTENT DIVIDER -->
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN SIDEBAR -->
+            <div class="page-sidebar-wrapper">
+                <!-- END SIDEBAR -->
+                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                <div class="page-sidebar navbar-collapse collapse">
+                    <!-- BEGIN SIDEBAR MENU -->
+                    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                        <li class="nav-item ">
+                            <a href="/dashboard/" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>                 
+                        </li>
+                        <li class="nav-item ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-users"></i>
+                                <span class="title">Customers </span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start">
+                                    <a href="/subscriber/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Subscribers</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start">
+                                    <a href="/consumer/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Consumers</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="/user/" class="nav-link nav-toggle">
+                                        <i class="icon-user"></i>
+                                <span class="title">Admin </span>
+                                <span class="arrow"></span>
+                            </a>   
+                        </li>
+                         <li class="nav-item  ">
+                            <a href="/rate-card/" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Rate Card </span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                     <li class="nav-item  active">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Notifications</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start active">
+                                    <a href="/send_sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                           <span class="title">SMS</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/send_email/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Email</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Push</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                         <li class="nav-item ">
+                            <a  class="nav-link nav-toggle">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Reference Data </span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/reference-data/" class="nav-link ">
+                                        <i class="icon-bar-chart"></i>
+                                        <span class="title"> City </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/category/" class="nav-link ">
+                                        <i class="icon-bulb"></i>
+                                        <span class="title"> Category </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/user-role/" class="nav-link ">
+                                       <i class="icon-user"></i>
+                                        <span class="title"> User Role </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- END SIDEBAR MENU -->
+                </div>
+                <!-- END SIDEBAR -->
+            </div>
+            <!-- END SIDEBAR -->
+            
+             
+            
+             <div class="page-content-wrapper">
+                <div class="page-content">
+                <h3 class="page-title"> Send SMS
+                    </h3>
+                    <div class="page-bar">
+                        <ul class="page-breadcrumb">
+                          <li>
+                                Notifications
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                               <a href="/sms/" class="nav-link "> SMS </a>
+                                <i class="fa fa-angle-right"></i>
+                            </li>
+                            <li>
+                                Send SMS
+                            </li>
+                        </ul>
+                    </div>
+                  
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet light bordered" id="form_wizard_1">
+                                <div class="portlet-body form">
+                                    <form id="submit_form" class="form-horizontal" >
+                                        <div class="form-wizard">
+                                            <div class="form-body">
+                                                <div class="tab-content">
+                                                    <div class="alert alert-danger display-none">
+                                                        <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below. </div>
+                                                      <form role="form" id="job-post-form" > 
+                                                      <body>
+                                                      <div class="container">
+						<div class=" form-group col-md-offset-1 col-md-10">
+						<div class="row">
+							<div class="form-group">
+							<div class="col-md-12">
+								{% csrf_token %}
+								<label>Bulk Recipients</label>
+								<br>
+								<input type="checkbox" id="checkbox" >Select All   <!-- <input type="checkbox" id="checkbox1" >Select All Employers -->
+								<br>
+								<br>								
+								
+								<select data-placeholder="Please select consumer" id="consumer" name="consumer" class="form-control" required multiple>
+								    {% for consumer in final_list %}								    		
+	                      		<option value="{{consumer.consumer_contact_no}}">{{consumer.consumer_contact_no}} </option>
+	                  		{% endfor %}	
+								</select>
+								
+							</div>		
+												</div>
+												</div>
+					
+	
+						<div class="row">
+		<div class="form-group">
+		<div class="col-md-12">
+							<label for="jobtag">Message </label>
+							<label for="jobtag" style="color:red">*</label>
+							<label for="jobtag">(Max 140 characters)</label>
+							<textarea required class="form-control textarea" id="description" maxlength="140" name="description"></textarea>
+									<div class="help-block with-errors"></div>
+	                   	 <label class="error" style="color:red; display:none;"></label>							
+						</div>
+						</div>
+						</div>
+		<div class="row">
+						<div class="text-right">
+														<button class="btn btn-green" onclick="location.href = '/admin-bulk-message/';" style="background-color:#E7505A;color:white" >Cancel</button>
+							<a id="send_btn" class="btn btn-green"  style="background-color:#32C5D2;color:white" onclick="sendMessage();">Send</a>
+
+						</div>
+						</div>
+						</div>
+						</div>
+					</form>
+					<div class="spacer-2">&nbsp;</div>
+				</div>			</div>
+		</div>
+		</form>
+		</div>
+                                             </form>   
+                                            </div>
+                                            </form>
+                                            </div>
+                                            </div>
+                                            </div>
+                                             </div> 
+
+        </div>
+     
+      
+        
+        
+ <div style="overflow-y:hidden;" id="success-sms" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            	<div class="modal-header">
+ 									<img style="width: 120px; height: 30px; margin-top: -11px; margin-left: 236px;" src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo" class="logo-default">
+ 									<button type="button" class="close" data-dismiss="modal">&times;</button>
+ 					</div>  
+                <div class="modal-body">
+                <div class="text-center">SMS sent successfully</div>
+                        </div>
+                    <div style="text-align:center !important;" class="modal-footer">
+                     	<a href="/send_sms/" class="btn green" id="btn-loading-demo">OK</a>
+                     </div>
+            </div>
+
+        </div>
+    </div>
+    
+      
+        <!-- END FOOTER -->
+        <!--[if lt IE 9]>
+<script src="{% static 'assets/global/plugins/respond.min.js' %}"></script>
+<script src="{% static 'assets/global/plugins/excanvas.min.js' %}"></script> 
+<![endif]-->
+        
+        
+        
+        
+        <!-- BEGIN CORE PLUGINS -->
+        <script src="{% static 'assets/global/plugins/jquery.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/js.cookie.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/uniform/jquery.uniform.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{% static 'assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/jquery-multi-select/js/jquery.multi-select.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+                <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <script src="{% static 'assets/global/plugins/select2/js/select2.full.min.js' %}" type="text/javascript"></script>
+         <script src="{% static 'assets/pages/scripts/components-select2.min.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+        <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="{% static 'assets/global/scripts/app.min.js' %}" type="text/javascript"></script>
+        <!-- END THEME GLOBAL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="{% static 'assets/pages/scripts/components-multi-select.min.js' %}" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN PAGE LEVEL PLUGINS -->
+        <!-- END PAGE LEVEL PLUGINS -->
+          <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <!-- END PAGE LEVEL SCRIPTS -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <script src="{% static 'assets/layouts/layout2/scripts/layout.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/layout2/scripts/demo.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/layouts/global/scripts/quick-sidebar.min.js' %}" type="text/javascript"></script>
+        <!-- END THEME LAYOUT SCRIPTS -->
+       <script src="{% static 'assets/global/scripts/datatable.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/datatables/datatables.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/pages/scripts/table-datatables-editable.min.js' %}" type="text/javascript"></script>   
+
+
+
+		<script type="text/javascript">
+		
+	 function sendMessage1() {
+       alert('in send sms');
+       location.href = '/admin-send-sms/';
+   }	
+		
+	
+   $("#consumer").select2();
+   $("#checkbox").click(function(){
+    if($("#checkbox").is(':checked') ){
+        $("#consumer > option").prop("selected","selected");
+        $("#consumer").trigger("change");
+    }else{
+        $("#consumer > option").removeAttr("selected");
+         $("#consumer").trigger("change");
+     }
+});
+
+
+ 
+    
+    
+function check_text()
+{
+	description = $('#description').val();
+	if(description.length>0)
+	{
+				return true;
+	
+	}
+	else{
+				$(description).parent().children('.error').css("display", "block");
+						   $(description).parent().children('.error').text("Please enter message");
+						   return false;             
+	}
+
+}    
+   
+
+
+function validateAll(){
+	
+	consumer_contact = $('#consumer').val();
+			if(consumer_contact.length>0 )
+		   {
+			flag = 0;
+					contact_number_list = consumer_contact.splice(",");
+					 for(i = 0; i < contact_number_list.length; i++){
+			             	var namePattern = /[0-9]{10}/; 
+								contact_number = contact_number_list[i]  
+							   if(namePattern.test(contact_number)){			
+							   flag = 1
+							   }
+							   else{
+									flag = 2
+							   }   
+			            }
+			            if(flag==1)
+			            {
+			            //$(mobile).parent().children('.error').css("display", "none");
+			            return true;
+			            }
+			            else if(flag==2)
+			            {
+			 					//$(mobile).parent().children('.error').css("display", "block");
+								//$(mobile).parent().children('.error').text("Please enter valid contact numbers");
+							   return false;    
+				}
+	
+			else if (consumer_contact .length==0)			
+			{
+				$("#contact_modal").modal('show');
+			return false;			
+			}
+				
+		return false;
+	}	  
+}
+
+function sendMessage(){
+if(validateAll()){
+	if(check_text()){
+	$('#send_btn').attr('disabled','disabled');
+	var formData= new FormData();
+	formData.append("consumer",$('#consumer').val());
+
+	formData.append("description",$('#description').val());
+	
+	
+	$.ajax({
+  	  	  type	: "POST",
+		  url 	: '/admin-send-sms/',
+			data : formData,
+			cache: false,
+         processData: false,
+    		contentType: false,                       
+		   beforeSend: function() {
+        	$("#processing").css('display','block');
+        }, 
+
+	     success: function (response) {
+	     		console.log(response);
+	     		if(response.success=='true'){
+	     			$("#success-sms").modal('show');
+	     		}
+	     		else {
+	     			$("#error-modal").modal('show');
+	     		}
+	      },
+	      error : function(response){
+	         	alert("_Error");
+	   	},
+	   		complete: function() {
+           		$("#job-post-form").show();
+   			   $("#processing").css('display','none');
+   	    }               
+	  });
+}
+}
+}
+    
+</script>    
+</body>
+</html>

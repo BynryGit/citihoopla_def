@@ -48,6 +48,7 @@ admin.site.register(Places);
 admin.site.register(ConsumerProfile);
 admin.site.register(Consumer_Feedback);
 admin.site.register(AdvertLike);
+admin.site.register(AdvertReview);
 admin.site.register(AdvertFavourite);
 admin.site.register(CategoryCityMap);
 admin.site.register(AdvertSubscriptionMap);

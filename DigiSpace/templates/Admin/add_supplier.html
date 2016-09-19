@@ -423,7 +423,110 @@ div.dataTables_filter label {
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    {% include 'Admin/side-panel.html' %}
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                        <li class="nav-item ">
+                            <a href="/dashboard/" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>                 
+                        </li>
+                        <li class="nav-item active ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-users"></i>
+                                <span class="title">Customers </span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/subscriber/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Subscribers</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/consumer/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Consumers</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="/user/" class="nav-link nav-toggle">
+                                        <i class="icon-user"></i>
+                                <span class="title">Admin </span>
+                                <span class="arrow"></span>
+                            </a>   
+                        </li>
+                         <li class="nav-item  ">
+                            <a href="/rate-card/" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Rate Card </span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                     <li class="nav-item  ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Notifications</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/send_sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                           <span class="title">SMS</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/send_email/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Email</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Push</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                         <li class="nav-item ">
+                            <a  class="nav-link nav-toggle">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Reference Data </span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/reference-data/" class="nav-link ">
+                                        <i class="icon-bar-chart"></i>
+                                        <span class="title"> City </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/category/" class="nav-link ">
+                                        <i class="icon-bulb"></i>
+                                        <span class="title"> Category </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/user-role/" class="nav-link ">
+                                       <i class="icon-user"></i>
+                                        <span class="title"> User Role </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>
                 <!-- END SIDEBAR -->
@@ -623,20 +726,39 @@ div.dataTables_filter label {
                                                         
                                                         <div class="form-group">
                                                         	 <div class="row">
- 																				 <div class="col-lg-4">
+                                                        	       <div class="col-lg-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label ">Country
+
+                                                                            <span class="required"> * </span>
+                                                                        </label>
+                                                                        <select id="country" name="country"
+                                                                                class="form-control">
+                                                                            <option value="">Select Country</option>
+                                                                            {% for countr in country_list %}
+                                                                            <option value="{{ countr.country_id }}">
+                                                                                {{countr.country_name }}
+                                                                            </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error" id="state_error"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+ 																				 <div class="col-lg-3">
  																				 		<label class="control-label">State
 	                                                                <span class="required"> * </span>
 	                                                            </label>
 	                                                                <select id="state" name="state" class="form-control" required> 
 																						 	<option value="">Select State</option>                        
-															                        {% for state in state_list %}	
-															                        <option value="{{ state.state_id }}"> {{ state.state_name }}</option>
-															                        {% endfor %}
+															                        {% for state in state_list %}
+                                                                        <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+                                                                        {% endfor %}
 															                     </select>
 															               <label class="error" style="color:red; display:none;"></label>                                                          	                                                        		
  																				 </div>
  																				 
- 																				 <div class="col-lg-4">
+ 																				 <div class="col-lg-3">
  																				 		<label class="control-label">City
 	                                                                <span class="required"> * </span>
 	                                                            </label>
@@ -646,7 +768,7 @@ div.dataTables_filter label {
 															                     <label class="error" style="color:red; display:none;"></label>
  																				 </div>
  																				 
- 																				 <div class="col-lg-4">
+ 																				 <div class="col-lg-3">
  																				 		<label class="control-label">Pincode
 	                                                                <span class="required"> * </span>
 	                                                            </label>
@@ -1578,9 +1700,6 @@ div.dataTables_filter label {
         <!-- END THEME LAYOUT SCRIPTS -->
 <script type="text/javascript">
 
-$("#customer_nav").addClass("active");
-$("#supplier_nav").addClass("active");
-
 function validateIntKeyPress(el, evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -1593,11 +1712,16 @@ $(document).ready(function(){
   $("#state").select2({
    
 });
+  $("#country").select2({
+   
+});
  $(".days").select2({  
  width: '100%' 
 });
  
- 
+ 			    $("#country").change(function () {
+    getState();
+});
 $("#state").change(function () {
 	getCity();
 });
@@ -1823,61 +1947,83 @@ $(this).parent('div').next('div').next('div').find('input').val(date);
 });
 
 
-function getPincode(){
-			$('#pincode').select2('val','');
-        city_id = $('#city :selected').val();
-        if (city_id) {
-            $.ajax({
-                type: 'GET',
-                url: '/get-pincode/',
-                data: {'city_id': city_id},
-                 success: function (response) {
-                    $('#pincode').html('');
-                    $.each(response.pincode_list, function (index, item) {
-                        $('#pincode').append(item);
-                    });
-                    $('#pincode').val("");
-                },
-                error: function (response) {
-                    alert("Error!");
-                },
+ function getPincode(){
+			        city_id = $('#city :selected').val();
+			        if (city_id) {
+			            $.ajax({
+			                type: 'GET',
+			                url: '/get-pincode-place/',
+			                data: {'city_id': city_id},
+			                 success: function (response) {
+			                    $('#pincode').html('');
+			                    $.each(response.pincode_list, function (index, item) {
+			                        $('#pincode').append(item);
+			                    });
+			                    $('#pincode').val("");
+			                },
+			                error: function (response) {
+			                    alert("Error!");
+			                },
 
-            });
-        }
-        else {
-            $('#city').val("");
-        }
+			            });
+			        }
+			        else {
+			            $('#city').val("");
+			        }
+			    }
+
+
+				function getCity() {
+				        state_id = $('#state :selected').val();
+				        if (state_id) {
+				            $.ajax({
+				                type: 'GET',
+				                url: '/get-city-place/',
+				                data: {'state_id': state_id},
+				                success: function (response) {
+				                		//alert('success');
+				                    $('#city').html('');
+				                    $.each(response.city_list, function (index, item) {
+				                        $('#city').append(item);
+				                    });
+				                    $('#city').val("");
+				                },
+				                error: function (response) {
+				                    alert("Error!");
+				                },
+
+				            });
+				        }
+				        else {
+				            $('#city').val("");
+				        }
+				    }
+    
+    function getState() {
+     country_id = $('#country :selected').val();
+    if (country_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/get-state/',
+            data: {'country_id': country_id},
+            success: function (response) {
+                    //alert('success');
+                $('#state').html('');
+                $.each(response.state_list, function (index, item) {
+                    $('#state').append(item);
+                });
+                $('#state').val("");
+            },
+            error: function (response) {
+                alert("Error!");
+            },
+
+        });
     }
-
-
-function getCity() {
-			$('#city').select2('val','');
-			$('#pincode').select2('val','');
-        state_id = $('#state :selected').val();
-        if (state_id) {
-            $.ajax({
-                type: 'GET',
-                url: '/get-city/',
-                data: {'state_id': state_id},
-                success: function (response) {
-                		//alert('success');
-                    $('#city').html('');
-                    $.each(response.city_list, function (index, item) {
-                        $('#city').append(item);
-                    });
-                    $('#city').val("");
-                },
-
-                error: function (response) {
-                    alert("Error!");
-                },
-
-            });
-        }
-        else {
-            $('#city').val("");
-        }
+    else {
+        $('#city').val("");
     }
+}
 
 function checkBusinessName(business_name){
 	businessName = $(business_name).val()   
@@ -1994,6 +2140,22 @@ function checkaddress(address1){
    }
 }
 
+		function checkcountry(country){
+
+  if($(country).val()!='' && $(country).val()!= null)
+   {
+
+   	
+    $(country).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+
+    $(country).parent().children('.error').css("display", "block");
+    $(country).parent().children('.error').text("Please select Country");
+   return false; 
+   }
+}
+
 function checkState(state){
 
 
@@ -2098,7 +2260,7 @@ function checkUserEmail(user_email){
 
 function validateData(){
 
-	if(checkBusinessName("#business_name")&checkNumber("#phone_no")&checkSecNumber("#sec_phone_no")&checkEmail("#pri_email")&checkSecEmail("#sec_email")&checkLogo("#logo")&checkaddress("#address1")&checkState("#state")&checkCity("#city")&checkPincode("#pincode")&checkBusiness('#business')&checkUserName('#user_name')&checkUserEmail('#user_email')&checkUserContactNo('#user_contact_no')){
+	if(checkBusinessName("#business_name")&checkNumber("#phone_no")&checkSecNumber("#sec_phone_no")&checkEmail("#pri_email")&checkSecEmail("#sec_email")&checkLogo("#logo")&checkaddress("#address1")&checkcountry("#country")  &checkState("#state")&checkCity("#city")&checkPincode("#pincode")&checkBusiness('#business')&checkUserName('#user_name')&checkUserEmail('#user_email')&checkUserContactNo('#user_contact_no')){
 		return true;	
 	}
 	return false;
@@ -2121,6 +2283,7 @@ $("#save-quit").click(function(event)  {
 		formData.append("sec_email",$('#sec_email').val());
 		formData.append("address1",$('#address1').val());
 		formData.append("address2",$('#address2').val());
+		formData.append("country",$('#country').val());
 		formData.append("state",$('#state').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());
@@ -2191,6 +2354,7 @@ if(validateData()){
 		formData.append("sec_email",$('#sec_email').val());
 		formData.append("address1",$('#address1').val());
 		formData.append("address2",$('#address2').val());
+		formData.append("country",$('#country').val());
 		formData.append("state",$('#state').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());

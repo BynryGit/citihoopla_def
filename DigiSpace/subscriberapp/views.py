@@ -16,7 +16,7 @@ from smtplib import SMTPException
 from django.shortcuts import *
 from digispaceapp.models import UserProfile
 import dateutil.relativedelta
-# import Admin
+#import Admin
 from captcha_form import CaptchaForm
 
 # importing mysqldb and system packages
@@ -27,7 +27,7 @@ from django.db import transaction
 import pdb
 import csv
 import json
-# importing exceptions
+#importing exceptions
 from django.db import IntegrityError
 import operator
 from django.db.models import Q
@@ -42,14 +42,13 @@ from datetime import date
 import calendar
 import urllib2
 
+
 import string
 import random
 
-# SERVER_URL = "http://52.40.205.128"
-SERVER_URL = "http://192.168.0.151:9090"
-
-
-# SERVER_URL = "http://127.0.0.1:8000"
+SERVER_URL = "http://52.40.205.128"
+#SERVER_URL = "http://192.168.0.151:9090"
+#SERVER_URL = "http://127.0.0.1:8000"
 
 def signing_out(request):
     logout(request)
@@ -57,7 +56,6 @@ def signing_out(request):
     return render_to_response('Subscriber/user_login.html', dict(
         form=form, message_logout='You have successfully logged out.'
     ), context_instance=RequestContext(request))
-
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_advert(request):
@@ -116,14 +114,15 @@ def add_advert_form(request):
                 'state_list': get_states(request)}
         return render(request, 'Subscriber/add_advert_form.html', data)
 
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def advert_bookings(request):
     if not request.user.is_authenticated():
         return redirect('backoffice')
     else:
         advert_id = request.GET.get('advert_id')
-        advert_obj = Advert.objects.get(advert_id=advert_id)
-        coupon_user = CouponCode.objects.filter(advert_id=advert_id)
+        advert_obj = Advert.objects.get(advert_id = advert_id)
+        coupon_user = CouponCode.objects.filter(advert_id = advert_id)
         coupon_list = []
         for coupons in coupon_user:
             advert_obj = Advert.objects.get(advert_id=str(coupons.advert_id))
@@ -149,18 +148,17 @@ def advert_bookings(request):
                 'user_name': coupons.user_id.consumer_full_name,
                 'user_area': coupons.user_id.consumer_area,
                 'user_email_id': coupons.user_id.consumer_email_id,
-                'coupon_expiry_date': end_date.strftime("%d/%m/%Y"),
-                'days_remaining': int(date_gap.days),
-                'status': status
+                'coupon_expiry_date':end_date.strftime("%d/%m/%Y"),
+                'days_remaining':int(date_gap.days),
+                'status':status
             }
             coupon_list.append(coupon_obj)
-        data = {'coupon_list': coupon_list, 'advert_name': advert_obj.advert_name, 'booking_count': len(coupon_list),
+        data = {'coupon_list':coupon_list,'advert_name':advert_obj.advert_name,'booking_count':len(coupon_list),
                 'username': request.session['login_user']}
         return render(request, 'Subscriber/advert_bookings.html', data)
 
-
 def get_country(request):
-    ##    pdb.set_trace()
+##    pdb.set_trace()
     country_list = []
     try:
         country_obj = Country.objects.filter(country_status='1')
@@ -172,10 +170,9 @@ def get_country(request):
         print 'Exception ', e
     return country_list
 
-
 # TO GET THE CATEGOTRY
 def get_category(request):
-    ##    pdb.set_trace()
+##    pdb.set_trace()
     cat_list = []
     try:
         category = Category.objects.filter(category_status='1').order_by('category_name')
@@ -187,10 +184,9 @@ def get_category(request):
         print 'Exception ', e
     return cat_list
 
-
 # TO GET THE CATEGOTRY
 def get_phone_category(request):
-    ##    pdb.set_trace()
+##    pdb.set_trace()
     phone_cat_list = []
     try:
         ph_category = PhoneCategory.objects.filter(phone_category_status='1')
@@ -202,49 +198,45 @@ def get_phone_category(request):
         print 'Exception ', e
     return phone_cat_list
 
-
 # TO GET THE STATE
 def get_states(request):
-    ##    pdb.set_trace()
+##    pdb.set_trace()
     state_list = []
     try:
         state = State.objects.filter(state_status='1')
         for sta in state:
             options_data = {
-                'state_id': str(sta.state_id),
-                'state_name': str(sta.state_name)
+            'state_id':str(sta.state_id),
+            'state_name':str(sta.state_name)
 
             }
             state_list.append(options_data)
-        return state_list
+        return  state_list
     except Exception, e:
         print 'Exception ', e
-        data = {'state_list': 'No states available'}
+        data = {'state_list':'No states available' }
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 @csrf_exempt
 def get_basic_subscription_amount(request):
     print "--------------------------------"
     duration = request.POST.get('duration')
-    service_obj = ServiceRateCard.objects.get(duration=duration)
+    service_obj = ServiceRateCard.objects.get(duration = duration)
     data = {'success': 'true', 'amount': str(service_obj.cost)}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 @csrf_exempt
 def get_premium_subscription_amount(request):
-    print "--------------------------------", request.POST
+    print "--------------------------------",request.POST
     duration = request.POST.get('duration')
     service_name = request.POST.get('service_name')
-    rate_card_obj = AdvertRateCard.objects.get(advert_service_name=service_name, duration=duration)
+    rate_card_obj = AdvertRateCard.objects.get(advert_service_name=service_name,duration = duration)
     data = {'success': 'true', 'amount': str(rate_card_obj.cost)}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 @csrf_exempt
 def save_subscription_plan(request):
-    print "-----------------save---------------", request.POST
+    print "-----------------save---------------",request.POST
     try:
         supplier_id = request.session['supplier_id']
         category_id = request.POST.get('sub_category')
@@ -258,24 +250,24 @@ def save_subscription_plan(request):
         premium_start_date_list = request.POST.getlist('premium_start_date')
         premium_end_date_list = request.POST.getlist('premium_end_date')
         premium_end_date_list = filter(None, premium_end_date_list)
-        # print supplier_id,category_id,duration,start_date,end_date
+        #print supplier_id,category_id,duration,start_date,end_date
 
-        zip_premium = zip(premium_service_list, premium_service_duration_list, premium_start_date_list,
-                          premium_end_date_list)
+        zip_premium = zip(premium_service_list,premium_service_duration_list,premium_start_date_list,premium_end_date_list)
 
         if premium_service_list:
-            check_premium_service = check_date(zip_premium, category_id)
+            check_premium_service = check_date(zip_premium,category_id)
             if check_premium_service['success'] == 'false':
                 data = {'success': 'false', 'message': check_premium_service['msg']}
                 return HttpResponse(json.dumps(data), content_type='application/json')
+
 
         chars = string.digits
         pwdSize = 8
         password = ''.join(random.choice(chars) for _ in range(pwdSize))
 
-        supplier_obj = Supplier.objects.get(supplier_id=supplier_id)
-        category_obj = Category.objects.get(category_id=category_id)
-        service_ratecard_obj = ServiceRateCard.objects.get(duration=duration, service_name='Basic Subscription Plan')
+        supplier_obj = Supplier.objects.get(supplier_id = supplier_id)
+        category_obj = Category.objects.get(category_id = category_id)
+        service_ratecard_obj = ServiceRateCard.objects.get(duration = duration, service_name = 'Basic Subscription Plan')
 
         business_obj = Business(
             category=category_obj,
@@ -286,40 +278,38 @@ def save_subscription_plan(request):
             supplier=supplier_obj,
             transaction_code="TID" + str(password),
             is_active=0,
-            business_created_date=datetime.now(),
-            business_created_by=supplier_obj.contact_email
+            business_created_date = datetime.now(),
+            business_created_by = supplier_obj.contact_email
         )
         business_obj.save()
 
         transaction_code = "TID" + str(password)
         if premium_service_list:
-            for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
+            for premium_service, premium_service_duration, premium_start_date, premium_end_date  in zip_premium:
                 premium_service_obj = PremiumService(
-                    premium_service_name=premium_service,
-                    no_of_days=premium_service_duration,
-                    category_id=category_obj,
+                    premium_service_name = premium_service,
+                    no_of_days = premium_service_duration,
+                    category_id = category_obj,
                     start_date=premium_start_date,
                     end_date=premium_end_date,
-                    business_id=business_obj,
-                    premium_service_status="1",
-                    premium_service_created_date=datetime.now(),
-                    premium_service_created_by=supplier_obj.contact_email
+                    business_id = business_obj,
+                    premium_service_status = "1",
+                    premium_service_created_date = datetime.now(),
+                    premium_service_created_by = supplier_obj.contact_email
                 )
                 premium_service_obj.save()
-        data = {'success': 'true',
-                'message': 'The subscription is created successfully with transaction ID :' + transaction_code + '. Please proceed with the payment .',
-                'business_id': str(business_obj)
+        data = {'success': 'true', 'message': 'The subscription is created successfully with transaction ID :'+transaction_code+'. Please proceed with the payment .',
+                'business_id':str(business_obj)
                 }
     except Exception as e:
         print e
         data = {'success': 'false', 'message': e}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
-def check_date(zip_premium, category_id):
+def check_date(zip_premium,category_id):
     flag_1, flag_2, flag_3, flag_4, flag_5 = 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'
     service_list = ''
-    for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
+    for premium_service, premium_service_duration, premium_start_date, premium_end_date  in zip_premium:
         if premium_service == 'No.1 Listing':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
@@ -336,8 +326,8 @@ def check_date(zip_premium, category_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                #Q(start_date__range=(premium_start_date, premium_end_date)) |
+                #Q(end_date__range=(premium_start_date, premium_end_date)) |
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).count()
@@ -389,11 +379,10 @@ def check_date(zip_premium, category_id):
         service_list = service_list + 'Top Advert'
     if service_list != '':
         msg = service_list + ' already exist for selected date range'
-        data = {'success': 'false', 'msg': msg}
+        data = {'success': 'false','msg':msg}
     else:
         data = {'success': 'true', 'msg': ''}
     return data
-
 
 @csrf_exempt
 def save_payment_details(request):
@@ -416,16 +405,16 @@ def save_payment_details(request):
         tax_type = request.POST.get('tax_type')
         payment_code = "PMID" + str(password)
 
-        business_obj = Business.objects.get(business_id=business_id)
-        tax_obj = Tax.objects.get(tax_rate=tax_type)
+        business_obj = Business.objects.get(business_id = business_id)
+        tax_obj = Tax.objects.get(tax_rate = tax_type)
         payment_obj = PaymentDetail(
-            payment_code=payment_code,
-            payment_mode=payment_mode,
-            payable_amount=total_payable_amount,
-            total_amount=payment_amount,
-            note=payment_note,
-            tax_type=tax_obj,
-            business_id=business_obj
+            payment_code = payment_code,
+            payment_mode = payment_mode,
+            payable_amount = total_payable_amount,
+            total_amount = payment_amount,
+            note = payment_note,
+            tax_type = tax_obj,
+            business_id = business_obj
         )
         payment_obj.save()
 
@@ -438,30 +427,28 @@ def save_payment_details(request):
 
         payment_obj.save()
 
-        data = {'success': 'true', 'message': 'Payment done successfully with Payment ID - ' + payment_code}
+        data = {'success': 'true', 'message': 'Payment done successfully with Payment ID - '+payment_code}
     except Exception as e:
         print e
-        data = {'success': 'true', 'message': e}
+        data =  {'success': 'true', 'message': e}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 def get_state(request):
-    country_id = request.GET.get('country_id')
+    country_id=request.GET.get('country_id')
     state_list = []
     try:
-        state = State.objects.filter(state_status='1', country_id=country_id)
+        state = State.objects.filter(state_status='1',country_id=country_id)
         currency = Currency.objects.get(country_id=country_id)
         for sta in state:
             options_data = '<option value=' + str(
-                sta.state_id) + '>' + sta.state_name + '</option>'
+                   sta.state_id) + '>' + sta.state_name + '</option>'
             state_list.append(options_data)
             print state_list
-        data = {'state_list': state_list, 'currency': currency.currency}
+        data = {'state_list':state_list,'currency':currency.currency }
     except Exception, e:
         print 'Exception ', e
-        data = {'state_list': 'No states available'}
+        data = {'state_list':'No states available' }
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 @csrf_exempt
 def save_advert(request):
@@ -482,8 +469,7 @@ def save_advert(request):
                 short_description=request.POST.get('short_discription'),
                 product_description=request.POST.get('product_discription'),
                 currency=request.POST.get('currency'),
-                country_id=Country.objects.get(country_id=request.POST.get('country')) if request.POST.get(
-                    'country') else None,
+                country_id = Country.objects.get(country_id=request.POST.get('country')) if request.POST.get('country') else None,
                 # product_price=request.POST.get('product_price'),
                 discount_description=request.POST.get('discount_discription'),
                 email_primary=request.POST.get('email_primary'),
@@ -626,15 +612,14 @@ def save_advert(request):
 
                 zipped_hospital = zip(near_hosp, near_hospd)
                 save_hospital(zipped_hospital, advert_obj)
-            # advert_add_sms(advert_obj)
-            # advert_add_mail(advert_obj)
+            #advert_add_sms(advert_obj)
+            #advert_add_mail(advert_obj)
             data = {'success': 'true'}
 
     except Exception, e:
         print 'Exception :', e
         data = {'data': 'none'}
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 def map_subscription(subscription_id, advert_obj):
     business_obj = Business.objects.get(business_id=str(subscription_id))
@@ -645,7 +630,6 @@ def map_subscription(subscription_id, advert_obj):
         advert_id=advert_obj
     )
     sub_obj.save()
-
 
 def save_attachments(attachment_list, advert_id):
     try:
@@ -662,7 +646,6 @@ def save_attachments(attachment_list, advert_id):
         print 'Exception ', e
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 def save_video(video_list, advert_id):
     try:
         video_list = video_list.split(',')
@@ -677,7 +660,6 @@ def save_video(video_list, advert_id):
     except Exception, e:
         print 'Exception ', e
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 def save_phone_number(zipped, advert_id):
     ##    pdb.set_trace()
@@ -699,7 +681,6 @@ def save_phone_number(zipped, advert_id):
         data = {'success': 'false'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 def save_product(zipped_product, advert_id):
     ##    pdb.set_trace()
     print "IN SAVE PRODUCT"
@@ -719,7 +700,6 @@ def save_product(zipped_product, advert_id):
         data = {'success': 'false'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 def save_working_hours(zipped_wk, advert_id):
     ##    pdb.set_trace()
     print "IN SAVE WORKING HOURS"
@@ -738,7 +718,6 @@ def save_working_hours(zipped_wk, advert_id):
     except Exception, e:
         print 'Exception ', e
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 def save_amenity(amenity_list, advert_id):
     ##    pdb.set_trace()
@@ -866,8 +845,6 @@ def save_hospital(zipped_hospital, advert_id):
     except Exception, e:
         print 'Exception ', e
     return HttpResponse(json.dumps(data), content_type='application/json')
-
-#edit_subscription
 
 def edit_subscription(request):
     if not request.user.is_authenticated():
@@ -1112,10 +1089,10 @@ def edit_advert(request):
             }
             pass
 
-        advert_obj = Advert.objects.get(advert_id=advert_id)
+        advert_obj = Advert.objects.get(advert_id = advert_id)
 
         if advert_obj.category_level_1:
-            category_l1_list = CategoryLevel1.objects.filter(parent_category_id=str(advert_obj.category_id.category_id))
+            category_l1_list = CategoryLevel1.objects.filter(parent_category_id = str(advert_obj.category_id.category_id))
         else:
             category_l1_list = []
 
@@ -1143,23 +1120,24 @@ def edit_advert(request):
         else:
             category_l5_list = []
 
+
         advert_data = {
-            'category_id': advert_obj.category_id.category_id,
-            'category_level_1': advert_obj.category_level_1.category_id if advert_obj.category_level_1 else '',
-            'category_level_2': advert_obj.category_level_2.category_id if advert_obj.category_level_2 else '',
-            'category_level_3': advert_obj.category_level_3.category_id if advert_obj.category_level_3 else '',
-            'category_level_4': advert_obj.category_level_4.category_id if advert_obj.category_level_4 else '',
-            'category_level_5': advert_obj.category_level_5.category_id if advert_obj.category_level_5 else '',
-            'advert_name': advert_obj.advert_name,
-            'contact_name': advert_obj.contact_name,
-            'contact_no': advert_obj.contact_no,
-            'latitude': advert_obj.latitude,
-            'longitude': advert_obj.longitude,
-            'short_description': advert_obj.short_description,
-            'product_description': advert_obj.product_description,
-            'discount_description': advert_obj.discount_description,
-            'currency': advert_obj.currency,
-            'display_image': SERVER_URL + advert_obj.display_image.url if advert_obj.display_image else '',
+            'category_id':advert_obj.category_id.category_id,
+            'category_level_1':advert_obj.category_level_1.category_id if advert_obj.category_level_1 else '',
+            'category_level_2':advert_obj.category_level_2.category_id if advert_obj.category_level_2 else '',
+            'category_level_3':advert_obj.category_level_3.category_id if advert_obj.category_level_3 else '',
+            'category_level_4':advert_obj.category_level_4.category_id if advert_obj.category_level_4 else '',
+            'category_level_5':advert_obj.category_level_5.category_id if advert_obj.category_level_5 else '',
+            'advert_name':advert_obj.advert_name,
+            'contact_name':advert_obj.contact_name,
+            'contact_no':advert_obj.contact_no,
+            'latitude':advert_obj.latitude,
+            'longitude':advert_obj.longitude,
+            'short_description':advert_obj.short_description,
+            'product_description':advert_obj.product_description,
+            'discount_description':advert_obj.discount_description,
+            'currency':advert_obj.currency,
+            'display_image':SERVER_URL + advert_obj.display_image.url if advert_obj.display_image else '',
             'address_line_1': advert_obj.address_line_1,
             'address_line_2': advert_obj.address_line_2,
             'country_id': advert_obj.country_id.country_id,
@@ -1186,28 +1164,28 @@ def edit_advert(request):
             'distance_frm_airport': advert_obj.distance_frm_railway_airport,
         }
 
-        product_obj = Product.objects.filter(advert_id=advert_id)
+        product_obj = Product.objects.filter(advert_id = advert_id)
         product_list = []
         if product_obj:
             for products in product_obj:
                 product_data = {
-                    "product_name": products.product_name,
-                    "product_price": products.product_price
+                    "product_name":products.product_name,
+                    "product_price":products.product_price
                 }
                 product_list.append(product_data)
 
         time_list = []
-        time_obj = WorkingHours.objects.filter(advert_id=advert_id)
+        time_obj = WorkingHours.objects.filter(advert_id = advert_id)
         if time_obj:
             for time in time_obj:
                 time_data = {
-                    "day": time.day,
-                    "start_time": time.start_time,
-                    "end_time": time.end_time,
+                    "day":time.day,
+                    "start_time":time.start_time,
+                    "end_time":time.end_time,
                 }
                 time_list.append(time_data)
 
-        amenities_obj = Amenities.objects.filter(advert_id=advert_id)
+        amenities_obj = Amenities.objects.filter(advert_id = advert_id)
         amenities_list = []
         if amenities_obj:
             for amenities in amenities_obj:
@@ -1216,7 +1194,7 @@ def edit_advert(request):
                 }
                 amenities_list.append(amenities.amenity)
 
-        add_amenities_obj = AdditionalAmenities.objects.filter(advert_id=advert_id)
+        add_amenities_obj = AdditionalAmenities.objects.filter(advert_id = advert_id)
         add_amenities_list = []
         if amenities_obj:
             for add_amenities in add_amenities_obj:
@@ -1225,7 +1203,7 @@ def edit_advert(request):
                 }
                 add_amenities_list.append(add_amenities_data)
 
-        nr_attr_obj = NearByAttraction.objects.filter(advert_id=advert_id)
+        nr_attr_obj = NearByAttraction.objects.filter(advert_id = advert_id)
         nr_attr_list = []
         if nr_attr_obj:
             for nr_attr in nr_attr_obj:
@@ -1234,7 +1212,7 @@ def edit_advert(request):
                 }
                 nr_attr_list.append(nr_attr_data)
 
-        nr_shop_obj = NearestShopping.objects.filter(advert_id=advert_id)
+        nr_shop_obj = NearestShopping.objects.filter(advert_id = advert_id)
         nr_shop_list = []
         if nr_shop_obj:
             for nr_shop in nr_shop_obj:
@@ -1244,7 +1222,7 @@ def edit_advert(request):
                 }
                 nr_shop_list.append(nr_shop_data)
 
-        nr_shcl_obj = NearestSchool.objects.filter(advert_id=advert_id)
+        nr_shcl_obj = NearestSchool.objects.filter(advert_id = advert_id)
         nr_shcl_list = []
         if nr_shcl_obj:
             for schools in nr_shcl_obj:
@@ -1254,7 +1232,7 @@ def edit_advert(request):
                 }
                 nr_shcl_list.append(schools_data)
 
-        nr_hosp_obj = NearestHospital.objects.filter(advert_id=advert_id)
+        nr_hosp_obj = NearestHospital.objects.filter(advert_id = advert_id)
         nr_hosp_list = []
         if nr_hosp_obj:
             for hospitals in nr_hosp_obj:
@@ -1268,19 +1246,16 @@ def edit_advert(request):
                 'username': request.session['login_user'], 'category_list': get_category(request),
                 'country_list': get_country(request), 'phone_category': get_phone_category(request),
                 'state_list': get_states(request), 'business_data': business_data,
-                'premium_service_list': premium_service_list, 'product_list': product_list, 'time_list': time_list,
+                'premium_service_list': premium_service_list,'product_list':product_list,'time_list':time_list,
                 'total_amount': float(total_amount), 'basic_amount': basic_amount, 'amount_1': amount_1,
-                'amount_2': amount_2, 'advert_data': advert_data, 'advert_id': advert_id,
+                'amount_2': amount_2,'advert_data':advert_data, 'advert_id':advert_id,
                 'amount_3': amount_3, 'amount_4': amount_4, 'amount_5': amount_5, 'payment_details': payment_details,
-                'amenities_list': amenities_list, 'add_amenities_list': add_amenities_list,
-                'nr_attr_list': nr_attr_list,
-                'nr_shop_list': nr_shop_list, 'nr_shcl_list': nr_shcl_list, 'nr_hosp_list': nr_hosp_list,
-                'category_l1_list': category_l1_list, 'category_l2_list': category_l2_list,
-                'category_l3_list': category_l3_list,
-                'category_l4_list': category_l4_list, 'category_l5_list': category_l5_list
+                'amenities_list':amenities_list, 'add_amenities_list':add_amenities_list,'nr_attr_list':nr_attr_list,
+                'nr_shop_list':nr_shop_list,'nr_shcl_list':nr_shcl_list,'nr_hosp_list':nr_hosp_list,
+                'category_l1_list':category_l1_list,'category_l2_list':category_l2_list,'category_l3_list':category_l3_list,
+                'category_l4_list':category_l4_list,'category_l5_list':category_l5_list
                 }
         return render(request, 'Subscriber/edit_advert.html', data)
-
 
 def renew_subscription(request):
     if not request.user.is_authenticated():
@@ -1297,6 +1272,7 @@ def renew_subscription(request):
             'business_id': str(business_obj.business_id),
             'category_id': str(business_obj.category.category_id),
         }
+
 
         service_list = ServiceRateCard.objects.filter(service_rate_card_status='1').values('service_name').distinct()
         advert_service_list, item_ids = [], []
@@ -1343,10 +1319,9 @@ def renew_subscription(request):
                 }
         return render(request, 'Subscriber/renew_subscription.html', data)
 
-
 @csrf_exempt
 def update_subscription_plan(request):
-    print "-----------------save---------------", request.POST
+    print "-----------------save---------------",request.POST
     try:
         supplier_id = request.session['supplier_id']
         category_id = request.POST.get('sub_category')
@@ -1362,25 +1337,24 @@ def update_subscription_plan(request):
         premium_end_date_list = request.POST.getlist('premium_end_date')
 
         premium_end_date_list = filter(None, premium_end_date_list)
-        zip_premium = zip(premium_service_list, premium_service_duration_list, premium_start_date_list,
-                          premium_end_date_list)
+        zip_premium = zip(premium_service_list,premium_service_duration_list,premium_start_date_list,premium_end_date_list)
         if premium_service_list:
-            check_premium_service = update_check_date(zip_premium, category_id, business_id)
+            check_premium_service = update_check_date(zip_premium,category_id,business_id)
             if check_premium_service['success'] == 'false':
                 data = {'success': 'false', 'message': check_premium_service['msg']}
                 return HttpResponse(json.dumps(data), content_type='application/json')
 
-        supplier_obj = Supplier.objects.get(supplier_id=supplier_id)
-        category_obj = Category.objects.get(category_id=category_id)
-        service_ratecard_obj = ServiceRateCard.objects.get(duration=duration, service_name='Basic Subscription Plan')
+        supplier_obj = Supplier.objects.get(supplier_id = supplier_id)
+        category_obj = Category.objects.get(category_id = category_id)
+        service_ratecard_obj = ServiceRateCard.objects.get(duration = duration, service_name = 'Basic Subscription Plan')
 
-        business_obj = Business.objects.get(business_id=business_id)
-        business_obj.category = category_obj
-        business_obj.service_rate_card_id = service_ratecard_obj
-        business_obj.duration = duration
-        business_obj.start_date = start_date
-        business_obj.end_date = end_date
-        business_obj.supplier = supplier_obj
+        business_obj = Business.objects.get(business_id = business_id)
+        business_obj.category=category_obj
+        business_obj.service_rate_card_id=service_ratecard_obj
+        business_obj.duration=duration
+        business_obj.start_date=start_date
+        business_obj.end_date=end_date
+        business_obj.supplier=supplier_obj
         business_obj.business_created_date = datetime.now()
         business_obj.business_created_by = supplier_obj.contact_email
 
@@ -1388,37 +1362,36 @@ def update_subscription_plan(request):
         #
         transaction_code = business_obj.transaction_code
         if premium_service_list:
-            PremiumService.objects.filter(business_id=business_id).delete()
-            for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
-                print "premium_end_date", premium_service, premium_service_duration, premium_start_date, premium_end_date
+            PremiumService.objects.filter(business_id = business_id).delete()
+            for premium_service, premium_service_duration, premium_start_date, premium_end_date  in zip_premium:
+                print "premium_end_date",premium_service,premium_service_duration,premium_start_date,premium_end_date
                 premium_service_obj = PremiumService(
-                    premium_service_name=premium_service,
-                    no_of_days=premium_service_duration,
-                    category_id=category_obj,
+                    premium_service_name = premium_service,
+                    no_of_days = premium_service_duration,
+                    category_id = category_obj,
                     start_date=premium_start_date,
                     end_date=premium_end_date,
-                    business_id=business_obj,
-                    premium_service_status="1",
-                    premium_service_created_date=datetime.now(),
-                    premium_service_created_by=supplier_obj.contact_email
+                    business_id = business_obj,
+                    premium_service_status = "1",
+                    premium_service_created_date = datetime.now(),
+                    premium_service_created_by = supplier_obj.contact_email
                 )
                 premium_service_obj.save()
         else:
             PremiumService.objects.filter(business_id=business_id).delete()
         data = {'success': 'true',
-                'message': 'The subscription is created successfully with transaction ID :' + transaction_code + '. Please proceed with the payment .',
-                'business_id': str(business_obj)
+                'message': 'The subscription is updated successfully with transaction ID :'+transaction_code+'. Please proceed with the payment .',
+                'business_id':str(business_obj)
                 }
     except Exception as e:
         print e
         data = {'success': 'false', 'message': e}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
-def update_check_date(zip_premium, category_id, business_id):
+def update_check_date(zip_premium,category_id,business_id):
     flag_1, flag_2, flag_3, flag_4, flag_5 = 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'
     service_list = ''
-    for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
+    for premium_service, premium_service_duration, premium_start_date, premium_end_date  in zip_premium:
         if premium_service == 'No.1 Listing':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
@@ -1427,18 +1400,18 @@ def update_check_date(zip_premium, category_id, business_id):
                 # Q(end_date__range=(premium_start_date, premium_end_date)) |
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
-            ).exclude(business_id=business_id).count()
+            ).exclude(business_id = business_id).count()
             if premium_service_obj >= 1:
                 flag_1 = 'No'
         if premium_service == 'No.2 Listing':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                #Q(start_date__range=(premium_start_date, premium_end_date)) |
+                #Q(end_date__range=(premium_start_date, premium_end_date)) |
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
-            ).exclude(business_id=business_id).count()
+            ).exclude(business_id = business_id).count()
 
             print premium_service_obj
 
@@ -1452,7 +1425,7 @@ def update_check_date(zip_premium, category_id, business_id):
                 # Q(end_date__range=(premium_start_date, premium_end_date)) |
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
-            ).exclude(business_id=business_id).count()
+            ).exclude(business_id = business_id).count()
             if premium_service_obj >= 1:
                 flag_3 = 'No'
         if premium_service == 'Advert Slider':
@@ -1462,7 +1435,7 @@ def update_check_date(zip_premium, category_id, business_id):
                 # Q(end_date__range=(premium_start_date, premium_end_date)) |
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
-            ).exclude(business_id=business_id).count()
+            ).exclude(business_id = business_id).count()
             if premium_service_obj > 10:
                 flag_4 = 'No'
         if premium_service == 'Top Advert':
@@ -1472,7 +1445,7 @@ def update_check_date(zip_premium, category_id, business_id):
                 # Q(end_date__range=(premium_start_date, premium_end_date)) |
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
-            ).exclude(business_id=business_id).count()
+            ).exclude(business_id = business_id).count()
             if premium_service_obj >= 1:
                 flag_5 = 'No'
     if flag_1 == 'No':
@@ -1487,11 +1460,10 @@ def update_check_date(zip_premium, category_id, business_id):
         service_list = service_list + 'Top Advert'
     if service_list != '':
         msg = service_list + ' already exist for selected date range'
-        data = {'success': 'false', 'msg': msg}
+        data = {'success': 'false','msg':msg}
     else:
         data = {'success': 'true', 'msg': ''}
     return data
-
 
 @csrf_exempt
 def update_payment_details(request):
@@ -1514,10 +1486,10 @@ def update_payment_details(request):
         tax_type = request.POST.get('tax_type')
         payment_code = "PMID" + str(password)
 
-        business_obj = Business.objects.get(business_id=business_id)
-        tax_obj = Tax.objects.get(tax_rate=tax_type)
+        business_obj = Business.objects.get(business_id = business_id)
+        tax_obj = Tax.objects.get(tax_rate = tax_type)
         try:
-            payment_obj = PaymentDetail.objects.get(business_id=business_id)
+            payment_obj = PaymentDetail.objects.get(business_id = business_id)
         except Exception:
             print "=======new payment==========="
             payment_obj = PaymentDetail()
@@ -1540,64 +1512,61 @@ def update_payment_details(request):
         payment_obj.tax_type = tax_obj
         payment_obj.save()
 
-        data = {'success': 'true', 'message': 'Payment done successfully with Payment ID - ' + payment_obj.payment_code}
+        data = {'success': 'true', 'message': 'Payment done successfully with Payment ID - '+payment_obj.payment_code}
     except Exception as e:
         print e
-        data = {'success': 'true', 'message': e}
+        data =  {'success': 'true', 'message': e}
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 @csrf_exempt
 def update_advert(request):
     ##    pdb.set_trace()
-    print "IN SAVE ADVERT METHOD",  # request.POST
+    print "IN SAVE ADVERT METHOD", #request.POST
     try:
         if request.method == "POST":
             print '===request========', request.POST.get('pincode')
             advert_id = request.POST.get('advert_id')
-            advert_obj = Advert.objects.get(advert_id=request.POST.get('advert_id'))
+            advert_obj = Advert.objects.get(advert_id = request.POST.get('advert_id'))
 
-            advert_obj.supplier_id = Supplier.objects.get(supplier_id=request.session['supplier_id'])
-            advert_obj.category_id = Category.objects.get(category_id=request.POST.get('categ'))
-            advert_obj.advert_name = request.POST.get('advert_title')
-            advert_obj.contact_name = request.POST.get('contact_name')
-            advert_obj.contact_no = request.POST.get('phone_no')
-            advert_obj.website = request.POST.get('website')
-            advert_obj.latitude = request.POST.get('lat')
-            advert_obj.longitude = request.POST.get('lng')
-            advert_obj.short_description = request.POST.get('short_discription')
-            advert_obj.product_description = request.POST.get('product_discription')
-            advert_obj.currency = request.POST.get('currency')
-            advert_obj.country_id = Country.objects.get(country_id=request.POST.get('country')) if request.POST.get(
+            advert_obj.supplier_id=Supplier.objects.get(supplier_id=request.session['supplier_id'])
+            advert_obj.category_id=Category.objects.get(category_id=request.POST.get('categ'))
+            advert_obj.advert_name=request.POST.get('advert_title')
+            advert_obj.contact_name=request.POST.get('contact_name')
+            advert_obj.contact_no=request.POST.get('phone_no')
+            advert_obj.website=request.POST.get('website')
+            advert_obj.latitude=request.POST.get('lat')
+            advert_obj.longitude=request.POST.get('lng')
+            advert_obj.short_description=request.POST.get('short_discription')
+            advert_obj.product_description=request.POST.get('product_discription')
+            advert_obj.currency=request.POST.get('currency')
+            advert_obj.country_id=Country.objects.get(country_id=request.POST.get('country')) if request.POST.get(
                 'country') else None
             # product_price=request.POST.get('product_price'),
-            advert_obj.discount_description = request.POST.get('discount_discription')
-            advert_obj.email_primary = request.POST.get('email_primary')
-            advert_obj.email_secondary = request.POST.get('email_secondary')
-            advert_obj.address_line_1 = request.POST.get('address_line1')
-            advert_obj.address_line_2 = request.POST.get('address_line2')
-            advert_obj.area = request.POST.get('area')
-            advert_obj.landmark = request.POST.get('landmark')
-            advert_obj.state_id = State.objects.get(state_id=request.POST.get('statec')) if request.POST.get(
-                'statec') else None
-            advert_obj.city_place_id = City_Place.objects.get(
-                city_place_id=request.POST.get('city')) if request.POST.get(
+            advert_obj.discount_description=request.POST.get('discount_discription')
+            advert_obj.email_primary=request.POST.get('email_primary')
+            advert_obj.email_secondary=request.POST.get('email_secondary')
+            advert_obj.address_line_1=request.POST.get('address_line1')
+            advert_obj.address_line_2=request.POST.get('address_line2')
+            advert_obj.area=request.POST.get('area')
+            advert_obj.landmark=request.POST.get('landmark')
+            advert_obj.state_id=State.objects.get(state_id=request.POST.get('statec')) if request.POST.get('statec') else None
+            advert_obj.city_place_id=City_Place.objects.get(city_place_id=request.POST.get('city')) if request.POST.get(
                 'city') else None
-            advert_obj.pincode_id = Pincode.objects.get(pincode_id=request.POST.get('pincode')) if request.POST.get(
+            advert_obj.pincode_id=Pincode.objects.get(pincode_id=request.POST.get('pincode')) if request.POST.get(
                 'pincode') else None
-            advert_obj.property_market_rate = request.POST.get('pro_mark_rate')
-            advert_obj.possesion_status = request.POST.get('possesion_status')
-            advert_obj.date_of_delivery = request.POST.get('date_of_delivery')
-            advert_obj.other_projects = request.POST.get('other_projects')
-            advert_obj.distance_frm_railway_station = request.POST.get('dis_rail_stat')
-            advert_obj.distance_frm_railway_airport = request.POST.get('dis_airport')
-            advert_obj.speciality = request.POST.get('speciality')
-            advert_obj.affilated_to = request.POST.get('affilated')
-            advert_obj.course_duration = request.POST.get('course_duration')
-            advert_obj.happy_hour_offer = request.POST.get('happy_hour_offer')
-            advert_obj.facility = request.POST.get('facility')
-            advert_obj.keywords = request.POST.get('advert_keywords')
-            advert_obj.image_video_space_used = request.POST.get('image_and_video_space')
+            advert_obj.property_market_rate=request.POST.get('pro_mark_rate')
+            advert_obj.possesion_status=request.POST.get('possesion_status')
+            advert_obj.date_of_delivery=request.POST.get('date_of_delivery')
+            advert_obj.other_projects=request.POST.get('other_projects')
+            advert_obj.distance_frm_railway_station=request.POST.get('dis_rail_stat')
+            advert_obj.distance_frm_railway_airport=request.POST.get('dis_airport')
+            advert_obj.speciality=request.POST.get('speciality')
+            advert_obj.affilated_to=request.POST.get('affilated')
+            advert_obj.course_duration=request.POST.get('course_duration')
+            advert_obj.happy_hour_offer=request.POST.get('happy_hour_offer')
+            advert_obj.facility=request.POST.get('facility')
+            advert_obj.keywords=request.POST.get('advert_keywords')
+            advert_obj.image_video_space_used=request.POST.get('image_and_video_space')
             advert_obj.save()
             print "advert updated"
 
@@ -1745,50 +1714,47 @@ def update_advert(request):
         data = {'data': 'none'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 def uploaded_images(request):
     try:
         advert_id = request.GET.get('advert_id')
-        image_list = []
-        advert_image = AdvertImage.objects.filter(advert_id=advert_id)
+        image_list =[]
+        advert_image = AdvertImage.objects.filter(advert_id =advert_id)
         for images in advert_image:
             image_path = images.advert_image.url
             image_path = image_path.split('/')
             advert_image_data = {
-                "image_path": SERVER_URL + images.advert_image.url,
-                "image_size": "12345",
-                "image_name": image_path[-1]
+                "image_path":SERVER_URL + images.advert_image.url,
+                "image_size":"12345",
+                "image_name":image_path[-1]
             }
             image_list.append(advert_image_data)
-        data = {'image_list': image_list}
+        data = {'image_list':image_list}
     except Exception, e:
         print 'Exception :', e
         data = {'data': 'none'}
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 def uploaded_videos(request):
     try:
         advert_id = request.GET.get('advert_id')
-        video_list = []
-        advert_video = Advert_Video.objects.filter(advert_id=advert_id)
+        video_list =[]
+        advert_video = Advert_Video.objects.filter(advert_id =advert_id)
         for videos in advert_video:
             video_path = videos.advert_video_name.url
             video_path = video_path.split('/')
             advert_video_data = {
-                "video_path": SERVER_URL + videos.advert_video_name.url,
-                "video_size": "12345",
-                "video_name": video_path[-1]
+                "video_path":SERVER_URL + videos.advert_video_name.url,
+                "video_size":"12345",
+                "video_name":video_path[-1]
             }
             video_list.append(advert_video_data)
-        data = {'video_list': video_list}
+        data = {'video_list':video_list}
     except Exception, e:
         print 'Exception :', e
         data = {'data': 'none'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
-# -------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------#
 
 def login_open(request):
     form = CaptchaForm()
@@ -1828,8 +1794,7 @@ def signin(request):
                                     request.session['user_image'] = ''
                                 login(request, user)
                                 print "USERNAME", request.session['login_user']
-                                data = {'success': 'true', 'username': request.session['first_name'],
-                                        'supplier_id': user_Supplier_obj.supplier_id}
+                                data = {'success': 'true', 'username': request.session['first_name'],'supplier_id':user_Supplier_obj.supplier_id}
 
                         else:
                             data = {'success': 'false', 'message': 'User Is Not Active'}
@@ -1856,24 +1821,23 @@ def signin(request):
         data = {'success': 'false', 'message': 'Invalid Username or Password'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-
 def get_city(request):
-    state_id = request.GET.get('state_id')
-    city_list = []
-    try:
-        city_objs = City_Place.objects.filter(state_id=state_id, city_status='1')  # .order_by('city_name')
-        for city in city_objs:
-            options_data = '<option value="' + str(
-                city.city_place_id) + '">' + str(city.city_id) + '</option>'
-            city_list.append(options_data)
-            print city_list
-        data = {'city_list': city_list}
+   
+   state_id=request.GET.get('state_id')
+   city_list=[]
+   try:
+      city_objs=City_Place.objects.filter(state_id=state_id,city_status='1')#.order_by('city_name')
+      for city in city_objs:
+         options_data = '<option value="' + str(
+                   city.city_place_id) + '">' + str(city.city_id) + '</option>'
+         city_list.append(options_data)
+         print city_list
+      data = {'city_list': city_list}
 
-    except Exception, ke:
-        print ke
-        data = {'city_list': 'none', 'message': 'No city available'}
-    return HttpResponse(json.dumps(data), content_type='application/json')
-
+   except Exception, ke:
+      print ke
+      data={'city_list': 'none','message':'No city available'}
+   return HttpResponse(json.dumps(data), content_type='application/json')
 
 def subscriber_profile(request):
     try:
@@ -1882,12 +1846,12 @@ def subscriber_profile(request):
         final_list1 = []
         try:
             supplier_id = request.GET.get('supplier_id')
-            # print '=======request======first===', supplier_id
+            print '=======request======first===', supplier_id
             Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
-            # print "..................Supplier_obj.........", Supplier_obj
+            print "..................Supplier_obj.........", Supplier_obj
 
             advert_list = Advert.objects.filter(supplier_id=request.GET.get('supplier_id'))
-            # print "..................advert_list.........", advert_list
+            print "..................advert_list.........", advert_list
             for advert_obj in advert_list:
                 advert_id = advert_obj.advert_id
                 advert_name = advert_obj.advert_name
@@ -1897,14 +1861,14 @@ def subscriber_profile(request):
                 if advert_obj.display_image:
                     display_image = SERVER_URL + advert_obj.display_image.url
                 else:
-                    display_image = ''
-                # display_image = SERVER_URL + advert_obj.display_image.url
+                    display_image = SERVER_URL + '/static/assets/layouts/layout2/img/City_Hoopla_Logo.jpg'
+                #display_image = SERVER_URL + advert_obj.display_image.url
                 count_total = CouponCode.objects.filter(advert_id=advert_id).count()
 
                 pre_date = datetime.now().strftime("%Y-%m-%d")
-                # print '..............pre_date......pre_date........', pre_date
+                print '..............pre_date......pre_date........', pre_date
                 pre_date = datetime.strptime(pre_date, "%Y-%m-%d")
-                # print '..............pre_date...222...pre_date........', pre_date
+                print '..............pre_date...222...pre_date........', pre_date
                 advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
 
                 start_date = advert_sub_obj.business_id.start_date
@@ -1958,9 +1922,9 @@ def subscriber_profile(request):
             address2 = Supplier_obj.address2
             country_id = Supplier_obj.country_id.country_id
             state_id = Supplier_obj.state.state_id
-            print '...............country_nm...............', country_id
             city_id = Supplier_obj.city_place_id.city_place_id
             pincode_id = Supplier_obj.pincode.pincode_id
+            print '...............country_nm...............', country_id
 
             city = Supplier_obj.city_place_id.city_id.city_name
             pincode = Supplier_obj.pincode
@@ -1968,7 +1932,7 @@ def subscriber_profile(request):
             contact_no = Supplier_obj.contact_no
             contact_email = Supplier_obj.contact_email
             state_list = State.objects.filter(state_status='1').order_by('state_name')
-            city_list = City_Place.objects.filter(city_status='1')  # .order_by('city_name')
+            city_list = City_Place.objects.filter(city_status='1')#.order_by('city_name')
             pincode_list = Pincode.objects.filter(pincode_status='1')
             country_list = Country.objects.filter(country_status='1').order_by('country_name')
             notification_status = Supplier_obj.notification_status
@@ -2211,7 +2175,6 @@ def subscriber_advert(request):
         print 'Exception ', e
     return render(request, 'Subscriber/subscriber-advert.html', data)
 
-
 def premium_list(business_id):
     premium_ser_list = PremiumService.objects.filter(business_id=business_id)
     premium_service_list = []
@@ -2397,68 +2360,26 @@ def subscriber_booking(request):
     print data
     return render(request, 'Subscriber/subscriber-booking.html', data)
 
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def advert_bookings(request):
-#     if not request.user.is_authenticated():
-#         return redirect('backoffice')
-#     else:
-#         advert_id = request.GET.get('advert_id')
-#         advert_obj = Advert.objects.get(advert_id=advert_id)
-#         coupon_user = CouponCode.objects.filter(advert_id=advert_id)
-#         coupon_list = []
-#         for coupons in coupon_user:
-#             advert_obj = Advert.objects.get(advert_id=str(coupons.advert_id))
-#             advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=str(coupons.advert_id))
-#             start_date = advert_sub_obj.business_id.start_date
-#             end_date = advert_sub_obj.business_id.end_date
-#             start_date = datetime.strptime(start_date, "%m/%d/%Y")
-#             end_date = datetime.strptime(end_date, "%m/%d/%Y")
-#             pre_date = datetime.now().strftime("%m/%d/%Y")
-#             pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
-#             date_gap = end_date - pre_date
-#             if int(date_gap.days) >= 0:
-#                 status = 'Active'
-#             else:
-#                 status = 'Inactive'
-#             print status
-#             coupon_obj = {
-#                 'coupon_code': coupons.coupon_code,
-#                 'avail_date': coupons.creation_date.strftime("%d/%m/%Y"),
-#                 'user_id': str(coupons.user_id),
-#                 'mobile_no': coupons.user_id.consumer_contact_no,
-#                 'user_img': SERVER_URL + coupons.user_id.consumer_profile_pic.url,
-#                 'user_name': coupons.user_id.consumer_full_name,
-#                 'user_area': coupons.user_id.consumer_area,
-#                 'user_email_id': coupons.user_id.consumer_email_id,
-#                 'coupon_expiry_date': end_date.strftime("%d/%m/%Y"),
-#                 'days_remaining': int(date_gap.days),
-#                 'status': status
-#             }
-#             coupon_list.append(coupon_obj)
-#         data = {'coupon_list': coupon_list, 'advert_name': advert_obj.advert_name, 'booking_count': len(coupon_list),
-#                 'username': request.session['login_user']}
-#         return render(request, 'Subscriber/advert_bookings.html', data)
-
 def get_pincode(request):
-    # pdb.set_trace()
+   #pdb.set_trace()
 
-    pincode_list = []
-    try:
-        city_id = request.GET.get('city_id')
-        city_place_obj = City_Place.objects.get(city_place_id=city_id)
-        pincode_list1 = Pincode.objects.filter(city_id=str(city_place_obj.city_id.city_id)).order_by('pincode')
-        # pincode_objs = pincode_list1.values('pincode').distinct()
-        # print pincode_objs
-        for pincode in pincode_list1:
-            options_data = '<option value=' + str(pincode.pincode_id) + '>' + str(pincode.pincode) + '</option>'
-            pincode_list.append(options_data)
-            # print pincode_list
-        data = {'pincode_list': pincode_list}
+   pincode_list=[]
+   try:
+      city_id = request.GET.get('city_id')
+      city_place_obj = City_Place.objects.get(city_place_id = city_id)
+      pincode_list1=Pincode.objects.filter(city_id=str(city_place_obj.city_id.city_id)).order_by('pincode')
+      #pincode_objs = pincode_list1.values('pincode').distinct()
+      #print pincode_objs
+      for pincode in pincode_list1:
+         options_data = '<option value='+str(pincode.pincode_id)+'>' +str(pincode.pincode)+ '</option>'
+         pincode_list.append(options_data)
+         #print pincode_list
+      data = {'pincode_list': pincode_list}
 
-    except Exception, ke:
-        print ke
-        data = {'city_list': 'none', 'message': 'No city available'}
-    return HttpResponse(json.dumps(data), content_type='application/json')
+   except Exception, ke:
+      print ke
+      data={'city_list': 'none','message':'No city available'}
+   return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 @csrf_exempt

@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from DigiSpace import settings
 from mobileapp.mobile_urls import mobileapp_urlpattern
 from subscriberapp.subscriber_urls import subscriber_urlpattern
-
+from crmapp.urls import crm_urlpatterns
 
 #from django.views.generic import direct_to_template
 from django.views.generic import TemplateView
@@ -18,6 +18,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^mobileapp/', include(mobileapp_urlpattern)),
+    url(r'^CTI-CRM/', include(crm_urlpatterns)),
     url(r'^subscriber-portal/', include(subscriber_urlpattern)),
     url(r'^captcha/', include('captcha.urls')),
     url(r'^rate-card/', 'Admin.views.rate_card',name='rate_card'),
@@ -163,8 +164,6 @@ urlpatterns = patterns('',
     url(r'^get_new_registered_consumer/', 'Admin.dashboard.get_new_registered_consumer',name='get_new_registered_consumer'),
     url(r'^get_consumer_activity/', 'Admin.dashboard.get_consumer_activity',name='get_consumer_activity'),
     url(r'^get_consumer_usage/', 'Admin.dashboard.get_consumer_usage',name='get_consumer_usage'),
-
-
-    url(r'^subscriber_profile/', 'Admin.views.subscriber_profile',name='subscriber_profile'),
-
+#rest_framewrok
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

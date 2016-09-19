@@ -214,7 +214,7 @@ def save_category(request):
             }
             category_obj = Category.objects.get(category_name=request.POST.get('cat_name'))
 
-            #add_category_sms(category_obj)
+            add_category_sms(category_obj)
 
     except Exception as e:
         print e
@@ -369,7 +369,7 @@ def delete_category(request):
         cat_obj.save()
         data = {'message': 'User Role De-activeted Successfully', 'success': 'true'}
         inactive_category_mail(cat_obj)
-        #delete_category_sms(cat_obj)
+        delete_category_sms(cat_obj)
 
     except IntegrityError as e:
         print e
@@ -745,8 +745,8 @@ def update_category(request):
             'success': 'true',
             'message': "Category added successfully",
         }
-        #edit_category_mail(cat_obj)
-        #edit_category_sms(cat_obj)
+        edit_category_mail(cat_obj)
+        edit_category_sms(cat_obj)
     except Exception, e:
         print "==============EXCEPTION+++++++++++++++++++++++++++++++++++++", e
         data = {'success': 'false'}

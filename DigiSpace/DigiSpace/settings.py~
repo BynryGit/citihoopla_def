@@ -30,13 +30,24 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'digispaceapp',
+    'subscriberapp',
+    'crmapp',
+    'captcha',
+    'push_notifications',
+    'digispaceapp.templatetags.my_template_tag'
 )
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "GCM_API_KEY": "AIzaSyDc3llc1alxNzkeoDgy9YpJnqUu4bQJJ_w",
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,6 +59,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+CAPTCHA_IMAGE_SIZE=(142,35)
+CAPTCHA_FONT_SIZE=30
+CAPTCHA_CHALLENGE_FUNCT = 'Admin.captcha_mod.random_digit_challenge'
+
 ROOT_URLCONF = 'DigiSpace.urls'
 
 WSGI_APPLICATION = 'DigiSpace.wsgi.application'
@@ -56,7 +71,7 @@ WSGI_APPLICATION = 'DigiSpace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
+'''DATABASES = {
    'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'digispace_db',
@@ -67,7 +82,20 @@ DATABASES = {
             'TIME_ZONE': 'Asia/Kolkata',
 
    }
-}
+}'''
+
+DATABASES = {
+    'default': {
+             'ENGINE': 'django.db.backends.mysql',
+             'NAME': 'digispace_parallel',
+             'USER': 'root',
+             'PASSWORD': 'root1234',
+             'HOST': 'newdigispace.cdaktz8aqmgo.us-west-2.rds.amazonaws.com',
+             'PORT': '3306'
+             #'TIME_ZONE': 'Asia/Kolkata',
+
+    }
+ }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -86,6 +114,11 @@ TEMPLATE_DIRS = (
     BASE_DIR+'/templates',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
@@ -94,3 +127,7 @@ STATICFILES_DIRS = (BASE_DIR +'/static/',)
 
 MEDIA_ROOT = BASE_DIR+'/media/'
 MEDIA_URL ='/media/'
+
+CRONJOBS = [
+    ('0 0 * * *', 'digispaceapp.cron_sms_digispace.my_scheduled_job'),
+]

@@ -37,10 +37,10 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 import urllib2
 
-#SERVER_URL = "http://52.40.205.128"
+SERVER_URL = "http://52.40.205.128"
 
 
-SERVER_URL="http://192.168.0.151:9090"
+# SERVER_URL="http://192.168.0.126:8080"
 
 def advert_management(request):
     user_id = request.GET.get('user_id')
@@ -61,6 +61,20 @@ def get_phone_category(request):
     except Exception, e:
         print 'Exception ', e
     return phone_cat_list
+
+    # TO GET THE Country
+def get_country(request):
+##    pdb.set_trace()
+    country_list = []
+    try:
+        country = Country.objects.filter(country_status='1')
+        for sta in country:
+            country_list.append(
+                {'country_id': sta.country_id, 'country_name': sta.country_name})
+
+    except Exception, e:
+        print 'Exception ', e
+    return country_list
 
 
 # TO GET THE CITY
@@ -139,9 +153,7 @@ def save_advert(request):
                 longitude=request.POST.get('lng'),
                 short_description=request.POST.get('short_discription'),
                 product_description=request.POST.get('product_discription'),
-                currency_id=Currency.objects.get(currency_id=request.POST.get('currency')) if request.POST.get(
-                    'currency') else None,
-                # product_price=request.POST.get('product_price'),
+                currency=request.POST.get('currency'), 
                 discount_description=request.POST.get('discount_discription'),
                 email_primary=request.POST.get('email_primary'),
                 email_secondary=request.POST.get('email_secondary'),
@@ -149,6 +161,7 @@ def save_advert(request):
                 address_line_2=request.POST.get('address_line2'),
                 area=request.POST.get('area'),
                 landmark=request.POST.get('landmark'),
+                country_id=Country.objects.get(country_id=request.POST.get('country')),
                 state_id=State.objects.get(state_id=request.POST.get('statec')) if request.POST.get('statec') else None,
                 city_place_id=City_Place.objects.get(city_place_id=request.POST.get('city')) if request.POST.get(
                     'city') else None,
@@ -280,8 +293,8 @@ def save_advert(request):
 
                 zipped_hospital = zip(near_hosp, near_hospd)
                 save_hospital(zipped_hospital, advert_obj)
-            #advert_add_sms(advert_obj)
-            #advert_add_mail(advert_obj)
+            advert_add_sms(advert_obj)
+            advert_add_mail(advert_obj)
             data = {'success': 'true'}
 
     except Exception, e:
@@ -322,9 +335,7 @@ def add_subscription(request):
                                     longitude=request.POST.get('lng'),
                                     short_description=request.POST.get('short_discription'),
                                     product_description=request.POST.get('product_discription'),
-                                    currency_id=Currency.objects.get(
-                                        currency_id=request.POST.get('currency')) if request.POST.get(
-                                        'currency') else None,
+                                    currency=request.POST.get('currency'),
                                     # product_price=request.POST.get('product_price'),
                                     discount_description=request.POST.get('discount_discription'),
                                     email_primary=request.POST.get('email_primary'),
@@ -333,6 +344,7 @@ def add_subscription(request):
                                     address_line_2=request.POST.get('address_line2'),
                                     area=request.POST.get('area'),
                                     landmark=request.POST.get('landmark'),
+                                    country_id=Country.objects.get(country_id=request.POST.get('country')),
                                     state_id=State.objects.get(state_id=request.POST.get('statec')) if request.POST.get(
                                         'statec') else None,
                                     city_place_id=City_Place.objects.get(
@@ -462,8 +474,8 @@ def add_subscription(request):
 
                                     zipped_hospital = zip(near_hosp, near_hospd)
                                     save_hospital(zipped_hospital, advert_obj)
-                                #advert_add_mail(advert_obj)
-                                #advert_add_sms(advert_obj)
+                                advert_add_mail(advert_obj)
+                                advert_add_sms(advert_obj)
                                 data = {'success': 'true'}
 
                                 print '============after save==========='
@@ -528,8 +540,7 @@ def add_subscription(request):
                             longitude=request.POST.get('lng'),
                             short_description=request.POST.get('short_discription'),
                             product_description=request.POST.get('product_discription'),
-                            currency_id=Currency.objects.get(
-                                currency_id=request.POST.get('currency')) if request.POST.get('currency') else None,
+                            currency=request.POST.get('currency'),
                             # product_price=request.POST.get('product_price'),
                             discount_description=request.POST.get('discount_discription'),
                             email_primary=request.POST.get('email_primary'),
@@ -538,6 +549,7 @@ def add_subscription(request):
                             address_line_2=request.POST.get('address_line2'),
                             area=request.POST.get('area'),
                             landmark=request.POST.get('landmark'),
+                            country_id=Country.objects.get(country_id=request.POST.get('country')),
                             state_id=State.objects.get(state_id=request.POST.get('statec')) if request.POST.get(
                                 'statec') else None,
                             city_place_id=City_Place.objects.get(
@@ -560,8 +572,8 @@ def add_subscription(request):
                             image_video_space_used=request.POST.get('image_and_video_space')
                         );
                         advert_obj.save()
-                        #advert_add_mail(advert_obj)
-                        #advert_add_sms(advert_obj)
+                        advert_add_mail(advert_obj)
+                        advert_add_sms(advert_obj)
                         subcat_list = request.POST.get('subcat_list')
                         subcat_lvl = 1
                         # String to list
@@ -1115,7 +1127,7 @@ def delete_advert(request):
         adv_obj.status = '0'
         adv_obj.save()
         advert_inactive_mail(adv_obj)
-        #delete_add_sms(adv_obj)
+        delete_add_sms(adv_obj)
 
         data = {'message': 'Advert Inactivated Successfully', 'success': 'true'}
     except IntegrityError as e:
@@ -1240,12 +1252,12 @@ def edit_advert(request):
         image_video_space_used = advert_obj.image_video_space_used
         image_video_space_used = str(image_video_space_used)
 
-        if advert_obj.currency_id == None:
-            cur = '0'
-        ##            cur1 = ""
-        else:
-            cur = str(advert_obj.currency_id.currency_id)
-        ##            cur1 = advert_obj.currency_id.currency
+        # if advert_obj.currency_id == None:
+        #     cur = '0'
+        # ##            cur1 = ""
+        # else:
+        #     cur = str(advert_obj.currency_id.currency_id)
+        # ##            cur1 = advert_obj.currency_id.currency
 
         if advert_obj.state_id == None:
             state = '0'
@@ -1373,7 +1385,7 @@ def edit_advert(request):
             'short_discription': advert_obj.short_description,
             'product_discription': advert_obj.product_description or '',
             'discount_discription': advert_obj.discount_description or '',
-            'currency': cur,
+            'currency': advert_obj.currency,
             'keywords':advert_obj.keywords,
 
             ##            'currency1': cur1 ,
@@ -1386,6 +1398,7 @@ def edit_advert(request):
             'address_line2': advert_obj.address_line_2 or '',
             'area': advert_obj.area or '',
             'landmark': advert_obj.landmark or '',
+            'country':advert_obj.country_id.country_id,
             'statec': state,
             'city': city,
             'pincode': pincode,
@@ -1628,7 +1641,7 @@ def edit_advert(request):
             print '===========e==============', e
             pass
 
-        data = {'username': request.session['login_user'], 'service_rate_card_list': service_rate_card_list,
+        data = {'country_list':get_country(request),'username': request.session['login_user'], 'service_rate_card_list': service_rate_card_list,
                 'subscription': subscription, 'duration': duration, 'duration_list': duration_list,
                 'start_date': start_date, 'end_date': end_date, 'service_list': service_list,
                 'advert_length': advert_length, 'final_advert_list': final_advert_list, 'payment_mode': payment_mode,
@@ -1674,9 +1687,8 @@ def update_advert(request):
             advert_obj.product_description = request.POST.get('product_discription')
             advert_obj.keywords = request.POST.get('advert_keywords')
             # advert_obj.product_price=request.POST.get('product_price')
-            if request.POST.get('currency') != '0':
-                advert_obj.currency_id = Currency.objects.get(
-                    currency_id=request.POST.get('currency')) if request.POST.get('currency') else None
+            advert_obj.country_id =Country.objects.get(country_id=request.POST.get('country')) 
+            advert_obj.currency=request.POST.get('currency')
             advert_obj.discount_description = request.POST.get('discount_discription')
             advert_obj.email_primary = request.POST.get('email_primary')
             advert_obj.email_secondary = request.POST.get('email_secondary')
@@ -2001,6 +2013,7 @@ def advert_inactive_mail(advert_obj):
 
 @csrf_exempt
 def check_category(request):
+    # pdb.set_trace()
     print request.POST
     try:
         if request.POST.get('cat_level') == '1':

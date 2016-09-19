@@ -57,8 +57,23 @@ def add_subscriber(request):
 
 	    advert_service_list = AdvertRateCard.objects.filter(advert_rate_card_id__in=advert_service_list,advert_rate_card_status='1')        
 	    
-	    data = {'username':request.session['login_user'],'advert_service_list':advert_service_list,'service_list':service_list,'tax_list':tax_list,'state_list':state_list,'category_list':category_list}
-	    return render(request,'Admin/add_supplier.html',data)       
+	    data = {'country_list':get_country(request),'username':request.session['login_user'],'advert_service_list':advert_service_list,'service_list':service_list,'tax_list':tax_list,'state_list':state_list,'category_list':category_list}
+	    return render(request,'Admin/add_supplier.html',data)    
+
+
+# TO GET THE Country
+def get_country(request):
+##    pdb.set_trace()
+    country_list = []
+    try:
+        country = Country.objects.filter(country_status='1')
+        for sta in country:
+            country_list.append(
+                {'country_id': sta.country_id, 'country_name': sta.country_name})
+
+    except Exception, e:
+        print 'Exception ', e
+    return country_list   
 
 @csrf_exempt
 def save_supplier(request):
@@ -71,7 +86,8 @@ def save_supplier(request):
 	    	secondary_email = request.POST.get('sec_email'),
 	    	address1 = request.POST.get('address1'),
 	    	address2 = request.POST.get('address2'),
-	    	city = City.objects.get(city_id=request.POST.get('city')),
+	    	city_place_id = City_Place.objects.get(city_place_id=request.POST.get('city')),
+	    	country_id=Country.objects.get(country_id=request.POST.get('country')),
 	    	state = State.objects.get(state_id=request.POST.get('state')),
 	    	pincode = Pincode.objects.get(pincode=request.POST.get('pincode')),
 	    	business_details = request.POST.get('business'),
@@ -493,7 +509,7 @@ def view_subscriber_list(request):
 				user_name = user_obj.contact_person
 				usre_email_id = user_obj.contact_email
 				user_contact_no = user_obj.contact_no
-				user_city = user_obj.city.city_name
+				user_city = user_obj.city_place_id.city_id.city_name
 				subscription = '---'
 				category = '---'
 				subscription_start_date = '---'
@@ -593,6 +609,9 @@ def edit_subscriber(request):
 	if not request.user.is_authenticated():
 		return redirect('backoffice')
 	else:	
+		bank_name =""
+		branch_name=""
+		cheque_number=""
 		state_list = State.objects.filter(state_status='1').order_by('state_name')
 		category_list = Category.objects.filter(category_status='1').order_by('category_name')
 		tax_list = Tax.objects.all()
@@ -611,10 +630,15 @@ def edit_subscriber(request):
 
 		address1 = subscriber_obj.address1
 		address2 = subscriber_obj.address2
+		country_list = Country.objects.filter(country_status='1').order_by('country_name')
+		country=subscriber_obj.country_id.country_id
 		state = subscriber_obj.state
-		city_list = City.objects.filter(state_id=state,city_status='1') 
-		city = subscriber_obj.city
-		pincode_list = Pincode.objects.filter(city_id=city,pincode_status='1')
+		city_list = City_Place.objects.filter(state_id=state,city_status='1')
+		city = subscriber_obj.city_place_id
+		city_name=subscriber_obj.city_place_id.city_id.city_name
+		city_id=subscriber_obj.city_place_id.city_id.city_id
+		print "city_id",city_id
+		pincode_list = Pincode.objects.filter(city_id=city_id,pincode_status='1')
 		pincode = subscriber_obj.pincode
 		business_details = subscriber_obj.business_details
 		supplier_id=subscriber_obj.supplier_id
@@ -703,7 +727,7 @@ def edit_subscriber(request):
 		except Exception, e:
 			pass	
 
-		data = {'bank_name':bank_name,'branch_name':branch_name,'cheque_number':cheque_number,'supplier_id':supplier_id,'username':request.session['login_user'],'duration_list':sorted(duration_list),'service_rate_card_list':service_rate_card_list,'advert_length':advert_length,'final_advert_list':final_advert_list,'service_list':service_list,'user_pincode':pincode,'category_list':category_list,'service_code':service_code,'file_name':file_name,'display_image':display_image,'tax_list':tax_list,'tax_type':tax_type,'payable_amount':payable_amount,'total_amount':total_amount,'paid_amount':paid_amount,'note':note,'payment_mode':payment_mode,'service_list':service_list,'end_date':end_date,'start_date':start_date,'duration':duration,'subscriber_category':category,'subscription':subscription,'pincode_list':pincode_list,'city_list':city_list,'state':state,'city':city,'state_list':state_list,'contact_email':contact_email,'contact_no':contact_no,'contact_person':contact_person,'business_details':business_details,'address2':address2,'address1':address1,'secondary_email':secondary_email,'supplier_email':supplier_email,'business_name':business_name,'phone_no':phone_no,'secondary_phone_no':secondary_phone_no}
+		data = {'state_list':state_list,'country_list':country_list,'country':country,'bank_name':bank_name,'branch_name':branch_name,'cheque_number':cheque_number,'supplier_id':supplier_id,'username':request.session['login_user'],'duration_list':sorted(duration_list),'service_rate_card_list':service_rate_card_list,'advert_length':advert_length,'final_advert_list':final_advert_list,'service_list':service_list,'user_pincode':pincode,'category_list':category_list,'service_code':service_code,'file_name':file_name,'display_image':display_image,'tax_list':tax_list,'tax_type':tax_type,'payable_amount':payable_amount,'total_amount':total_amount,'paid_amount':paid_amount,'note':note,'payment_mode':payment_mode,'service_list':service_list,'end_date':end_date,'start_date':start_date,'duration':duration,'subscriber_category':category,'subscription':subscription,'pincode_list':pincode_list,'city_list':city_list,'state':state,'city':city,'state_list':state_list,'contact_email':contact_email,'contact_no':contact_no,'contact_person':contact_person,'business_details':business_details,'address2':address2,'address1':address1,'secondary_email':secondary_email,'supplier_email':supplier_email,'business_name':business_name,'phone_no':phone_no,'secondary_phone_no':secondary_phone_no}
 		return render(request,'Admin/edit-subscriber.html',data)   
 
 
@@ -714,6 +738,7 @@ def edit_subscriber_detail(request):
 	else:	
 		status=""
 		state_list = State.objects.filter(state_status='1').order_by('state_name')
+		country_list = Country.objects.filter(country_status='1').order_by('country_name')
 		category_list = Category.objects.filter(category_status='1').order_by('category_name')
 		tax_list = Tax.objects.all()
 		subscriber_obj = Supplier.objects.get(supplier_id=request.GET.get('user_id'))
@@ -732,10 +757,13 @@ def edit_subscriber_detail(request):
 
 		address1 = subscriber_obj.address1
 		address2 = subscriber_obj.address2
+		country=subscriber_obj.country_id.country_id
 		state = subscriber_obj.state
-		city_list = City.objects.filter(state_id=state,city_status='1') 
-		city = subscriber_obj.city
-		pincode_list = Pincode.objects.filter(city_id=city,pincode_status='1')
+		city_list = City_Place.objects.filter(state_id=state,city_status='1') 
+		city = subscriber_obj.city_place_id
+		city_id=subscriber_obj.city_place_id.city_id.city_id
+		print "CITY",city
+		pincode_list = Pincode.objects.filter(city_id=city_id,pincode_status='1')
 		pincode = subscriber_obj.pincode
 		business_details = subscriber_obj.business_details
 		contact_person = subscriber_obj.contact_person
@@ -786,7 +814,7 @@ def edit_subscriber_detail(request):
 			
 			subscription_details = {'status':status,'final_cost':final_cost,'final_service_list':final_service_list,'advert_id':advert_id,'advert_name':advert_name}
 			final_subscription_details.append(subscription_details)
-		data = {'supplier_id':supplier_id,'final_subscription_details':final_subscription_details,'username':request.session['login_user'],'user_pincode':pincode,'file_name':file_name,'display_image':display_image,'pincode_list':pincode_list,'city_list':city_list,'state':state,'city':city,'state_list':state_list,'contact_email':contact_email,'contact_no':contact_no,'contact_person':contact_person,'business_details':business_details,'address2':address2,'address1':address1,'secondary_email':secondary_email,'supplier_email':supplier_email,'business_name':business_name,'phone_no':phone_no,'secondary_phone_no':secondary_phone_no}
+		data = {'country':country,'state_list':state_list,'country_list':country_list,'supplier_id':supplier_id,'final_subscription_details':final_subscription_details,'username':request.session['login_user'],'user_pincode':pincode,'file_name':file_name,'display_image':display_image,'pincode_list':pincode_list,'city_list':city_list,'state':state,'city':city,'state_list':state_list,'contact_email':contact_email,'contact_no':contact_no,'contact_person':contact_person,'business_details':business_details,'address2':address2,'address1':address1,'secondary_email':secondary_email,'supplier_email':supplier_email,'business_name':business_name,'phone_no':phone_no,'secondary_phone_no':secondary_phone_no}
 		return render(request,'Admin/edit-subscriber-detail.html',data)   
 
 @csrf_exempt
@@ -803,16 +831,17 @@ def update_subscriber(request):
 				print "Exception",e
 				data={ 'success':'false','message':'User already exist.' }
 				return HttpResponse(json.dumps(data),content_type='application/json') 
-			
+		print "=======Country",request.POST.get('country')
 		supplier_obj = Supplier.objects.get(supplier_id=request.POST.get('supplier_id'))
 		supplier_obj.business_name = request.POST.get('business_name')
 		supplier_obj.phone_no = request.POST.get('phone_no')
 		supplier_obj.secondary_phone_no = request.POST.get('sec_phone_no')
+		supplier_obj.country_id=Country.objects.get(country_id=request.POST.get('country'))
 		supplier_obj.supplier_email = request.POST.get('email')
 		supplier_obj.secondary_email = request.POST.get('sec_email')
 		supplier_obj.address1 = request.POST.get('address1')
 		supplier_obj.address2 = request.POST.get('address2')
-		supplier_obj.city = City.objects.get(city_id=request.POST.get('city'))
+		supplier_obj.city_place_id = City_Place.objects.get(city_place_id=request.POST.get('city'))
 		supplier_obj.state = State.objects.get(state_id=request.POST.get('state'))
 		supplier_obj.pincode = Pincode.objects.get(pincode=request.POST.get('pincode'))
 		supplier_obj.business_details = request.POST.get('business')

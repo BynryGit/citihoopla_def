@@ -3328,7 +3328,7 @@ License: You must have a valid license purchased only from themeforest(the above
     });
 
     $("#happy_hour_offer").keyup(function(){
-        text_length = $("#product_discription").val().trim().length;
+        text_length = $("#happy_hour_offer").val().trim().length;
         text_count = text_length + "/5000 Characters";
         $("#happy_hour_offer").parent().children('.dis_count').text(text_count);
     });
@@ -4105,14 +4105,14 @@ License: You must have a valid license purchased only from themeforest(the above
         });
 
         var nearshoping  ="<div class='col-lg-5 col-md-10'><div class='form-group'>"+
-		    "<label class='control-label ' style='font-size:15px;;'>Nearest Shopping Mall/Market"+
-			"</label><input type='text' name='name' class='form-control near_shop_mal' /><label class='error font-12 font-regular' style='color:red; display:none;'></label>"+
-			"</div></div><div class='col-lg-5 col-md-10'><div class='form-group'>"+
-			"<label class='control-label ' style='font-size:15px;;'>Distance From Property (Km)</label>"+
-			"</label><input type='text' name='name' onkeypress='return validateFloatKeyPresss(this,event);' class='form-control near_shop_d' /><label class='error font-12 font-regular' style='color:red; display:none;'></label></div>"
+            "<label class='control-label ' style='font-size:15px;;'>Nearest Shopping Mall/Market"+
+            "</label><input type='text' name='name' class='form-control near_shop_mal' /><label class='error font-12 font-regular' style='color:red; display:none;'></label>"+
+            "</div></div><div class='col-lg-5 col-md-10'><div class='form-group'>"+
+            "<label class='control-label ' style='font-size:15px;;'>Distance From Property (Km)</label>"+
+            "</label><input type='text' name='name' onkeypress='return validateFloatKeyPresss(this,event);' class='form-control near_shop_d' /><label class='error font-12 font-regular' style='color:red; display:none;'></label></div>"
 
         $(".near_shops").click(function(){
-		    $(nearshoping).appendTo('#near-shopping-market');
+            $(nearshoping).appendTo('#near-shopping-market');
         });
 
         var nearschool  ="<div class='col-lg-5 col-md-10'><div class='form-group'>"+

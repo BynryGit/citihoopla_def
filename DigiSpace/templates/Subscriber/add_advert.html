@@ -974,7 +974,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                         </li>
                                                                                                     </div>
                                                                                                     <div class="col-lg-3 col-md-3">
-                                                                                                        <!-- 						                                                        <input type="text" id="advert2" disabled="disabled" class="form-control days"  name="to" placeholder="No of days">  -->
+                                                                                                        <!--                                                                                <input type="text" id="advert2" disabled="disabled" class="form-control days"  name="to" placeholder="No of days">  -->
                                                                                                         <label class="control-label font-15 font-regular" >Duration
                                                                                                         </label>
                                                                                                         <select id="day_{{advert.advert_rate_card_id}}"
@@ -2800,63 +2800,63 @@ License: You must have a valid license purchased only from themeforest(the above
     $("#product_discription").keyup(function(){
         text_length = $("#product_discription").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#product_discription").parent().children('.dis_count').text(text_count);
+        $("#product_discription").parent().children('.dis_count').text(text_count);
     });
 
     $("#discount_discription").keyup(function(){
         text_length = $("#discount_discription").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#discount_discription").parent().children('.dis_count').text(text_count);
+        $("#discount_discription").parent().children('.dis_count').text(text_count);
     });
 
     $("#other_details").keyup(function(){
         text_length = $("#other_details").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#other_details").parent().children('.dis_count').text(text_count);
+        $("#other_details").parent().children('.dis_count').text(text_count);
     });
 
     $("#other_projects").keyup(function(){
         text_length = $("#other_projects").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#other_projects").parent().children('.dis_count').text(text_count);
+        $("#other_projects").parent().children('.dis_count').text(text_count);
     });
 
     $("#speciality").keyup(function(){
         text_length = $("#speciality").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#speciality").parent().children('.dis_count').text(text_count);
+        $("#speciality").parent().children('.dis_count').text(text_count);
     });
 
     $("#happy_hour_offer").keyup(function(){
-        text_length = $("#product_discription").val().trim().length;
+        text_length = $("#happy_hour_offer").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#happy_hour_offer").parent().children('.dis_count').text(text_count);
+        $("#happy_hour_offer").parent().children('.dis_count').text(text_count);
     });
 
     $("#facility").keyup(function(){
         text_length = $("#facility").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#facility").parent().children('.dis_count').text(text_count);
+        $("#facility").parent().children('.dis_count').text(text_count);
     });
 
     $("#affilated").keyup(function(){
         text_length = $("#affilated").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#affilated").parent().children('.dis_count').text(text_count);
+        $("#affilated").parent().children('.dis_count').text(text_count);
     });
 
     $("#course_duration").keyup(function(){
         text_length = $("#course_duration").val().trim().length;
         text_count = text_length + "/5000 Characters";
-	    $("#course_duration").parent().children('.dis_count').text(text_count);
+        $("#course_duration").parent().children('.dis_count').text(text_count);
     });
 
     referanceDay = {
         '3' : "3 Days",
-        '7'	: "3 Days,7 Days",
-        '30'	: "3 Days,7 Days,30 Days",
-        '90'	: "3 Days,7 Days,30 Days,90 Days",
-        '180'	: "3 Days,7 Days,30 Days,90 Days,180 Days",
+        '7' : "3 Days,7 Days",
+        '30'    : "3 Days,7 Days,30 Days",
+        '90'    : "3 Days,7 Days,30 Days,90 Days",
+        '180'   : "3 Days,7 Days,30 Days,90 Days,180 Days",
 
     }
 
@@ -3338,7 +3338,7 @@ License: You must have a valid license purchased only from themeforest(the above
         event.preventDefault();
         if(check_data()){
             $.ajax({
-                type	: "POST",
+                type    : "POST",
                 url : '/subscriber-portal/save-payment-details/',
                 data : $("#payment_form").serialize(),
 
@@ -3372,7 +3372,7 @@ License: You must have a valid license purchased only from themeforest(the above
         event.preventDefault();
         if(check_data()){
             $.ajax({
-                type	: "POST",
+                type    : "POST",
                 url : '/subscriber-portal/save-payment-details/',
                 data : $("#payment_form").serialize(),
 
@@ -3601,14 +3601,14 @@ License: You must have a valid license purchased only from themeforest(the above
         });
 
         var nearshoping  ="<div class='col-lg-5 col-md-10'><div class='form-group'>"+
-		    "<label class='control-label ' style='font-size:15px;;'>Nearest Shopping Mall/Market"+
-			"</label><input type='text' name='name' class='form-control near_shop_mal' /><label class='error font-12 font-regular' style='color:red; display:none;'></label>"+
-			"</div></div><div class='col-lg-5 col-md-10'><div class='form-group'>"+
-			"<label class='control-label ' style='font-size:15px;;'>Distance From Property (Km)</label>"+
-			"</label><input type='text' name='name' onkeypress='return validateFloatKeyPresss(this,event);' class='form-control near_shop_d' /><label class='error font-12 font-regular' style='color:red; display:none;'></label></div>"
+            "<label class='control-label ' style='font-size:15px;;'>Nearest Shopping Mall/Market"+
+            "</label><input type='text' name='name' class='form-control near_shop_mal' /><label class='error font-12 font-regular' style='color:red; display:none;'></label>"+
+            "</div></div><div class='col-lg-5 col-md-10'><div class='form-group'>"+
+            "<label class='control-label ' style='font-size:15px;;'>Distance From Property (Km)</label>"+
+            "</label><input type='text' name='name' onkeypress='return validateFloatKeyPresss(this,event);' class='form-control near_shop_d' /><label class='error font-12 font-regular' style='color:red; display:none;'></label></div>"
 
         $(".near_shops").click(function(){
-		    $(nearshoping).appendTo('#near-shopping-market');
+            $(nearshoping).appendTo('#near-shopping-market');
         });
 
         var nearschool  ="<div class='col-lg-5 col-md-10'><div class='form-group'>"+
@@ -4380,7 +4380,7 @@ License: You must have a valid license purchased only from themeforest(the above
         clear_subcat();
         }
         $.ajax({
-            type	: "POST",
+            type    : "POST",
             url : '/check-category/',
             data : {'category_id':$(this_val).val(),'cat_level':lvl},
             success: function (response) {
@@ -4674,7 +4674,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
 
             $.ajax({
-                type	: "POST",
+                type    : "POST",
                 url : '/subscriber-portal/save-advert/',
                 data : formData,
                 cache: false,
@@ -4785,18 +4785,18 @@ License: You must have a valid license purchased only from themeforest(the above
     }
 
     function checkShortDesc(business){
-			if($(short_discription).val()!='')
-		   {
-		    $( short_discription).parent().children('.error').css("display", "none");
-		   return true;
-		   }else{
-		    $( short_discription).parent().children('.error').css("display", "block");
-		    $( short_discription).parent().children('.error').text("Please enter Short Description");
-		   return false;
-		   }
-		}
+            if($(short_discription).val()!='')
+           {
+            $( short_discription).parent().children('.error').css("display", "none");
+           return true;
+           }else{
+            $( short_discription).parent().children('.error').css("display", "block");
+            $( short_discription).parent().children('.error').text("Please enter Short Description");
+           return false;
+           }
+        }
 
-	function checkProductPrice(product_price_cls){
+    function checkProductPrice(product_price_cls){
         var isValid = true;
         $(product_price_cls).each(function( index ) {
             var product_price_cls = $(this).val();
@@ -4874,7 +4874,7 @@ License: You must have a valid license purchased only from themeforest(the above
         var isValid = false;
         $(phone_number).each(function( index ) {
             if(index==0){
-                var	phoneno = $(this).val()
+                var phoneno = $(this).val()
                     if($(this).parent().parent().prev('div').find('select').val()==3) {
                         var phoneNumberPattern = /^[789]\d{9}$/;
 
@@ -4905,7 +4905,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
                     }
             }else{
-                var	phoneno = $(this).val()
+                var phoneno = $(this).val()
                 if($(this).parent().parent().prev('div').find('select').val()==3) {
                     var phoneNumberPattern = /^[789]\d{9}$/;
 
@@ -5054,75 +5054,75 @@ License: You must have a valid license purchased only from themeforest(the above
 
     function checkState(statec){
 
-			statec1 = $("#statec").val();
+            statec1 = $("#statec").val();
 
 
-		 	 if(statec1 == '' || statec1 == null)
-			{
-			$(statec).parent().children('.error').css("display", "block");
-		  	 	$(statec).parent().children('.error').text("Please select State");
-			return false;
-			}
-		   else{
-		 	$(statec).parent().children('.error').css("display", "none");
-		   return true;
-		   }
-		}
+             if(statec1 == '' || statec1 == null)
+            {
+            $(statec).parent().children('.error').css("display", "block");
+                $(statec).parent().children('.error').text("Please select State");
+            return false;
+            }
+           else{
+            $(statec).parent().children('.error').css("display", "none");
+           return true;
+           }
+        }
 
 
-		function checkCountry(country){
-			country_id = $("#country").val();
-		 	if(country_id == '' || country_id == null)
-			{
-			    $(country).parent().children('.error').css("display", "block");
-		  	 	$(country).parent().children('.error').text("Please select Country");
-			    return false;
-			}
-		    else{
-		 	    $(country).parent().children('.error').css("display", "none");
-		        return true;
-		    }
-		}
-
-
-
-			function checkCity(city){
-
-			city1 = $("#city").val();
-
-
-		 	 if(city1 == '' || city1 == null)
-			{
-			$(city).parent().children('.error').css("display", "block");
-		  	 	$(city).parent().children('.error').text("Please select City");
-			return false;
-			}
-		   else{
-		 	$(city).parent().children('.error').css("display", "none");
-		   return true;
-		   }
-		}
-
-			function checkPincode(statec){
-
-			pincode1 = $("#pincode").val();
-
-
-		 	 if(pincode1 == '' || pincode1 == null)
-			{
-			$(pincode).parent().children('.error').css("display", "block");
-		  	 	$(pincode).parent().children('.error').text("Please select Pincode");
-			return false;
-			}
-		   else{
-		 	$(pincode).parent().children('.error').css("display", "none");
-		   return true;
-		   }
-		}
+        function checkCountry(country){
+            country_id = $("#country").val();
+            if(country_id == '' || country_id == null)
+            {
+                $(country).parent().children('.error').css("display", "block");
+                $(country).parent().children('.error').text("Please select Country");
+                return false;
+            }
+            else{
+                $(country).parent().children('.error').css("display", "none");
+                return true;
+            }
+        }
 
 
 
-		//Real Estate Validation
+            function checkCity(city){
+
+            city1 = $("#city").val();
+
+
+             if(city1 == '' || city1 == null)
+            {
+            $(city).parent().children('.error').css("display", "block");
+                $(city).parent().children('.error').text("Please select City");
+            return false;
+            }
+           else{
+            $(city).parent().children('.error').css("display", "none");
+           return true;
+           }
+        }
+
+            function checkPincode(statec){
+
+            pincode1 = $("#pincode").val();
+
+
+             if(pincode1 == '' || pincode1 == null)
+            {
+            $(pincode).parent().children('.error').css("display", "block");
+                $(pincode).parent().children('.error').text("Please select Pincode");
+            return false;
+            }
+           else{
+            $(pincode).parent().children('.error').css("display", "none");
+           return true;
+           }
+        }
+
+
+
+        //Real Estate Validation
 
         function check_market_rate(){
          var isValid = false;
@@ -5180,323 +5180,323 @@ License: You must have a valid license purchased only from themeforest(the above
 
         }
 
-		function chek_amenity(){
-			var checkboxValues1 = []
-			//var isValid = false;
-			checkboxValues1 = $('.amenity:checked').map(function() {
-			    return $(this).val();
-			}).get();
-			//alert(checkboxValues1.length);
-			if (checkboxValues1.length == 0){
-				$(".amenity_check").parent().children('.error').css("display", "block");
-				$(".amenity_check").parent().children('.error').text("Please select atleast 1 Amenity");
-				//isValid = false;
-			   return false;
-			}else{
-				$(".amenity_check").parent().children('.error').css("display", "none");
-				return true;
-			}
-		}
+        function chek_amenity(){
+            var checkboxValues1 = []
+            //var isValid = false;
+            checkboxValues1 = $('.amenity:checked').map(function() {
+                return $(this).val();
+            }).get();
+            //alert(checkboxValues1.length);
+            if (checkboxValues1.length == 0){
+                $(".amenity_check").parent().children('.error').css("display", "block");
+                $(".amenity_check").parent().children('.error').text("Please select atleast 1 Amenity");
+                //isValid = false;
+               return false;
+            }else{
+                $(".amenity_check").parent().children('.error').css("display", "none");
+                return true;
+            }
+        }
 
-				function check_ex_am(extra_ame){
-					var isValid = false;
+                function check_ex_am(extra_ame){
+                    var isValid = false;
 
-					 $('.extra_ame').each(function( index ) {
-						if($(this).val()=="")
-			   	{
-			     	$(this).parent().children('.error').css("display", "none");
-			 //   	$(this).parent().children('.error').text("Please enter Shopping Mall/Market");
-					isValid = true;
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid Amenity");
-					isValid = false;
-			   }
-			   else{
-			   	$(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			  });
- 			return isValid;
-		}
-
-
-		function check_ner(near_by_attr){
-					var isValid = false;
-
-					 $('.near_by_attr').each(function( index ) {
-						if($(this).val()=="")
-			   	{
-			     	$(this).parent().children('.error').css("display", "none");
-			 //   	$(this).parent().children('.error').text("Please enter Shopping Mall/Market");
-					isValid = true;
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid Amenity");
-					isValid = false;
-			   }
-			   else{
-			   	$(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			  });
- 			return isValid;
-		}
-
-		function checkNearShoping(near_shop_mal){
-
-				var isValid = false;
-
-		   $('.near_shop_mal').each(function( index ) {
-
-				if(index==0){
-
-				  if($(this).val()=="")
-			   {
-			     	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter Shopping Mall/Market");
-					isValid = false;
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid Shopping Mall/Market");
-					isValid = false;
-			   }
-			   else{
-			   	$(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			}
-			 else{
-			 		if($(this).val()=="")
-			   	{
-			     	$(this).parent().children('.error').css("display", "none");
-			 //   	$(this).parent().children('.error').text("Please enter Shopping Mall/Market");
-					isValid = true;
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid Shopping Mall/Market");
-					isValid = false;
-			   }
-			   else{
-			   	$(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-
-			   }
-				});
-			  return isValid;
-			}
-
-		function checkNearShopingD(near_shop_d){
-				var isValid = false;
-
-			 $('.near_shop_d').each(function( index ) {
-			   if(index==0){
-				  if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter Distance");
-					isValid = false;
-			   }else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			 }else{
-			 	if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "none");
-			    //	$(this).parent().children('.error').text("Please enter Distance");
-					isValid = true;
-			   }else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-
-			 }
-				});
-
-			   return isValid;
-			}
-
-	  function checkNearSchool(ner_sch){
-	  			var isValid = false;
-
-			   $('.ner_sch').each(function( index ) {
-			   if(index==0){
-				  if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter School Name");
-					isValid = false;
-
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid School Name");
-					isValid = false;
-			   }
-			   else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			  }else{
-			   if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "none");
-			    //	$(this).parent().children('.error').text("Please enter School Name");
-					isValid = true;
-
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid School Name");
-					isValid = false;
-			   }
-			   else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
+                     $('.extra_ame').each(function( index ) {
+                        if($(this).val()=="")
+                {
+                    $(this).parent().children('.error').css("display", "none");
+             //     $(this).parent().children('.error').text("Please enter Shopping Mall/Market");
+                    isValid = true;
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid Amenity");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+              });
+            return isValid;
+        }
 
 
-			  }
-				});
-				return isValid;
+        function check_ner(near_by_attr){
+                    var isValid = false;
 
-			}
+                     $('.near_by_attr').each(function( index ) {
+                        if($(this).val()=="")
+                {
+                    $(this).parent().children('.error').css("display", "none");
+             //     $(this).parent().children('.error').text("Please enter Shopping Mall/Market");
+                    isValid = true;
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid Amenity");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+              });
+            return isValid;
+        }
 
-		function checkNearSchoold(ner_schd){
-				var isValid = false;
-			   $('.ner_schd').each(function( index ) {
-			   if(index==0){
-				   if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter Distance");
-					isValid = false;
+        function checkNearShoping(near_shop_mal){
 
-			   }else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			   }else{
-			   	   if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "none");
-			    //	$(this).parent().children('.error').text("Please enter Distance");
-					isValid = true;
+                var isValid = false;
 
-			   }else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
+           $('.near_shop_mal').each(function( index ) {
 
-			   }
-				});
-				return isValid;
+                if(index==0){
 
-			}
+                  if($(this).val()=="")
+               {
+                    $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter Shopping Mall/Market");
+                    isValid = false;
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid Shopping Mall/Market");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+            }
+             else{
+                    if($(this).val()=="")
+                {
+                    $(this).parent().children('.error').css("display", "none");
+             //     $(this).parent().children('.error').text("Please enter Shopping Mall/Market");
+                    isValid = true;
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid Shopping Mall/Market");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
 
-			function checkNearHospital(ner_hos){
-				var isValid = false;
-			   $('.ner_hos').each(function( index ) {
-			   if(index==0){
-			    if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter Hospital");
-					isValid = false;
+               }
+                });
+              return isValid;
+            }
 
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid Hospital");
-					isValid = false;
-			   }
-			   else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			 } else{
-			 		if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "none");
-			   // 	$(this).parent().children('.error').text("Please enter Hospital");
-					isValid = true;
+        function checkNearShopingD(near_shop_d){
+                var isValid = false;
 
-			   }else if($.isNumeric($(this).val())){
-			   	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter valid Hospital");
-					isValid = false;
-			   }
-			   else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
+             $('.near_shop_d').each(function( index ) {
+               if(index==0){
+                  if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter Distance");
+                    isValid = false;
+               }else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+             }else{
+                if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "none");
+                //  $(this).parent().children('.error').text("Please enter Distance");
+                    isValid = true;
+               }else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
 
-			   }
-				});
-				return isValid;
+             }
+                });
 
-			}
+               return isValid;
+            }
 
-			function checkNearHospitald(ner_hosd){
-				var isValid = false;
-			   $('.ner_hosd').each(function( index ) {
-			   if(index==0){
-				 if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "block");
-			    	$(this).parent().children('.error').text("Please enter Distance");
-					isValid = false;
+      function checkNearSchool(ner_sch){
+                var isValid = false;
 
-			   }else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
-			   }else{
-			    if($(this).val()=='')
-			   {
-			    	$(this).parent().children('.error').css("display", "none");
-			    //	$(this).parent().children('.error').text("Please enter Distance");
-					isValid = true;
+               $('.ner_sch').each(function( index ) {
+               if(index==0){
+                  if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter School Name");
+                    isValid = false;
 
-			   }else{
-			    $(this).parent().children('.error').css("display", "none");
-			   	isValid = true;
-			   }
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid School Name");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+              }else{
+               if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "none");
+                //  $(this).parent().children('.error').text("Please enter School Name");
+                    isValid = true;
 
-			   }
-				});
-			   return isValid;
-			}
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid School Name");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
 
-			  function railwaystation(){
-			  var isValid = false;
-			if($("#dis_rail_stat").val() =="")
-			{
-			    $("#dis_rail_stat").parent().children('.error').css("display", "block");
-			    $("#dis_rail_stat").parent().children('.error').text("Please enter Distance");
 
-			   isValid = false;
-			   }else{
-			    		    $("#dis_rail_stat").parent().children('.error').css("display", "none");
-			  isValid = true;
-			   }
-			 return isValid;
-		}
+              }
+                });
+                return isValid;
 
- 		 function airport(){
- 		   var isValid = false;
-				if($("#dis_airport").val() =="")
-				{
+            }
 
-					$("#dis_airport").parent().children('.error').css("display", "block");
-			    	$("#dis_airport").parent().children('.error').text("Please enter Distance");
-				  isValid = false;
-			   }else{
+        function checkNearSchoold(ner_schd){
+                var isValid = false;
+               $('.ner_schd').each(function( index ) {
+               if(index==0){
+                   if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter Distance");
+                    isValid = false;
 
-					$("#dis_airport").parent().children('.error').css("display", "none");
-			   	isValid =  true;
-			   }
-			   return isValid;
-		}
+               }else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+               }else{
+                   if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "none");
+                //  $(this).parent().children('.error').text("Please enter Distance");
+                    isValid = true;
+
+               }else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+
+               }
+                });
+                return isValid;
+
+            }
+
+            function checkNearHospital(ner_hos){
+                var isValid = false;
+               $('.ner_hos').each(function( index ) {
+               if(index==0){
+                if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter Hospital");
+                    isValid = false;
+
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid Hospital");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+             } else{
+                    if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "none");
+               //   $(this).parent().children('.error').text("Please enter Hospital");
+                    isValid = true;
+
+               }else if($.isNumeric($(this).val())){
+                $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter valid Hospital");
+                    isValid = false;
+               }
+               else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+
+               }
+                });
+                return isValid;
+
+            }
+
+            function checkNearHospitald(ner_hosd){
+                var isValid = false;
+               $('.ner_hosd').each(function( index ) {
+               if(index==0){
+                 if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "block");
+                    $(this).parent().children('.error').text("Please enter Distance");
+                    isValid = false;
+
+               }else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+               }else{
+                if($(this).val()=='')
+               {
+                    $(this).parent().children('.error').css("display", "none");
+                //  $(this).parent().children('.error').text("Please enter Distance");
+                    isValid = true;
+
+               }else{
+                $(this).parent().children('.error').css("display", "none");
+                isValid = true;
+               }
+
+               }
+                });
+               return isValid;
+            }
+
+              function railwaystation(){
+              var isValid = false;
+            if($("#dis_rail_stat").val() =="")
+            {
+                $("#dis_rail_stat").parent().children('.error').css("display", "block");
+                $("#dis_rail_stat").parent().children('.error').text("Please enter Distance");
+
+               isValid = false;
+               }else{
+                            $("#dis_rail_stat").parent().children('.error').css("display", "none");
+              isValid = true;
+               }
+             return isValid;
+        }
+
+         function airport(){
+           var isValid = false;
+                if($("#dis_airport").val() =="")
+                {
+
+                    $("#dis_airport").parent().children('.error').css("display", "block");
+                    $("#dis_airport").parent().children('.error').text("Please enter Distance");
+                  isValid = false;
+               }else{
+
+                    $("#dis_airport").parent().children('.error').css("display", "none");
+                isValid =  true;
+               }
+               return isValid;
+        }
 
     function validspeciality(){
         var isValid = false;

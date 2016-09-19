@@ -45,8 +45,8 @@ from django.core.files.base import ContentFile
 #Push Notifications
 from push_notifications.models import APNSDevice, GCMDevice
 
-SERVER_URL = "http://192.168.0.151:9090"
-#SERVER_URL = "http://52.40.205.128"
+#SERVER_URL = "http://192.168.0.151:9090"
+SERVER_URL = "http://52.40.205.128"
 
 # Constants
 earth_radius = 6371.0
@@ -81,7 +81,10 @@ def consumer_signup(request):
         ret = u''
         ret = ''.join(random.choice('0123456789') for i in range(6))
         OTP = ret
-        request.session["OTP"] = str(OTP)
+        consumer_obj.consumer_otp = str(OTP)
+        consumer_obj.save()
+        #request.session["OTP"] = str(OTP)
+        #print request.session["OTP"]
         sms_otp(consumer_obj,OTP)
         try:
             filename = "IMG_%s_%s.png" % (consumer_obj.username, str(datetime.now()).replace('.', '_'))
@@ -135,8 +138,6 @@ def send_notification(user_obj):
         print e
         return False
 
-
-
 def sms_otp(consumer_obj,OTP):
     authkey = "118994AIG5vJOpg157989f23"
     mobiles = str(consumer_obj.consumer_contact_no)
@@ -172,9 +173,10 @@ def resend_otp(request):
     ret = u''
     ret = ''.join(random.choice('0123456789') for i in range(6))
     OTP = ret
-    request.session["OTP"] = str(OTP)
+    #request.session["OTP"] = str(OTP)
     consumer_obj = ConsumerProfile.objects.get(consumer_id=str(user_id))
     consumer_obj.consumer_contact_no = str(contact_no)
+    consumer_obj.consumer_otp = str(OTP)
     consumer_obj.save()
     sms_otp(consumer_obj, OTP)
     data = {'success': 'true', 'message': 'OPT send to user'}
@@ -183,11 +185,13 @@ def resend_otp(request):
 @csrf_exempt
 def check_otp(request):
     json_obj = json.loads(request.body)
-    session_otp = request.session['OTP']
+    #print request.session["OTP"]
+    #session_otp = request.session['OTP']
     user_id = json_obj['user_id']
     contact_no = json_obj['contact_no']
     msg_otp = json_obj['OTP']
     consumer_obj = ConsumerProfile.objects.get(consumer_id = str(user_id))
+    session_otp = str(consumer_obj.consumer_otp)
     if session_otp == msg_otp:
         consumer_obj.user_verified = 'true'
         consumer_obj.consumer_contact_no = str(contact_no)
@@ -275,7 +279,7 @@ def get_profile_info(user_id):
 
     consumer_object = ConsumerProfile.objects.get(consumer_id=user_id)
     if consumer_object.consumer_profile_pic:
-        user_profile_image = SERVER_URL + consumer_object.consumer_profile_pic.url
+        user_profile_image = consumer_object.consumer_profile_pic.url
     else:
         user_profile_image = ''
     data = {
@@ -296,7 +300,6 @@ def get_profile_info(user_id):
         'email_social_notifications': consumer_object.email_social_status
     }
     return data
-
 
 @csrf_exempt
 def consumer_login(request):
@@ -337,7 +340,6 @@ def consumer_login(request):
         print e
         data = {'success': 'false', 'message': 'Internal Server Error '}
     return HttpResponse(json.dumps(data), content_type='application/json')
-
 
 # API for forgot password
 @csrf_exempt
@@ -427,8 +429,8 @@ def get_bottom_advert_list(request):
                 if pre_ser_obj.premium_service_name == "Advert Slider":
                     advert_data = {
                         "advert_id": str(advert_obj.advert_id),
-                        "advert_image": SERVER_URL + advert_obj.display_image.url,
-                        "user_id": user_id,
+                        "advert_image": advert_obj.display_image.url,
+                        "user_id": str(user_id),
                         "category_id": "0",
                         "level": "0"
                     }
@@ -457,7 +459,7 @@ def get_top_advert(request):
                         advert_data = {
                             "advert_id": str(advert_obj.advert_id),
                             "advert_image": advert_obj.display_image.url,
-                            "user_id": user_id,
+                            "user_id": str(user_id),
                             "category_id": "0",
                             "level": "0"
                         }
@@ -470,7 +472,7 @@ def get_top_advert(request):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 @csrf_exempt
-def get_category_list(request):
+def get_category_subcategory_list(request):
     ##    pdb.set_trace()
     json_obj = json.loads(request.body)
     city_id = json_obj['city_id']
@@ -497,13 +499,13 @@ def get_category_list(request):
                 cat_id = str(cat_obj.category_id)
                 advert_count,like_count,subcat_list = get_cat_data(cat_id, city_id)
                 cat_obj_data = {
-                    "category_id": cat_id,
+                    "category_id": str(cat_id),
                     "category_name": cat_obj.category_name,
-                    "category_img": SERVER_URL+cat_obj.category_image.url,
-                    "total_adverts_count": advert_count,
-                    "total_likes": like_count,
+                    "category_img": cat_obj.category_image.url,
+                    "total_adverts_count": str(advert_count),
+                    "total_likes": str(like_count),
                     "favorite": "0",
-                    "sub_categories_level_1": subcat_list,
+                    "category": subcat_list,
                     "category_color": str(cat_obj.category_color) or '#000000'
                 }
                 category_list.append(cat_obj_data)
@@ -549,11 +551,11 @@ def get_cat_data(cat_id,city_id):
         subcat2_list  = get_cat2_data(cat_id, city_id)
 
         sub_cat_data = {
-            "sub_cat_id": sub_cat.category_id,
-            "sub_cat_name": sub_cat.category_name,
-            "sub_cat_count": int(advert_obj.count()) - i,
-            "sub_cat_level": "1",
-            "sub_categories_level_2": subcat2_list,
+            "category_id": str(sub_cat.category_id),
+            "category_name": sub_cat.category_name,
+            "total_adverts_count": str(int(advert_obj.count()) - i),
+            "level": "1",
+            "category": subcat2_list,
         }
         advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
@@ -595,11 +597,11 @@ def get_cat2_data(cat_id,city_id):
 
 
         sub_cat_data = {
-            "sub_cat_id": sub_cat.category_id,
-            "sub_cat_name": sub_cat.category_name,
-            "sub_cat_count": int(advert_obj.count()) - i,
-            "sub_cat_level": "2",
-            "sub_categories_level_3": subcat3_list
+            "category_id": str(sub_cat.category_id),
+            "category_name": sub_cat.category_name,
+            "total_adverts_count": str(int(advert_obj.count()) - i),
+            "level": "2",
+            "category": subcat3_list
         }
         #advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
@@ -640,11 +642,11 @@ def get_cat3_data(cat_id,city_id):
         subcat4_list = get_cat4_data(cat_id, city_id)
 
         sub_cat_data = {
-            "sub_cat_id": sub_cat.category_id,
-            "sub_cat_name": sub_cat.category_name,
-            "sub_cat_count": int(advert_obj.count()) - i,
-            "sub_cat_level": "3",
-            "sub_categories_level_4": subcat4_list
+            "category_id": str(sub_cat.category_id),
+            "category_name": sub_cat.category_name,
+            "total_adverts_count": str(int(advert_obj.count()) - i),
+            "level": "3",
+            "category": subcat4_list
         }
         #advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
@@ -685,11 +687,11 @@ def get_cat4_data(cat_id,city_id):
         subcat5_list = get_cat5_data(cat_id, city_id)
 
         sub_cat_data = {
-            "sub_cat_id": sub_cat.category_id,
-            "sub_cat_name": sub_cat.category_name,
-            "sub_cat_count": int(advert_obj.count()) - i,
-            "sub_cat_level": "4",
-            "sub_categories_level_5": subcat5_list
+            "category_id": str(sub_cat.category_id),
+            "category_name": sub_cat.category_name,
+            "total_adverts_count": str(int(advert_obj.count()) - i),
+            "level": "4",
+            "category": subcat5_list
         }
         #advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
@@ -727,178 +729,178 @@ def get_cat5_data(cat_id,city_id):
                 else:
                     i = i + 1
         sub_cat_data = {
-            "sub_cat_id": sub_cat.category_id,
-            "sub_cat_name": sub_cat.category_name,
-            "sub_cat_count": int(advert_obj.count()) - i,
-            "sub_cat_level": "5"
+            "category_id": str(sub_cat.category_id),
+            "category_name": sub_cat.category_name,
+            "total_adverts_count": str(int(advert_obj.count()) - i),
+            "level": "5"
         }
         #advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
     return subcat_list
 
-# @csrf_exempt
-# def get_category_list(request):
-#     ##    pdb.set_trace()
-#     json_obj = json.loads(request.body)
-#     city_id = json_obj['city_id']
-#     level = json_obj['level']
-#     category_list = []
-#     category_id_list = []
-#     color = ''
-#     try:
-#         if json_obj['category_id'] == "0":
-#             cat_objs = Category.objects.filter(category_status='1')
-#             x = 0
-#             for cat in cat_objs:
-#                 cat_city_obj = CategoryCityMap.objects.filter(category_id = str(cat.category_id))
-#                 if cat_city_obj:
-#                     for cat_city in cat_city_obj:
-#                         if int(cat_city.city_place_id.city_place_id) == int(city_id):
-#                             category_id_list.append(str(cat.category_id))
-#                 else:
-#                     category_id_list.append(str(cat.category_id))
-#             print category_id_list
-#             for cat_city in category_id_list:
-#                 category_id = str(cat_city)
-#                 #print category_id
-#                 cat_objs = Category.objects.filter(category_id=category_id, category_status='1')
-#                 for cat_obj in cat_objs:
-#                     cat_id = str(cat_obj.category_id)
-#                     advert_count = 0
-#                     like_count = 0
-#                     sub_cat_obj = CategoryLevel1.objects.filter(parent_category_id=cat_id, category_status='1')
-#                     subcat_list = []
-#                     for sub_cat in sub_cat_obj:
-#                         i = 0
-#                         advert_obj =  Advert.objects.filter(category_level_1=str(sub_cat.category_id))
-#                         for adverts in advert_obj:
-#                             advert_id = adverts.advert_id
-#                             if adverts.city_place_id:
-#                                 if int(adverts.city_place_id.city_place_id) == int(city_id):
-#                                     print "Match"
-#                                     try:
-#                                         pre_date = datetime.now().strftime("%m/%d/%Y")
-#                                         pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
-#                                         advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
-#                                         end_date = advert_sub_obj.business_id.end_date
-#                                         end_date = datetime.strptime(end_date, "%m/%d/%Y")
-#                                         date_gap = end_date - pre_date
-#                                         if int(date_gap.days) < 0:
-#                                             i = i + 1
-#                                     except Exception:
-#                                         print ""
-#
-#                                     advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
-#                                     for advert_like in advert_like_obj:
-#                                         like_count = like_count + 1
-#
-#                                 else:
-#                                     i = i + 1
-#                         sub_cat_data = {
-#                             "id": sub_cat.category_id,
-#                             "name": sub_cat.category_name,
-#                             "count": int(advert_obj.count()) - i,
-#                         }
-#                         advert_count = advert_count + int(advert_obj.count()) - i
-#                         subcat_list.append(sub_cat_data)
-#                     cat_obj_data = {
-#                         "category_id": cat_id,
-#                         "category_name": cat_obj.category_name,
-#                         "category_img": SERVER_URL+cat_obj.category_image.url,
-#                         "total_adverts_count": advert_count,
-#                         "total_likes": like_count,
-#                         "favorite": "0",
-#                         "subcategories": subcat_list,
-#                         "category_color": str(cat_obj.category_color) or '#000000'
-#                     }
-#                     category_list.append(cat_obj_data)
-#         else:
-#             if level == '1':
-#                 cat_objs = CategoryLevel1.objects.filter(category_id= json_obj['category_id'],
-#                                                          category_status='1')
-#             if level == '2':
-#                 cat_objs = CategoryLevel2.objects.filter(category_id=json_obj['category_id'],
-#                                                          category_status='1')
-#             if level == '3':
-#                 cat_objs = CategoryLevel3.objects.filter(category_id=json_obj['category_id'],
-#                                                          category_status='1')
-#             if level == '4':
-#                 cat_objs = CategoryLevel4.objects.filter(category_id=json_obj['category_id'],
-#                                                          category_status='1')
-#             if level == '5':
-#                 cat_objs = CategoryLevel5.objects.filter(category_id=json_obj['category_id'],
-#                                                          category_status='1')
-#             print cat_objs
-#             for cat_obj in cat_objs:
-#                 cat_id = str(cat_obj.category_id)
-#                 advert_count = 0
-#                 like_count = 0
-#                 if level == '1':
-#                     sub_cat_obj = CategoryLevel2.objects.filter(parent_category_id=cat_id, category_status='1')
-#                 if level == '2':
-#                     sub_cat_obj = CategoryLevel3.objects.filter(parent_category_id=cat_id, category_status='1')
-#                 if level == '3':
-#                     sub_cat_obj = CategoryLevel4.objects.filter(parent_category_id=cat_id, category_status='1')
-#                 if level == '4':
-#                     sub_cat_obj = CategoryLevel5.objects.filter(parent_category_id=cat_id, category_status='1')
-#                 subcat_list = []
-#                 for sub_cat in sub_cat_obj:
-#                     i = 0
-#                     if level == '1':
-#                         advert_obj = Advert.objects.filter(category_level_2=str(sub_cat.category_id))
-#                     if level == '2':
-#                         advert_obj = Advert.objects.filter(category_level_3=str(sub_cat.category_id))
-#                     if level == '3':
-#                         advert_obj = Advert.objects.filter(category_level_4=str(sub_cat.category_id))
-#                     if level == '4':
-#                         advert_obj = Advert.objects.filter(category_level_5=str(sub_cat.category_id))
-#                     for adverts in advert_obj:
-#                         advert_id = adverts.advert_id
-#                         if adverts.city_place_id:
-#                             if int(adverts.city_place_id.city_place_id) == int(city_id):
-#                                 print "Match"
-#                                 try:
-#                                     pre_date = datetime.now().strftime("%m/%d/%Y")
-#                                     pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
-#                                     advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
-#                                     end_date = advert_sub_obj.business_id.end_date
-#                                     end_date = datetime.strptime(end_date, "%m/%d/%Y")
-#                                     date_gap = end_date - pre_date
-#                                     if int(date_gap.days) < 0:
-#                                         i = i + 1
-#                                 except Exception:
-#                                     print ""
-#
-#                                 advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
-#
-#                                 for advert_like in advert_like_obj:
-#                                     like_count = like_count + 1
-#
-#                             else:
-#                                 i = i + 1
-#                     sub_cat_data = {
-#                         "id": sub_cat.category_id,
-#                         "name": sub_cat.category_name,
-#                         "count": int(advert_obj.count()) - i,
-#                     }
-#                     advert_count = advert_count + int(advert_obj.count()) - i
-#                     subcat_list.append(sub_cat_data)
-#                 cat_obj_data = {
-#                     "category_id": str(cat_obj.category_id),
-#                     "category_name": cat_obj.category_name,
-#                     "category_img": "",
-#                     "total_adverts_count": advert_count,
-#                     "total_likes": like_count,
-#                     "favorite": "0",
-#                     "subcategories": subcat_list,
-#                     "category_color": color
-#                 }
-#                 category_list.append(cat_obj_data)
-#         data = {'success': 'true', 'message':'', 'category_list': category_list,'level':level}
-#     except Exception, ke:
-#         print ke
-#         data = {'success': 'false', 'message':'Something went wrong', 'category_list': [],'level':''}
-#     return HttpResponse(json.dumps(data), content_type='application/json')
+@csrf_exempt
+def get_category_list(request):
+    ##    pdb.set_trace()
+    json_obj = json.loads(request.body)
+    city_id = json_obj['city_id']
+    level = json_obj['level']
+    category_list = []
+    category_id_list = []
+    color = ''
+    try:
+        if json_obj['category_id'] == "0":
+            cat_objs = Category.objects.filter(category_status='1')
+            x = 0
+            for cat in cat_objs:
+                cat_city_obj = CategoryCityMap.objects.filter(category_id = str(cat.category_id))
+                if cat_city_obj:
+                    for cat_city in cat_city_obj:
+                        if int(cat_city.city_place_id.city_place_id) == int(city_id):
+                            category_id_list.append(str(cat.category_id))
+                else:
+                    category_id_list.append(str(cat.category_id))
+            print category_id_list
+            for cat_city in category_id_list:
+                category_id = str(cat_city)
+                #print category_id
+                cat_objs = Category.objects.filter(category_id=category_id, category_status='1')
+                for cat_obj in cat_objs:
+                    cat_id = str(cat_obj.category_id)
+                    advert_count = 0
+                    like_count = 0
+                    sub_cat_obj = CategoryLevel1.objects.filter(parent_category_id=cat_id, category_status='1')
+                    subcat_list = []
+                    for sub_cat in sub_cat_obj:
+                        i = 0
+                        advert_obj =  Advert.objects.filter(category_level_1=str(sub_cat.category_id))
+                        for adverts in advert_obj:
+                            advert_id = adverts.advert_id
+                            if adverts.city_place_id:
+                                if int(adverts.city_place_id.city_place_id) == int(city_id):
+                                    print "Match"
+                                    try:
+                                        pre_date = datetime.now().strftime("%m/%d/%Y")
+                                        pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+                                        advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
+                                        end_date = advert_sub_obj.business_id.end_date
+                                        end_date = datetime.strptime(end_date, "%m/%d/%Y")
+                                        date_gap = end_date - pre_date
+                                        if int(date_gap.days) < 0:
+                                            i = i + 1
+                                    except Exception:
+                                        print ""
+
+                                    advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
+                                    for advert_like in advert_like_obj:
+                                        like_count = like_count + 1
+
+                                else:
+                                    i = i + 1
+                        sub_cat_data = {
+                            "id": sub_cat.category_id,
+                            "name": sub_cat.category_name,
+                            "count": int(advert_obj.count()) - i,
+                        }
+                        advert_count = advert_count + int(advert_obj.count()) - i
+                        subcat_list.append(sub_cat_data)
+                    cat_obj_data = {
+                        "category_id": cat_id,
+                        "category_name": cat_obj.category_name,
+                        "category_img": cat_obj.category_image.url,
+                        "total_adverts_count": advert_count,
+                        "total_likes": like_count,
+                        "favorite": "0",
+                        "subcategories": subcat_list,
+                        "category_color": str(cat_obj.category_color) or '#000000'
+                    }
+                    category_list.append(cat_obj_data)
+        else:
+            if level == '1':
+                cat_objs = CategoryLevel1.objects.filter(category_id= json_obj['category_id'],
+                                                         category_status='1')
+            if level == '2':
+                cat_objs = CategoryLevel2.objects.filter(category_id=json_obj['category_id'],
+                                                         category_status='1')
+            if level == '3':
+                cat_objs = CategoryLevel3.objects.filter(category_id=json_obj['category_id'],
+                                                         category_status='1')
+            if level == '4':
+                cat_objs = CategoryLevel4.objects.filter(category_id=json_obj['category_id'],
+                                                         category_status='1')
+            if level == '5':
+                cat_objs = CategoryLevel5.objects.filter(category_id=json_obj['category_id'],
+                                                         category_status='1')
+            print cat_objs
+            for cat_obj in cat_objs:
+                cat_id = str(cat_obj.category_id)
+                advert_count = 0
+                like_count = 0
+                if level == '1':
+                    sub_cat_obj = CategoryLevel2.objects.filter(parent_category_id=cat_id, category_status='1')
+                if level == '2':
+                    sub_cat_obj = CategoryLevel3.objects.filter(parent_category_id=cat_id, category_status='1')
+                if level == '3':
+                    sub_cat_obj = CategoryLevel4.objects.filter(parent_category_id=cat_id, category_status='1')
+                if level == '4':
+                    sub_cat_obj = CategoryLevel5.objects.filter(parent_category_id=cat_id, category_status='1')
+                subcat_list = []
+                for sub_cat in sub_cat_obj:
+                    i = 0
+                    if level == '1':
+                        advert_obj = Advert.objects.filter(category_level_2=str(sub_cat.category_id))
+                    if level == '2':
+                        advert_obj = Advert.objects.filter(category_level_3=str(sub_cat.category_id))
+                    if level == '3':
+                        advert_obj = Advert.objects.filter(category_level_4=str(sub_cat.category_id))
+                    if level == '4':
+                        advert_obj = Advert.objects.filter(category_level_5=str(sub_cat.category_id))
+                    for adverts in advert_obj:
+                        advert_id = adverts.advert_id
+                        if adverts.city_place_id:
+                            if int(adverts.city_place_id.city_place_id) == int(city_id):
+                                print "Match"
+                                try:
+                                    pre_date = datetime.now().strftime("%m/%d/%Y")
+                                    pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+                                    advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
+                                    end_date = advert_sub_obj.business_id.end_date
+                                    end_date = datetime.strptime(end_date, "%m/%d/%Y")
+                                    date_gap = end_date - pre_date
+                                    if int(date_gap.days) < 0:
+                                        i = i + 1
+                                except Exception:
+                                    print ""
+
+                                advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
+
+                                for advert_like in advert_like_obj:
+                                    like_count = like_count + 1
+
+                            else:
+                                i = i + 1
+                    sub_cat_data = {
+                        "id": sub_cat.category_id,
+                        "name": sub_cat.category_name,
+                        "count": int(advert_obj.count()) - i,
+                    }
+                    advert_count = advert_count + int(advert_obj.count()) - i
+                    subcat_list.append(sub_cat_data)
+                cat_obj_data = {
+                    "category_id": str(cat_obj.category_id),
+                    "category_name": cat_obj.category_name,
+                    "category_img": "",
+                    "total_adverts_count": advert_count,
+                    "total_likes": like_count,
+                    "favorite": "0",
+                    "subcategories": subcat_list,
+                    "category_color": color
+                }
+                category_list.append(cat_obj_data)
+        data = {'success': 'true', 'message':'', 'category_list': category_list,'level':level}
+    except Exception, ke:
+        print ke
+        data = {'success': 'false', 'message':'Something went wrong', 'category_list': [],'level':''}
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 @csrf_exempt
 def get_advert_list(request):
@@ -923,7 +925,7 @@ def get_advert_list(request):
             advert_map_obj = Advert.objects.filter(category_level_5=category_id)
         if level == '0':
             advert_map_obj = Advert.objects.filter(category_id=category_id)
-
+        print advert_map_obj
         for advert_map in advert_map_obj:
             if advert_map.city_place_id:
                 if int(advert_map.city_place_id.city_place_id) == int(city_id):
@@ -936,6 +938,7 @@ def get_advert_list(request):
                     end_date = advert_sub_obj.business_id.end_date
                     end_date = datetime.strptime(end_date, "%m/%d/%Y")
                     date_gap = end_date - pre_date
+                    print date_gap
                     if int(date_gap.days) >= 0:
                         advert_obj = Advert.objects.get(advert_id=advert_id)
                         advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
@@ -960,7 +963,7 @@ def get_advert_list(request):
                         if advert_obj.email_secondary:
                             email_list.append(advert_obj.email_secondary)
                         if advert_obj.display_image:
-                            image_url = SERVER_URL + advert_obj.display_image.url
+                            image_url = advert_obj.display_image.url
                         else:
                             image_url = ''
 
@@ -988,20 +991,20 @@ def get_advert_list(request):
                             like_count = like_count + 1
 
                         advert_data = {
-                            "advert_id": advert_obj.advert_id,
+                            "advert_id": str(advert_obj.advert_id),
                             "advert_img": image_url,
                             "name": advert_obj.advert_name,
                             "location": address,
                             "offer_start_date": start_date.strftime("%d %b %Y"),
                             "offer_end_date": end_date.strftime("%d %b %Y"),
-                            "likes": like_count,
+                            "likes": str(like_count),
                             "is_like": is_like,
                             "is_favourite": is_favourite,
-                            "views": views_count,
+                            "views": str(views_count),
                             "reviews": "0",
-                            "ratings": "3.2",
                             "phone": phone_list,
                             "email": email_list,
+                            "ratings": "3.2",
                             "level":level
                         }
                         advert_list.append(advert_data)
@@ -1078,11 +1081,11 @@ def get_advert_details(request):
         advert_video_obj = Advert_Video.objects.filter(advert_id=advert_id)
 
         for advert_img in advert_img_obj:
-            image_url = SERVER_URL + advert_img.advert_image.url
+            image_url = advert_img.advert_image.url
             image_list.append(image_url)
 
         for advert_video in advert_video_obj:
-            video_url = SERVER_URL + advert_video.advert_video_name.url
+            video_url = advert_video.advert_video_name.url
             video_list.append(video_url)
 
         for phone in phone_obj:
@@ -1098,7 +1101,7 @@ def get_advert_details(request):
             email_list.append(advert_obj.email_secondary)
 
         if advert_obj.display_image:
-            image_url = SERVER_URL + advert_obj.display_image.url
+            image_url = advert_obj.display_image.url
         else:
             image_url = ''
 
@@ -1143,7 +1146,7 @@ def get_advert_details(request):
         review_list = []
         review_data_1 = {
             "reviewer_name":"Alisha Menon",
-            "reviewer_image": SERVER_URL + "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
+            "reviewer_image": "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
             "review_date":"28 August 2016",
             "review":"A new restaurant in busy area of Chinchwad, this one is gaining popularity because of its affordable barbecue and tasty food. Table booking is recommended. They have the option of ala carte as well as buffet meals. Buffet includes the barbecue snacks. The options in barbecue are less. Food is tasty. Service is good if you turn up early. Service quality diminishes at peak time. Overall it's a must visit once.",
             "review_rating":"4.2"
@@ -1151,7 +1154,7 @@ def get_advert_details(request):
         review_list.append(review_data_1)
         review_data_2 = {
             "reviewer_name": "John Marks",
-            "reviewer_image": SERVER_URL + "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
+            "reviewer_image": "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
             "review_date": "24 August 2016",
             "review": "Ambiance is good for a rooftop restaurant but you have to wait as it is very crowded and then the staff and captain are not in a mood to serve maybe they are tensed. Food is OK nothing great soups not up to the mark, panner tika was good, they must improve on quality as it is crowded so if the quality and service improves they have made it . ",
             "review_rating": "3.8"
@@ -1159,24 +1162,29 @@ def get_advert_details(request):
         review_list.append(review_data_2)
         review_data_3 = {
             "reviewer_name": "Alisha Menon",
-            "reviewer_image": SERVER_URL + "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
+            "reviewer_image": "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
             "review_date": "21 August 2016",
             "review": "Everything was good in veg buffet excep pineapple macroni. I don't know due to rush or anything else but management is too lazy or what. They can remove same or limited serves if they are not able to fetch orders in time. After ordering one macroni taking 1 hour to serve. We went on weekend and thought it was due to rush but in next week thursday same situation. Please remove macroni and do less pricing else serve properly and dont make customers to feel like they have asked for diamond after ordering same. ",
             "review_rating": "4.0"
         }
         review_list.append(review_data_3)
 
+        if advert_obj.advert_views:
+            advert_views = str(advert_obj.advert_views)
+        else:
+            advert_views = "0"
+
         advert_data = {
-            "advert_id": advert_obj.advert_id,
+            "advert_id": str(advert_obj.advert_id),
             "advert_img": image_url,
             "name": advert_obj.advert_name,
             "location": address,
             "offer_start_date": start_date.strftime("%d %b %Y"),
             "offer_end_date": end_date.strftime("%d %b %Y"),
-            "likes": like_count,
+            "likes": str(like_count),
             "is_like":is_like,
             "is_favourite": is_favourite,
-            "views": advert_obj.advert_views,
+            "views": advert_views,
             "reviews": "3",
             "ratings": "3.2",
             "email": email_list,
@@ -1317,14 +1325,19 @@ def get_discount_details(request):
             for advert_like in advert_like_obj:
                 like_count = like_count + 1
 
+            if advert_obj.advert_views:
+                advert_views = str(advert_obj.advert_views)
+            else:
+                advert_views = '0'
+
             advert_data = {
-                "advert_id": advert_obj.advert_id,
+                "advert_id": str(advert_obj.advert_id),
                 "name": advert_obj.advert_name,
                 "location": address,
                 "offer_start_date": start_date.strftime("%d %b %Y"),
                 "offer_end_date": end_date.strftime("%d %b %Y"),
-                "likes": like_count,
-                "views": advert_obj.advert_views,
+                "likes": str(like_count),
+                "views": advert_views,
                 "reviews": "0",
                 "ratings": "3.2",
                 "is_favourite": is_favourite,
@@ -1378,7 +1391,7 @@ def get_favourite_details(request):
             for advert_like in advert_like_obj:
                 like_count = like_count + 1
             if advert_obj.display_image:
-                image_path = SERVER_URL + advert_obj.display_image.url
+                image_path = advert_obj.display_image.url
             else:
                 image_path = ''
             if advert_obj.advert_views:
@@ -1386,16 +1399,16 @@ def get_favourite_details(request):
             else:
                 views = 0
             advert_data = {
-                "advert_id": advert_obj.advert_id,
+                "advert_id": str(advert_obj.advert_id),
                 "name": advert_obj.advert_name,
-                "category_id": advert_obj.category_id.category_id,
+                "category_id": str(advert_obj.category_id.category_id),
                 "category_name": advert_obj.category_id.category_name,
                 "advert_image": image_path,
                 "location": address,
                 "offer_start_date": start_date.strftime("%d %b %Y"),
                 "offer_end_date": end_date.strftime("%d %b %Y"),
-                "likes": like_count,
-                "views": views,
+                "likes": str(like_count),
+                "views": str(views),
                 "reviews": "0",
                 "ratings": "3.2",
                 "is_favourite": "true",
@@ -1452,14 +1465,18 @@ def get_active_discount_details(request):
                 for advert_like in advert_like_obj:
                     like_count = like_count + 1
 
+                if advert_obj.advert_views:
+                    advert_views = str(advert_obj.advert_views)
+                else:
+                    advert_views = '0'
                 advert_data = {
-                    "advert_id": advert_obj.advert_id,
+                    "advert_id": str(advert_obj.advert_id),
                     "name": advert_obj.advert_name,
                     "location": address,
                     "offer_start_date": start_date.strftime("%d %b %Y"),
                     "offer_end_date": end_date.strftime("%d %b %Y"),
-                    "likes": like_count,
-                    "views": advert_obj.advert_views,
+                    "likes": str(like_count),
+                    "views": advert_views,
                     "reviews": "0",
                     "ratings": "3.2",
                     "is_like": is_like,
@@ -1645,7 +1662,7 @@ def search_advert(request):
                         advert_id = str(advert.advert_id)
                         advert_name = advert.advert_name
                         try:
-                            advert_image = SERVER_URL + advert.display_image.url
+                            advert_image = advert.display_image.url
                         except:
                             advert_image = ''
                         try:
@@ -1797,4 +1814,251 @@ def save_sellticket(request):
     except Exception, e:
         print "Exception",e
         data = {'success': 'false', 'message': 'Sell Ticket not Save'}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+# Sell Ticket List
+@csrf_exempt
+def view_list_sellticket(request):
+    try:
+        # pdb.set_trace()
+        sell_ticket_list = []
+        sell_ticket_obj=SellTicket.objects.filter()
+        if sell_ticket_obj:     
+            for ticket in sell_ticket_obj:
+                user_id=str(ticket.user_id)
+                consumer_object = ConsumerProfile.objects.get(consumer_id=user_id)
+                phone_no = consumer_object.consumer_contact_no
+                email    = consumer_object.consumer_email_id
+                if ticket.image_one:
+                    image_one=ticket.image_one.url
+                else:
+                    image_one=''
+
+                tkt_data = {
+                    "sellticket_id":str(ticket.sellticket_id),
+                    "event_name":ticket.event_name,
+                    "event_venue":ticket.event_venue,
+                    "start_date":ticket.start_date.strftime('%d/%m/%Y'),
+                    "start_time":ticket.start_time,
+                    "image_one":image_one,
+                    "phone_no":phone_no,
+                    "email":email
+                }
+                sell_ticket_list.append(tkt_data)
+            data = {"success":"true","sell_ticket_list":sell_ticket_list}
+        else:
+            tkt_data={
+                "":""
+            }
+            sell_ticket_list.append(tkt_data)
+            data = {"success":"false",'message': "Sell Ticket not Availabel"} 
+
+    except Exception, e:
+        print "Exception",e
+        data = {'success': 'false'}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+# Sell Ticket Detail
+@csrf_exempt
+def view_sellticket_detail(request):
+    try:
+        # pdb.set_trace()
+        sell_ticket_detail= []
+        if request.method == 'POST':
+            json_obj = json.loads(request.body)
+            sellticket_id = json_obj['sellticket_id']
+            ticket_object_list = SellTicket.objects.filter(sellticket_id=sellticket_id)
+            for ticket_object in ticket_object_list:
+                user_id=str(ticket_object.user_id)
+                consumer_object = ConsumerProfile.objects.get(consumer_id=user_id)
+                phone_no = consumer_object.consumer_contact_no
+                email    = consumer_object.consumer_email_id
+
+                if ticket_object.image_one:
+                    image_one=ticket_object.image_one.url
+                else:
+                    image_one=''
+                if ticket_object.image_two:
+                    image_two=ticket_object.image_two.url
+                else:
+                    image_two=''
+                if ticket_object.image_three:
+                    image_three=ticket_object.image_three.url
+                else:
+                    image_three=''
+                if ticket_object.image_four:
+                    image_four=ticket_object.image_four.url
+                else:
+                    image_four=''
+
+                ticket_data = {
+                    'image_one':image_one,
+                    'image_two':image_two,
+                    'image_three':image_three,
+                    'image_four':image_four,
+                    'event_name':ticket_object.event_name,
+                    'event_venue':ticket_object.event_venue,
+                    'start_date':ticket_object.start_date.strftime('%d/%m/%Y'),
+                    'start_time':ticket_object.start_time,
+                    'original_price':ticket_object.original_price,
+                    'no_of_tickets':ticket_object.no_of_tickets,
+                    'phone_no':phone_no,
+                    'email':email,
+                    'ticket_class':ticket_object.ticket_class,
+                    'asking_price':ticket_object.asking_price
+                } 
+                sell_ticket_detail.append(ticket_data)
+
+        data ={"success":"true","sell_ticket_detail":sell_ticket_detail}
+
+    except Exception, e:
+        print "Exception",e
+        data = {'success': 'false'}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+@csrf_exempt
+def get_map_advert_list(request):
+    json_obj = json.loads(request.body)
+    user_id = json_obj['user_id']
+    city_id = json_obj['city_id']
+    lon_max, lon_min, lat_max, lat_min = bounding_box(
+        float(json_obj['consumer_latitude']),
+        float(json_obj['consumer_longitude']),
+        float(json_obj['radius'])
+    )
+    advert_list = []
+    try:
+        advert_map_obj = Advert.objects.filter(
+            city_place_id=city_id,
+            latitude__range=[lat_min, lat_max],
+            longitude__range=[lon_min, lon_max],
+            status='1'
+        )
+        for advert_map in advert_map_obj:
+            phone_list = []
+            email_list = []
+            advert_id = str(advert_map.advert_id)
+            pre_date = datetime.now().strftime("%m/%d/%Y")
+            pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+            advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
+            end_date = advert_sub_obj.business_id.end_date
+            end_date = datetime.strptime(end_date, "%m/%d/%Y")
+            date_gap = end_date - pre_date
+            if int(date_gap.days) >= 0:
+                advert_obj = Advert.objects.get(advert_id=advert_id)
+                advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
+                start_date = advert_sub_obj.business_id.start_date
+                end_date = advert_sub_obj.business_id.end_date
+                start_date = datetime.strptime(start_date, "%m/%d/%Y")
+                end_date = datetime.strptime(end_date, "%m/%d/%Y")
+                address = ''
+                if advert_obj.area:
+                    address = advert_obj.area
+                if advert_obj.city_place_id:
+                    address = address + ' ' + advert_obj.city_place_id.city_id.city_name
+
+                phone_obj = PhoneNo.objects.filter(advert_id=advert_id)
+
+                for phone in phone_obj:
+                    phone_no = phone.phone_no
+                    phone_list.append(phone_no)
+
+                email_list.append(advert_obj.email_primary)
+                if advert_obj.email_secondary:
+                    email_list.append(advert_obj.email_secondary)
+                if advert_obj.display_image:
+                    image_url = advert_obj.display_image.url
+                else:
+                    image_url = ''
+
+                try:
+                    advert_like_obj = AdvertLike.objects.get(advert_id=advert_id, user_id=str(user_id))
+                    is_like = "true"
+                except Exception:
+                    is_like = "false"
+
+                try:
+                    advert_like_obj = AdvertFavourite.objects.get(advert_id=advert_id, user_id=str(user_id))
+                    is_favourite = "true"
+                except Exception:
+                    is_favourite = "false"
+
+
+                views_count = AdvertView.objects.filter(advert_id=advert_id).count()
+                like_count = AdvertLike.objects.filter(advert_id=advert_id).count()
+
+                advert_data = {
+                    "advert_id": str(advert_obj.advert_id),
+                    "advert_img": image_url,
+                    "name": advert_obj.advert_name,
+                    "location": address,
+                    "offer_start_date": start_date.strftime("%d %b %Y"),
+                    "offer_end_date": end_date.strftime("%d %b %Y"),
+                    "likes": str(like_count),
+                    "is_like": is_like,
+                    "is_favorite": is_favourite,
+                    "views": str(views_count),
+                    "reviews": "0",
+                    "phone": phone_list,
+                    "email": email_list,
+                    "ratings": "3.2",
+                    "latitude": str(advert_obj.latitude),
+                    "longitude": str(advert_obj.longitude),
+                }
+                advert_list.append(advert_data)
+        # Token.objects.filter(user=user).delete()
+        # token = Token.objects.create(user=user)
+        # resp = {}
+        # resp['authorization'] = "Token " + str(token)
+        data = {"success": "true", "message":"", "advert_list": advert_list}
+
+    except Exception, e:
+        print "Exception", e
+        data = {"success": "false", "message": "Something went wrong", "advert_list": advert_list}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def change_in_latitude(distance):
+    "Given a distance north, return the change in latitude."
+    return (distance / earth_radius) * radians_to_degrees
+
+
+def change_in_longitude(latitude, distance):
+    "Given a latitude and a distance west, return the change in longitude."
+    # Find the radius of a circle around the earth at given latitude.
+    r = earth_radius * math.cos(latitude * degrees_to_radians)
+    return (distance / r) * radians_to_degrees
+
+
+def bounding_box(latitude, longitude, distance):
+    lat_change = change_in_latitude(distance)
+    lat_max = latitude + lat_change
+    lat_min = latitude - lat_change
+    lon_change = change_in_longitude(latitude, distance)
+    lon_max = longitude + lon_change
+    lon_min = longitude - lon_change
+    return (lon_max, lon_min, lat_max, lat_min)
+
+@csrf_exempt
+def post_advert_review(request):
+    json_obj = json.loads(request.body)
+    user_id = json_obj['user_id']
+    advert_id = json_obj['advert_id']
+    ratings = json_obj['ratings']
+    review = json_obj['review']
+    try:
+        review_obj = AdvertReview()
+        review_obj.user_id = ConsumerProfile.objects.get(consumer_id=user_id)
+        review_obj.advert_id = Advert.objects.get(advert_id=advert_id)
+        review_obj.ratings = ratings
+        review_obj.review = review
+        review_obj.creation_date = datetime.now()
+        review_obj.save()
+        data = {"success": "true", "message": "Review published successfully."}
+
+    except Exception, e:
+        print "Exception", e
+        data = {"success": "false", "message": "Something went wrong"}
     return HttpResponse(json.dumps(data), content_type='application/json')

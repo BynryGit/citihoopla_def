@@ -542,59 +542,81 @@ div.dataTables_filter label {
                                                         	</div>
                                                         </div>	
                                                         
-                                                        <div class="form-group">
-                                                        	 <div class="row">
- 																				 <div class="col-lg-4">
- 																				 		<label class="control-label">State
-	                                                                <span class="required"> * </span>
-	                                                            </label>
-	                                                            	<input type="hidden" value="{{state.state_id}}" id="selectedState"/>		
-	                                                                <select id="state" name="state" class="form-control" required> 
-																						 	<option value="">Select State</option>                        
-															                        {% for state in state_list %}	
-															                        <option value="{{ state.state_id }}"> {{ state.state_name }}</option>
-															                        {% endfor %}
-															                     </select>
-															               <label class="error" style="color:red; display:none;"></label>                                                          	                                                        		
- 																				 </div>
- 																				 
- 																				 <div class="col-lg-4">
- 																				 		<label class="control-label">City
-	                                                                <span class="required"> * </span>
-	                                                            </label>
+                                                <div class="form-group">
+                                                             <div class="row">
+                                                             
+                                                             <div class="col-md-3">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label ">Country
 
-	                                                            
-	                                                            	<input type="hidden" value="{{city.city_id}}" id="selectedCity"/> 
+                                                                            <span class="required"> * </span>
+                                                                        </label>
+                                                                        <input type="hidden" value="{{country}}" id="selectedCountry"/> 
+                                                                        <select id="country" name="country"
+                                                                                class="form-control">
+                                                                            <option value="">Select Country</option>
+                                                                            {% for countr in country_list %}
+                                                                            <option value="{{ countr.country_id }}">
+                                                                                {{countr.country_name }}
+                                                                            </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error" id="state_error"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                                 <div class="col-lg-3">
+                                                                                        <label class="control-label">State
+                                                                    <span class="required"> * </span>
+                                                                </label>
+                                                                    <input type="hidden" value="{{state.state_id}}" id="selectedState"/>        
+                                                                    <select id="state" name="state" class="form-control" required> 
+                                                                                            <option value="">Select State</option>                        
+                                                                                    {% for state in state_list %}   
+                                                                                    <option value="{{ state.state_id }}"> {{ state.state_name }}</option>
+                                                                                    {% endfor %}
+                                                                                 </select>
+                                                                           <label class="error" style="color:red; display:none;"></label>                                                                                                                           
+                                                                                 </div>
+                                                                                 
+                                                                                 <div class="col-lg-3">
+                                                                                        <label class="control-label">City
+                                                                    <span class="required"> * </span>
+                                                                </label>
+
+                                                                
+                                                                    <input type="hidden" value="{{city.city_place_id}}" id="selectedCity"/> 
 
 
-	                                                                <select name="city" id="city" class="form-control" required="">
-															                     	<option value="">Select City</option>
-															                     		{% for city in city_list %}	
-	                                      			                           		<option value="{{ city.city_id }}"> {{ city.city_name }}</option>
-																		                       {% endfor %}
-															                     </select>
-															                     <label class="error" style="color:red; display:none;"></label>
- 																				 </div>
- 																				 
- 																				 <div class="col-lg-4">
- 																				 		<label class="control-label">Pincode
-	                                                                <span class="required"> * </span>
-	                                                            </label>
-	                                                            <input type="hidden" value="{{pincode}}" id="selectedPincode"/>
-                                                 					<select name="pincode" id="pincode" class="form-control" required="">
-                                                 					<option value="">Select Pincode</option>
-															                     		 			{% for pincode in pincode_list %}	
-																			                         {% if pincode == user_pincode %}
-																		                           <option selected value="{{user_pincode}}">{{user_pincode}}</option>
-																		                           {% else %}
-																		                           <option value="{{pincode}}"> {{pincode}}</option>
-																		                           {% endif %}	                        
-																			                        {% endfor %}
-															                     </select>
-															                   <label class="error" style="color:red; display:none;"></label>  
- 																				 </div>
-                                                        	</div>
-                                                       </div> 	
+                                                                    <select name="city" id="city" class="form-control" required="">
+                                                                                    <option value="">Select City</option>
+                                                                                        {% for city in city_list %} 
+                                                                                    <option value="{{ city.city_place_id }}"> {{ city.city_id.city_name }}</option>
+                                                                                               {% endfor %}
+                                                                                 </select>
+                                                                                 <label class="error" style="color:red; display:none;"></label>
+                                                                                 </div>
+                                                                                 
+                                                                                 <div class="col-lg-3">
+                                                                                        <label class="control-label">Pincode
+                                                                    <span class="required"> * </span>
+                                                                </label>
+                                                                <input type="hidden" value="{{user_pincode}}" id="selectedPincode"/>
+                                                                    <select name="pincode" id="pincode" class="form-control" required="">
+                                                                    <option value="">Select Pincode</option>
+                                                                                                    {% for pincode in pincode_list %}   
+                                                                                                     {% if pincode == user_pincode %}
+                                                                                                   <option selected value="{{user_pincode}}">{{user_pincode}}</option>
+                                                                                                   {% else %}
+                                                                                                   <option value="{{pincode}}"> {{pincode}}</option>
+                                                                                                   {% endif %}                          
+                                                                                                    {% endfor %}
+                                                                                 </select>
+                                                                               <label class="error" style="color:red; display:none;"></label>  
+                                                                                 </div>
+                                                            </div>
+                                                       </div>
                                                          
                                                        <div class="form-group">
                                                         	<div class="row">
@@ -1058,7 +1080,13 @@ $(document).ready(function(){
   $("#state").select2({
    
 });
+   $("#country").select2({
+   
+});
+                $("#country").change(function () {
 
+    getState();
+});
 		  		
 $("#state").change(function () {
 	getCity();
@@ -1086,65 +1114,88 @@ function validateIntKeyPress(el, evt) {
 </script>
 
 <script type="text/javascript" >
-
+$('#country option[value='+ $('#selectedCountry').val() +']').attr("selected", "selected");
 $('#state option[value='+ $('#selectedState').val() +']').attr("selected", "selected");
 $('#city option[value='+ $('#selectedCity').val() +']').attr("selected", "selected");
+$('#pincode option[value='+ $('#selectedPincode').val() +']').attr("selected", "selected");
 
+function getState() {
+    $('#state').select2('val','');
+     country_id = $('#country :selected').val();
+    if (country_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/get-state/',
+            data: {'country_id': country_id},
+            success: function (response) {
+                    //alert('success');
+                $('#state').html('');
+                $.each(response.state_list, function (index, item) {
+                    $('#state').append(item);
+                });
+                $('#state').val("");
+            },
+            error: function (response) {
+                alert("Error!");
+            },
 
-function getPincode(){
-			$('#pincode').select2('val','');
-        city_id = $('#city :selected').val();
-        if (city_id) {
-            $.ajax({
-                type: 'GET',
-                url: '/get-pincode/',
-                data: {'city_id': city_id},
-                 success: function (response) {
-                    $('#pincode').html('');
-                    $.each(response.pincode_list, function (index, item) {
-                        $('#pincode').append(item);
-                    });
-                    $('#pincode').val("");
-                },
-                error: function (response) {
-                    alert("Error!");
-                },
-
-            });
-        }
-        else {
-            $('#city').val("");
-        }
+        });
     }
+  
+}
+  function getPincode(){
+    $('#pincode').select2('val','');
+                    city_id = $('#city :selected').val();
+                    if (city_id) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/get-pincode-place/',
+                            data: {'city_id': city_id},
+                             success: function (response) {
+                                $('#pincode').html('');
+                                $.each(response.pincode_list, function (index, item) {
+                                    $('#pincode').append(item);
+                                });
+                                $('#pincode').val("");
+                            },
+                            error: function (response) {
+                                alert("Error!");
+                            },
+
+                        });
+                    }
+                    else {
+                        $('#city').val("");
+                    }
+                }
 
 
-function getCity() {
-			$('#city').select2('val','');
-			$('#pincode').select2('val','');
-        state_id = $('#state :selected').val();
-        if (state_id) {
-            $.ajax({
-                type: 'GET',
-                url: '/get-city/',
-                data: {'state_id': state_id},
-                success: function (response) {
-                		//alert('success');
-                    $('#city').html('');
-                    $.each(response.city_list, function (index, item) {
-                        $('#city').append(item);
-                    });
-                    $('#city').val("");
-                },
-                error: function (response) {
-                    alert("Error!");
-                },
+                function getCity() {
+                    $('#city').select2('val','');
+                        state_id = $('#state :selected').val();
+                        if (state_id) {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/get-city-place/',
+                                data: {'state_id': state_id},
+                                success: function (response) {
+                                        //alert('success');
+                                    $('#city').html('');
+                                    $.each(response.city_list, function (index, item) {
+                                        $('#city').append(item);
+                                    });
+                                    $('#city').val("");
+                                },
+                                error: function (response) {
+                                    alert("Error!");
+                                },
 
-            });
-        }
-        else {
-            $('#city').val("");
-        }
-    }
+                            });
+                        }
+                        else {
+                            $('#city').val("");
+                        }
+                    }
 
 function checkBusinessName(business_name){
 	businessName = $(business_name).val()   
@@ -1259,6 +1310,22 @@ function checkaddress(address1){
    }
 }
 
+        function checkcountry(country){
+
+  if($(country).val()!='' && $(country).val()!= null)
+   {
+
+    
+    $(country).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+
+    $(country).parent().children('.error').css("display", "block");
+    $(country).parent().children('.error').text("Please select Country");
+   return false; 
+   }
+}
+
 function checkState(state){
 
 
@@ -1363,7 +1430,7 @@ function checkUserEmail(user_email){
 
 function validateData(){
 
-	if(checkBusinessName("#business_name")&checkNumber("#phone_no")&checkSecNumber("#sec_phone_no")&checkEmail("#pri_email")&checkSecEmail("#sec_email")&checkaddress("#address1")&checkState("#state")&checkCity("#city")&checkPincode("#pincode")&checkBusiness('#business')&checkUserName('#user_name')&checkUserEmail('#user_email')&checkUserContactNo('#user_contact_no')){
+	if(checkBusinessName("#business_name")&checkNumber("#phone_no")&checkSecNumber("#sec_phone_no")&checkEmail("#pri_email")&checkSecEmail("#sec_email")&checkaddress("#address1")&checkcountry("#country")&checkState("#state")&checkCity("#city")&checkPincode("#pincode")&checkBusiness('#business')&checkUserName('#user_name')&checkUserEmail('#user_email')&checkUserContactNo('#user_contact_no')){
 		return true;	
 	}
 	return false;
@@ -1375,6 +1442,7 @@ $("#save-quit").click(function(event)  {
 	  	var input = document.getElementById("logo");  	  
 		file = input.files[0];
 	   var formData= new FormData();
+
 
         var useremail;
        var checkusername = "{{ contact_email  }}"
@@ -1396,6 +1464,7 @@ $("#save-quit").click(function(event)  {
 		formData.append("address1",$('#address1').val());
 		formData.append("address2",$('#address2').val());
 		formData.append("state",$('#state').val());
+        formData.append("country",$('#country').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());
 		formData.append("business",$('#business').val());
@@ -1459,6 +1528,7 @@ $("#save-continue").click(function(event)  {
 		formData.append("sec_email",$('#sec_email').val());
 		formData.append("address1",$('#address1').val());
 		formData.append("address2",$('#address2').val());
+        formData.append("country",$('#country').val());
 		formData.append("state",$('#state').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());

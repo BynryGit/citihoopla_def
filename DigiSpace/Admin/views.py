@@ -42,8 +42,7 @@ from datetime import date
 import calendar
 import urllib2
 
-#SERVER_URL = "http://52.40.205.128"
-SERVER_URL = "http://192.168.0.151:9090"
+SERVER_URL = "http://52.40.205.128"   
 #SERVER_URL = "http://127.0.0.1:8000"
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -57,19 +56,6 @@ def rate_card(request):
 def login_open(request):
     if request.user.is_authenticated():
         return redirect('/index/')
-    else:
-        form = CaptchaForm()
-        return render_to_response('Admin/user_login.html', dict(
-            form=form
-        ), context_instance=RequestContext(request))
-
-def subscriber_profile(request):
-    if request.user.is_authenticated():
-        supplier_id = request.GET.get('supplier_id')
-        supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
-        image_path = SERVER_URL + supplier_obj.logo.url
-        data = {'supplier_obj':supplier_obj,'image_path':image_path}
-        return render(request, 'Admin/my_profile.html',data)
     else:
         form = CaptchaForm()
         return render_to_response('Admin/user_login.html', dict(
@@ -387,7 +373,7 @@ def add_advert(request):
         data = {'tax_list': tax_list, 'advert_service_list': advert_service_list, 'service_list': service_list,
                 'username': request.session['login_user'], 'user_id': user_id, 'category_list': get_category(request),
                 'currency': get_currency(request), 'phone_category': get_phone_category(request),
-                'state_list': get_states(request)}
+                'country_list':get_country(request)}
         return render(request, 'Admin/add_advert.html', data)   
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -405,81 +391,81 @@ def deal_detail(request):
 
 @csrf_exempt
 def signin(request):
-        data = {}
-        try:
-            if request.POST:
-                form = CaptchaForm(request.POST)
-                print 'logs: login request with: ', request.POST
-                username = request.POST['username']
-                password = request.POST['password']
+    data = {}
+    try:
+        if request.POST:
+            form = CaptchaForm(request.POST)
+            print 'logs: login request with: ', request.POST
+            username = request.POST['username']
+            password = request.POST['password']
 
-                if form.is_valid():
-                    try:
-                        user_obj = UserProfile.objects.get(username=username)
+            if form.is_valid():
+                try:
+                    user_obj = UserProfile.objects.get(username=username)
 
-                        user = authenticate(username=username, password=password)
-                        print 'valid form befor----->'
-                        if user :
-                            if user.is_active:
-                                print 'valid form after----->',user
-                                user_profile_obj = UserProfile.objects.get(username=user)
-                                print user_profile_obj.user_role.role_name
-                                print user_profile_obj.user_role.role_id
-                                privilege_obj = Privileges.objects.filter(
-                                    role_id=str(user_profile_obj.user_role.role_id))
-                                privilege_list = []
-                                for privilege in privilege_obj:
-                                    privilege_list.append(str(privilege.privilage))
-                                request.session['privileges'] = privilege_list
-                                print request.session['privileges']
-                                if user_profile_obj.user_status == "1":
-                                    try:
-                                        request.session['login_user'] = user_profile_obj.username
-                                        request.session['first_name'] = user_profile_obj.user_name
-                                        login(request, user)
-                                        if 'All' in request.session['privileges']:
-                                            redirect_url = '/dashboard/'
-                                        elif 'View Dashboard Details' in request.session['privileges']:
-                                            redirect_url = '/dashboard/'
-                                        elif 'View Financial Details' in request.session['privileges']:
-                                            redirect_url = '/dashboard/'
-                                        elif 'View Advert Performance' in request.session['privileges']:
-                                            redirect_url = '/dashboard/'
-                                        elif 'View Selected Subscriber Details' in request.session['privileges']:
-                                            redirect_url = '/dashboard/'
-                                        elif 'Consumer Management' in request.session['privileges']:
-                                            redirect_url = '/consumer/'
-                                        elif 'Subscription Management' in request.session['privileges']:
-                                            redirect_url = '/subscriber/'
-                                        print "=======================================",redirect_url
-                                    except Exception as e:
-                                        print e
-                                    print "USERNAME", request.session['login_user']
-                                    data= { 'success' : 'true','username':request.session['first_name'],'redirect_url':redirect_url}
+                    user = authenticate(username=username, password=password)
+                    print 'valid form befor----->'
+                    if user :
+                        if user.is_active:
+                            print 'valid form after----->',user
+                            user_profile_obj = UserProfile.objects.get(username=username)
+                            print user_profile_obj.user_role.role_name
+                            print user_profile_obj.user_role.role_id
+                            privilege_obj = Privileges.objects.filter(
+                                role_id=str(user_profile_obj.user_role.role_id))
+                            privilege_list = []
+                            for privilege in privilege_obj:
+                                privilege_list.append(str(privilege.privilage))
+                            request.session['privileges'] = privilege_list
+                            print request.session['privileges']
+                            if user_profile_obj.user_status == "1":
+                                try:
+                                    request.session['login_user'] = user_profile_obj.username
+                                    request.session['first_name'] = user_profile_obj.user_name
+                                    login(request, user)
+                                    if 'All' in request.session['privileges']:
+                                        redirect_url = '/dashboard/'
+                                    elif 'View Dashboard Details' in request.session['privileges']:
+                                        redirect_url = '/dashboard/'
+                                    elif 'View Financial Details' in request.session['privileges']:
+                                        redirect_url = '/dashboard/'
+                                    elif 'View Advert Performance' in request.session['privileges']:
+                                        redirect_url = '/dashboard/'
+                                    elif 'View Selected Subscriber Details' in request.session['privileges']:
+                                        redirect_url = '/dashboard/'
+                                    elif 'Consumer Management' in request.session['privileges']:
+                                        redirect_url = '/consumer/'
+                                    elif 'Subscription Management' in request.session['privileges']:
+                                        redirect_url = '/subscriber/'
+                                    print "=======================================",redirect_url
+                                except Exception as e:
+                                    print e
+                                print "USERNAME", request.session['login_user']
+                                data= { 'success' : 'true','username':request.session['first_name'],'redirect_url':redirect_url}
 
-                            else:
-                                data= { 'success' : 'false', 'message':'User Is Not Active'}
-                                return HttpResponse(json.dumps(data), content_type='application/json')
                         else:
-                                data= { 'success' : 'Invalid Password', 'message' :'Invalid Password'}
-                                print "====USERNAME",data
-                                return HttpResponse(json.dumps(data), content_type='application/json')
-                    except:
-                        data= { 'success' : 'false', 'message' :'Invalid Username'}
-                        return HttpResponse(json.dumps(data), content_type='application/json')            
-                else:
-                    form = CaptchaForm()
-                    data= { 'success' : 'Invalid Captcha', 'message' :'Invalid Captcha'} 
-                    print "INVALID CAPTCHA"       
-                    return HttpResponse(json.dumps(data), content_type='application/json')
-        except MySQLdb.OperationalError, e:
-            print e
-            data= {'success' : 'false', 'message':'Internal server'}
-            return HttpResponse(json.dumps(data), content_type='application/json')
-        except Exception, e:
-            print 'Exception ', e
-            data= { 'success' : 'false', 'message':'Invalid Username or Password'}
+                            data= { 'success' : 'false', 'message':'User Is Not Active'}
+                            return HttpResponse(json.dumps(data), content_type='application/json')
+                    else:
+                            data= { 'success' : 'Invalid Password', 'message' :'Invalid Password'}
+                            print "====USERNAME",data
+                            return HttpResponse(json.dumps(data), content_type='application/json')
+                except:
+                    data= { 'success' : 'false', 'message' :'Invalid Username'}
+                    return HttpResponse(json.dumps(data), content_type='application/json')            
+            else:
+                form = CaptchaForm()
+                data= { 'success' : 'Invalid Captcha', 'message' :'Invalid Captcha'} 
+                print "INVALID CAPTCHA"       
+                return HttpResponse(json.dumps(data), content_type='application/json')
+    except MySQLdb.OperationalError, e:
+        print e
+        data= {'success' : 'false', 'message':'Internal server'}
         return HttpResponse(json.dumps(data), content_type='application/json')
+    except Exception, e:
+        print 'Exception ', e
+        data= { 'success' : 'false', 'message':'Invalid Username or Password'}
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 def signing_out(request):

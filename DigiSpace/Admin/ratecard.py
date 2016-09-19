@@ -66,8 +66,8 @@ def add_service(request):
 		)
 		card_obj.save()
 
-        #add_service_sms(card_obj)
-        #rate_card_add_mail(card_obj)
+        add_service_sms(card_obj)
+        rate_card_add_mail(card_obj)
 
         data={
 			'success':'true',
@@ -146,8 +146,8 @@ def delete_service(request):
             service_obj = ServiceRateCard.objects.get(service_rate_card_id=request.POST.get('service_id'))
             service_obj.service_rate_card_status = '0'
             service_obj.save()
-            #delete_service_sms(service_obj)
-            #rate_card_delete_mail(service_obj)
+            delete_service_sms(service_obj)
+            rate_card_delete_mail(service_obj)
             data = {'message': 'Service Inactivated Successfully', 'success':'true'}
 
         except IntegrityError as e:
@@ -286,8 +286,8 @@ def add_premium_service(request):
 		)
 		card_obj.save()
 
-        #add_premium_service_sms(card_obj)
-        #premium_rate_card_add_mail(card_obj)
+        add_premium_service_sms(card_obj)
+        premium_rate_card_add_mail(card_obj)
 
         data={
 			'success':'true',
@@ -365,8 +365,8 @@ def delete_premium_service(request):
             service_obj = AdvertRateCard.objects.get(advert_rate_card_id=request.POST.get('premium_service_id'))
             service_obj.advert_rate_card_status = '0'
             service_obj.save()
-            #premium_rate_card_delete_mail(service_obj)
-            #delete_premium_service_sms(service_obj)
+            premium_rate_card_delete_mail(service_obj)
+            delete_premium_service_sms(service_obj)
             data = {'message': 'Service Inactivated Successfully', 'success':'true'}
 
         except IntegrityError as e:
@@ -558,8 +558,8 @@ def update_service(request):
                 service_object.save()
                 
                 data = {'success':'true'}
-                #update_service_rate_card(service_object)
-                #update_service_sms(service_object)
+                update_service_rate_card(service_object)
+                update_service_sms(service_object)
             else:
                 data = {'success':'false'}
         except:
@@ -571,8 +571,8 @@ def update_service(request):
             service_object.service_rate_card_updated_date = datetime.now()
             service_object.service_rate_card_updated_by = 'Admin'
             service_object.save()
-            #update_service_rate_card(service_object)
-            #update_service_sms(service_object)
+            update_service_rate_card(service_object)
+            update_service_sms(service_object)
             data={
             'success':'true',
             }
@@ -665,8 +665,8 @@ def update_premium_service(request):
                 service_object.advert_rate_card_updated_date = datetime.now()
                 service_object.advert_rate_card_updated_by = 'Admin'
                 service_object.save()
-                #update_premium_service_sms(service_object)
-                #update_advert_rate_card(service_object)
+                update_premium_service_sms(service_object)
+                update_advert_rate_card(service_object)
                 data = {'success':'true'}
             else:
                 print '======in else======='
@@ -681,8 +681,8 @@ def update_premium_service(request):
             service_object.advert_rate_card_updated_date = datetime.now()
             service_object.advert_rate_card_updated_by = 'Admin'
             service_object.save()
-            #update_premium_service_sms(service_object)
-            #update_advert_rate_card(service_object)
+            update_premium_service_sms(service_object)
+            update_advert_rate_card(service_object)
             data={
                 'success':'true',
                 }

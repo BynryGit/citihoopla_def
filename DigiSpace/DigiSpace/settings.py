@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'digispaceapp',
     'subscriberapp',
     'captcha',
@@ -108,6 +110,13 @@ DATABASES = {
 
     }
  }
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

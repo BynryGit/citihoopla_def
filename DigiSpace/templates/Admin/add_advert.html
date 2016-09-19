@@ -453,7 +453,110 @@ height: 65px;
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    {% include 'Admin/side-panel.html' %}
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                        <li class="nav-item ">
+                            <a href="/dashboard/" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item  active">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-users"></i>
+                                <span class="title">Customers</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start active">
+                                    <a href="/subscriber/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Subscribers</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/consumer/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Consumers</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="/user/" class="nav-link nav-toggle">
+                                <i class="icon-user"></i>
+                                <span class="title">Admin</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="/rate-card/" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Rate Card</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                     <li class="nav-item  ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Notifications</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/send_sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                           <span class="title">SMS</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/send_email/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Email</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Push</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                         <li class="nav-item ">
+                            <a  class="nav-link nav-toggle">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Reference Data </span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/reference-data/" class="nav-link ">
+                                        <i class="icon-bar-chart"></i>
+                                        <span class="title"> City </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/category/" class="nav-link ">
+                                        <i class="icon-bulb"></i>
+                                        <span class="title"> Category </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/user-role/" class="nav-link ">
+                                       <i class="icon-user"></i>
+                                        <span class="title"> User Role </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>
                 <!-- END SIDEBAR -->
@@ -760,9 +863,167 @@ height: 65px;
                                             </div>
                                             </div>
                                           </div>
+                                          
+                                          <div class="row">
+    	                                         	 	<div class="col-lg-6">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label">Address Line 1
+                                                                    <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="text" class="form-control" name="address_line1" id="address_line1" /></input>
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                </div>
+                                                                </div>
+
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label">Address Line 2
+                                                                    </label>
+                                                                    <input type="text" class="form-control" name="address_line2" id="address_line2" />
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-md-6" >
+                                                                    <div class="form-group form-height">
+                                                                    <label class="control-label ">Area
+                                                                      <span class="required"> * </span>
+                                                                     </label>
+                                                                     <input type="text" name="area" id="area" class="form-control" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group form-height">
+                                                                    <label class="control-label ">Landmark
+                                                                    <!--  <span class="required"> * </span> -->
+                                                                    </label>
+                                                                    <input type="text" name="landmark" id="landmark" class="form-control" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                               
+                                                                 <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label ">Country
+
+                                                                            <span class="required"> * </span>
+                                                                        </label>
+                                                                        <select id="country" name="country"
+                                                                                class="form-control">
+                                                                            <option value="">Select Country</option>
+                                                                            {% for countr in country_list %}
+                                                                            <option value="{{ countr.country_id }}">
+                                                                                {{countr.country_name }}
+                                                                            </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error" id="state_error"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label ">State
+                                                                     <span class="required"> * </span>
+                                                                    </label>
+                                                                    <select class="form-control sel2" onchange="" id="statec" name="statec">
+                                                                        <option value="" >Select State</option>
+                                                                        {% for state in state_list %}
+                                                                        <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+ 																							<label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label ">City
+                                                                     <span class="required"> * </span>
+                                                                    </label>
+                                                                    <select class="form-control " id="city" name="city">
+                                                                        <option value="" >Select City</option>
+                                                                    </select>
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label ">Pincode
+                                                                     <span class="required"> * </span>
+                                                                    </label>
+                                                                    <select class="form-control " id="pincode" name="pincode">
+                                                                        <option value="" >Select Pincode</option>
+                                                                    </select>
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+
+                                                                </div>
+                                                          
+
+
+
+                                                            </div>
+                                                        </div>
+    	                                         	 	<div class="col-md-6">
+                                                             <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class='map-wrapper'>
+
+                                                                        <div id="map">
+
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label ">Lat
+                                                                    </label>
+                                                                     <input type="text" name="lat" id="lat" class="form-control" disabled="disabled"/>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label ">Long
+                                                                    <!--  <span class="required"> * </span> -->
+                                                                    </label>
+                                                                    <input type="text" name="long" id="lng" class="form-control" disabled="disabled"/>
+                                                                    </div>
+
+                                                                </div>
+                                                                </div>
+
+                                                        </div>
+    	                                       		</div>
 
                                                         <div class="row">
-                                                                <div class="col-lg-4">
+                                                        <div class="col-lg-4">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label ">Currency
+
+                                                                           <!--  <span class="required"> * </span> -->
+                                                                        </label>
+                                    													<input class="form-control" type="text" disabled id="currency"
+                                    													></input>
+
+                                                                        <label class="error" id="city_error"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                              <!--   <div class="col-lg-4">
                                                                     <div class="form-group">
                                                                         <label > Currency </label>
                                                               <select class="form-control " id="currency" name="currency">
@@ -772,7 +1033,7 @@ height: 65px;
                                                                 {% endfor %}
                                                               </select>
                                                          </div>
-                                                        </div>
+                                                        </div> -->
 
                                                      <div class="col-lg-4">
                                                     <div class="form-group">
@@ -870,127 +1131,7 @@ height: 65px;
                                             </div>
                                           </div>
 
-                                          <div class="row">
-    	                                         	 	<div class="col-lg-6">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group ">
-                                                                    <label class="control-label">Address Line 1
-                                                                    <span class="required"> * </span>
-                                                                    </label>
-                                                                    <input type="text" class="form-control" name="address_line1" id="address_line1" /></input>
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                </div>
-                                                                </div>
-
-
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label">Address Line 2
-                                                                    </label>
-                                                                    <input type="text" class="form-control" name="address_line2" id="address_line2" />
-                                                                    </div>
-                                                                </div>
-
-
-                                                                <div class="col-md-6" >
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">Area
-                                                                      <span class="required"> * </span>
-                                                                     </label>
-                                                                     <input type="text" name="area" id="area" class="form-control" />
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">Landmark
-                                                                    <!--  <span class="required"> * </span> -->
-                                                                    </label>
-                                                                    <input type="text" name="landmark" id="landmark" class="form-control" />
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">State
-                                                                     <span class="required"> * </span>
-                                                                    </label>
-                                                                    <select class="form-control sel2" onchange="" id="statec" name="statec">
-                                                                        <option value="" >Select State</option>
-                                                                        {% for state in state_list %}
-                                                                        <option value="{{ state.state_id }}">{{ state.state_name }}</option>
-                                                                        {% endfor %}
-                                                                    </select>
- 																							<label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">City
-                                                                     <span class="required"> * </span>
-                                                                    </label>
-                                                                    <select class="form-control " id="city" name="city">
-                                                                        <option value="" >Select City</option>
-                                                                    </select>
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">Pincode
-                                                                     <span class="required"> * </span>
-                                                                    </label>
-                                                                    <select class="form-control " id="pincode" name="pincode">
-                                                                        <option value="" >Select Pincode</option>
-                                                                    </select>
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-
-                                                                </div>
-
-
-
-                                                            </div>
-                                                        </div>
-    	                                         	 	<div class="col-md-6">
-                                                             <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class='map-wrapper'>
-
-                                                                        <div id="map">
-
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                                <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label ">Lat
-                                                                    </label>
-                                                                     <input type="text" name="lat" id="lat" class="form-control" disabled="disabled"/>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label ">Long
-                                                                    <!--  <span class="required"> * </span> -->
-                                                                    </label>
-                                                                    <input type="text" name="long" id="lng" class="form-control" disabled="disabled"/>
-                                                                    </div>
-
-                                                                </div>
-                                                                </div>
-
-                                                        </div>
-    	                                       		</div>
+                                          
 
 
                                           	<div class="row">
@@ -1083,375 +1224,272 @@ height: 65px;
                                      </div>
                                    </div>
 
-                                        <div id="property_descs">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <h4>Property Details
-                                                        </h4>
-                                                    </div>
-                                                </div>
+                                         <div id="property_desc">
+                                        	 <div class="row">
+                                          	<div class="col-lg-12">
+	                                            	<div class="form-group">
+	                                                <h4>Property Details
+	                                                </h4>
+	                                            </div>
+                                            </div>
+                                          </div>
+
+                                        <div class="border_s">
+                                          <div class="row">
+						                            <div class="col-lg-6">
+																<div class="form-group">
+																	<label >Property Market Rate (Per Sq Feet)  
+                                                                    <span class="required"> * </span>
+                                                                    </label>
+						                                  <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" name="pro_mark_rate" id="pro_mark_rate" class="form-control" />
+                                                          <label class="error" style="color:red; display:none;"></label>
+					                                 </div>
+						                            </div>
+
+						                             <div class="col-lg-6">
+																<div class="form-group">
+																	<label >Possession Status 
+                                                                    <span class="required"> * </span>
+                                                                    </label>
+						                                  	<select class="form-control sel2 property_status" id="possesion_status" name="possesion_status">
+							                                      <option value="">Select Status</option>
+							                                      <option value="Ready & Available">Ready & Available</option>
+							                                      <option value="Under Construction">Under Construction</option>
+							                                  </select>
+                                                              <label class="error" style="color:red; display:none;"></label>
+					                                 </div>
+						                            </div>
+                                          </div>
+
+                                          <div id="dateofdelivery">
+                                          	<div class="row">
+                                          		<div class="col-lg-4">
+                                          		<div class="form-group" id="ddelivery">
+	                                          			<label>Date of Delivery
+                                                        <span class="required"> * </span>
+                                                        </label>
+	                                          			<div class="input-group" data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
+	                                                        <input type="text" class="form-control date-picker" id="date_of_delivery" name="date_of_delivery" readonly>
+	                                                        <span class="input-group-btn">
+	                                                            <button class="btn default" type="button">
+	                                                                <i class="fa fa-calendar"></i>
+	                                                            </button>
+	                                                        </span>
+	                                                    </div>
+	                                          		</div>
+                                                    <label class="error" style="color:red; display:none;"></label>
+	                                          	</div>
+                                          	</div>
+                                          </div>
+
+                                          <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                <label class="control-label ">Other Projects (Max 5000 characters)
+                                                    <!-- <span class="required"> * </span> -->
+                                                </label>
+                                                  <textarea type="text" name="other_projects" maxlength="5000" id="other_projects" class="form-control" ></textarea>
+                                            </div>
+                                            </div>
+                                          </div>
+
+                                          <div class="row" style="margin-left: 1px;">
+                                            <div class="col-lg-12">
+                                            	<div class="form-group">
+                                                <label class="control-label " style="margin-left: -14px;">Available Amenities
+                                                    <span class="required"> * </span>
+                                                </label>
+                                              <div class="row amenity_check">
+                                                 <div class="row">
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21"  value="car" class="amenity"> Car Parking</input>
+                                                 	 </div>
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="club" class="amenity"> Club House</input>
+                                                 	 </div>
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="swim" class="amenity"> Swimming Pool</input>
+                                                 	 </div>
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="power" class="amenity"> 24 Hours Power Backup</input>
+                                                 	 </div>
+                                                 </div>
+                                                 <div class="row">
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="gym" class="amenity"> Gymanasium</input>
+                                                 	 </div>
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="kids" class="amenity"> Kids Play Area</input>
+                                                 	 </div>
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="rain_water" class="amenity"> Rain Water Harvesting</input>
+                                                 	 </div>
+                                                 	 <div class="col-lg-3">
+                                                 	 	<input type="checkbox" id="inlineCheckbox21" value="ame" class="amenity"> Garden</input>
+                                                 	 </div>
+                                                 </div>
+                                              </div>
+                                              <label class="error" style="color:red; display:none;"></label>
+                                            </div>
+                                            </div>
+                                          </div>
+
+                                        <div  id="any-other-amenities">
+                                          <div class="row">
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Any Other Amenities
+	                                                    <!-- <span class="required"> * </span> -->
+	                                                </label>
+	                                                  <input type="text" name="other_amenity"  class="form-control extra_ame" />
+	                                                   <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
                                             </div>
 
-                                            <div class="border_s">
-                                                <div class="row">
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>Property Market Rate (Per Sq Feet)
-                                                                <span class="required"> * </span>
-                                                            </label>
-                                                            <input type="text"
-                                                                   onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                   name="pro_mark_rate"
-                                                                   id="pro_mark_rate"
-                                                                   class="form-control"/>
-                                                            <label class="error"
-                                                                   style="color:red; display:none;"></label>
-                                                        </div>
-                                                    </div>
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                 <a class="fa fa-plus-circle fa-lg anyother_amenity"  style="margin-top:33px;" ></a>
+	                                            </div>
+                                          </div>
+ 													</div>
+ 												</div>
 
-                                                    <div class="col-lg-6">
-                                                        <div class="form-group">
-                                                            <label>Possession Status
-                                                                <span class="required"> * </span>
-                                                            </label>
-                                                            <select class="form-control sel2 property_status"
-                                                                    id="possesion_status"
-                                                                    name="possesion_status">
-                                                                <option value="">Select Status</option>
-                                                                <option value="Ready & Available">Ready
-                                                                    & Available
-                                                                </option>
-                                                                <option value="Under Construction">Under
-                                                                    Construction
-                                                                </option>
-                                                            </select>
-                                                            <label class="error"
-                                                                   style="color:red; display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="dateofdelivery">
-                                                    <div class="row">
-                                                        <div class="col-lg-4">
-                                                            <div class="form-group" id="ddelivery">
-                                                                <label>Date of Delivery
-                                                                    <span class="required"> * </span>
-                                                                </label>
-                                                                <div class="input-group"
-                                                                     data-date-format="dd-mm-yyyy"
-                                                                     data-date-start-date="+0d">
-                                                                    <input type="text"
-                                                                           class="form-control date-picker"
-                                                                           id="date_of_delivery"
-                                                                           name="date_of_delivery"
-                                                                           readonly>
-                                            <span class="input-group-btn">
-                                                <button class="btn default" type="button">
-                                                    <i class="fa fa-calendar"></i>
-                                                </button>
-                                            </span>
-                                                                </div>
-                                                            </div>
-                                                            <label class="error"
-                                                                   style="color:red; display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label class="control-label ">Other Projects
-                                                                (Max 5000 characters)
-                                                                <!-- <span class="required"> * </span> -->
-                                                            </label>
-                                                            <textarea type="text" name="other_projects"
-                                                                      maxlength="5000"
-                                                                      id="other_projects"
-                                                                      class="form-control"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row" style="margin-left: 1px;">
-                                                    <div class="col-lg-12">
-                                                        <div class="form-group">
-                                                            <label class="control-label "
-                                                                   style="margin-left: -14px;">Available
-                                                                Amenities
-                                                                <span class="required"> * </span>
-                                                            </label>
-                                                            <div class="row amenity_check">
-                                                                <div class="row">
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="car"
-                                                                               class="amenity"> Car
-                                                                        Parking</input>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="club"
-                                                                               class="amenity"> Club
-                                                                        House</input>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="swim"
-                                                                               class="amenity"> Swimming
-                                                                        Pool</input>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="power"
-                                                                               class="amenity"> 24 Hours
-                                                                        Power Backup</input>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="gym"
-                                                                               class="amenity">
-                                                                        Gymanasium</input>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="kids"
-                                                                               class="amenity"> Kids
-                                                                        Play Area</input>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="rain_water"
-                                                                               class="amenity"> Rain
-                                                                        Water Harvesting</input>
-                                                                    </div>
-                                                                    <div class="col-lg-3">
-                                                                        <input type="checkbox"
-                                                                               id="inlineCheckbox21"
-                                                                               value="ame"
-                                                                               class="amenity">
-                                                                        Garden</input>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <label class="error"
-                                                                   style="color:red; display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="any-other-amenities">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Any Other
-                                                                    Amenities
-                                                                    <!-- <span class="required"> * </span> -->
-                                                                </label>
-                                                                <input type="text" name="other_amenity"
-                                                                       class="form-control extra_ame"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <a class="fa fa-plus-circle fa-lg anyother_amenity"
-                                                                   style="margin-top:33px;"></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="near-by-attraction">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Near By
-                                                                    Attraction
-                                                                    <!--    <span class="required"> * </span> -->
-                                                                </label>
-                                                                <input type="text"
-                                                                       name="near_attraction"
-                                                                       class="form-control near_by_attr"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <a class="fa fa-plus-circle fa-lg near_attraction"
-                                                                   style="margin-top:33px;"></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="near-shopping-market">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Nearest
-                                                                    Shopping Mall/Market
-                                                                    <span class="required"> * </span>
-                                                                </label>
-                                                                <input type="text" name="near_shopping"
-                                                                       class="form-control near_shop_mal"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Distance
-                                                                    From Property (In Km)
-                                                                </label>
-                                                                <span class="required"> * </span>
-                                                                </label>
-                                                                <input type="text"
-                                                                       onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                       name="dis_frm_prop"
-                                                                       class="form-control near_shop_d"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <a class="fa fa-plus-circle fa-lg near_shops"
-                                                                   style="margin-top:33px;"></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="near-school">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Nearest
-                                                                    School
-                                                                    <span class="required"> * </span>
-                                                                </label>
-                                                                <input type="text" name="near_school"
-                                                                       class="form-control ner_sch"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Distance
-                                                                    From Property (In Km)
-                                                                </label>
-                                                                <span class="required"> * </span>
-                                                                </label>
-                                                                <input type="text"
-                                                                       onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                       name="dis_frm_prop"
-                                                                       class="form-control ner_schd"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <a class="fa fa-plus-circle fa-lg near_schools"
-                                                                   style="margin-top:33px;"></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="near-hospital">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Nearest
-                                                                    Hospital
-                                                                    <span class="required"> * </span>
-                                                                </label>
-                                                                <input type="text" name="name"
-                                                                       class="form-control ner_hos"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <label class="control-label ">Distance
-                                                                    From Property (In Km)
-                                                                </label>
-                                                                <span class="required"> * </span>
-                                                                </label>
-                                                                <input type="text"
-                                                                       onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                       name="dis_frm_prop"
-                                                                       class="form-control ner_hosd"/>
-                                                                <label class="error"
-                                                                       style="color:red; display:none;"></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-group">
-                                                                <a class="fa fa-plus-circle fa-lg near_hospitals"
-                                                                   style="margin-top:33px;"></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Railway Station (In Km)
-                                                                <span class="required"> * </span>
-                                                            </label>
-                                                            <input type="text"
-                                                                   onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                   name="dis_rail_stat"
-                                                                   id="dis_rail_stat"
-                                                                   class="form-control"/>
-                                                            <label class="error"
-                                                                   style="color:red; display:none;"></label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-4">
-                                                        <div class="form-group">
-                                                            <label>Airport (In Km)
-                                                                <span class="required"> * </span>
-                                                            </label>
-                                                            <input type="text"
-                                                                   onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                   name="dis_airport" id="dis_airport"
-                                                                   class="form-control"/>
-                                                            <label class="error"
-                                                                   style="color:red; display:none;"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+ 												<div  id="near-by-attraction">
+                                          <div class="row">
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Near By Attraction
+	                                                 <!--    <span class="required"> * </span> -->
+	                                                </label>
+	                                                  <input type="text" name="near_attraction"  class="form-control near_by_attr" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
                                             </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                 <a class="fa fa-plus-circle fa-lg near_attraction"  style="margin-top:33px;" ></a>
+	                                            </div>
+                                          </div>
+ 													</div>
+ 												</div>
+
+ 												<div  id="near-shopping-market">
+                                          <div class="row">
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Nearest Shopping Mall/Market
+	                                                    <span class="required"> * </span>
+	                                                </label>
+	                                                  <input type="text" name="near_shopping"  class="form-control near_shop_mal" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Distance From Property (In Km)
+	                                                </label>
+	                                                    <span class="required"> * </span>
+	                                                </label>
+	                                                  <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" name="dis_frm_prop"  class="form-control near_shop_d" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                 <a class="fa fa-plus-circle fa-lg near_shops"  style="margin-top:33px;" ></a>
+	                                            </div>
+                                          </div>
+ 													</div>
+ 												</div>
+
+ 												<div  id="near-school">
+                                          <div class="row">
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Nearest School
+	                                                    <span class="required"> * </span>
+	                                                </label>
+	                                                  <input type="text" name="near_school"  class="form-control ner_sch" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Distance From Property (In Km)
+	                                                </label>
+	                                                    <span class="required"> * </span>
+	                                                </label>
+	                                                  <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" name="dis_frm_prop"  class="form-control ner_schd" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                 <a class="fa fa-plus-circle fa-lg near_schools"  style="margin-top:33px;" ></a>
+	                                            </div>
+                                          </div>
+ 													</div>
+ 												</div>
+
+                                        <div  id="near-hospital">
+                                          <div class="row">
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Nearest Hospital
+	                                                    <span class="required"> * </span>
+	                                                </label>
+	                                                  <input type="text" name="name" class="form-control ner_hos" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                <label class="control-label ">Distance From Property (In Km)
+	                                                </label>
+	                                                    <span class="required"> * </span>
+	                                                </label>
+	                                                  <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" name="dis_frm_prop"  class="form-control ner_hosd" />
+	                                                  <label class="error" style="color:red; display:none;"></label>
+	                                            </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+	                                            	<div class="form-group">
+	                                                 <a class="fa fa-plus-circle fa-lg near_hospitals"  style="margin-top:33px;" ></a>
+	                                            </div>
+                                          </div>
+ 													</div>
+ 												</div>
+
+                                          <div class="row">
+																<div class="col-lg-4">
+																	<div class="form-group">
+																		<label >Railway Station (In Km)
+																		   <span class="required"> * </span>
+																		</label>
+							                                  <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" name="dis_rail_stat" id="dis_rail_stat"  class="form-control" />
+							                                  <label class="error" style="color:red; display:none;"></label>
+						                                 </div>
+						                                </div>
+
+						                            <div class="col-lg-4">
+																<div class="form-group">
+																	<label >Airport (In Km)
+																	   <span class="required"> * </span>
+																	 </label>
+						                                  <input type="text" onkeypress="return validateFloatKeyPresss(this,event);" name="dis_airport" id="dis_airport" class="form-control" />
+						                                  <label class="error" style="color:red; display:none;"></label>
+					                                 </div>
+						                            </div>
+														</div>
                                         </div>
+                                      </div>
 
                                          <div id="cat_desc">
                                           <div class="row">
@@ -2465,6 +2503,69 @@ height: 65px;
 			            $('#city').val("");
 			        }
 			    }
+			    
+			    $("#country").change(function () {
+    getCurrency();
+    getState();
+});
+
+$("#statec").change(function () {
+    getCity();
+});
+
+function getState() {
+     country_id = $('#country :selected').val();
+    if (country_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/get-state/',
+            data: {'country_id': country_id},
+            success: function (response) {
+                    //alert('success');
+                $('#statec').html('');
+                $.each(response.state_list, function (index, item) {
+                    $('#statec').append(item);
+                });
+                $('#statec').val("");
+            },
+            error: function (response) {
+                alert("Error!");
+            },
+
+        });
+    }
+    else {
+        $('#city').val("");
+    }
+}
+
+function getCurrency() {
+    country_id = $('#country :selected').val();
+    if (country_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/add-currency/',
+            data: {'country_id': country_id},
+            success: function (response) {
+                    //alert('success');
+                
+                $.each(response.currency_list, function (index, item) {
+                //$('#currency').select2("val", item.id );
+                    $('#currency').val(item.currency);
+                    $('#currency_id').val(item.id);
+                });
+               // $('#currency').val("");
+            },
+            error: function (response) {
+                alert("Error!");
+            },
+
+        });
+    }
+    else {
+        $('#city').val("");
+    }
+}
 
 
 				function getCity() {
@@ -2880,6 +2981,22 @@ height: 65px;
 		   return true;
 		   }
 		}
+		
+		function checkcountry(country){
+
+  if($(country).val()!='' && $(country).val()!= null)
+   {
+
+   	
+    $(country).parent().children('.error').css("display", "none");
+   return true;
+   }else{
+
+    $(country).parent().children('.error').css("display", "block");
+    $(country).parent().children('.error').text("Please select Country");
+   return false; 
+   }
+}
 
 
 		function checkState(statec){
@@ -3335,7 +3452,7 @@ height: 65px;
 
 		function validateData(){
 			if(checkCateg("#categ") & checkAdverttitle("#advert_title") & checkWebsite("#website")  & checkShortDesc('#short_discription') & checkProductName('.product_name_cls') & checkProductPrice('.product_price_cls') & checkPhoneCateg('.phone_type') & checkPhoneNumber('.phone_number') & checkEmail('#email_primary') & checkSecEmail('#email_secondary') & checkaddress('#address_line1') & checkArea('#area') & checkLandmark('#landmark')
-			       & checkState("#statec") &  checkCity("#city") & checkPincode("#pincode") )
+			   &  checkcountry("#country")  & checkState("#statec") &  checkCity("#city") & checkPincode("#pincode") )
 			{
 					return true;
 			}
@@ -3602,7 +3719,7 @@ $("#save").click(function(event)  {
 		formData.append("lng",$('#lng').val());
 		formData.append("categ",$('#categ').val());
 		formData.append("subcat_list",subcat_list);
-        formData.append("advert_keywords",advert_keywords);
+      formData.append("advert_keywords",advert_keywords);
 		formData.append("advert_title",$('#advert_title').val());
 		formData.append("website",$('#website').val());
 		formData.append("short_discription",$('#short_discription').val());
@@ -3615,6 +3732,7 @@ $("#save").click(function(event)  {
 		formData.append("address_line2",$('#address_line2').val());
 		formData.append("area",$('#area').val());
 		formData.append("landmark",$('#landmark').val());
+		formData.append("country",$('#country').val());
 		formData.append("statec",$('#statec').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());
@@ -3791,7 +3909,8 @@ function activate_service(){
            $('#state').select2();
            $('#city').select2();
            $('#pincode').select2();
-           $('#currency').select2();
+         //  $('#currency').select2();
+            $('#country').select2();
 
            	$("#cat_desc").hide();
            	$("#dateofdelivery").hide();
@@ -4206,10 +4325,6 @@ clear_subcat();
         </script>
 
 <script type="text/javascript" >
-
-$("#customer_nav").addClass("active");
-$("#supplier_nav").addClass("active");
-
 selected_duration = '';
 duration_start_date = '';
 duration_end_date = '';
@@ -4761,6 +4876,7 @@ $("#save-service-detail").click(function(event){
 		formData.append("address_line2",$('#address_line2').val());
 		formData.append("area",$('#area').val());
 		formData.append("landmark",$('#landmark').val());
+		formData.append("country",$('#country').val());
 		formData.append("statec",$('#statec').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());
@@ -5024,6 +5140,7 @@ $("#continue-service-detail").click(function(event){
 		formData.append("address_line2",$('#address_line2').val());
 		formData.append("area",$('#area').val());
 		formData.append("landmark",$('#landmark').val());
+		formData.append("country",$('#country').val());
 		formData.append("statec",$('#statec').val());
 		formData.append("city",$('#city').val());
 		formData.append("pincode",$('#pincode').val());

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
+Version: 4.5.3
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]>
+<html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+{% load staticfiles %}
+<head>
+    <meta charset="utf-8"/>
+    <title>City Hoopla | Add City</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/simple-line-icons/simple-line-icons.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/uniform/css/uniform.default.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="{% static 'assets/global/plugins/bootstrap-select/css/bootstrap-select.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/jquery-multi-select/css/multi-select.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{% static 'assets/global/plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/select2/css/select2-bootstrap.min.css' %}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="{% static 'assets/global/plugins/datatables/datatables.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.css' %}"
+          rel="stylesheet" type="text/css"/>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="{% static 'assets/global/css/components.min.css' %}" rel="stylesheet" id="style_components"
+          type="text/css"/>
+    <link href="{% static 'assets/global/css/plugins.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- END THEME GLOBAL STYLES -->
+    <link href="{% static 'assets/global/css/components.min.css'%}" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="{% static 'assets/global/css/plugins.min.css'%}" rel="stylesheet" type="text/css" />
+        <!-- END THEME GLOBAL STYLES -->
+        <!-- BEGIN THEME LAYOUT STYLES -->
+        <link href="{% static 'assets/layouts/layout2/css/layout.min.css'%}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'assets/layouts/layout2/css/themes/blue.min.css'%}" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="{% static 'assets/layouts/layout2/css/custom.min.css'%}" rel="stylesheet" type="text/css" />
+
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <link href="{% static 'assets/layouts/layout2/css/layout.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'assets/layouts/layout2/css/themes/blue.min.css' %}" rel="stylesheet" type="text/css"
+          id="style_color"/>
+    <link href="{% static 'assets/layouts/layout2/css/custom.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="favicon.ico"/>
+</head>
+
+<!-- END HEAD -->
+<style type="text/css">
+
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
+}
+
+#loading{
+	width: 36%;
+	height: 22px;
+	position: absolute;
+	top: 26%;
+	left: 32%;
+	margin: -28px 0px 0px -25px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 500;
+	color: #000;
+}
+
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
+}
+
+#loading{
+	width: 36%;
+	height: 22px;
+	position: absolute;
+	top: 26%;
+	left: 32%;
+	margin: -28px 0px 0px -25px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 500;
+	color: #000;
+}
+
+		div.dataTables_wrapper div.dataTables_info {
+    padding-top: 8px;
+    white-space: nowrap;
+    display: none;
+}
+div.dataTables_wrapper div.dataTables_length label {
+    font-weight: normal;
+    text-align: left;
+    white-space: nowrap;
+    display: none;
+}
+
+div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: left;
+    display: none;
+}
+
+.page-header.navbar .page-logo .logo-default {
+    margin: 2px 0 0;
+    width: 105px;
+    background: rgba(255, 255, 255, 0.48);
+}
+
+.page-header.navbar .page-logo {
+  /* fallback */
+  background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+
+@media (max-width: 767px){
+.page-header.navbar {
+     background-color: #0d67e6;
+  background-image: url(images/linear_bg_1.png);
+  background-repeat: repeat-y;
+
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+}
+}
+
+</style>
+
+<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
+<!-- BEGIN HEADER -->
+<div id="processing" style="display:none;">
+    <div id="loading">
+        <img src="{% static 'assets/loading-bars.gif' %}" style="height : 100px;">
+
+    </div>
+</div>
+
+<div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner ">
+        <!-- BEGIN LOGO -->
+        <div class="page-logo">
+            <a href="javascript:;">
+                <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo"
+                     class="logo-default"/> </a>
+            <div class="menu-toggler sidebar-toggler">
+                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+            </div>
+        </div>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
+           data-target=".navbar-collapse"> </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN PAGE TOP -->
+        <div class="page-top">
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                   
+                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <!--                                     <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
+                            <span class="username username-hide-on-mobile">{{ username }}</span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <!--  <li>
+                                 <a href="page_user_profile_1.html">
+                                     <i class="icon-user"></i> My Profile </a>
+                             </li> -->
+                            <li>
+                                <a href="/log-out/">
+                                    <i class="icon-key"></i> Log Out </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END PAGE TOP -->
+    </div>
+    <!-- END HEADER INNER -->
+</div>
+<!-- END HEADER -->
+<!-- BEGIN HEADER & CONTENT DIVIDER -->
+<div class="clearfix"></div>
+<!-- END HEADER & CONTENT DIVIDER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+        <!-- END SIDEBAR -->
+        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+        <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+        <div class="page-sidebar navbar-collapse collapse">
+            <!-- BEGIN SIDEBAR MENU -->
+            <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+            <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+            <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+            <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+            <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+            <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false"
+                data-auto-scroll="true" data-slide-speed="200">
+                <li class="nav-item ">
+                    <a href="/dashboard/" class="nav-link nav-toggle">
+                        <i class="icon-home"></i>
+                        <span class="title">Dashboard</span>
+                        <span class="selected"></span>
+                        <span class="arrow open"></span>
+                    </a>
+                </li>
+                <li class="nav-item  ">
+                    <a href="javascript:;" class="nav-link nav-toggle">
+                        <i class="icon-users"></i>
+                        <span class="title">CRM </span>
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li class="nav-item start ">
+                            <a href="/text-search/" class="nav-link ">
+                                <i class="icon-user"></i>
+                                <span class="title">Advert Search</span>
+                            </a>
+                        </li>
+                        <li class="nav-item start ">
+                            <a href="/consumer/" class="nav-link ">
+                                <i class="icon-user"></i>
+                                <span class="title">Consumers Details</span>
+                                <span class="badge badge-success"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li></li>
+            </ul>
+            <!-- END SIDEBAR MENU -->
+        </div>
+        <!-- END SIDEBAR -->
+    </div>
+    <!-- END SIDEBAR -->
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <div class="page-content">
+            <h3 class="page-title"> Advert Search
+            </h3>
+            <!-- BEGIN PAGE HEADER-->
+            <div class="page-bar">
+                <ul class="page-breadcrumb">
+                    <li>
+                        <a><span>Advert Search</span></a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    
+                </ul>
+            </div>
+
+            <!-- END PAGE HEADER-->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet light">
+                        <div class="portlet-body form">                          
+                            <div class="form-wizard">
+                                <div class="form-body">
+                                    <div class="tab-content">
+                                        <div id="tab1" class="tab-pane fade active in">
+                                             <!-- <form id="form1" role="form" name="form1" ,method="POST"> -->
+                                               {% csrf_token %} 
+                                                <div class="row">
+                                                    <div class="col-lg-10">
+                                                        <div class="form-group">                                                        
+                                                            <label class="control-label ">Advert Search</label>
+                                                            <input type="text" name="search1" id="search1" class="form-control"/>
+                                                            <label id="error-demo" class="error" style="color:red;"></label>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="col-lg-2">                                                 
+															 			<button  onclick="advert_search_data()" class="btn btn-default" style="margin-top: 26px;">SEARCH</button>															  
+                                              		</div>
+													      </div>
+						
+                                              
+
+														<!--  </form> -->
+														<div class='panel-container'>														<!-- <div id="all"> -->															<div class="portlet-body">
+				                                    <table class="table table-striped table-bordered table-hover table-responsive" width="100%" id="advert_table">
+				                                        <thead>
+				                                            <tr>
+				                                                <th style="text-align:center;">Advert ID</th>
+				                                                <th style="text-align:center;">Advert</th>
+				                                                <th style="text-align:center;">Area</th>
+				                                                <th style="text-align:center;">Category</th>
+				                                                <!-- <th style="text-align:center;">Expiry Date</th>	 -->			                                               
+				                                                <th style="text-align:center;">Action</th>				                                               
+				                                            </tr>
+				                                        </thead>
+				                                        <tbody id="advert_data">
+                                            				<tr>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <td style="text-align:center;">N/A</td>
+			                                                <!-- <td style="text-align:center;">N/A</td> -->			                                                
+			                                                <td style="text-align:center;">N/A</td>			                                                
+			                                            </tr>
+                                        				</tbody>				                                        
+				                                    </table>
+				                                </div>														<!-- </div> --><!-- Tabs section 1 -->													</div><!-- Tabs section 1 -->
+                                        </div>
+                                        
+                                    </div>
+                                </div>                                      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="page-footer-inner"> 2016 &copy; DigiSpace.
+    </div>
+    <div class="scroll-to-top">
+        <i class="icon-arrow-up"></i>
+    </div>
+</div>
+<!-- END FOOTER -->
+<!--[if lt IE 9]>
+<script src="{% static 'assets/global/plugins/respond.min.js"></script>
+<script src="{% static 'assets/global/plugins/excanvas.min.js"></script>
+<![endif]-->
+<!-- BEGIN CORE PLUGINS -->
+<script src="{% static 'assets/global/plugins/jquery.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/js.cookie.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js' %}"
+        type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js' %}"
+        type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/jquery.blockui.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/uniform/jquery.uniform.min.js' %}" type="text/javascript"></script>
+
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<!-- <script src="{% static 'assets/pages/scripts/table-datatables-managed.min.js' %}" type="text/javascript"></script> -->
+<!-- END PAGE LEVEL SCRIPTS -->
+<!-- BEGIN THEME LAYOUT SCRIPTS -->
+<script src="{% static 'assets/layouts/layout2/scripts/layout.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/layouts/layout2/scripts/demo.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/layouts/global/scripts/quick-sidebar.min.js' %}" type="text/javascript"></script>
+<!-- END THEME LAYOUT SCRIPTS -->
+<!-- END THEME LAYOUT SCRIPTS -->
+
+<script src="{% static 'assets/global/scripts/datatable.js' %}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/datatables/datatables.min.js' %}" type="text/javascript"></script>
+        <script src="{% static 'assets/global/plugins/datatables/datatables.min.js'%}" type="text/javascript"></script>
+<script src="{% static 'assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js' %}" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<script>
+
+/*
+function advert_search_data() {
+keyword = 'abcd';
+    $('#advert_table').dataTable({
+        "destroy": true,
+        "ajax": "/advert-search/?advert_keyword="+keyword,
+       "columns": [
+                {"data": "advert_title"},
+                {"data": "advert_name"},
+                {"data": "advert_area"},
+                {"data": "category"},
+                {"data": "end_date"}              
+           ]
+    });
+}
+*/
+/*
+function advert_search_data(){
+		  keyword = $("#search1").val();
+		  "bDestroy" : true, 
+        $('#advert_table').dataTable({           	
+            "ajax": "/advert-search/?advert_keyword="+keyword,
+            "columns": [
+                {"data": "advert_title"},
+                {"data": "advert_name"},
+                {"data": "advert_area"},
+                {"data": "category"},
+                {"data": "end_date"}              
+            ],
+       
+          
+        });
+}*/
+
+
+function advert_search_data() {
+	keyword = $("#search1").val();
+	word = $.trim(keyword);
+	if (word.length<3) {
+		$("#advert_data").html('');
+		$('.error').text("Please enter atleast 3 characters");
+		return false;	
+	}
+	else {	
+		$("#advert_data").html('');
+		$('.error').html('');
+		$.ajax({
+	      type : 'POST',
+	      url : '/advert-search/',
+	      data : {'advert_keyword':word},
+	      success: function (response) {                                   
+	       	$.each(response.advert_list, function (index,item) {
+					 $("#advert_data").append(		  			'<tr><td style="text-align:center;">'+item.advert_title+'</td>'+									'<td style="text-align:center;">'+item.advert_name+'</td>'+																									'<td style="text-align:center;">'+item.advert_area+'</td>'+																									'<td style="text-align:center;">'+item.category+'</td>'+																									//'<td style="text-align:center;">'+item.end_date+'</td>'+					'<td style="text-align:center;">'+item.action+'</td></tr>');		 			});  
+		 			},
+				});
+		}
+		
+}
+
+/*$('#form1').submit(function(event){
+
+	event.preventDefault();  
+	$("#all").html('');			
+  			$.ajax({
+      type : 'POST',
+      url : '/advert-search/',
+      data : $("#form1").serialize(),
+      success: function (response) {                                   
+       	//alert(response.advert_list);
+       	//alert(advert_name);
+       	$.each(response.advert_list, function (index,item) {				//advert= item;
+				//alert(advert);	
+				 $("#all").append(	  			'<div class="recent-job-list">'+								'<h3>'+item+'</h3>	'+																								'</div>'
+				/*'<div class="recent-job-list col-md-3">'+								'<h3>'+item.advert_name+'</h3>	'+																								'</div>'+           
+				'<div class="recent-job-list col-md-3">'+								'<h3>'+item.advert_area+'</h3>	'+																								'</div>'  		 			);  
+			});
+        
+       },
+       error: function (response) {
+           alert("Error!");
+       },
+ 			         
+        });   
+
+});*/
+
+/*
+function advance_search() {	 $("#all").html('');
+	 alert('in search');	 	$.ajax({	         type : 'POST',	         url : '/advert-search/',	         data : {'keyword':search1},	        success: function (response) {
+                                   
+       		alert('success');
+           
+       },
+       error: function (response) {
+           alert("Error!");
+       },	         	            	            });	}*/
+
+</script>
+
+
+</body>
+
+</html>                                                                    

@@ -444,7 +444,110 @@ height: 65px;
                     <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
                     <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
                     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                    {% include 'Admin/side-panel.html' %}
+                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+                        <li class="nav-item ">
+                            <a href="/dashboard/" class="nav-link nav-toggle">
+                                <i class="icon-home"></i>
+                                <span class="title">Dashboard</span>
+                                <span class="selected"></span>
+                                <span class="arrow open"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item  active">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-users"></i>
+                                <span class="title">Customers</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start active">
+                                    <a href="/subscriber/" class="nav-link ">
+                                        <i class="icon-user"></i>
+                                        <span class="title">Subscribers</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/consumer/" class="nav-link ">
+                                         <i class="icon-user"></i>
+                                        <span class="title">Consumer</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="/user/" class="nav-link nav-toggle">
+                                <i class="icon-user"></i>
+                                <span class="title">Admin</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="/rate-card/" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Rate Card</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                     <li class="nav-item  ">
+                            <a href="javascript:;" class="nav-link nav-toggle">
+                                <i class="icon-settings"></i>
+                                <span class="title">Notifications</span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/send_sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                           <span class="title">SMS</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/send_email/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Email</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/sms/" class="nav-link ">
+												<i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                        <span class="title">Push</span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                         <li class="nav-item ">
+                            <a  class="nav-link nav-toggle">
+                                <i class="icon-bulb"></i>
+                                <span class="title">Reference Data </span>
+                                <span class="arrow"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li class="nav-item start ">
+                                    <a href="/reference-data/" class="nav-link ">
+                                        <i class="icon-bar-chart"></i>
+                                        <span class="title"> City </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/category/" class="nav-link ">
+                                        <i class="icon-bulb"></i>
+                                        <span class="title"> Category </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item start ">
+                                    <a href="/user-role/" class="nav-link ">
+                                       <i class="icon-user"></i>
+                                        <span class="title"> User Role </span>
+                                        <span class="badge badge-success"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                     <!-- END SIDEBAR MENU -->
                 </div>
                 <!-- END SIDEBAR -->
@@ -822,21 +925,186 @@ height: 65px;
                                           </div>
                                                     <!-- <label>{{ advert.currency }}</label> -->
 
+														<div class="row">
+    	                                         	 	<div class="col-lg-6">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label">Address Line 1
+                                                                    <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="text" class="form-control" value="{{ advert.address_line1 }}" name="address_line1" id="address_line1" /></input>
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label">Address Line 2
+                                                                    </label>
+                                                                    <input type="text" class="form-control" value="{{ advert.address_line2 }}" name="address_line2" id="address_line2" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group form-height">
+                                                                    <label class="control-label ">Area
+                                                                      <span class="required"> * </span>
+                                                                     </label>
+                                                                     <input type="text" name="area" value="{{ advert.area }}" id="area" class="form-control" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group form-height">
+                                                                    <label class="control-label ">Landmark
+                                                                    <!--  <span class="required"> * </span> -->
+                                                                    </label>
+                                                                    <input type="text" name="landmark" value="{{ advert.landmark }}" id="landmark" class="form-control" />
+                                                                    <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                
+																				<div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label ">Country
 
+                                                                            <span class="required"> * </span>
+                                                                        </label>
+                                                                        <input type="hidden" value="{{advert.country}}" id="selectedCountry"/>
+                                                                        <select id="country" name="country"
+                                                                                class="form-control">
+                                                                            <option value="">Select Country</option>
+                                                                            {% for countr in country_list %}
+                                                                            <option value="{{ countr.country_id }}">
+                                                                                {{countr.country_name }}
+                                                                            </option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error" id="state_error"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>                                                                
+                                                                
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label ">State
+                                                                     <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="hidden" value="{{advert.statec}}" id="selectedState"/>
+                                                                    	<select class="form-control sel2" onchange="" id="statec" name="statec">
+								                                       			<option value="" >Select State</option>
+																					    			{% for state in state_list %}
+																					    			{% if state.state_id == advert.statec %}
+									                                            <option selected value="{{ state.state_id }}">{{ state.state }}</option>
+									                                          			{% else %}
+									                                            <option value="{{ state.state_id }}">{{ state.state }}</option>
+									                                         			{% endif %}
+									                                        		{% endfor %}
+						                                  						</select>
+						                                  						<label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label ">City
+                                                                     <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="hidden" value="{{advert.city}}" id="selectedCity"/>
+                                                                    <select class="form-control " id="city" name="city">
+	                                                   {% if not selected_city%}
+		                                                   <option selected value="">Select City </option>
+	                                                   {% else %}
+	                                                   		{% for city in selected_city %}
+																			    	{% if city.city_place_id == advert.city %}
+							                                            <option selected value="{{ city.city_place_id }}">{{ city.city_id.city_name }}</option>
+							                                          {% else %}
+							                                            <option value="{{ city.city_place_id }}">{{ city.city_id.city_name }}</option>
+							                                         	{% endif %}
+							                                        {% endfor %}
+							                                 {% endif %}
+	                                                 </select>
+	                                                 <label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group ">
+                                                                    <label class="control-label ">Pincode
+                                                                     <span class="required"> * </span>
+                                                                    </label>
+                                                                    <input type="hidden" value="{{advert.pincode}}" id="selectedPincode"/>	
+                                                                    <select class="form-control " id="pincode" name="pincode">
+	                                                 							{% if not selected_pincode%}
+	                                                   							<option value="" >Select Pincode</option>
+	                                                  							{% else %}
+	                                                  								{% for pin in selected_pincode %}
+																			 						{% if pin.pincode_id == advert.pincode %}
+																			   				<option selected >{{ pin.pincode }}</option>
+																			 					{% else %}
+																			    				<option >{{ pin.pincode }}</option>
+																			 					{% endif %}
+							                                        				{% endfor %}
+							                                					 		{% endif %}
+	                                                   					</select>
+	                                                   					<label class="error" style="color:red; display:none;"></label>
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+    	                                         	 	<div class="col-md-6">
+                                                             <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class='map-wrapper'>
+
+                                                                        <div id="map">
+
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                                <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label ">Lat
+                                                                    </label>
+                                                                     <input type="text" name="lat" id="lat" value="{{ advert.lat }}" class="form-control" disabled="disabled"/>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                    <label class="control-label ">Long
+                                                                    <!--  <span class="required"> * </span> -->
+                                                                    </label>
+                                                                    <input type="text" name="long" id="lng" value="{{ advert.lng }}" class="form-control" disabled="disabled"/>
+                                                                    </div>
+
+                                                                </div>
+                                                                </div>
+                                                        </div>
+    	                                       		</div>
 
                                                         <div class="row">
-                                                                <div class="col-lg-4">
+                                                             <div class="col-lg-4">
                                                                     <div class="form-group">
-                                                                        <label > Currency </label>
-                                                                        <input type="hidden" value="{{advert.currency}}" id="selectedCurrency"/>
-                                                              <select class="form-control " id="currency" name="currency">
-                                                                   <option value="0" >Select Currency</option>
-                                                                            {% for cur in currency %}
-                                                                    <option value="{{ cur.currency_id }}">{{ cur.currency }}</option>
-                                                                {% endfor %}
-                                                              </select>
-                                                         </div>
-                                                        </div>
+                                                                        <label class="control-label ">Currency
+
+                                                                           <!--  <span class="required"> * </span> -->
+                                                                        </label>
+                                    													<input class="form-control" type="text" value="{{ advert.currency }}" disabled id="currency"
+                                    													></input>
+
+                                                                        <label class="error" id="city_error"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
 
                                                  <!--    <div class="col-lg-4">
                                                                 <div class="form-group">
@@ -983,146 +1251,7 @@ height: 65px;
                                             </div>
                                           </div>
 
-                                            <div class="row">
-    	                                         	 	<div class="col-lg-6">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label">Address Line 1
-                                                                    <span class="required"> * </span>
-                                                                    </label>
-                                                                    <input type="text" class="form-control" value="{{ advert.address_line1 }}" name="address_line1" id="address_line1" /></input>
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label">Address Line 2
-                                                                    </label>
-                                                                    <input type="text" class="form-control" value="{{ advert.address_line2 }}" name="address_line2" id="address_line2" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">Area
-                                                                      <span class="required"> * </span>
-                                                                     </label>
-                                                                     <input type="text" name="area" value="{{ advert.area }}" id="area" class="form-control" />
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">Landmark
-                                                                    <!--  <span class="required"> * </span> -->
-                                                                    </label>
-                                                                    <input type="text" name="landmark" value="{{ advert.landmark }}" id="landmark" class="form-control" />
-                                                                    <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">State
-                                                                     <span class="required"> * </span>
-                                                                    </label>
-                                                                    	<select class="form-control sel2" onchange="" id="statec" name="statec">
-								                                       			<option value="" >Select State</option>
-																					    			{% for state in state_list %}
-																					    			{% if state.state_id == advert.statec %}
-									                                            <option selected value="{{ state.state_id }}">{{ state.state }}</option>
-									                                          			{% else %}
-									                                            <option value="{{ state.state_id }}">{{ state.state }}</option>
-									                                         			{% endif %}
-									                                        		{% endfor %}
-						                                  						</select>
-						                                  						<label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">City
-                                                                     <span class="required"> * </span>
-                                                                    </label>
-                                                                    <select class="form-control " id="city" name="city">
-	                                                   {% if not selected_city%}
-		                                                   <option selected value="">Select City </option>
-	                                                   {% else %}
-	                                                   		{% for city in selected_city %}
-																			    	{% if city.city_place_id == advert.city %}
-							                                            <option selected value="{{ city.city_place_id }}">{{ city.city_id.city_name }}</option>
-							                                          {% else %}
-							                                            <option value="{{ city.city_place_id }}">{{ city.city_id.city_name }}</option>
-							                                         	{% endif %}
-							                                        {% endfor %}
-							                                 {% endif %}
-	                                                 </select>
-	                                                 <label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group form-height">
-                                                                    <label class="control-label ">Pincode
-                                                                     <span class="required"> * </span>
-                                                                    </label>
-                                                                    <select class="form-control " id="pincode" name="pincode">
-	                                                 							{% if not selected_pincode%}
-	                                                   							<option value="" >Select Pincode</option>
-	                                                  							{% else %}
-	                                                  								{% for pin in selected_pincode %}
-																			 						{% if pin.pincode_id == advert.pincode %}
-																			   				<option selected >{{ pin.pincode }}</option>
-																			 					{% else %}
-																			    				<option >{{ pin.pincode }}</option>
-																			 					{% endif %}
-							                                        				{% endfor %}
-							                                					 		{% endif %}
-	                                                   					</select>
-	                                                   					<label class="error" style="color:red; display:none;"></label>
-                                                                    </div>
-
-                                                                </div>
-
-
-
-                                                            </div>
-                                                        </div>
-    	                                         	 	<div class="col-md-6">
-                                                             <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <div class='map-wrapper'>
-
-                                                                        <div id="map">
-
-                                                                        </div>
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                                <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label ">Lat
-                                                                    </label>
-                                                                     <input type="text" name="lat" id="lat" value="{{ advert.lat }}" class="form-control" disabled="disabled"/>
-                                                                    </div>
-
-                                                                </div>
-
-                                                                <div class="col-md-4">
-                                                                    <div class="form-group">
-                                                                    <label class="control-label ">Long
-                                                                    <!--  <span class="required"> * </span> -->
-                                                                    </label>
-                                                                    <input type="text" name="long" id="lng" value="{{ advert.lng }}" class="form-control" disabled="disabled"/>
-                                                                    </div>
-
-                                                                </div>
-                                                                </div>
-                                                        </div>
-    	                                       		</div>
+                                            
 
                                           	<div class="row">
 	                                         	 	<div class="col-lg-12">
@@ -2928,9 +3057,6 @@ height: 65px;
 
         <script type="text/javascript">
 
-        $("#customer_nav").addClass("active");
-        $("#supplier_nav").addClass("active");
-
         $('html').bind('keypress', function(e)
         {
            if(e.keyCode == 13)
@@ -3057,7 +3183,64 @@ height: 65px;
 
 
 				 } */
+			    $("#country").change(function () {
+    getCurrency();
+    getState();
+});				 
+				 
+function getState() {
+     country_id = $('#country :selected').val();
+    if (country_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/get-state/',
+            data: {'country_id': country_id},
+            success: function (response) {
+                    //alert('success');
+                $('#statec').html('');
+                $.each(response.state_list, function (index, item) {
+                    $('#statec').append(item);
+                });
+                $('#statec').val("");
+            },
+            error: function (response) {
+                alert("Error!");
+            },
 
+        });
+    }
+    else {
+        $('#city').val("");
+    }
+}
+
+function getCurrency() {
+    country_id = $('#country :selected').val();
+    if (country_id) {
+        $.ajax({
+            type: 'GET',
+            url: '/add-currency/',
+            data: {'country_id': country_id},
+            success: function (response) {
+                    //alert('success');
+                
+                $.each(response.currency_list, function (index, item) {
+                //$('#currency').select2("val", item.id );
+                    $('#currency').val(item.currency);
+                    $('#currency_id').val(item.id);
+                });
+               // $('#currency').val("");
+            },
+            error: function (response) {
+                alert("Error!");
+            },
+
+        });
+    }
+    else {
+        $('#city').val("");
+    }
+}
 
 
 				   function getPincode(){
@@ -3072,7 +3255,7 @@ height: 65px;
 			                    $.each(response.pincode_list, function (index, item) {
 			                        $('#pincode').append(item);
 			                    });
-			                    $('#pincode').val("");
+			                   $('#pincode').val("");
 			                },
 			                error: function (response) {
 			                    alert("Error!");
@@ -4240,6 +4423,7 @@ height: 65px;
 		formData.append("address_line2",$('#address_line2').val());
 		formData.append("area",$('#area').val());
 		formData.append("landmark",$('#landmark').val());
+		formData.append("country",$('#country').val());
 		formData.append("statec",$('#statec').val());
 		formData.append("check_image",check_image);
 		formData.append("city",$('#city').val());
@@ -4523,6 +4707,7 @@ $("#continue-advert").click(function(event)  {
 		formData.append("address_line2",$('#address_line2').val());
 		formData.append("area",$('#area').val());
 		formData.append("landmark",$('#landmark').val());
+		formData.append("country",$('#country').val());
 		formData.append("statec",$('#statec').val());
 		formData.append("check_image",check_image);
 		formData.append("city",$('#city').val());
@@ -4614,13 +4799,14 @@ $("#form_wizard_1").bootstrapWizard('show',id);
         $('#website').val($.trim( $('#website').val()));
 
   				$("#categ").val({{advert.categ}}).change();
-  				$("#currency").val({{advert.currency}}).change();
+  		//		$("#country").val({{advert.country}}).change();
+  				/*$("#currency").val({{advert.currency}}).change();
   				currency = {{advert.currency}}
 
 
   				if(currency != ''){
   					$('#currency option[value='+ $('#selectedCurrency').val() +']').attr("selected", "selected");
-  				}
+  				}*/
 
 
         		var appendPhoneCategory = "<div class='row'><div class='col-md-4'><div class='form-group'><label class='control-label'>Phone Category </label>"+
@@ -4698,6 +4884,31 @@ $("#form_wizard_1").bootstrapWizard('show',id);
 					$(nearhospital).appendTo('#near-hospital');
 
           	});
+          	
+          	
+        /*  	$("#country").val({{advert.country}}).change();
+          	
+			          	setTimeout(function(){
+			    $("#statec").val({{advert.statec}}).change();
+			}, 1000);
+
+				setTimeout(function(){ 
+          	
+         $("#city").val({{advert.city}}).change();
+          	
+          	 }, 2000);
+          	 
+            
+             $("#pincode").val({{advert.pincode}}).change();*/
+      
+
+
+
+
+
+           $('#country option[value='+ $('#selectedCountry').val() +']').attr("selected", "selected");     
+          $('#statec option[value='+ $('#selectedState').val() +']').attr("selected", "selected");
+          $('#city option[value='+ $('#selectedCity').val() +']').attr("selected", "selected");
 
 
 
@@ -4708,7 +4919,8 @@ $("#form_wizard_1").bootstrapWizard('show',id);
            $('#state').select2();
            $('#city').select2();
            $('#pincode').select2();
-           $('#currency').select2();
+           $('#country').select2();
+
            $("#speciality_textarea").hide();
             $("#happy_textarea").hide();
             $("#facility_textarea").hide();
@@ -4779,6 +4991,16 @@ $("#form_wizard_1").bootstrapWizard('show',id);
     			$("#speciality_textarea").hide();
     			$("#property_desc").hide();
     		}
+            else if( $('#categ :selected').text()=="Automobiles"
+
+            ){
+            $("#facility_textarea").hide();
+                $("#property_desc").hide();
+                $("#speciality_textarea").hide();
+                    $("#happy_textarea").hide();
+                $("#cat_desc").hide();
+                $("#academics_textarea").hide();
+            }
 		else{
 			$("#property_desc").hide();
 	    		$("#cat_desc").show();
