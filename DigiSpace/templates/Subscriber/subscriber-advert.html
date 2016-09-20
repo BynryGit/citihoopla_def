@@ -174,7 +174,7 @@ div.checker span {
   color:#fff;
   font-size: 16px;
   font-weight: 500;
-  font-family: 'Regular';
+
 
   /* Safari 4-5, Chrome 1-9 */
   background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
@@ -669,19 +669,27 @@ hr {
 
     .vertical_center{
         position: relative;
-        top: 50%;
-        -webkit-top: 50%;
+        -webkit-transform: translateY(50%);
+        -ms-transform: translateY(50%);
+        transform: translateY(90%);
+    }
+
+    .vertical_advert_center{
+        position: relative;
+        top: 30%;
         -webkit-transform: translateY(50%);
         -ms-transform: translateY(50%);
         transform: translateY(50%);
     }
 
     .text_center{
+        /*
         position: relative;
-        top: 25%;
-        -webkit-transform: translateY(50%);
-        -ms-transform: translateY(50%);
-        transform: translateY(50%);
+        top: 30%;
+        padding-top: 125%;
+        */
+        transform: translateY(100%);
+        font-weight: 700;
     }
 
 </style>
@@ -783,7 +791,9 @@ hr {
             <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu "
                 data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                 <li class="nav-item ">
-                    <a href="index.html" class="nav-link nav-toggle" style="background-color: rgb(13, 103, 230);">
+                    <a href="/subscriber-portal/subscriber-dashboard/?supplier_id={{request.session.supplier_id}}"
+                    class="nav-link nav-toggle"
+                       style="background-color: rgb(13, 103, 230);">
                         <i class="fa fa-home" style="display: inline-block; color: #ffffff !important;"
                            aria-hidden="true"></i>
                         <span class="title" style="display: inline-block;"> Dashboard </span>
@@ -856,11 +866,11 @@ hr {
                             </div>
                         </div>
                         <div class="col-lg-1"
-                             style="border: none !important;  margin-top: 7px;font-size: 16px;">
+                             style="border: none !important;  margin-top: 7px;font-size: 16px; padding: 0px;">
                             <span>Sort By:  </span>
                         </div>
                         <div class="col-lg-3 form-group"
-                             style="border: none !important;  margin-top: 3px;font-size: 16px;">
+                             style="border: none !important;  margin-top: 3px;font-size: 16px; padding-left: 0px;">
                             <select id="sortby" class="form-control" style="color: #797979;">
                                 <option style="font-size: 14px" value="newest_first">Newest First</option>
                                 <option style="font-size: 14px" value="oldest_first">Oldest First</option>
@@ -905,7 +915,7 @@ hr {
                                                             font-weight:700;
                                                             border-top-left-radius: 15px !important;
                                                             ">
-                                                        <span class="text_center vertical_center">{{advert.advert_id}}</span>
+                                                        <label class="text_center">{{advert.advert_id}}</label>
                                                     </div>
                                                     <div class="col-lg-6"
                                                          style="background-color: #f3f2f2; ">
@@ -923,7 +933,7 @@ hr {
                                                             <a class="fa fa-pencil "
                                                                href="/subscriber-portal/edit-advert/?advert_id={{advert.advert_id}}"
                                                                style="color:#3eb199; font-size:20px;"
-                                                               data-toggle="modal" data-target="#large"></a>
+                                                               ></a>
                                                             <span style="font-size:20px;">|</span>
                                                             <a class="fa fa-trash-o" style="color:#3eb199; font-size:20px; "
                                                                data-toggle="modal" data-target=""></a>
@@ -975,16 +985,16 @@ hr {
                                                     <i class="fa fa-share" aria-hidden="true">
                                                         {{advert.advert_shares}}
                                                     </i>
-                                                </div>
+                                                </div> 
                                                 <div class="col-lg-3" style="text-align:center;">
-                                                    <a href="/subscriber-portal/subscriber-advert-stats/?advert_id={{advert.advert_id}}"> <i
+                                                    <a href="/subscriber-portal/subscriber-advert-stat/?advert_id={{advert.advert_id}}&advert_nm={{advert.advert_name}}"> <i
                                                             class="fa fa-bar-chart"
                                                             aria-hidden="true"></i></a>
                                                 </div>
                                             </div>
                                             {% else %}
                                                 <div class="row add_div" style="background:#f3f2f2;">
-                                                    <div class="col-lg-12 vertical_center" style="text-align:center; ">
+                                                    <div class="col-lg-12 vertical_advert_center" style="text-align:center; ">
                                                         <div class="row">
                                                             <a href="/subscriber-portal/add-advert/?business_id={{advert.business_id}}">
                                                                <i class="fa fa-plus"></i> Add Advert
@@ -1320,8 +1330,9 @@ function filter_advert() {
 	endDate_var = $('#endDate').val()
 	category_name_var = $('#category_id').val()
 	stat_var = $("input[name='stat']:checked").val()
+	var supplier_id={{request.session.supplier_id}};
 
-	location.href = '/subscriber-advert/?supplier_id=110&start_date_var='+startDate_var+'&end_date_var='+endDate_var+'&status_var='+stat_var+'&category_var	='+category_name_var+''
+	location.href = '/subscriber-portal/subscriber-advert/?supplier_id='+supplier_id+'&start_date_var='+startDate_var+'&end_date_var='+endDate_var+'&status_var='+stat_var+'&category_var	='+category_name_var+''
 }
 
 

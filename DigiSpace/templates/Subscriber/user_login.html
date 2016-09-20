@@ -1,22 +1,7 @@
 <!DOCTYPE html>
-<!--
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
-Version: 4.5.3
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
-<!--[if IE 8]>
-<html lang="en" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]>
-<html lang="en" class="ie9 no-js"> <![endif]-->
-<!--[if !IE]><!-->
+
 <html lang="en">
-<!--<![endif]-->
+
 <!-- BEGIN HEAD -->
 {% load staticfiles %}
 <head>
@@ -147,9 +132,9 @@ License: You must have a valid license purchased only from themeforest(the above
 </div> -->
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
-<div class="content" style="margin-top:9%;">
+<div class="content" style="margin-top:9%;" id="log_in">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login_form" id="login_form" role="form" method="post">
+    <form class="login-form" id="login_form" role="form" method="post">
         <div class="text-center"
              style="margin-bottom:8%; background-color: #c7c5c5; margin-left: -30px; margin-right: -30px; margin-top: -10px;">
             <a href="javascript:;">
@@ -185,7 +170,7 @@ License: You must have a valid license purchased only from themeforest(the above
                    class="btn green lowercase"></input>
             <a href="javascript:;"
                style="font-size: 14px; float: right; display: inline-block;margin-top: 10px;margin-right: 109px;"
-               id="forget-password" class="forget-password">Forgot Password ?</a>
+               id="forget-password" class="forget-password" >Forgot Password ?</a>
 
         </div>
         <!-- <div class="login-options">
@@ -207,9 +192,12 @@ License: You must have a valid license purchased only from themeforest(the above
             </ul>
         </div> -->
     </form>
+    
+
     <!-- END LOGIN FORM -->
     <!-- BEGIN FORGOT PASSWORD FORM -->
-    <form class="forget-form" action="index.html" method="post">
+  
+    <form class="forget-form"  id="forgot_pass">
         <h3 class="font-green">Forget Password ?</h3>
         <p> Enter your e-mail address below to reset your password. </p>
         <div class="form-group">
@@ -220,9 +208,11 @@ License: You must have a valid license purchased only from themeforest(the above
             <button type="submit" class="btn btn-success uppercase pull-right">Submit</button>
         </div>
     </form>
+
+ </div>
     <!-- END FORGOT PASSWORD FORM -->
 
-</div>
+
 <div class="modal fade draggable-modal" id="captcha_modal" tabindex="-1" role="basic" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -279,6 +269,31 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- /.modal-dialog -->
     </div>
 </div>
+<div style="overflow-y:hidden;" id="affiliate-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    		<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+
+                </div>
+                <div class="modal-body">
+
+                <div class="form-body">
+                    <h4 class="text-center">Your new password has been sent to your E-mail address </h4>
+                        </div>
+                        <div style="text-align:center !important;" class="modal-footer">
+							 <a href="/backoffice/"> <input type="submit" value="OK"
+                                   class="btn btn-primary" id="btn-loading-demo"></a>
+                            
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+    </div>
 
 <div class="copyright"> 2016 © DigiSpace.</div>
 <script src="{% static 'assets/global/plugins/respond.min.js' %}"></script>
@@ -314,6 +329,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- END THEME LAYOUT SCRIPTS -->
 
 <script type="text/javascript">
+
+	
+   
     $("#id_captcha_1").addClass('form-control');
 
     $("#refresh_btn").click(function () {
@@ -335,6 +353,7 @@ License: You must have a valid license purchased only from themeforest(the above
     });
 
     $('#login_form').submit(function(event) {
+
         event.preventDefault();
         $.ajax({
             type : 'POST',
@@ -342,7 +361,43 @@ License: You must have a valid license purchased only from themeforest(the above
             data : $("#login_form").serialize(),
             success: function(response) {
                 if(response.success=='true'){
-                    location.href="/subscriber-portal/subscriber-advert/?supplier_id="+response.supplier_id
+						
+                    location.href="/subscriber-portal/subscriber-dashboard/"
+                }
+                if(response.success=='false'){
+                    $("#login_modal").modal('show');
+                    captcha_reload()
+                }
+                if(response.success=='Invalid Username'){
+                    $("#login_modal").modal('show');
+                    captcha_reload()
+                }
+                if(response.success=='Invalid Captcha'){
+                    $("#captcha_modal").modal('show');
+                    captcha_reload()
+                }
+                if(response.success=='Invalid Password'){
+                    $("#password").modal('show');
+                    captcha_reload()
+                }
+            },
+            error: function(response){
+                captcha_reload()
+            },
+        });
+    });
+    
+     $('#forgot_pass').submit(function(event) {
+
+        event.preventDefault();
+        $.ajax({
+            type : 'POST',
+            url : '/subscriber-portal/forgot-password/',
+            data : $("#forgot_pass").serialize(),
+            success: function(response) {
+                if(response.success=='true'){
+                  	$("#affiliate-modal").modal('show');
+                    //location.href="/backoffice/"
                 }
                 if(response.success=='false'){
                     $("#login_modal").modal('show');
