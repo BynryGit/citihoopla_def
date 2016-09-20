@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 
+<!--
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
 Version: 4.5.3
 Author: KeenThemes
@@ -75,114 +75,11 @@ License: You must have a valid license purchased only from themeforest(the above
     <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 <!-- END HEAD -->
-<style type="text/css">
-#processing{
-    height: 100vh;
-    position: fixed;
-    width: 100%;
-    margin: 0px auto;
-    z-index: 9999;
-    background-color: #FFF;
-    background-image: none;
-    background-attachment: scroll;
-    background-position: 0% 0%;
-    background-clip: border-box;
-    background-origin: padding-box;
-    background-repeat: repeat;
-    background-size: inherit;
-    opacity: 0.5;
-}
-
-#loading{
-    width: 36%;
-    height: 22px;
-    position: absolute;
-    top: 26%;
-    left: 32%;
-    margin: -28px 0px 0px -25px;
-    text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    color: #000;
-}
-
-        div.dataTables_wrapper div.dataTables_info {
-    padding-top: 8px;
-    white-space: nowrap;
-    display: none;
-}
-div.dataTables_wrapper div.dataTables_length label {
-    font-weight: normal;
-    text-align: left;
-    white-space: nowrap;
-    display: none;
-}
-
-div.dataTables_filter label {
-    font-weight: normal;
-    white-space: nowrap;
-    text-align: left;
-    display: none;
-}
-
-.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
-    color: #FFF;
-    background-color: #27A4B0;
-}
-
-.page-header.navbar .page-logo .logo-default {
-    margin: 2px 0 0;
-    width: 105px;
-    background: rgba(255, 255, 255, 0.48);
-}
-
-.page-header.navbar .page-logo {
-  /* fallback */
-  background-color: #0d67e6;
-  background-image: url(images/linear_bg_1.png);
-  background-repeat: repeat-y;
-
-  /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-  /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Firefox 3.6+ */
-  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* IE 10 */
-  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Opera 11.10+ */
-  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
-}
-
-@media (max-width: 767px){
-.page-header.navbar {
-     background-color: #0d67e6;
-  background-image: url(images/linear_bg_1.png);
-  background-repeat: repeat-y;
-
-  /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-  /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Firefox 3.6+ */
-  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* IE 10 */
-  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Opera 11.10+ */
-  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
-}
-}
-
+<style>
+    input{
+        width: 100%;
+    }
 </style>
-
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 <!-- BEGIN HEADER -->
 <div id="processing" style="display:none;">
@@ -383,60 +280,45 @@ div.dataTables_filter label {
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="margin_bottom_15">
-                                        <a href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}" class="brad-crum-1">Configure</a>
+                                        <a href="/rate-card/" class="brad-crum-1">Rate Card</a>
                                         <i class="fa fa-angle-right"></i>
-                                        <span class="brad-crum-2">Rate Card</span>
+                                        <span class="brad-crum-2">Add Rate Card</span>
                                     </div>
                                     <div class="portlet-body">
                                         <div class="row">
-                                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                                <ul class="nav nav-tabs tabs-left">
-                                                    <li class="active">
-                                                        <a href="#tab_1" data-toggle="tab"> Mumbai </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#tab_2" data-toggle="tab"> Pune </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#tab_3" data-toggle="tab"> Bangalore </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-md-9 col-sm-9 col-xs-9">
+                                            <div class="col-md-12 col-md-12 col-xs-12">
                                                 <div class="tab-content">
                                                     <div class="tab-pane active" id="tab_1">
                                                         <div class="row margin_bottom_15">
-                                                            <div class="col-lg-4 col-md-4">
-                                                                <label class="font-bold font-green font-15 margin_top_7">Mumbai Rate Card (in INR)</label>
+                                                            <div class="col-lg-12 col-md-12">
+                                                                <label class="control-label">City</label><br>
+                                                                <select class="form-control city" name="city" id="city">
+                                                                    <option value="">Select City</option>
+                                                                    {% for city in city_list %}
+                                                                    <option value="{{city.city_place_id}}">{{city.city_id.city_name}}</option>
+                                                                    {% endfor %}
+                                                                </select>
                                                             </div>
-                                                            <div class="col-lg-6 col-md-6">
-                                                                <div class="input-group form-group" style="width: 80%;float: left; margin-bottom: 0px;">
-                                                                    <span class="input-group-btn">
-                                                                        <span style="border-right: none !important;"
-                                                                              class="btn btn btn-default">
-                                                                            <span class="fa fa-search"></span>
-                                                                        </span>
-                                                                    </span>
-                                                                    <input style="border-left: none !important; padding-left: 0px ;"
-                                                                           type="text" class="form-control " id="txtSearch"
-                                                                           placeholder="Search" name="s">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-2 col-md-2">
-                                                                <div class="pull-right " style="color: #797979;">
-                                                                    <a type="button"
-                                                                       href="/add-rate-card/"
-                                                                       class="btn done_btn font-15">Add Rate Card
-                                                                    </a>
-                                                                </div>
-                                                            </div>
+
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-lg-12 col-md-12 form-group">
-                                                                <label class="font-bold font-blue font-18">Premium Rates</label>
+                                                            <div class="col-lg-10 col-md-10 margin_top_7 margin_bottom_15">
+                                                                <label class="font-bold font-blue font-18">Define Premium Rates</label>
                                                             </div>
-                                                            <div class="col-lg-12 col-md-12">
-                                                                <div class="table-responsive">
+                                                            <div class="col-lg-2 col-md-2 text-right">
+                                                                <button type="button"
+                                                                        id="save_payment_detail"
+                                                                        class="btn btn-outline grey_color">
+                                                                    Cancel
+                                                                </button>
+                                                                <button type="submit"
+                                                                        id="save_payment_continue"
+                                                                        class="btn btn-outline done_btn">
+                                                                    Save
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 border_top">
+                                                                <div class="table-responsive margin_top_15">
                                                                     <table class="table table-striped table-bordered table-hover">
                                                                         <thead>
                                                                             <th class="table_th_1">Premium Service</th>
@@ -449,107 +331,50 @@ div.dataTables_filter label {
                                                                         <tbody>
                                                                             <tr>
                                                                                 <td class="table_th_1">Advert Slider</td>
-                                                                                <td class="table_th">300</td>
-                                                                                <td class="table_th">500</td>
-                                                                                <td class="table_th">700</td>
-                                                                                <td class="table_th">900</td>
-                                                                                <td class="table_th">1000</td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td class="table_th_1">Top Advert</td>
-                                                                                <td class="table_th">300</td>
-                                                                                <td class="table_th">500</td>
-                                                                                <td class="table_th">700</td>
-                                                                                <td class="table_th">900</td>
-                                                                                <td class="table_th">1000</td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
+                                                                                <td class="table_th"><input type="text"/></td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <br>
+                                                        <br>
                                                         <div class="row">
                                                             <div class="col-lg-12 col-md-12 form-group">
-                                                                <label class="font-bold font-blue font-18">Categoywise Service Level Rates</label>
+                                                                <label class="font-bold font-blue font-18">Define Categorywise Service Level Rates</label>
                                                             </div>
-                                                            <div class="col-lg-12 col-md-12 form-group">
+                                                            <div class="col-lg-9 col-md-9 form-group">
                                                                 <label class="control-label">Primary Category</label><br>
-                                                                <select class="form-control category">
-                                                                    <option>Education</option>
-                                                                    <option>Health</option>
-                                                                    <option>Real State</option>
+                                                                <select class="form-control category" name="category" id="category">
+
                                                                 </select>
                                                             </div>
-                                                            <div class="col-lg-12 col-md-12 border_top">
-                                                                <div class="col-lg-3 col-md-3 padding_left0 border_right" style="margin-top:15px;">
-                                                                    <div class='col-lg-12 padding_left0'>
-                                                                        <div class='col-lg-1'
-                                                                             style='padding:0px;'>
-                                                                            <a class='fa fa-minus-square'></a>
-                                                                        </div>
-                                                                        <div class='col-lg-11'>
-                                                                            <label>Category</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class='row' style='margin-left: 5.33333%;'>
-                                                                        <div class='col-lg-12 padding_left0'>
-                                                                            <div class='col-lg-1'
-                                                                                 style='padding:0px;'>
-                                                                                <a class='fa fa-minus-square'></a>
-                                                                            </div>
-                                                                            <div class='col-lg-11'>
-                                                                                <label>Category 1</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class='row' style='margin-left: 5.33333%;'>
-                                                                            <div class='col-lg-12 padding_left0'>
-                                                                                <div class='col-lg-1'
-                                                                                     style='padding:0px;'>
-                                                                                    <a class='fa fa-minus-square'></a>
-                                                                                </div>
-                                                                                <div class='col-lg-11'>
-                                                                                    <label>Category 2</label>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class='row' style='margin-left: 5.33333%;'>
-                                                                                <div class='col-lg-12 padding_left0'>
-                                                                                    <div class='col-lg-1'
-                                                                                         style='padding:0px;'>
-                                                                                        <a class='fa fa-minus-square'></a>
-                                                                                    </div>
-                                                                                    <div class='col-lg-11'>
-                                                                                        <label>Category 3</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class='row' style='margin-left: 5.33333%;'>
-                                                                                    <div class='col-lg-12 padding_left0'>
-                                                                                        <div class='col-lg-1'
-                                                                                             style='padding:0px;'>
-                                                                                            <a class='fa fa-minus-square'></a>
-                                                                                        </div>
-                                                                                        <div class='col-lg-11'>
-                                                                                            <label>Category 4</label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class='row' style='margin-left: 5.33333%;'>
-                                                                                        <div class='col-lg-12 padding_left0'>
-                                                                                            <div class='col-lg-1'
-                                                                                                 style='padding:0px;'>
-                                                                                                <a class='fa'></a>
-                                                                                            </div>
-                                                                                            <div class='col-lg-11'>
-                                                                                                <label class="font-bold">Category 5</label>
-                                                                                                &nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                            <div class="col-lg-3 col-md-3 margin_top_20 text-right">
+                                                                <button type="submit"
+                                                                        id="save_payment_continue"
+                                                                        class="btn btn-outline done_btn">
+                                                                    Save Rates for Category
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 border_top border_bottom">
+                                                                <div class="col-lg-3 col-md-3 padding_left0 cat_div border_right" id="cat_list_div">
+
                                                                 </div>
-                                                                <div class="col-lg-9 col-md-9 " style="margin-top:15px;">
-                                                                    <label class="control-label form-group">Rates for sub category level 2-1-1</label>
+                                                                <div class="col-lg-9 col-md-9 cat_div" >
+                                                                    <label class="control-label form-group margin_top_15">Rates for sub category level 2-1-1</label>
                                                                     <div class="table-responsive">
                                                                         <table class="table table-striped table-bordered table-hover">
                                                                             <thead>
@@ -563,35 +388,35 @@ div.dataTables_filter label {
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td class="table_th_2">Subscription</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="table_th_2">Listing No 1</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="table_th_2">Listing No 2</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <td class="table_th_2">Listing No 3</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
+                                                                                    <td class="table_th_2_1"><input type="text"/></td>
                                                                                 </tr>
                                                                             </tbody>
                                                                         </table>
@@ -681,8 +506,67 @@ div.dataTables_filter label {
 
 <script type="text/javascript">
     $('.category').select2({
+            width: '41%'
+        });
+
+    $('.city').select2({
             width: '30%'
         });
+
+    function showTable(xyz,id){
+        alert(id);
+        alert($(xyz).text());
+    }
+
+    $('#city').change(function(){
+        city_id = $('#city').val();
+        $.ajax({
+            type : "GET",
+            url : '/get-city-category-list/',
+            data : {'city_id':city_id},
+            success: function (response) {
+                if(response.success=='true'){
+                    $('#category').append('<option value="">Select Category</option>');
+                    $.each(response.cat_list, function (index, item) {
+                        $('#category').append('<option value="'+item.cat_id+'">'+item.cat_name+'</option>');
+                    });
+                }
+            },
+            beforeSend: function () {
+                $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+            error : function(response){
+                alert("_Error");
+            }
+        });
+    })
+
+    $('#category').change(function(){
+        category_id = $('#category').val();
+        $.ajax({
+            type : "GET",
+            url : '/get-all-category-list/',
+            data : {'category_id':category_id},
+            success: function (response) {
+                if(response.success=='true'){
+                    $("#cat_list_div").html('');
+                    $("#cat_list_div").append(response.cat_str);
+                }
+            },
+            beforeSend: function () {
+                $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+            error : function(response){
+                alert("_Error");
+            }
+        });
+    })
 </script>
 
 
