@@ -112,11 +112,17 @@ urlpatterns = patterns('',
 
     # rate card urls
     url(r'^add-rate-card/', 'Admin.ratecard.add_rate_card',name='add_rate_card'),
+    url(r'^edit-rate-card/', 'Admin.ratecard.edit_rate_card',name='edit_rate_card'),
+    url(r'^delete-rate-card/', 'Admin.ratecard.delete_rate_card',name='delete_rate_card'),
     url(r'^get-city-category-list/', 'Admin.ratecard.get_city_category_list',name='get_city_category_list'),
     url(r'^get-all-category-list/', 'Admin.ratecard.get_all_category_list',name='get_all_category_list'),
     url(r'^save-prem-sevice-rate-card/', 'Admin.ratecard.save_prem_sevice_ratecard',name='save_prem_sevice_ratecard'),
+    url(r'^update-prem-sevice-rate-card/', 'Admin.ratecard.update_prem_sevice_ratecard',name='update_prem_sevice_ratecard'),
     url(r'^save-cat-wise-rate-card/', 'Admin.ratecard.save_cat_wise_ratecard',name='save_cat_wise_ratecard'),
+    url(r'^update-cat-wise-rate-card/', 'Admin.ratecard.update_cat_wise_ratecard',name='update_cat_wise_ratecard'),
     url(r'^get-category-rate-card/', 'Admin.ratecard.get_category_ratecard',name='get_category_ratecard'),
+    url(r'^get-sub-category-rate-card/', 'Admin.ratecard.get_subcategory_ratecard',name='get_subcategory_ratecard'),
+    url(r'^get-city-rate-card/', 'Admin.ratecard.get_city_ratecard',name='get_city_ratecard'),
 
     url(r'^add-service/', 'Admin.ratecard.add_service',name='add_service'),
     url(r'^service-list/', 'Admin.ratecard.service_list',name='service_list'),

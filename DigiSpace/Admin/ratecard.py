@@ -52,6 +52,163 @@ def add_rate_card(request):
         return render(request, 'Admin/add_rate_card.html', data)
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def edit_rate_card(request):
+    if not request.user.is_authenticated():
+        return redirect('backoffice')
+    else:
+        cat_list = []
+        city_id = request.GET.get('city_id')
+        city_list = City_Place.objects.filter(city_place_id=city_id)
+        cat_city_obj = CategoryCityMap.objects.filter(city_place_id=city_id)
+        for objs in cat_city_obj:
+            cat_obj = Category.objects.get(category_id=str(objs.category_id))
+            cat_data = {'cat_id': str(cat_obj.category_id), 'cat_name': cat_obj.category_name}
+            cat_list.append(cat_data)
+        rate_card_obj = RateCard.objects.filter(city_place_id=city_id, rate_card_status='1')
+        if rate_card_obj:
+            for rate_card in rate_card_obj:
+                if rate_card.service_name == "Advert Slider":
+                    advert_slider_data = {
+                        '3days': str("%0.2f" % float(rate_card.cost_for_3_days)),
+                        '7days': str("%0.2f" % float(rate_card.cost_for_7_days)),
+                        '30days': str("%0.2f" % float(rate_card.cost_for_30_days)),
+                        '90days': str("%0.2f" % float(rate_card.cost_for_90_days)),
+                        '180days': str("%0.2f" % float(rate_card.cost_for_180_days))
+                    }
+                else:
+                    top_advert_data = {
+                        '3days': str("%0.2f" % float(rate_card.cost_for_3_days)),
+                        '7days': str("%0.2f" % float(rate_card.cost_for_7_days)),
+                        '30days': str("%0.2f" % float(rate_card.cost_for_30_days)),
+                    }
+        else:
+            advert_slider_data = {
+                '3days': "0.00",
+                '7days': "0.00",
+                '30days': "0.00",
+                '90days': "0.00",
+                '180days': "0.00"
+            }
+            top_advert_data = {
+                '3days': "0.00",
+                '7days': "0.00",
+                '30days': "0.00",
+            }
+        data = {
+            'username': request.session['login_user'], 'city_list': city_list,
+            'advert_slider_data':advert_slider_data, 'top_advert_data':top_advert_data,
+            'cat_list':cat_list
+        }
+        return render(request, 'Admin/edit_rate_card.html', data)
+
+def get_subcategory_ratecard(request):
+    try:
+        rate_card_list = []
+        category_id = request.GET.get('category_id')
+        category_level = request.GET.get('category_level')
+        cat_rate_obj = CategoryWiseRateCard.objects.filter(rate_card_status='1',category_id=category_id, category_level=category_level)
+        if cat_rate_obj:
+            for rate_card in cat_rate_obj:
+                if rate_card.service_name == "Subscription":
+                    sub_3days = str( "%0.2f" % float(rate_card.cost_for_3_days))
+                    sub_7days = str( "%0.2f" % float(rate_card.cost_for_7_days))
+                    sub_30days = str( "%0.2f" % float(rate_card.cost_for_30_days))
+                    sub_90days = str( "%0.2f" % float(rate_card.cost_for_90_days))
+                    sub_180days = str( "%0.2f" % float(rate_card.cost_for_180_days))
+                if rate_card.service_name == "Listing No 1":
+                    no1_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                    no1_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                    no1_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                    no1_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                    no1_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+                if rate_card.service_name == "Listing No 2":
+                    no2_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                    no2_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                    no2_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                    no2_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                    no2_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+                if rate_card.service_name == "Listing No 3":
+                    no3_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                    no3_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                    no3_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                    no3_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                    no3_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+        else:
+            sub_3days = ""
+            sub_7days = ""
+            sub_30days = ""
+            sub_90days = ""
+            sub_180days = ""
+            no1_3days = ""
+            no1_7days = ""
+            no1_30days = ""
+            no1_90days = ""
+            no1_180days = ""
+            no2_3days = ""
+            no2_7days = ""
+            no2_30days = ""
+            no2_90days = ""
+            no2_180days = ""
+            no3_3days = ""
+            no3_7days = ""
+            no3_30days = ""
+            no3_90days = ""
+            no3_180days = ""
+        data = {
+            'success': 'true',
+            'sub_3days':sub_3days,
+            'sub_7days':sub_7days,
+            'sub_30days':sub_30days,
+            'sub_90days':sub_90days,
+            'sub_180days':sub_180days,
+            'no1_3days':no1_3days,
+            'no1_7days':no1_7days,
+            'no1_30days':no1_30days,
+            'no1_90days':no1_90days,
+            'no1_180days':no1_180days,
+            'no2_3days':no2_3days,
+            'no2_7days':no2_7days,
+            'no2_30days':no2_30days,
+            'no2_90days':no2_90days,
+            'no2_180days':no2_180days,
+            'no3_3days':no3_3days,
+            'no3_7days':no3_7days,
+            'no3_30days':no3_30days,
+            'no3_90days':no3_90days,
+            'no3_180days':no3_180days
+        }
+    except Exception, e:
+        print e
+        data = {
+            'success': 'false',
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def delete_rate_card(request):
+    try:
+        city_id = request.GET.get('city_id')
+        city_obj = City_Place.objects.get(city_place_id = city_id)
+        rate_card_obj = RateCard.objects.filter(city_place_id=city_id,rate_card_status='1')
+        for rate_card in rate_card_obj:
+            rate_card.rate_card_status = '0'
+            rate_card.save()
+        cat_rate_obj = CategoryWiseRateCard.objects.filter(city_place_id=city_id,rate_card_status='1')
+        for cat_rate in cat_rate_obj:
+            cat_rate.rate_card_status = '0'
+            cat_rate.save()
+        data = {
+            'success': 'true',
+            'message': "Rate card for "+city_obj.city_id.city_name+" deleted successfully"
+        }
+    except Exception, e:
+        print e
+        data = {
+            'success': 'false',
+            'message': e
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
 def get_city_category_list(request):
     try:
         cat_list = []
@@ -73,34 +230,102 @@ def get_city_category_list(request):
         }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+
 def get_category_ratecard(request):
     try:
         rate_card_list = []
         category_id = request.GET.get('category_id')
         category_level = request.GET.get('category_level')
         category_name = request.GET.get('category_name')
-        cat_rate_obj = CategoryWiseRateCard.objects.filter(category_id=category_id,category_level=category_level)
+        cat_rate_obj = CategoryWiseRateCard.objects.filter(category_id=category_id, category_level=category_level,rate_card_status='1')
         rate_card_str = ''
         if cat_rate_obj:
             text = category_name
             flag = 1
             for rate_card in cat_rate_obj:
                 rate_card_str = rate_card_str + '<tr>' \
-                                '<td class="table_th_2"><label>'+rate_card.service_name+'</label></td>' \
-                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_3_days+'</label></td>' \
-                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_7_days+'</label></td>' \
-                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_30_days+'</label></td>' \
-                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_90_days+'</label></td>' \
-                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_180_days+'</label></td>' \
-                                '</tr>'
+                                                '<td class="table_th_3"><label>' + rate_card.service_name + '</label></td>' \
+                                                '<td class="table_th_2_1"><label>' + str( "%0.2f" % float(rate_card.cost_for_3_days)) + '</label></td>' \
+                                                '<td class="table_th_2_1"><label>' + str( "%0.2f" % float(rate_card.cost_for_7_days)) + '</label></td>' \
+                                                '<td class="table_th_2_1"><label>' + str( "%0.2f" % float(rate_card.cost_for_30_days)) + '</label></td>' \
+                                                '<td class="table_th_2_1"><label>' + str( "%0.2f" % float(rate_card.cost_for_90_days)) + '</label></td>' \
+                                                '<td class="table_th_2_1"><label>' + str( "%0.2f" % float(rate_card.cost_for_180_days)) + '</label></td>' \
+                                                '</tr>'
         else:
-            text = category_name+'is not defined'
+            text = category_name + 'is not added'
             flag = 0
         data = {
             'success': 'true',
             'rate_card_str': rate_card_str,
-            'text':text,
-            'flag':flag
+            'text': text,
+            'flag': flag
+        }
+    except Exception, e:
+        print e
+        data = {
+            'success': 'false',
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+def get_city_ratecard(request):
+    try:
+        rate_card_list = []
+        cat_list = []
+        city_id = request.GET.get('city_id')
+        rate_card_obj = RateCard.objects.filter(city_place_id=city_id,rate_card_status='1')
+        city_obj = City_Place.objects.get(city_place_id=city_id)
+        city_detail = city_obj.city_id.city_name + ' Rate Card (in ' + city_obj.currency + ')'
+        rate_card_str = ''
+
+        cat_city_obj = CategoryCityMap.objects.filter(city_place_id=request.GET.get('city_id'))
+        for objs in cat_city_obj:
+            cat_obj = Category.objects.get(category_id=str(objs.category_id))
+            cat_data = {'cat_id': str(cat_obj.category_id), 'cat_name': cat_obj.category_name}
+            cat_list.append(cat_data)
+
+        if rate_card_obj:
+            for rate_card in rate_card_obj:
+                if rate_card.service_name == "Advert Slider":
+                    rate_card_str = rate_card_str + '<tr>' \
+                                                    '<td class="table_th_1"><label>' + rate_card.service_name + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_3_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_7_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_30_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_90_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_180_days)) + '</label></td>' \
+                                                    '</tr>'
+                else:
+                    rate_card_str = rate_card_str + '<tr>' \
+                                                    '<td class="table_th_1"><label>' + rate_card.service_name + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_3_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_7_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + str( "%0.2f" % float(rate_card.cost_for_30_days)) + '</label></td>' \
+                                                    '<td class="table_th"><label>' + rate_card.cost_for_90_days + '</label></td>' \
+                                                    '<td class="table_th"><label>' + rate_card.cost_for_180_days + '</label></td>' \
+                                                    '</tr>'
+        else:
+            rate_card_str = '<tr>' \
+                            '<td class="table_th_1"><label>Advert Slider</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '</tr>' \
+                            '<tr>' \
+                            '<td class="table_th_1"><label>Top Advert</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>0.00</label></td>' \
+                            '<td class="table_th"><label>N/A</label></td>' \
+                            '<td class="table_th"><label>N/A</label></td>' \
+                            '</tr>'
+        data = {
+            'success': 'true',
+            'cat_list': cat_list,
+            'city_detail': city_detail,
+            'premium_text': rate_card_str,
         }
     except Exception, e:
         print e
@@ -118,12 +343,12 @@ def get_all_category_list(request):
         i = 0
         for cat_l1 in cat_l1_obj:
             i = int(i) + 1
-            level_name = "level_"+str(i)
+            level_name = "level_" + str(i)
             cat_l2_obj = CategoryLevel2.objects.filter(parent_category_id=str(cat_l1.category_id))
             if cat_l2_obj:
                 icon = 'fa-minus-square'
                 click_function = ''
-                flag_click = "onclick=collapse_div('"+level_name+"',this)"
+                flag_click = "onclick=collapse_div('" + level_name + "',this)"
                 cursor_style = ''
             else:
                 icon = ''
@@ -132,9 +357,9 @@ def get_all_category_list(request):
                 cursor_style = "style='cursor: pointer;'"
             cat_str = cat_str + "<div class='col-lg-12 padding_left0'>" \
                                 "<div class='col-lg-1' style='padding:0px;'>" \
-                                "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
-                                "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+">" + cat_l1.category_name + "</label>" \
-                                                                                          "</div></div>"
+                                "<a class='fa " + icon + "' " + flag_click + "></a></div>" \
+                                                                             "<div class='col-lg-11'><label " + cursor_style + " class='label_item' " + click_function + ">" + cat_l1.category_name + "</label>" \
+                                                                                                                                                                                                      "</div></div>"
             j = 0
             for cat_l2 in cat_l2_obj:
                 j = int(j) + 1
@@ -150,12 +375,12 @@ def get_all_category_list(request):
                     click_function = "onclick='showTable(this," + str(cat_l2.category_id) + ",2)'"
                     flag_click = ''
                     cursor_style = "style='cursor: pointer;'"
-                cat_str = cat_str + "<div class='row col_div "+level_name+"' style='margin-left: 6.33333%;'>" \
-                                    "<div class='col-lg-12 padding_left0'>" \
-                                    "<div class='col-lg-1' style='padding:0px;'>" \
-                                    "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
-                                    "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+">"+cat_l2.category_name+"</label>" \
-                                    "</div></div>"
+                cat_str = cat_str + "<div class='row col_div " + level_name + "' style='margin-left: 6.33333%;'>" \
+                                                                              "<div class='col-lg-12 padding_left0'>" \
+                                                                              "<div class='col-lg-1' style='padding:0px;'>" \
+                                                                              "<a class='fa " + icon + "' " + flag_click + "></a></div>" \
+                                                                                                                           "<div class='col-lg-11'><label " + cursor_style + " class='label_item' " + click_function + ">" + cat_l2.category_name + "</label>" \
+                                                                                                                                                                                                                                                    "</div></div>"
                 k = 0
                 for cat_l3 in cat_l3_obj:
                     k = int(k) + 1
@@ -171,12 +396,12 @@ def get_all_category_list(request):
                         click_function = "onclick='showTable(this," + str(cat_l3.category_id) + ",3)'"
                         flag_click = ''
                         cursor_style = "style='cursor: pointer;'"
-                    cat_str = cat_str + "<div class='row col_div "+level_name_1+"' style='margin-left: 6.33333%;'>" \
-                                        "<div class='col-lg-12 padding_left0'>" \
-                                        "<div class='col-lg-1' style='padding:0px;'>" \
-                                        "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
-                                        "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+">" + cat_l3.category_name + "</label>" \
-                                                                                                  "</div></div>"
+                    cat_str = cat_str + "<div class='row col_div " + level_name_1 + "' style='margin-left: 6.33333%;'>" \
+                                                                                    "<div class='col-lg-12 padding_left0'>" \
+                                                                                    "<div class='col-lg-1' style='padding:0px;'>" \
+                                                                                    "<a class='fa " + icon + "' " + flag_click + "></a></div>" \
+                                                                                                                                 "<div class='col-lg-11'><label " + cursor_style + " class='label_item' " + click_function + ">" + cat_l3.category_name + "</label>" \
+                                                                                                                                                                                                                                                          "</div></div>"
                     l = 0
                     for cat_l4 in cat_l4_obj:
                         l = int(l) + 1
@@ -192,20 +417,21 @@ def get_all_category_list(request):
                             click_function = "onclick='showTable(this," + str(cat_l4.category_id) + ",4)'"
                             flag_click = ''
                             cursor_style = "style='cursor: pointer;'"
-                        cat_str = cat_str + "<div class='row col_div "+level_name_2+"' style='margin-left: 6.33333%;'>" \
-                                            "<div class='col-lg-12 padding_left0'>" \
-                                            "<div class='col-lg-1' style='padding:0px;'>" \
-                                            "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
-                                            "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+" >" + cat_l4.category_name + "</label>" \
-                                                                                                          "</div></div>"
+                        cat_str = cat_str + "<div class='row col_div " + level_name_2 + "' style='margin-left: 6.33333%;'>" \
+                                                                                        "<div class='col-lg-12 padding_left0'>" \
+                                                                                        "<div class='col-lg-1' style='padding:0px;'>" \
+                                                                                        "<a class='fa " + icon + "' " + flag_click + "></a></div>" \
+                                                                                                                                     "<div class='col-lg-11'><label " + cursor_style + " class='label_item' " + click_function + " >" + cat_l4.category_name + "</label>" \
+                                                                                                                                                                                                                                                               "</div></div>"
                         for cat_l5 in cat_l5_obj:
                             cursor_style = "style='cursor: pointer;'"
-                            cat_str = cat_str + "<div class='row col_div "+level_name_3+"' style='margin-left: 6.33333%;'>" \
-                                                "<div class='col-lg-12 padding_left0'>" \
-                                                "<div class='col-lg-1' style='padding:0px;'>" \
-                                                "<a class='fa '></a></div>" \
-                                                "<div class='col-lg-11'><label "+cursor_style+" class='label_item' onclick='showTable(this,"+str(cat_l5.category_id)+",5)'>" + cat_l5.category_name + "</label>" \
-                                                                                                          "</div></div>"
+                            cat_str = cat_str + "<div class='row col_div " + level_name_3 + "' style='margin-left: 6.33333%;'>" \
+                                                                                            "<div class='col-lg-12 padding_left0'>" \
+                                                                                            "<div class='col-lg-1' style='padding:0px;'>" \
+                                                                                            "<a class='fa '></a></div>" \
+                                                                                            "<div class='col-lg-11'><label " + cursor_style + " class='label_item' onclick='showTable(this," + str(
+                                cat_l5.category_id) + ",5)'>" + cat_l5.category_name + "</label>" \
+                                                                                       "</div></div>"
                             cat_str = cat_str + '</div>'
                         cat_str = cat_str + '</div>'
                     cat_str = cat_str + '</div>'
@@ -224,17 +450,19 @@ def get_all_category_list(request):
         }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+
 @csrf_exempt
 def save_prem_sevice_ratecard(request):
     try:
         city_id = request.POST.get('city_id')
         service_name_list = request.POST.getlist('prem_service_name')
+
         days_3_list = request.POST.getlist('3_days_price')
         days_7_list = request.POST.getlist('7_days_price')
         days_30_list = request.POST.getlist('30_days_price')
         days_90_list = request.POST.getlist('90_days_price')
         days_180_list = request.POST.getlist('180_days_price')
-        rate_card_obj = RateCard.objects.filter(rate_card_status = '1',city_place_id = city_id)
+        rate_card_obj = RateCard.objects.filter(rate_card_status='1', city_place_id=city_id)
         if rate_card_obj:
             data = {
                 'success': 'false',
@@ -244,7 +472,7 @@ def save_prem_sevice_ratecard(request):
             i = 0
             for service_name in service_name_list:
                 rate_card_obj = RateCard()
-                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id = city_id)
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id=city_id)
                 rate_card_obj.service_name = service_name
                 rate_card_obj.cost_for_3_days = str(days_3_list[i])
                 rate_card_obj.cost_for_7_days = str(days_7_list[i])
@@ -260,7 +488,82 @@ def save_prem_sevice_ratecard(request):
                 'message': "Premium Service Rate card add successfully"
             }
     except Exception, e:
-        print "Exception:",e
+        print "Exception:", e
+        data = {
+            'success': 'false',
+            'message': e
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+@csrf_exempt
+def update_prem_sevice_ratecard(request):
+    try:
+        city_id = request.POST.get('city_id')
+        #service_name_list = request.POST.getlist('prem_service_name')
+        service_name_list = ["Advert Slider","Top Advert"]
+        days_3_list = request.POST.getlist('3_days_price')
+        days_7_list = request.POST.getlist('7_days_price')
+        days_30_list = request.POST.getlist('30_days_price')
+        days_90_list = request.POST.getlist('90_days_price')
+        days_180_list = request.POST.getlist('180_days_price')
+        rate_card_list = RateCard.objects.filter(rate_card_status='1', city_place_id=city_id)
+        if rate_card_list:
+            i = 0
+            for rate_card_obj in rate_card_list:
+                rate_card_obj.cost_for_3_days = str(days_3_list[i])
+                rate_card_obj.cost_for_7_days = str(days_7_list[i])
+                rate_card_obj.cost_for_30_days = str(days_30_list[i])
+                rate_card_obj.cost_for_90_days = str(days_90_list[i])
+                rate_card_obj.cost_for_180_days = str(days_180_list[i])
+                rate_card_obj.rate_card_updated_by = request.session['login_user']
+                rate_card_obj.rate_card_updated_date = datetime.utcnow()
+                rate_card_obj.save()
+                i = i + 1
+        else:
+            i = 0
+            for service_name in service_name_list:
+                rate_card_obj = RateCard()
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id=city_id)
+                rate_card_obj.service_name = service_name
+                rate_card_obj.cost_for_3_days = str(days_3_list[i])
+                rate_card_obj.cost_for_7_days = str(days_7_list[i])
+                rate_card_obj.cost_for_30_days = str(days_30_list[i])
+                rate_card_obj.cost_for_90_days = str(days_90_list[i])
+                rate_card_obj.cost_for_180_days = str(days_180_list[i])
+                rate_card_obj.rate_card_created_by = request.session['login_user']
+                rate_card_obj.rate_card_created_date = datetime.utcnow()
+                rate_card_obj.rate_card_updated_by = request.session['login_user']
+                rate_card_obj.rate_card_updated_date = datetime.utcnow()
+                rate_card_obj.save()
+                i = i + 1
+
+        rate_card_obj = RateCard.objects.filter(city_place_id=city_id, rate_card_status='1')
+        for rate_card in rate_card_obj:
+            if rate_card.service_name == "Advert Slider":
+                as_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                as_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                as_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                as_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                as_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+            else:
+                ta_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                ta_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                ta_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+
+        data = {
+            'success': 'true',
+            'message': "Premium Service Rate card updated successfully",
+            'as_3days':as_3days,
+            'as_7days':as_7days,
+            'as_30days':as_30days,
+            'as_90days':as_90days,
+            'as_180days':as_180days,
+            'ta_3days':ta_3days,
+            'ta_7days':ta_7days,
+            'ta_30days':ta_30days,
+        }
+    except Exception, e:
+        print "Exception:", e
         data = {
             'success': 'false',
             'message': e
@@ -273,13 +576,15 @@ def save_cat_wise_ratecard(request):
         city_id = request.POST.get('city_id')
         category_id = request.POST.get('category_id')
         category_level = request.POST.get('category_level')
-        service_name_list = request.POST.getlist('service_name')
+        #service_name_list = request.POST.getlist('service_name')
+        service_name_list = ["Subscription","Listing No 1","Listing No 2","Listing No 3"]
         days_3_list = request.POST.getlist('3_days_price')
         days_7_list = request.POST.getlist('7_days_price')
         days_30_list = request.POST.getlist('30_days_price')
         days_90_list = request.POST.getlist('90_days_price')
         days_180_list = request.POST.getlist('180_days_price')
-        rate_card_obj = CategoryWiseRateCard.objects.filter(rate_card_status = '1',city_place_id = city_id,category_id = category_id,category_level= category_level)
+        rate_card_obj = CategoryWiseRateCard.objects.filter(rate_card_status='1', city_place_id=city_id,
+                                                            category_id=category_id, category_level=category_level)
         if rate_card_obj:
             data = {
                 'success': 'false',
@@ -289,7 +594,7 @@ def save_cat_wise_ratecard(request):
             i = 0
             for service_name in service_name_list:
                 rate_card_obj = CategoryWiseRateCard()
-                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id = city_id)
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id=city_id)
                 rate_card_obj.service_name = service_name
                 rate_card_obj.category_id = category_id
                 rate_card_obj.category_level = category_level
@@ -307,7 +612,114 @@ def save_cat_wise_ratecard(request):
                 'message': "Service Rate card add successfully"
             }
     except Exception, e:
-        print "Exception:",e
+        print "Exception:", e
+        data = {
+            'success': 'false',
+            'message': e
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+@csrf_exempt
+def update_cat_wise_ratecard(request):
+    try:
+        city_id = request.POST.get('city_id')
+        category_id = request.POST.get('category_id')
+        category_level = request.POST.get('category_level')
+        #service_name_list = request.POST.getlist('service_name')
+        service_name_list = ["Subscription","Listing No 1","Listing No 2","Listing No 3"]
+        days_3_list = request.POST.getlist('3_days_price')
+        days_7_list = request.POST.getlist('7_days_price')
+        days_30_list = request.POST.getlist('30_days_price')
+        days_90_list = request.POST.getlist('90_days_price')
+        days_180_list = request.POST.getlist('180_days_price')
+        rate_card_list = CategoryWiseRateCard.objects.filter(rate_card_status='1', city_place_id=city_id,
+                                                            category_id=category_id, category_level=category_level)
+        if rate_card_list:
+            i = 0
+            for rate_card_obj in rate_card_list:
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id=city_id)
+                rate_card_obj.cost_for_3_days = str(days_3_list[i])
+                rate_card_obj.cost_for_7_days = str(days_7_list[i])
+                rate_card_obj.cost_for_30_days = str(days_30_list[i])
+                rate_card_obj.cost_for_90_days = str(days_90_list[i])
+                rate_card_obj.cost_for_180_days = str(days_180_list[i])
+                rate_card_obj.rate_card_updated_by = request.session['login_user']
+                rate_card_obj.rate_card_updated_date = datetime.utcnow()
+                rate_card_obj.save()
+                i = i + 1
+        else:
+            i = 0
+            for service_name in service_name_list:
+                rate_card_obj = CategoryWiseRateCard()
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id=city_id)
+                rate_card_obj.service_name = service_name
+                rate_card_obj.category_id = category_id
+                rate_card_obj.category_level = category_level
+                rate_card_obj.cost_for_3_days = str(days_3_list[i])
+                rate_card_obj.cost_for_7_days = str(days_7_list[i])
+                rate_card_obj.cost_for_30_days = str(days_30_list[i])
+                rate_card_obj.cost_for_90_days = str(days_90_list[i])
+                rate_card_obj.cost_for_180_days = str(days_180_list[i])
+                rate_card_obj.rate_card_created_by = request.session['login_user']
+                rate_card_obj.rate_card_created_date = datetime.utcnow()
+                rate_card_obj.rate_card_updated_by = request.session['login_user']
+                rate_card_obj.rate_card_updated_date = datetime.utcnow()
+                rate_card_obj.save()
+                i = i + 1
+
+        rate_card_list = CategoryWiseRateCard.objects.filter(rate_card_status='1', city_place_id=city_id,
+                                                             category_id=category_id, category_level=category_level)
+        for rate_card in rate_card_list:
+            if rate_card.service_name == "Subscription":
+                sub_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                sub_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                sub_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                sub_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                sub_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+            if rate_card.service_name == "Listing No 1":
+                no1_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                no1_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                no1_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                no1_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                no1_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+            if rate_card.service_name == "Listing No 2":
+                no2_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                no2_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                no2_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                no2_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                no2_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+            if rate_card.service_name == "Listing No 3":
+                no3_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
+                no3_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
+                no3_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
+                no3_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
+                no3_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
+        data = {
+            'success': 'true',
+            'message': "Service Rate card updated successfully",
+            'sub_3days': sub_3days,
+            'sub_7days': sub_7days,
+            'sub_30days': sub_30days,
+            'sub_90days': sub_90days,
+            'sub_180days': sub_180days,
+            'no1_3days': no1_3days,
+            'no1_7days': no1_7days,
+            'no1_30days': no1_30days,
+            'no1_90days': no1_90days,
+            'no1_180days': no1_180days,
+            'no2_3days': no2_3days,
+            'no2_7days': no2_7days,
+            'no2_30days': no2_30days,
+            'no2_90days': no2_90days,
+            'no2_180days': no2_180days,
+            'no3_3days': no3_3days,
+            'no3_7days': no3_7days,
+            'no3_30days': no3_30days,
+            'no3_90days': no3_90days,
+            'no3_180days': no3_180days
+        }
+    except Exception, e:
+        print "Exception:", e
         data = {
             'success': 'false',
             'message': e

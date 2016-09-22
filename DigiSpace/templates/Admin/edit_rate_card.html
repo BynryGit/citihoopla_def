@@ -21,7 +21,7 @@ License: You must have a valid license purchased only from themeforest(the above
 {% load staticfiles %}
 <head>
     <meta charset="utf-8"/>
-    <title>City Hoopla | Add Rate Card</title>
+    <title>City Hoopla | Edit Rate Card</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="" name="description"/>
@@ -282,7 +282,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                     <div class="margin_bottom_15">
                                         <a href="/rate-card/" class="brad-crum-1">Rate Card</a>
                                         <i class="fa fa-angle-right"></i>
-                                        <span class="brad-crum-2">Add Rate Card</span>
+                                        <span class="brad-crum-2">Edit Rate Card</span>
                                     </div>
                                     <div class="portlet-body">
                                         <div class="row">
@@ -292,10 +292,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                                         <div class="row margin_bottom_15">
                                                             <div class="col-lg-12 col-md-12">
                                                                 <label class="control-label">City</label><br>
-                                                                <select class="form-control city" name="city" id="city">
+                                                                <select disabled class="form-control city" name="city" id="city">
                                                                     <option value="">Select City</option>
                                                                     {% for city in city_list %}
-                                                                    <option value="{{city.city_place_id}}">{{city.city_id.city_name}}</option>
+                                                                    <option selected value="{{city.city_place_id}}">{{city.city_id.city_name}}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                                 <label id="city_error" class="error_label" style="display:none;"></label>
@@ -336,23 +336,23 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                         <input name="prem_service_name" hidden value="Advert Slider">
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="3_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="3_days_price" id="as_3days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{advert_slider_data.3days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="7_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="7_days_price" id="as_7days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{advert_slider_data.7days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="30_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="30_days_price" id="as_30days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{advert_slider_data.30days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="90_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="90_days_price" id="as_90days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{advert_slider_data.90days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="180_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="180_days_price" id="as_180days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{advert_slider_data.180days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                 </tr>
@@ -362,15 +362,15 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                         <input name="prem_service_name" hidden value="Top Advert">
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="3_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="3_days_price" id="ta_3days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{top_advert_data.3days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="7_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                        <input name="7_days_price" id="ta_7days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text" value="{{top_advert_data.3days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
-                                                                                        <input name="30_days_price" class="form-control" onkeypress='return validateFloatKeyPresss(this,event);' type="text"/>
+                                                                                        <input name="30_days_price" id="ta_30days" class="form-control" onkeypress='return validateFloatKeyPresss(this,event);' type="text" value="{{top_advert_data.3days}}"/>
                                                                                         <label class="error_label" style="display:none;"></label>
                                                                                     </td>
                                                                                     <td class="table_th">
@@ -397,7 +397,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <div class="col-lg-9 col-md-9 form-group">
                                                                 <label class="control-label">Primary Category</label><br>
                                                                 <select class="form-control category" name="category" id="category">
-
+                                                                    <option value="">Select category</option>
+                                                                    {% for category in cat_list %}
+                                                                        <option value="{{category.cat_id}}">{{category.cat_name}}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                                 <label id="cat_error" class="error_label" style="display:none;"></label>
                                                             </div>
@@ -437,24 +440,24 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                 <input name="service_name" hidden value="Subscription">
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="3_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="3_days_price" id="sub_3days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="7_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="7_days_price" id="sub_7days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="30_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="30_days_price" id="sub_30days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="90_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="90_days_price" id="sub_90days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="180_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
-                                                                                                <label class="error_label" style="display:none;"></label>
+                                                                                                <input name="180_days_price" id="sub_180days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <label class="error_label"  style="display:none;"></label>
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
@@ -463,23 +466,23 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                 <input name="service_name" hidden value="Listing No 1">
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="3_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="3_days_price" id="no1_3days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="7_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="7_days_price" id="no1_7days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="30_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="30_days_price" id="no1_30days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="90_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="90_days_price" id="no1_90days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="180_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="180_days_price" id="no1_180days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                         </tr>
@@ -489,23 +492,23 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                 <input name="service_name" hidden value="Listing No 2">
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="3_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="3_days_price" id="no2_3days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="7_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="7_days_price" id="no2_7days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="30_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="30_days_price" id="no2_30days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="90_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="90_days_price" id="no2_90days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="180_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="180_days_price" id="no2_180days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                         </tr>
@@ -515,23 +518,23 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                 <input name="service_name" hidden value="Listing No 3">
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="3_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="3_days_price" id="no3_3days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="7_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="7_days_price" id="no3_7days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="30_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="30_days_price" id="no3_30days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="90_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="90_days_price" id="no3_90days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                             <td class="table_th_2_1">
-                                                                                                <input name="180_days_price" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
+                                                                                                <input name="180_days_price" id="no3_180days" class="form-control" onkeypress='return validateFloatKeyPress(this,event);' type="text"/>
                                                                                                 <label class="error_label" style="display:none;"></label>
                                                                                             </td>
                                                                                         </tr>
@@ -651,26 +654,59 @@ License: You must have a valid license purchased only from themeforest(the above
         });
 
     function showTable(xyz,id,level){
-        $("#catwise_service_tbl tr").each(function () {
-            values = "";
-            $(this).find("td").each(function (index) {
-                $(this).find("input").val('');
-                $(this).find('.error_label').css("display", "none");
-            });
-        });
         $(".label_item").each(function() {
             $(this).removeClass('font-15 font-bold');
             label_text = $(this).text().trim();
             $(this).html('');
             $(this).text(label_text);
         });
-        $("#cat_name").text($(xyz).text());
         $("#category_id").val(id);
         $("#category_level").val(level);
-        $("#cat_wise_div").css("display","block");
         $(xyz).addClass('font-15 font-bold');
-        $(xyz).append("&nbsp;&nbsp;&nbsp;<i class='fa fa-chevron-right'></i>");
+        $(xyz).append("&nbsp;&nbsp;<i class='fa fa-chevron-right'></i>");
         cat_selection_flag = 1;
+        $.ajax({
+            type : "GET",
+            url : '/get-sub-category-rate-card/',
+            data : {'category_id':id,'category_level':level},
+            success: function (response) {
+                if(response.success=='true'){
+                    $("#catwise_service_tbl").css("display","none");
+                    $("#catwise_service_tbl").css("display","block");
+                    $("#cat_wise_div").css("display","block");
+                    $("#cat_name").text($(xyz).text());
+                    $("#sub_3days").val(response.sub_3days);
+                    $("#sub_7days").val(response.sub_7days);
+                    $("#sub_30days").val(response.sub_30days);
+                    $("#sub_90days").val(response.sub_90days);
+                    $("#sub_180days").val(response.sub_180days);
+                    $("#no1_3days").val(response.no1_3days);
+                    $("#no1_7days").val(response.no1_7days);
+                    $("#no1_30days").val(response.no1_30days);
+                    $("#no1_90days").val(response.no1_90days);
+                    $("#no1_180days").val(response.no1_180days);
+                    $("#no2_3days").val(response.no2_3days);
+                    $("#no2_7days").val(response.no2_7days);
+                    $("#no2_30days").val(response.no2_30days);
+                    $("#no2_90days").val(response.no2_90days);
+                    $("#no2_180days").val(response.no2_180days);
+                    $("#no3_3days").val(response.no3_3days);
+                    $("#no3_7days").val(response.no3_7days);
+                    $("#no3_30days").val(response.no3_30days);
+                    $("#no3_90days").val(response.no3_90days);
+                    $("#no3_180days").val(response.no3_180days);
+                }
+            },
+            beforeSend: function () {
+                $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+            error : function(response){
+                alert("_Error");
+            }
+        });
     }
 
     function collapse_div(div_name,xyz){
@@ -818,11 +854,19 @@ License: You must have a valid license purchased only from themeforest(the above
         form_str = $("#prem_service_form").serialize()+"&city_id="+city_id;
         $.ajax({
             type : "POST",
-            url : '/save-prem-sevice-rate-card/',
+            url : '/update-prem-sevice-rate-card/',
             data : form_str,
             success: function (response) {
                 if(response.success=='true'){
                     toastr.success(response.message);
+                    $("#as_3days").val(response.as_3days);
+                    $("#as_7days").val(response.as_7days);
+                    $("#as_30days").val(response.as_30days);
+                    $("#as_90days").val(response.as_90days);
+                    $("#as_180days").val(response.as_180days);
+                    $("#ta_3days").val(response.ta_3days);
+                    $("#ta_7days").val(response.ta_7days);
+                    $("#ta_30days").val(response.ta_30days);
                 }else{
                     toastr.error(response.message);
                 }
@@ -854,7 +898,6 @@ License: You must have a valid license purchased only from themeforest(the above
                 }
                 else{
                     $(this).find('.error_label').css("display", "none");
-                    i = 0;
                 }
             });
         });
@@ -862,8 +905,6 @@ License: You must have a valid license purchased only from themeforest(the above
     }
     //sub_cat_error
     $("#save_catwise_service").click(function(){
-
-
         city_id = $("#city").val();
         cat_id= $('#category').val();
         if(city_id == ""){
@@ -902,6 +943,7 @@ License: You must have a valid license purchased only from themeforest(the above
             $("#sub_cat_error").css("display", "none");
         }
 
+
         if (validate_catwise_table() == 1){
             return false;
         };
@@ -909,11 +951,31 @@ License: You must have a valid license purchased only from themeforest(the above
         form_str = $("#catwise_service_form").serialize()+"&city_id="+city_id;
         $.ajax({
             type : "POST",
-            url : '/save-cat-wise-rate-card/',
+            url : '/update-cat-wise-rate-card/',
             data : form_str,
             success: function (response) {
                 if(response.success=='true'){
                     toastr.success(response.message);
+                    $("#sub_3days").val(response.sub_3days);
+                    $("#sub_7days").val(response.sub_7days);
+                    $("#sub_30days").val(response.sub_30days);
+                    $("#sub_90days").val(response.sub_90days);
+                    $("#sub_180days").val(response.sub_180days);
+                    $("#no1_3days").val(response.no1_3days);
+                    $("#no1_7days").val(response.no1_7days);
+                    $("#no1_30days").val(response.no1_30days);
+                    $("#no1_90days").val(response.no1_90days);
+                    $("#no1_180days").val(response.no1_180days);
+                    $("#no2_3days").val(response.no2_3days);
+                    $("#no2_7days").val(response.no2_7days);
+                    $("#no2_30days").val(response.no2_30days);
+                    $("#no2_90days").val(response.no2_90days);
+                    $("#no2_180days").val(response.no2_180days);
+                    $("#no3_3days").val(response.no3_3days);
+                    $("#no3_7days").val(response.no3_7days);
+                    $("#no3_30days").val(response.no3_30days);
+                    $("#no3_90days").val(response.no3_90days);
+                    $("#no3_180days").val(response.no3_180days);
                 }else{
                     toastr.error(response.message);
                 }

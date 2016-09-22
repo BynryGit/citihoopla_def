@@ -61,15 +61,46 @@ def rate_card(request):
             cat_data = {'cat_id': str(cat_obj.category_id), 'cat_name': cat_obj.category_name}
             cat_list.append(cat_data)
         rate_card_list=[]
-        rate_card_obj = RateCard.objects.filter(city_place_id=str(first_city))
-        for rate_card in rate_card_obj:
+        rate_card_obj = RateCard.objects.filter(city_place_id=str(first_city),rate_card_status='1')
+        if rate_card_obj:
+            for rate_card in rate_card_obj:
+                if rate_card.service_name == "Advert Slider":
+                    rate_card_data = {
+                        'service_name':rate_card.service_name,
+                        'cost_for_3days':str( "%0.2f" % float(rate_card.cost_for_3_days)),
+                        'cost_for_7days':str( "%0.2f" % float(rate_card.cost_for_7_days)),
+                        'cost_for_30days':str( "%0.2f" % float(rate_card.cost_for_30_days)),
+                        'cost_for_90days':str( "%0.2f" % float(rate_card.cost_for_90_days)),
+                        'cost_for_180days':str( "%0.2f" % float(rate_card.cost_for_180_days))
+                    }
+                    rate_card_list.append(rate_card_data)
+                else:
+                    rate_card_data = {
+                        'service_name': rate_card.service_name,
+                        'cost_for_3days': str("%0.2f" % float(rate_card.cost_for_3_days)),
+                        'cost_for_7days': str("%0.2f" % float(rate_card.cost_for_7_days)),
+                        'cost_for_30days': str("%0.2f" % float(rate_card.cost_for_30_days)),
+                        'cost_for_90days': rate_card.cost_for_90_days,
+                        'cost_for_180days': rate_card.cost_for_180_days
+                    }
+                    rate_card_list.append(rate_card_data)
+        else:
             rate_card_data = {
-                'service_name':rate_card.service_name,
-                'cost_for_3days':rate_card.cost_for_3_days,
-                'cost_for_7days':rate_card.cost_for_7_days,
-                'cost_for_30days':rate_card.cost_for_30_days,
-                'cost_for_90days':rate_card.cost_for_90_days,
-                'cost_for_180days':rate_card.cost_for_180_days
+                'service_name': "Advert Slider",
+                'cost_for_3days': "0.00",
+                'cost_for_7days': "0.00",
+                'cost_for_30days': "0.00",
+                'cost_for_90days': "0.00",
+                'cost_for_180days': "0.00",
+            }
+            rate_card_list.append(rate_card_data)
+            rate_card_data = {
+                'service_name': "Top Advert",
+                'cost_for_3days': "0.00",
+                'cost_for_7days': "0.00",
+                'cost_for_30days': "0.00",
+                'cost_for_90days': "N/A",
+                'cost_for_180days': "N/A",
             }
             rate_card_list.append(rate_card_data)
         data = {
