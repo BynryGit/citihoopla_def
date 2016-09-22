@@ -58,4 +58,6 @@ admin.site.register(Product);
 admin.site.register(Privileges);
 admin.site.register(Country);
 admin.site.register(SellTicket);
+admin.site.register(RateCard);
+admin.site.register(CategoryWiseRateCard);
 

@@ -109,7 +109,15 @@ urlpatterns = patterns('',
     url(r'^update-category/', 'Admin.category.update_category',name='update_category'),        
     url(r'^get_city/', 'Admin.category.get_city',name='get-city'),
     url(r'^get-cat-sequence/', 'Admin.category.get_cat_sequence',name='get_cat_sequence'),
+
     # rate card urls
+    url(r'^add-rate-card/', 'Admin.ratecard.add_rate_card',name='add_rate_card'),
+    url(r'^get-city-category-list/', 'Admin.ratecard.get_city_category_list',name='get_city_category_list'),
+    url(r'^get-all-category-list/', 'Admin.ratecard.get_all_category_list',name='get_all_category_list'),
+    url(r'^save-prem-sevice-rate-card/', 'Admin.ratecard.save_prem_sevice_ratecard',name='save_prem_sevice_ratecard'),
+    url(r'^save-cat-wise-rate-card/', 'Admin.ratecard.save_cat_wise_ratecard',name='save_cat_wise_ratecard'),
+    url(r'^get-category-rate-card/', 'Admin.ratecard.get_category_ratecard',name='get_category_ratecard'),
+
     url(r'^add-service/', 'Admin.ratecard.add_service',name='add_service'),
     url(r'^service-list/', 'Admin.ratecard.service_list',name='service_list'),
     url(r'^delete-service/', 'Admin.ratecard.delete_service',name='delete_service'),

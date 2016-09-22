@@ -389,17 +389,19 @@ div.dataTables_filter label {
                                     </div>
                                     <div class="portlet-body">
                                         <div class="row">
-                                            <div class="col-md-3 col-sm-3 col-xs-3">
-                                                <ul class="nav nav-tabs tabs-left">
-                                                    <li class="active">
-                                                        <a href="#tab_1" data-toggle="tab"> Mumbai </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#tab_2" data-toggle="tab"> Pune </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#tab_3" data-toggle="tab"> Bangalore </a>
-                                                    </li>
+                                            <div class="col-md-3 col-sm-3 col-xs-3 ">
+                                                <ul class="nav nav-tabs tabs-left" style="height:750px;">
+                                                    {% for city in city_list %}
+                                                        {% if forloop.counter == 1 %}
+                                                            <li class="active">
+                                                                <a href="#tab_{{forloop.counter}}" onclick="changeCityData({{city.city_place_id}})" data-toggle="tab"> {{city.city_id.city_name}} </a>
+                                                            </li>
+                                                        {% else %}
+                                                            <li>
+                                                                <a href="#tab_{{forloop.counter}}" onclick="changeCityData({{city.city_place_id}})" data-toggle="tab"> {{city.city_id.city_name}} </a>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
                                                 </ul>
                                             </div>
                                             <div class="col-md-9 col-sm-9 col-xs-9">
@@ -407,7 +409,7 @@ div.dataTables_filter label {
                                                     <div class="tab-pane active" id="tab_1">
                                                         <div class="row margin_bottom_15">
                                                             <div class="col-lg-4 col-md-4">
-                                                                <label class="font-bold font-green font-15 margin_top_7">Mumbai Rate Card (in INR)</label>
+                                                                <label class="font-bold font-green font-15 margin_top_7" id="city_name">{{first_city_name}} Rate Card (in {{first_city_currency}})</label>
                                                             </div>
                                                             <div class="col-lg-6 col-md-6">
                                                                 <div class="input-group form-group" style="width: 80%;float: left; margin-bottom: 0px;">
@@ -446,23 +448,17 @@ div.dataTables_filter label {
                                                                             <th class="table_th">90 Days</th>
                                                                             <th class="table_th">180 Days</th>
                                                                         </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td class="table_th_1">Advert Slider</td>
-                                                                                <td class="table_th">300</td>
-                                                                                <td class="table_th">500</td>
-                                                                                <td class="table_th">700</td>
-                                                                                <td class="table_th">900</td>
-                                                                                <td class="table_th">1000</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td class="table_th_1">Top Advert</td>
-                                                                                <td class="table_th">300</td>
-                                                                                <td class="table_th">500</td>
-                                                                                <td class="table_th">700</td>
-                                                                                <td class="table_th">900</td>
-                                                                                <td class="table_th">1000</td>
-                                                                            </tr>
+                                                                        <tbody id="primeum_tbody">
+                                                                            {% for rate_card in rate_card_list %}
+                                                                                <tr>
+                                                                                    <td class="table_th_1">{{rate_card.service_name}}</td>
+                                                                                    <td class="table_th">{{rate_card.cost_for_3days}}</td>
+                                                                                    <td class="table_th">{{rate_card.cost_for_7days}}</td>
+                                                                                    <td class="table_th">{{rate_card.cost_for_30days}}</td>
+                                                                                    <td class="table_th">{{rate_card.cost_for_90days}}</td>
+                                                                                    <td class="table_th">{{rate_card.cost_for_180days}}</td>
+                                                                                </tr>
+                                                                            {% endfor %}
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -474,127 +470,38 @@ div.dataTables_filter label {
                                                             </div>
                                                             <div class="col-lg-12 col-md-12 form-group">
                                                                 <label class="control-label">Primary Category</label><br>
-                                                                <select class="form-control category">
-                                                                    <option>Education</option>
-                                                                    <option>Health</option>
-                                                                    <option>Real State</option>
+                                                                <select id="category" class="form-control category">
+                                                                    <option value="">Select category</option>
+                                                                    {% for category in cat_list %}
+                                                                        <option value="{{category.cat_id}}">{{category.cat_name}}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
-                                                            <div class="col-lg-12 col-md-12 border_top">
-                                                                <div class="col-lg-3 col-md-3 padding_left0 border_right" style="margin-top:15px;">
-                                                                    <div class='col-lg-12 padding_left0'>
-                                                                        <div class='col-lg-1'
-                                                                             style='padding:0px;'>
-                                                                            <a class='fa fa-minus-square'></a>
-                                                                        </div>
-                                                                        <div class='col-lg-11'>
-                                                                            <label>Category</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class='row' style='margin-left: 5.33333%;'>
-                                                                        <div class='col-lg-12 padding_left0'>
-                                                                            <div class='col-lg-1'
-                                                                                 style='padding:0px;'>
-                                                                                <a class='fa fa-minus-square'></a>
-                                                                            </div>
-                                                                            <div class='col-lg-11'>
-                                                                                <label>Category 1</label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class='row' style='margin-left: 5.33333%;'>
-                                                                            <div class='col-lg-12 padding_left0'>
-                                                                                <div class='col-lg-1'
-                                                                                     style='padding:0px;'>
-                                                                                    <a class='fa fa-minus-square'></a>
-                                                                                </div>
-                                                                                <div class='col-lg-11'>
-                                                                                    <label>Category 2</label>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class='row' style='margin-left: 5.33333%;'>
-                                                                                <div class='col-lg-12 padding_left0'>
-                                                                                    <div class='col-lg-1'
-                                                                                         style='padding:0px;'>
-                                                                                        <a class='fa fa-minus-square'></a>
-                                                                                    </div>
-                                                                                    <div class='col-lg-11'>
-                                                                                        <label>Category 3</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class='row' style='margin-left: 5.33333%;'>
-                                                                                    <div class='col-lg-12 padding_left0'>
-                                                                                        <div class='col-lg-1'
-                                                                                             style='padding:0px;'>
-                                                                                            <a class='fa fa-minus-square'></a>
-                                                                                        </div>
-                                                                                        <div class='col-lg-11'>
-                                                                                            <label>Category 4</label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class='row' style='margin-left: 5.33333%;'>
-                                                                                        <div class='col-lg-12 padding_left0'>
-                                                                                            <div class='col-lg-1'
-                                                                                                 style='padding:0px;'>
-                                                                                                <a class='fa'></a>
-                                                                                            </div>
-                                                                                            <div class='col-lg-11'>
-                                                                                                <label class="font-bold">Category 5</label>
-                                                                                                &nbsp;&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                            <div class="col-lg-12 col-md-12 border_top border_bottom">
+                                                                <div class="col-lg-3 col-md-3 padding_left0 cat_div border_right" style="height:400px; ">
+                                                                    <div id="cat_list_div" class="margin_top_15 margin_bottom_15">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-9 col-md-9 " style="margin-top:15px;">
-                                                                    <label class="control-label form-group">Rates for sub category level 2-1-1</label>
-                                                                    <div class="table-responsive">
-                                                                        <table class="table table-striped table-bordered table-hover">
-                                                                            <thead>
-                                                                                <th class="table_th_2">Service Level</th>
-                                                                                <th class="table_th_2_1">3 Days</th>
-                                                                                <th class="table_th_2_1">7 Days</th>
-                                                                                <th class="table_th_2_1">30 Days</th>
-                                                                                <th class="table_th_2_1">90 Days</th>
-                                                                                <th class="table_th_2_1">180 Days</th>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td class="table_th_2">Subscription</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td class="table_th_2">Listing No 1</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td class="table_th_2">Listing No 2</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td class="table_th_2">Listing No 3</td>
-                                                                                    <td class="table_th_2_1">300</td>
-                                                                                    <td class="table_th_2_1">500</td>
-                                                                                    <td class="table_th_2_1">700</td>
-                                                                                    <td class="table_th_2_1">900</td>
-                                                                                    <td class="table_th_2_1">1000</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
+                                                                <div class="col-lg-9 col-md-9 cat_div" >
+                                                                    <div id="cat_wise_div" style="display:none;">
+                                                                        <label class="control-label form-group margin_top_15">Rates for <span id="cat_name" name="cat_name"></span></label>
+                                                                        <input id="category_level" name="category_level" hidden>
+                                                                        <input id="category_id" name="category_id" hidden>
+                                                                        <div class="table-responsive">
+                                                                            <table id="catwise_service_tbl" style="display:none;" class="table table-striped table-bordered table-hover">
+                                                                                <thead>
+                                                                                    <th class="table_th_2">Service Level</th>
+                                                                                    <th class="table_th_2_1">3 Days</th>
+                                                                                    <th class="table_th_2_1">7 Days</th>
+                                                                                    <th class="table_th_2_1">30 Days</th>
+                                                                                    <th class="table_th_2_1">90 Days</th>
+                                                                                    <th class="table_th_2_1">180 Days</th>
+                                                                                </thead>
+                                                                                <tbody id="catwise_tr">
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -683,6 +590,127 @@ div.dataTables_filter label {
     $('.category').select2({
             width: '30%'
         });
+
+    $('#category').change(function(){
+        category_id = $('#category').val();
+        if(category_id == ""){
+            return false;
+        }
+        $.ajax({
+            type : "GET",
+            url : '/get-all-category-list/',
+            data : {'category_id':category_id},
+            success: function (response) {
+                if(response.success=='true'){
+                    $("#cat_list_div").html('');
+                    $("#cat_list_div").append(response.cat_str);
+                }
+                $("#cat_name").text('');
+                $("#category_level").text('');
+                $("#category_id").text('');
+                cat_selection_flag = 0;
+                $("#catwise_service_div").css("display","block");
+                $("#cat_wise_div").css("display","none");
+            },
+            beforeSend: function () {
+                $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+            error : function(response){
+                alert("_Error");
+            }
+        });
+    })
+
+    function showTable(xyz,id,level){
+        $("#cat_wise_div").load(location.href+" #cat_wise_div>*","");
+        setTimeout(function(){
+            $(".label_item").each(function() {
+                $(this).removeClass('font-15 font-bold');
+                label_text = $(this).text().trim();
+                $(this).html('');
+                $(this).text(label_text);
+            });
+
+            $(xyz).addClass('font-15 font-bold');
+            $(xyz).append("&nbsp;&nbsp;<i class='fa fa-chevron-right'></i>");
+            //$("#cat_name").text($(xyz).text());
+
+            $.ajax({
+                type : "GET",
+                url : '/get-category-rate-card/',
+                data : {'category_id':id,'category_level':level,'category_name':$(xyz).text()},
+                success: function (response) {
+                    if(response.success=='true'){
+                        if(response.flag == 0){
+                            $("#catwise_service_tbl").css("display","none");
+                        }else{
+                            $("#catwise_service_tbl").css("display","block");
+                        }
+                        $("#cat_wise_div").css("display","block");
+                        $("#catwise_tr").append(response.rate_card_str);
+                        $("#cat_name").text(response.text);
+
+                    }
+                },
+                beforeSend: function () {
+                    $("#processing").css('display','block');
+                },
+                complete: function () {
+                    $("#processing").css('display','none');
+                },
+                error : function(response){
+                    alert("_Error");
+                }
+            });
+
+        }, 300);
+    }
+
+    function collapse_div(div_name,xyz){
+        if ($("."+div_name).is(':hidden')){
+            $("."+div_name).show();
+            $(xyz).removeClass("fa fa-plus-square");
+            $(xyz).addClass("fa fa-minus-square");
+        }
+        else{
+            $("."+div_name).hide();
+            $(xyz).removeClass("fa fa-minus-square");
+            $(xyz).addClass("fa fa-plus-square");
+        }
+    }
+
+    function changeCityData(city_id){
+        alert(city_id);
+        $.ajax({
+            type : "GET",
+            url : '/get-city-rate-card/',
+            data : {'city_id':city_id},
+            success: function (response) {
+                if(response.success=='true'){
+                    $("#city_name").text(response.city_detail);
+                    $("#primeum_tbody").append(response.premium_text);
+                    $("#category").html('');
+                    $("#category").append('<option value="">Select category</option>');
+                    $.each(response.cat_list, function (index, item) {
+                        $('#category').append('<option value="'+item.cat_id+'">'+item.cat_name+'</option>');
+                    });
+                }
+            },
+            beforeSend: function () {
+                $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+            error : function(response){
+                alert("_Error");
+            }
+        });
+    }
+
 </script>
 
 

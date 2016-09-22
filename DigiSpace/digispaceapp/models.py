@@ -609,6 +609,43 @@ class Advert_Category_Map(models.Model):
     def __unicode__(self):
         return unicode(self.adv_cat_id)
 
+class RateCard(models.Model):
+    rate_card_id = models.AutoField(primary_key=True, editable=False)
+    city_place_id = models.ForeignKey(City_Place, blank=True, null=True)
+    service_name = models.CharField(max_length=30)
+    cost_for_3_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_7_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_30_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_90_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_180_days = models.CharField(max_length=30, blank=True, null=True)
+    rate_card_status = models.CharField(max_length=15, null=True, blank=True, default="1", choices=status)
+    rate_card_created_date = models.DateTimeField(null=True, blank=True)
+    rate_card_created_by = models.CharField(max_length=30, null=True, blank=True)
+    rate_card_updated_by = models.CharField(max_length=30, null=True, blank=True)
+    rate_card_updated_date = models.DateTimeField(null=True, blank=True)
+
+    def __unicode__(self):
+        return unicode(self.rate_card_id)
+
+class CategoryWiseRateCard(models.Model):
+    rate_card_id = models.AutoField(primary_key=True, editable=False)
+    city_place_id = models.ForeignKey(City_Place, blank=True, null=True)
+    service_name = models.CharField(max_length=30)
+    category_id = models.CharField(max_length=30)
+    category_level = models.CharField(max_length=30)
+    cost_for_3_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_7_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_30_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_90_days = models.CharField(max_length=30, blank=True, null=True)
+    cost_for_180_days = models.CharField(max_length=30, blank=True, null=True)
+    rate_card_status = models.CharField(max_length=15, null=True, blank=True, default="1", choices=status)
+    rate_card_created_date = models.DateTimeField(null=True, blank=True)
+    rate_card_created_by = models.CharField(max_length=30, null=True, blank=True)
+    rate_card_updated_by = models.CharField(max_length=30, null=True, blank=True)
+    rate_card_updated_date = models.DateTimeField(null=True, blank=True)
+
+    def __unicode__(self):
+        return unicode(self.rate_card_id)
 
 class ServiceRateCard(models.Model):
     service_rate_card_id = models.AutoField(primary_key=True, editable=False)

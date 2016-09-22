@@ -73,66 +73,138 @@ def get_city_category_list(request):
         }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+def get_category_ratecard(request):
+    try:
+        rate_card_list = []
+        category_id = request.GET.get('category_id')
+        category_level = request.GET.get('category_level')
+        category_name = request.GET.get('category_name')
+        cat_rate_obj = CategoryWiseRateCard.objects.filter(category_id=category_id,category_level=category_level)
+        rate_card_str = ''
+        if cat_rate_obj:
+            text = category_name
+            flag = 1
+            for rate_card in cat_rate_obj:
+                rate_card_str = rate_card_str + '<tr>' \
+                                '<td class="table_th_2"><label>'+rate_card.service_name+'</label></td>' \
+                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_3_days+'</label></td>' \
+                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_7_days+'</label></td>' \
+                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_30_days+'</label></td>' \
+                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_90_days+'</label></td>' \
+                                '<td class="table_th_2_1"><label>'+rate_card.cost_for_180_days+'</label></td>' \
+                                '</tr>'
+        else:
+            text = category_name+'is not defined'
+            flag = 0
+        data = {
+            'success': 'true',
+            'rate_card_str': rate_card_str,
+            'text':text,
+            'flag':flag
+        }
+    except Exception, e:
+        print e
+        data = {
+            'success': 'false',
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 def get_all_category_list(request):
     try:
         cat_obj = Category.objects.get(category_id=request.GET.get('category_id'))
         cat_l1_obj = CategoryLevel1.objects.filter(parent_category_id=str(cat_obj.category_id))
         cat_str = ''
+        i = 0
         for cat_l1 in cat_l1_obj:
+            i = int(i) + 1
+            level_name = "level_"+str(i)
             cat_l2_obj = CategoryLevel2.objects.filter(parent_category_id=str(cat_l1.category_id))
             if cat_l2_obj:
                 icon = 'fa-minus-square'
+                click_function = ''
+                flag_click = "onclick=collapse_div('"+level_name+"',this)"
+                cursor_style = ''
             else:
                 icon = ''
+                click_function = "onclick='showTable(this," + str(cat_l1.category_id) + ",1)'"
+                flag_click = ''
+                cursor_style = "style='cursor: pointer;'"
             cat_str = cat_str + "<div class='col-lg-12 padding_left0'>" \
                                 "<div class='col-lg-1' style='padding:0px;'>" \
-                                "<a class='fa "+icon+"'></a></div>" \
-                                "<div class='col-lg-11'><label>" + cat_l1.category_name + "</label>" \
+                                "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
+                                "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+">" + cat_l1.category_name + "</label>" \
                                                                                           "</div></div>"
+            j = 0
             for cat_l2 in cat_l2_obj:
+                j = int(j) + 1
+                level_name_1 = "level_" + str(i) + "_" + str(j)
                 cat_l3_obj = CategoryLevel3.objects.filter(parent_category_id=str(cat_l2.category_id))
                 if cat_l3_obj:
                     icon = 'fa-minus-square'
+                    click_function = ''
+                    flag_click = "onclick=collapse_div('" + level_name_1 + "',this)"
+                    cursor_style = ''
                 else:
                     icon = ''
-                cat_str = cat_str + "<div class='row' style='margin-left: 6.33333%;'>" \
+                    click_function = "onclick='showTable(this," + str(cat_l2.category_id) + ",2)'"
+                    flag_click = ''
+                    cursor_style = "style='cursor: pointer;'"
+                cat_str = cat_str + "<div class='row col_div "+level_name+"' style='margin-left: 6.33333%;'>" \
                                     "<div class='col-lg-12 padding_left0'>" \
                                     "<div class='col-lg-1' style='padding:0px;'>" \
-                                    "<a class='fa "+icon+"'></a></div>" \
-                                    "<div class='col-lg-11'><label>"+cat_l2.category_name+"</label>" \
+                                    "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
+                                    "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+">"+cat_l2.category_name+"</label>" \
                                     "</div></div>"
-
+                k = 0
                 for cat_l3 in cat_l3_obj:
+                    k = int(k) + 1
+                    level_name_2 = "level_" + str(i) + "_" + str(j) + "_" + str(k)
                     cat_l4_obj = CategoryLevel4.objects.filter(parent_category_id=str(cat_l3.category_id))
                     if cat_l4_obj:
                         icon = 'fa-minus-square'
+                        click_function = ''
+                        flag_click = "onclick=collapse_div('" + level_name_2 + "',this)"
+                        cursor_style = ''
                     else:
                         icon = ''
-                    cat_str = cat_str + "<div class='row' style='margin-left: 6.33333%;'>" \
+                        click_function = "onclick='showTable(this," + str(cat_l3.category_id) + ",3)'"
+                        flag_click = ''
+                        cursor_style = "style='cursor: pointer;'"
+                    cat_str = cat_str + "<div class='row col_div "+level_name_1+"' style='margin-left: 6.33333%;'>" \
                                         "<div class='col-lg-12 padding_left0'>" \
                                         "<div class='col-lg-1' style='padding:0px;'>" \
-                                        "<a class='fa "+icon+"'></a></div>" \
-                                        "<div class='col-lg-11'><label>" + cat_l3.category_name + "</label>" \
+                                        "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
+                                        "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+">" + cat_l3.category_name + "</label>" \
                                                                                                   "</div></div>"
+                    l = 0
                     for cat_l4 in cat_l4_obj:
+                        l = int(l) + 1
+                        level_name_3 = "level_" + str(i) + "_" + str(j) + "_" + str(k) + "_" + str(l)
                         cat_l5_obj = CategoryLevel5.objects.filter(parent_category_id=str(cat_l4.category_id))
                         if cat_l5_obj:
                             icon = 'fa-minus-square'
+                            click_function = ''
+                            flag_click = "onclick=collapse_div('" + level_name_3 + "',this)"
+                            cursor_style = ''
                         else:
                             icon = ''
-                        cat_str = cat_str + "<div class='row' style='margin-left: 6.33333%;'>" \
+                            click_function = "onclick='showTable(this," + str(cat_l4.category_id) + ",4)'"
+                            flag_click = ''
+                            cursor_style = "style='cursor: pointer;'"
+                        cat_str = cat_str + "<div class='row col_div "+level_name_2+"' style='margin-left: 6.33333%;'>" \
                                             "<div class='col-lg-12 padding_left0'>" \
                                             "<div class='col-lg-1' style='padding:0px;'>" \
-                                            "<a class='fa "+icon+"'></a></div>" \
-                                            "<div class='col-lg-11'><label>" + cat_l4.category_name + "</label>" \
-                                                                                                      "</div></div>"
+                                            "<a class='fa "+icon+"' "+flag_click+"></a></div>" \
+                                            "<div class='col-lg-11'><label "+cursor_style+" class='label_item' "+click_function+" >" + cat_l4.category_name + "</label>" \
+                                                                                                          "</div></div>"
                         for cat_l5 in cat_l5_obj:
-                            cat_str = cat_str + "<div class='row' style='margin-left: 6.33333%;'>" \
+                            cursor_style = "style='cursor: pointer;'"
+                            cat_str = cat_str + "<div class='row col_div "+level_name_3+"' style='margin-left: 6.33333%;'>" \
                                                 "<div class='col-lg-12 padding_left0'>" \
                                                 "<div class='col-lg-1' style='padding:0px;'>" \
                                                 "<a class='fa '></a></div>" \
-                                                "<div class='col-lg-11'><label onclick='showTable(this,"+str(cat_l5.category_id)+")'>" + cat_l5.category_name + "</label>" \
+                                                "<div class='col-lg-11'><label "+cursor_style+" class='label_item' onclick='showTable(this,"+str(cat_l5.category_id)+",5)'>" + cat_l5.category_name + "</label>" \
                                                                                                           "</div></div>"
                             cat_str = cat_str + '</div>'
                         cat_str = cat_str + '</div>'
@@ -152,6 +224,95 @@ def get_all_category_list(request):
         }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+@csrf_exempt
+def save_prem_sevice_ratecard(request):
+    try:
+        city_id = request.POST.get('city_id')
+        service_name_list = request.POST.getlist('prem_service_name')
+        days_3_list = request.POST.getlist('3_days_price')
+        days_7_list = request.POST.getlist('7_days_price')
+        days_30_list = request.POST.getlist('30_days_price')
+        days_90_list = request.POST.getlist('90_days_price')
+        days_180_list = request.POST.getlist('180_days_price')
+        rate_card_obj = RateCard.objects.filter(rate_card_status = '1',city_place_id = city_id)
+        if rate_card_obj:
+            data = {
+                'success': 'false',
+                'message': "Premium Service Rate card already exist for selected city"
+            }
+        else:
+            i = 0
+            for service_name in service_name_list:
+                rate_card_obj = RateCard()
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id = city_id)
+                rate_card_obj.service_name = service_name
+                rate_card_obj.cost_for_3_days = str(days_3_list[i])
+                rate_card_obj.cost_for_7_days = str(days_7_list[i])
+                rate_card_obj.cost_for_30_days = str(days_30_list[i])
+                rate_card_obj.cost_for_90_days = str(days_90_list[i])
+                rate_card_obj.cost_for_180_days = str(days_180_list[i])
+                rate_card_obj.rate_card_created_by = request.session['login_user']
+                rate_card_obj.rate_card_created_date = datetime.utcnow()
+                rate_card_obj.save()
+                i = i + 1
+            data = {
+                'success': 'true',
+                'message': "Premium Service Rate card add successfully"
+            }
+    except Exception, e:
+        print "Exception:",e
+        data = {
+            'success': 'false',
+            'message': e
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+@csrf_exempt
+def save_cat_wise_ratecard(request):
+    try:
+        city_id = request.POST.get('city_id')
+        category_id = request.POST.get('category_id')
+        category_level = request.POST.get('category_level')
+        service_name_list = request.POST.getlist('service_name')
+        days_3_list = request.POST.getlist('3_days_price')
+        days_7_list = request.POST.getlist('7_days_price')
+        days_30_list = request.POST.getlist('30_days_price')
+        days_90_list = request.POST.getlist('90_days_price')
+        days_180_list = request.POST.getlist('180_days_price')
+        rate_card_obj = CategoryWiseRateCard.objects.filter(rate_card_status = '1',city_place_id = city_id,category_id = category_id,category_level= category_level)
+        if rate_card_obj:
+            data = {
+                'success': 'false',
+                'message': "Service Rate card already exist for selected category"
+            }
+        else:
+            i = 0
+            for service_name in service_name_list:
+                rate_card_obj = CategoryWiseRateCard()
+                rate_card_obj.city_place_id = City_Place.objects.get(city_place_id = city_id)
+                rate_card_obj.service_name = service_name
+                rate_card_obj.category_id = category_id
+                rate_card_obj.category_level = category_level
+                rate_card_obj.cost_for_3_days = str(days_3_list[i])
+                rate_card_obj.cost_for_7_days = str(days_7_list[i])
+                rate_card_obj.cost_for_30_days = str(days_30_list[i])
+                rate_card_obj.cost_for_90_days = str(days_90_list[i])
+                rate_card_obj.cost_for_180_days = str(days_180_list[i])
+                rate_card_obj.rate_card_created_by = request.session['login_user']
+                rate_card_obj.rate_card_created_date = datetime.utcnow()
+                rate_card_obj.save()
+                i = i + 1
+            data = {
+                'success': 'true',
+                'message': "Service Rate card add successfully"
+            }
+    except Exception, e:
+        print "Exception:",e
+        data = {
+            'success': 'false',
+            'message': e
+        }
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 @csrf_exempt
 def add_service(request):

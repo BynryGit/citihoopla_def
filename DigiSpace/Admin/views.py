@@ -49,8 +49,34 @@ SERVER_URL = "http://52.40.205.128"
 def rate_card(request):
     if not request.user.is_authenticated():
         return redirect('backoffice')
-    else:    
-        data = {'username':request.session['login_user']}
+    else:
+        cat_list= []
+        city_list = City_Place.objects.all()
+        first_city = city_list[0]
+        first_city_name = first_city.city_id.city_name
+        first_city_currency = first_city.currency
+        cat_city_obj = CategoryCityMap.objects.filter(city_place_id=str(first_city))
+        for objs in cat_city_obj:
+            cat_obj = Category.objects.get(category_id=str(objs.category_id))
+            cat_data = {'cat_id': str(cat_obj.category_id), 'cat_name': cat_obj.category_name}
+            cat_list.append(cat_data)
+        rate_card_list=[]
+        rate_card_obj = RateCard.objects.filter(city_place_id=str(first_city))
+        for rate_card in rate_card_obj:
+            rate_card_data = {
+                'service_name':rate_card.service_name,
+                'cost_for_3days':rate_card.cost_for_3_days,
+                'cost_for_7days':rate_card.cost_for_7_days,
+                'cost_for_30days':rate_card.cost_for_30_days,
+                'cost_for_90days':rate_card.cost_for_90_days,
+                'cost_for_180days':rate_card.cost_for_180_days
+            }
+            rate_card_list.append(rate_card_data)
+        data = {
+            'username':request.session['login_user'],
+            'city_list':city_list, 'cat_list':cat_list,'rate_card_list':rate_card_list,
+            'first_city_name':first_city_name, 'first_city_currency':first_city_currency
+        }
         return render(request,'Admin/rate_card.html',data)
 
 def login_open(request):
