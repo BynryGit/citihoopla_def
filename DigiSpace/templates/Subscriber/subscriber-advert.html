@@ -929,15 +929,23 @@ hr {
                                                     </div>
                                                     <div class="col-md-4 col-sm-4"
                                                          style="background-color: #f3f2f2; border-top-right-radius: 15px !important;">
-                                                        <div class="pull-right vertical_center">
-                                                            <a class="fa fa-pencil "
-                                                               href="/subscriber-portal/edit-advert/?advert_id={{advert.advert_id}}"
-                                                               style="color:#3eb199; font-size:20px;"
-                                                               ></a>
-                                                            <span style="font-size:20px;">|</span>
-                                                            <a class="fa fa-trash-o" style="color:#3eb199; font-size:20px; "
-                                                               data-toggle="modal" data-target=""></a>
-                                                        </div>
+                                                        {% if advert.is_active == '1' %}
+                                                            <div class="pull-right vertical_center">
+
+                                                                <a class="fa fa-pencil "
+                                                                   href="/subscriber-portal/edit-advert/?advert_id={{advert.advert_id}}"
+                                                                   style="color:#3eb199; font-size:20px;"
+                                                                   ></a>
+                                                                <span style="font-size:20px;">|</span>
+                                                                <a class="fa fa-trash-o" onclick="deleteModalCall({{advert.advert_id}})" style="color:#3eb199; font-size:20px; "></a>
+                                                            <!--<a class="fa fa-trash-o" style="color:#3eb199; font-size:20px; "-->
+                                                               <!--data-toggle="modal" data-target="#delete-modal"></a>-->
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="vertical_center" style="text-align: center; margin-top: 13px;">
+                                                                <a class="fa fa-repeat" onclick="activateAdvert({{advert.advert_id}})" style="color:#3eb199; font-size:20px; "></a>
+                                                            </div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             {% else %}
@@ -963,13 +971,11 @@ hr {
                                             <div class="row">
                                                 <div class="col-lg-12" style="">
                                                     <div class="row">
-                                                        <a href="/subscriber-portal/edit-advert/?advert_id={{advert.advert_id}}">
-                                                            <div class="item_image">
-                                                                <img src="{{advert.display_image}}"
-                                                                     style="height: 160px; width: 100%;"
-                                                                     class="img-responsive"> </img>
-                                                            </div>
-                                                        </a>
+                                                        <div class="item_image">
+                                                            <img src="{{advert.display_image}}"
+                                                                 style="height: 160px; width: 100%;"
+                                                                 class="img-responsive"> </img>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -985,7 +991,7 @@ hr {
                                                     <i class="fa fa-share" aria-hidden="true">
                                                         {{advert.advert_shares}}
                                                     </i>
-                                                </div> 
+                                                </div>
                                                 <div class="col-lg-3" style="text-align:center;">
                                                     <a href="/subscriber-portal/subscriber-advert-stat/?advert_id={{advert.advert_id}}&advert_nm={{advert.advert_name}}"> <i
                                                             class="fa fa-bar-chart"
@@ -996,9 +1002,15 @@ hr {
                                                 <div class="row add_div" style="background:#f3f2f2;">
                                                     <div class="col-lg-12 vertical_advert_center" style="text-align:center; ">
                                                         <div class="row">
-                                                            <a href="/subscriber-portal/add-advert/?business_id={{advert.business_id}}">
-                                                               <i class="fa fa-plus"></i> Add Advert
-                                                            </a>
+                                                            {% if advert.has_payment == 'yes'%}
+                                                                <a href="/subscriber-portal/add-advert/?business_id={{advert.business_id}}">
+                                                                   <i class="fa fa-plus"></i> Add Advert
+                                                                </a>
+                                                            {% else %}
+                                                                <a data-toggle="modal" data-target="#no-payment-modal">
+                                                                   <i class="fa fa-plus"></i> Add Advert
+                                                                </a>
+                                                            {% endif %}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1057,14 +1069,17 @@ hr {
                                             <div class="row no_child" style="background-color: {{advert.advert_color}}; height: 60px;">
                                                 <div class="col-lg-12 ">
                                                     <div class="col-lg-9" style=" padding-left: 0px;">
-                                                        <div class="col-lg-1" style="
+                                                        <div class="col-lg-3" style="
                                                             font-style: normal;
                                                             font-size: 30px;
-                                                            color: #fff;">
+                                                            color: #fff;
+                                                            margin: 0px;
+                                                            padding: 2px;
+                                                            ">
                                                             {{advert.advert_bookings}}
                                                         </div>
-                                                        <div class="col-lg-8"
-                                                             style=" font-size: 16px;margin-top: 12px; color: #fff;	">
+                                                        <div class="col-lg-9"
+                                                             style=" font-size: 16px;margin-top: 12px; color: #fff; ">
                                                             <p> Bookings </p>
                                                         </div>
                                                     </div>
@@ -1085,7 +1100,7 @@ hr {
                                                             color: #fff;">
                                                         </div>
                                                         <div class="col-lg-8"
-                                                             style=" font-size: 16px;margin-top: 12px; color: #fff;	">
+                                                             style=" font-size: 16px;margin-top: 12px; color: #fff; ">
                                                             <p>  </p>
                                                         </div>
                                                     </div>
@@ -1109,6 +1124,45 @@ hr {
     </div>
     <!-- END PORTLET-->
 
+    <div style="overflow-y:hidden;" id="delete-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;"
+                         src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-body">
+                        <h4 class="text-center">Do you want to delete this advert?</h4>
+                    </div>
+                    <div style="text-align:center !important;" class="modal-footer">
+                        <button type="button" onclick="delete_advert()" class="btn green" data-dismiss="modal">Yes</button>
+                        <button type="button" class="btn green" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="overflow-y:hidden;" id="no-payment-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;"
+                         src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+                </div>
+                <div class="modal-body">
+                    <div class="form-body">
+                        <h4 class="text-center">Payment Details not added. Please add Payment Details</h4>
+                    </div>
+                    <div style="text-align:center !important;" class="modal-footer">
+                        <button type="button" class="btn green" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="model_style">
         <div class="modal fade bs-modal-lg" id="createNew" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1290,6 +1344,8 @@ hr {
 
     <script type="text/javascript">
 
+var advert_id = '';
+
 $(document).ready(function(){
     var maxHeight = 0;
     var maxHeader = 0;
@@ -1317,22 +1373,23 @@ $(document).ready(function(){
 });
 
 
+
  $(".form_datetime").datetimepicker({
-	format: "yyyy-mm-dd",
-	minView: 'month',
-	autoclose: true
-	 
+    format: "yyyy-mm-dd",
+    minView: 'month',
+    autoclose: true
+
 });
 
 function filter_advert() {
-	
-	startDate_var = $('#startDate').val()
-	endDate_var = $('#endDate').val()
-	category_name_var = $('#category_id').val()
-	stat_var = $("input[name='stat']:checked").val()
-	var supplier_id={{request.session.supplier_id}};
 
-	location.href = '/subscriber-portal/subscriber-advert/?supplier_id='+supplier_id+'&start_date_var='+startDate_var+'&end_date_var='+endDate_var+'&status_var='+stat_var+'&category_var	='+category_name_var+''
+    startDate_var = $('#startDate').val()
+    endDate_var = $('#endDate').val()
+    category_name_var = $('#category_id').val()
+    stat_var = $("input[name='stat']:checked").val()
+    var supplier_id={{request.session.supplier_id}};
+
+    location.href = '/subscriber-portal/subscriber-advert/?supplier_id='+supplier_id+'&start_date_var='+startDate_var+'&end_date_var='+endDate_var+'&status_var='+stat_var+'&category_var   ='+category_name_var+''
 }
 
 
@@ -1340,107 +1397,151 @@ function activate_daterange() {
 
    $('input[type="button"]').click(function() {
 
-       if($(this).attr('id') == 'One_week') {            
-            
+       if($(this).attr('id') == 'One_week') {
+
             var date = new Date();
 
            //var date = new Date($('#start_'+id).val());
-		        // days = parseInt($('#day_'+id).val(), 10) - 1;
-		        date.setDate(date.getDate() - 7 );
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		        newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#startDate").val(newdate);
-          
-           
+            // days = parseInt($('#day_'+id).val(), 10) - 1;
+            date.setDate(date.getDate() - 7 );
+            var yyyy = date.getFullYear().toString();
+            var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = date.getDate().toString();
+            newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+            $("#startDate").val(newdate);
+
+
             var date = new Date();
 
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		         newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#endDate").val(newdate);
+            var yyyy = date.getFullYear().toString();
+            var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = date.getDate().toString();
+             newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+            $("#endDate").val(newdate);
 
     }
     else if($(this).attr('id') == 'One_month'){
                        var date = new Date();
 
-		        date.setDate(date.getDate() - 30 );
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		          newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#startDate").val(newdate);
-          
-           
+                date.setDate(date.getDate() - 30 );
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = date.getDate().toString();
+                  newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+                $("#startDate").val(newdate);
+
+
             var date = new Date();
 
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		         newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#endDate").val(newdate);
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = date.getDate().toString();
+                 newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+                $("#endDate").val(newdate);
        }
            else if($(this).attr('id') == 'Three_month'){
                        var date = new Date();
 
-		        date.setDate(date.getDate() - 90 );
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		          newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#startDate").val(newdate);
-          
-           
+                date.setDate(date.getDate() - 90 );
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = date.getDate().toString();
+                  newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+                $("#startDate").val(newdate);
+
+
             var date = new Date();
 
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		           newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#endDate").val(newdate);
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = date.getDate().toString();
+                   newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+                $("#endDate").val(newdate);
        }
            else if($(this).attr('id') == 'Six_month'){
                        var date = new Date();
 
-		        date.setDate(date.getDate() - 180 );
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		         newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#startDate").val(newdate);
-          
-           
+                date.setDate(date.getDate() - 180 );
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = date.getDate().toString();
+                 newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+                $("#startDate").val(newdate);
+
+
             var date = new Date();
 
-		        var yyyy = date.getFullYear().toString();
-		        var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
-		        var dd  = date.getDate().toString();
-		         newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
-        
-				$("#endDate").val(newdate);
+                var yyyy = date.getFullYear().toString();
+                var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+                var dd  = date.getDate().toString();
+                 newdate = yyyy + "-"+  (mm[1]?mm:"0"+mm[0]) + "-" +  (dd[1]?dd:"0"+dd[0]);
+
+                $("#endDate").val(newdate);
        }
                   else if($(this).attr('id') == 'date_range'){
-        
-				$("#startDate").val(null);
-        
-				$("#endDate").val(null);
+
+                $("#startDate").val(null);
+
+                $("#endDate").val(null);
        }
- 
+
    });
 }
 
+function deleteModalCall(adv_id){
+    advert_id = adv_id;
+    $("#delete-modal").modal('show');
+}
 
+function delete_advert(){
+    $.ajax({
+        type : "GET",
+        url : '/subscriber-portal/delete-advert/',
+        data : {'advert_id':advert_id},
+        success: function (response) {
+            //location.reload();
+        },
+        beforeSend: function () {
+            $("#processing").css('display','block');
+        },
+        complete: function () {
+            location.href='/subscriber-portal/subscriber-advert/';
+            $("#processing").css('display','none');
+        },
+        error : function(response){
+            alert("_Error");
+        }
+    });
+}
 
+function activateAdvert(advert_id){
+    $.ajax({
+        type : "GET",
+        url : '/subscriber-portal/activate-advert/',
+        data : {'advert_id':advert_id},
+        success: function (response) {
+            //location.reload();
+        },
+        beforeSend: function () {
+            $("#processing").css('display','block');
+        },
+        complete: function () {
+            location.href='/subscriber-portal/subscriber-advert/';
+            $("#processing").css('display','none');
+        },
+        error : function(response){
+            alert("_Error");
+        }
+    });
+}
 
-    </script>
+</script>
 </body>
 </html>

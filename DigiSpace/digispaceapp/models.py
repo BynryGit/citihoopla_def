@@ -246,19 +246,21 @@ class Privileges(models.Model):
 
 
 class UserProfile(User):
-    user_id = models.AutoField(primary_key=True, editable=False)
-    user_name = models.CharField(max_length=100, default=None, blank=True, null=True)
-    user_contact_no = models.CharField(blank=True, null=True, max_length=200, default=None)
-    usre_email_id = models.CharField(blank=True, null=True, max_length=100, default=None)
-    user_role = models.ForeignKey(UserRole, blank=True, null=True)
-    user_status = models.CharField(default="1", null=True, max_length=100, choices=status);
-    user_created_date = models.DateTimeField(null=True, blank=True)
-    user_created_by = models.CharField(max_length=100, null=True, blank=True)
-    user_updated_by = models.CharField(max_length=100, null=True, blank=True)
-    user_updated_date = models.DateTimeField(null=True, blank=True)
+    user_id                        =       models.AutoField(primary_key=True, editable=False, blank=True)
+    user_first_name                =       models.CharField(max_length=100,default=None,blank=True,null=True)
+    user_last_name                 =       models.CharField(max_length=100,default=None,blank=True,null=True)
+    user_contact_no                =       models.CharField(blank=True,null=True,max_length=200,default=None)
+    usre_email_id                  =       models.CharField(blank=True,null=True,max_length=100,default=None)
+    user_role                 	   =       models.ForeignKey(UserRole,blank=True,null=True)
+    user_status                    =       models.CharField(default="1",null=True,max_length=100, choices=status);
+    user_created_date              =       models.DateTimeField(null=True,blank=True)
+    user_created_by                =       models.CharField(max_length=100,null=True,blank=True)
+    user_updated_by                =       models.CharField(max_length=100,null=True,blank= True)
+    user_updated_date              =       models.DateTimeField(null=True,blank=True)
+
 
     def __unicode__(self):
-        return unicode(self.user_name)
+        return unicode(self.usre_email_id)
 
 
 class Category(models.Model):

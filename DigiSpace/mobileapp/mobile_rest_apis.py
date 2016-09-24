@@ -63,8 +63,8 @@ from rest_framework.decorators import parser_classes
 from mobileapp.serializers import *
 from mobileapp.helper import UserProfileToJSON
 
-#SERVER_URL = "http://192.168.0.151:9090"
-SERVER_URL = "http://52.40.205.128"
+SERVER_URL = "http://192.168.0.151:9090"
+#SERVER_URL = "http://52.40.205.128"
 
 # Constants
 earth_radius = 6371.0
@@ -85,61 +85,70 @@ def index(request):
     # Output : Auth token on successful login or error or failure.
 '''
 
-# @csrf_exempt
-# @api_view(['POST'])
-# @renderer_classes((JSONRenderer,))
-# @csrf_exempt
-# def consumer_signup(request):
-#     try:
-#         json_obj = json.loads(request.body)
-#         consumer_obj = ConsumerProfile(
-#             username=json_obj['email_id'],
-#             consumer_full_name=json_obj['full_name'],
-#             consumer_contact_no=json_obj['phone'],
-#             consumer_email_id=json_obj['email_id'],
-#             sign_up_source=json_obj['sign_up_source'],
-#             device_token=json_obj['device_token'],
-#             consumer_created_date=datetime.now(),
-#             consumer_status='1',
-#             consumer_created_by=json_obj['full_name'],
-#             consumer_updated_by=json_obj['full_name'],
-#             consumer_updated_date=datetime.now(),
-#             user_verified = 'false'
-#         );
-#         consumer_obj.save()
-#         consumer_obj.set_password(json_obj['password']);
-#         consumer_obj.save()
-#         device_id = json_obj['device_token']
-#         device_status = add_update_consumer_device_id(consumer_obj, device_id)
-#         ret = u''
-#         ret = ''.join(random.choice('0123456789') for i in range(6))
-#         OTP = ret
-#         consumer_obj.consumer_otp = str(OTP)
-#         consumer_obj.save()
-#         #request.session["OTP"] = str(OTP)
-#         #print request.session["OTP"]
-#         #sms_otp(consumer_obj,OTP)
-#         try:
-#             filename = "IMG_%s_%s.png" % (consumer_obj.username, str(datetime.now()).replace('.', '_'))
-#             resource = urllib.urlopen(json_obj['user_profile_image'])
-#
-#             consumer_obj.consumer_profile_pic = ContentFile(resource.read(), filename)  # assign image to model
-#             consumer_obj.save()
-#         except:
-#             pass
-#
-#         data = {
-#             'success': 'true',
-#             'message': 'User Created Successfully',
-#             'user_info': get_profile_info(consumer_obj.consumer_id)
-#         }
-#     except Exception, e:
-#         print 'mobile_rest_api.py | consumer_signup | Exception ', e
-#         data = {
-#             'success': 'false',
-#             'message': 'User with same username already exists'
-#         }
-#     return HttpResponse(json.dumps(data), content_type='application/json')
+@csrf_exempt
+@api_view(['POST'])
+@renderer_classes((JSONRenderer,))
+@csrf_exempt
+def consumer_signup(request):
+    serializer = SignUpSerializer(data=request.data)
+    if serializer.is_valid():
+        try:
+            #json_obj = json.loads(request.body)
+            print serializer#.POST
+            consumer_obj = ConsumerProfile(
+                username=serializer.validated_data['email_id'],
+                consumer_full_name=serializer.validated_data['full_name'],
+                consumer_contact_no=serializer.validated_data['phone'],
+                consumer_email_id=serializer.validated_data['email_id'],
+                sign_up_source=serializer.validated_data['sign_up_source'],
+                device_token=serializer.validated_data['device_token'],
+                consumer_created_date=datetime.now(),
+                consumer_status='1',
+                consumer_created_by=serializer.validated_data['full_name'],
+                consumer_updated_by=serializer.validated_data['full_name'],
+                consumer_updated_date=datetime.now(),
+                user_verified = 'false'
+            );
+            consumer_obj.save()
+            consumer_obj.set_password(request.POST.get('password'));
+            consumer_obj.save()
+            device_id = request.POST.get('device_token')
+            #device_status = add_update_consumer_device_id(consumer_obj, device_id)
+            ret = u''
+            ret = ''.join(random.choice('0123456789') for i in range(6))
+            OTP = ret
+            consumer_obj.consumer_otp = str(OTP)
+            consumer_obj.save()
+            #request.session["OTP"] = str(OTP)
+            #print request.session["OTP"]
+            #sms_otp(consumer_obj,OTP)
+            try:
+                filename = "IMG_%s_%s.png" % (consumer_obj.username, str(datetime.now()).replace('.', '_'))
+                resource = urllib.urlopen(serializer.validated_data['user_profile_image'])
+
+                consumer_obj.consumer_profile_pic = ContentFile(resource.read(), filename)  # assign image to model
+                consumer_obj.save()
+            except:
+                pass
+            # user = User.objects.get(username = consumer_obj.username)
+            # Token.objects.filter(user=user).delete()
+            # token = Token.objects.create(user=user)
+            # resp = {}
+            # resp['authorization'] = "Token " + str(token)
+            return Response({
+                "result": "success",
+                "message": "User Created Successfully.",
+                "user_info": get_profile_info(consumer_obj.consumer_id),
+                #"authtokendata": resp
+            }, status=status.HTTP_200_OK)
+        except Exception, e:
+            print 'mobile_rest_api.py | consumer_signup | Exception ', e
+            return Response({
+                "result": "failure",
+                "message": "User with same username already exists."
+            }, status=status.HTTP_404_NOT_FOUND)
+        #return HttpResponse(json.dumps(data), content_type='application/json')
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 '''
     # Add or updates device token to GCM
@@ -235,6 +244,36 @@ def get_profile_info(user_id):
     }
     return data
 
+'''
+    # REST API to get city list.
+    # Output : Auth token and city list or error or failure.
+'''
+
+@csrf_exempt
+@api_view(['GET'])
+@renderer_classes((JSONRenderer,))
+@authentication_classes((TokenAuthentication,))
+@permission_classes((IsAuthenticated,))
+def get_city_list(request):
+    city_list = []
+    city_objs = City_Place.objects.filter(city_status=1)
+    for city in city_objs:
+        city_id = str(city.city_place_id)
+        city_name = str(city.city_id.city_name)
+        city_list1 = {'city_id': city_id, 'city_name': city_name}
+
+        city_list.append(city_list1)
+    return Response({
+        "result": "success",
+        "city_list": city_list,
+    }, status=status.HTTP_200_OK)
+
+'''
+    # REST API to get advert map api.
+    # Input : city_id, consumer present latitude and longitude, radius(in kms).
+    # Output : Auth token and advert list(with latitude/longitude) or error or failure.
+'''
+
 @csrf_exempt
 @api_view(['POST'])
 @renderer_classes((JSONRenderer,))
@@ -280,7 +319,6 @@ def get_map_advert_list(request):
                         address = advert_obj.area
                     if advert_obj.city_place_id:
                         address = address + ' ' + advert_obj.city_place_id.city_id.city_name
-
 
                     phone_obj = PhoneNo.objects.filter(advert_id=advert_id)
 
@@ -378,6 +416,11 @@ def bounding_box(latitude, longitude, distance):
     lon_min = longitude - lon_change
     return (lon_max, lon_min, lat_max, lat_min)
 
+'''
+    # REST API to get advert map api.
+    # Input : city_id, consumer present latitude and longitude, radius(in kms).
+    # Output : Auth token and advert list(with latitude/longitude) or error or failure.
+'''
 
 @csrf_exempt
 @api_view(['POST'])

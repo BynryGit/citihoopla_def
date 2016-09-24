@@ -45,8 +45,8 @@ import urllib2
 import string
 import random
 
-# SERVER_URL = "http://52.40.205.128"
-SERVER_URL = "http://192.168.0.151:9090"
+SERVER_URL = "http://52.40.205.128"
+#SERVER_URL = "http://192.168.0.151:9090"
 #SERVER_URL = "http://192.168.0.4:8080"
 
 
@@ -93,6 +93,29 @@ def add_advert(request):
         else:
             return render(request, 'Subscriber/add_advert.html', data)
 
+def delete_advert(request):
+    try:
+        advert_id = request.GET.get('advert_id')
+        advert_obj = Advert.objects.get(advert_id = advert_id)
+        advert_obj.status = '0'
+        advert_obj.save()
+        data = {'message': ''}
+    except Exception, e:
+        print 'Exception ', e
+        data = {'state_list': 'No states available'}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+def activate_advert(request):
+    try:
+        advert_id = request.GET.get('advert_id')
+        advert_obj = Advert.objects.get(advert_id = advert_id)
+        advert_obj.status = '1'
+        advert_obj.save()
+        data = {'message': ''}
+    except Exception, e:
+        print 'Exception ', e
+        data = {'state_list': 'No states available'}
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_advert_form(request):
@@ -142,16 +165,20 @@ def advert_bookings(request):
             else:
                 status = 'Inactive'
             print status
+            if coupons.user_id.consumer_profile_pic:
+                user_img = SERVER_URL + coupons.user_id.consumer_profile_pic.url
+            else:
+                user_img = ''
             coupon_obj = {
                 'coupon_code': coupons.coupon_code,
-                'avail_date': coupons.creation_date.strftime("%d/%m/%Y"),
+                'avail_date': coupons.creation_date.strftime('%b %d,%Y'),
                 'user_id': str(coupons.user_id),
                 'mobile_no': coupons.user_id.consumer_contact_no,
-                'user_img': SERVER_URL + coupons.user_id.consumer_profile_pic.url,
+                'user_img': user_img,
                 'user_name': coupons.user_id.consumer_full_name,
                 'user_area': coupons.user_id.consumer_area,
                 'user_email_id': coupons.user_id.consumer_email_id,
-                'coupon_expiry_date': end_date.strftime("%d/%m/%Y"),
+                'coupon_expiry_date': end_date.strftime('%b %d,%Y'),
                 'days_remaining': int(date_gap.days),
                 'status': status
             }
@@ -1868,15 +1895,15 @@ def subscriber_profile(request):
         final_list2 = []
 
         try:
-            Item_list = Item.objects.all()
+            # Item_list = Item.objects.all()
 
-            for Item_obj in Item_list:
-                Item_video_id = Item_obj.Item_video_id
-                video_s = SERVER_URL + Item_obj.Item_video_name.url
-                # Item_video_name = Item_obj.Item_video_name
-                print '------$$$---Item_video_name----video_s--', video_s
-                list2 = {'Item_video_id': Item_video_id, 'video_s': video_s}
-                final_list2.append(list2)
+            # for Item_obj in Item_list:
+            #     Item_video_id = Item_obj.Item_video_id
+            #     video_s = SERVER_URL + Item_obj.Item_video_name.url
+            #     # Item_video_name = Item_obj.Item_video_name
+            #     print '------$$$---Item_video_name----video_s--', video_s
+            #     list2 = {'Item_video_id': Item_video_id, 'video_s': video_s}
+            #     final_list2.append(list2)
 
             supplier_id = request.GET.get('supplier_id')
             print '=======request======first===', supplier_id
@@ -1891,7 +1918,7 @@ def subscriber_profile(request):
                 address_line_1 = advert_obj.address_line_1
                 area = advert_obj.area
                 category_name = advert_obj.category_id.category_name
-                display_image = SERVER_URL + advert_obj.display_image.url
+                #display_image = SERVER_URL + advert_obj.display_image.url
                 count_total = CouponCode.objects.filter(advert_id=advert_id).count()
 
                 pre_date = datetime.now().strftime("%m/%d/%Y")
@@ -1931,11 +1958,14 @@ def subscriber_profile(request):
                     final_list1.append(list1)
 
                 list = {'advert_id': advert_id, 'advert_name': advert_name, 'address_line_1': address_line_1,
-                        'area': area, 'category_name': category_name, 'display_image': display_image,
+                        'area': area, 'category_name': category_name,
                         'count_total': count_total, 'start_date': start_date, 'date_gap': date_gap}
                 final_list.append(list)
 
-            logo = SERVER_URL + Supplier_obj.logo.url
+            if Supplier_obj.logo:
+                logo = SERVER_URL + Supplier_obj.logo.url
+            else:
+                logo = SERVER_URL + '/static/assets/layouts/layout2/img/City_Hoopla_Logo.jpg'
             business_name = Supplier_obj.business_name
 
             business_details = Supplier_obj.business_details
@@ -2004,7 +2034,7 @@ def subscriber_advert(request):
         pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
         print "------------------------------", request.GET
         try:
-            supplier_id = request.GET.get('supplier_id')
+            supplier_id = request.session['supplier_id']
             start_date_var = request.GET.get('start_date_var')
             end_date_var = request.GET.get('end_date_var')
             category_var = request.GET.get('category_var')
@@ -2012,17 +2042,17 @@ def subscriber_advert(request):
 
             if start_date_var and end_date_var and status_var and category_var:
                 Advert_list1 = Advert.objects.filter(category_id=request.GET.get('category_var'),
-                                                     supplier_id=request.GET.get('supplier_id'),
+                                                     supplier_id=supplier_id,
                                                      creation_date__range=[start_date_var, end_date_var],
                                                      status=request.GET.get('status_var'))
 
             elif start_date_var and end_date_var and category_var:
                 Advert_list1 = Advert.objects.filter(category_id=request.GET.get('category_var'),
-                                                     supplier_id=request.GET.get('supplier_id'),
+                                                     supplier_id=supplier_id,
                                                      creation_date__range=[start_date_var, end_date_var])
 
             elif start_date_var and end_date_var and status_var:
-                Advert_list1 = Advert.objects.filter(supplier_id=request.GET.get('supplier_id'),
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id,
                                                      creation_date__range=[start_date_var, end_date_var],
                                                      status=request.GET.get('status_var'))
 
@@ -2031,15 +2061,15 @@ def subscriber_advert(request):
                     status=request.GET.get('status_var'))
 
             elif start_date_var and end_date_var:
-                Advert_list1 = Advert.objects.filter(supplier_id=request.GET.get('supplier_id'),
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id,
                                                      creation_date__range=[start_date_var, end_date_var])
 
             elif category_var:
-                Advert_list1 = Advert.objects.filter(supplier_id=request.GET.get('supplier_id'),
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id,
                                                      category_id=request.GET.get('category_var'))
 
             else:
-                Advert_list1 = Advert.objects.filter(supplier_id=request.GET.get('supplier_id'))
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id)
 
             category_objs = Category.objects.all()
             for category_obj in category_objs:
@@ -2048,7 +2078,7 @@ def subscriber_advert(request):
                 cat_data = {'category_name': category_name, 'category_id': category_id}
                 category_list.append(cat_data)
 
-            business_obj = Business.objects.filter(supplier_id=request.GET.get('supplier_id'))
+            business_obj = Business.objects.filter(supplier_id=supplier_id)
             for business in business_obj:
                 try:
                     advert_sub_obj = AdvertSubscriptionMap.objects.get(business_id=business.business_id)
@@ -2087,6 +2117,13 @@ def subscriber_advert(request):
 
                     premium_serv_list = premium_list(business.business_id)
 
+                    try:
+                        payment_obj = PaymentDetail.objects.get(business_id = business.business_id)
+                        has_payment = 'yes'
+                    except Exception:
+                        has_payment = 'no'
+                        pass
+
                     advert_data = {
                         'advert_id': '',
                         'business_id': business.business_id,
@@ -2105,6 +2142,7 @@ def subscriber_advert(request):
                         'premium_service_list': premium_serv_list,
                         'advert_bookings': '',
                         'advert_color': advert_color,
+                        'has_payment':has_payment
                     }
                     advert_list.append(advert_data)
 
@@ -2179,6 +2217,7 @@ def subscriber_advert(request):
                     'premium_service_list': premium_service_list,
                     'advert_bookings': advert_bookings,
                     'advert_color': advert_color,
+                    'is_active': str(advert_obj.status)
                 }
                 advert_list.append(advert_data)
             data = {
@@ -2200,7 +2239,6 @@ def subscriber_advert(request):
         print e
     except Exception, e:
         print 'Exception ', e
-    print '...', advert_data
     return render(request, 'Subscriber/subscriber-advert.html', data)
 
 
@@ -2324,7 +2362,10 @@ def subscriber_booking(request):
                 # # To find out coupon code
                 advert_id = advert_obj.advert_id
                 print 'advert_id', advert_id
-                display_image = SERVER_URL + advert_obj.display_image.url
+                if advert_obj.display_image:
+                    display_image = SERVER_URL + advert_obj.display_image.url
+                else:
+                    display_image = ''
                 advert_sub_list = CouponCode.objects.filter(advert_id=advert_id)
 
                 for advert_sub_obj in advert_sub_list:
@@ -2343,7 +2384,10 @@ def subscriber_booking(request):
                     consumer_contact_no = consumer_obj.consumer_contact_no
                     consumer_email_id = consumer_obj.consumer_email_id
                     consumer_area = consumer_obj.consumer_area
-                    consumer_profile_pic = SERVER_URL + consumer_obj.consumer_profile_pic.url
+                    if consumer_obj.consumer_profile_pic:
+                        consumer_profile_pic = SERVER_URL + consumer_obj.consumer_profile_pic.url
+                    else:
+                        consumer_profile_pic = ''
 
                     # Expiry Date
                     pre_date = datetime.now().strftime("%m/%d/%Y")
@@ -2379,9 +2423,9 @@ def subscriber_booking(request):
                     final_list.append(list)
 
             Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
-            logo = SERVER_URL + Supplier_obj.logo.url
+            #logo = SERVER_URL + Supplier_obj.logo.url
 
-            data = {'logo': logo, 'final_list': final_list, 'success': 'true', 'final_list2': final_list2}
+            data = { 'final_list': final_list, 'success': 'true', 'final_list2': final_list2}
 
         except IntegrityError as e:
             print e
@@ -2406,7 +2450,7 @@ def get_pincode(request):
         # pincode_objs = pincode_list1.values('pincode').distinct()
         # print pincode_objs
         for pincode in pincode_list1:
-            options_data = '<option value=' + str(pincode.pincode_id) + '>' + str(pincode.pincode) + '</option>'
+            options_data = '<option value="' + str(pincode.pincode_id) + '">' + str(pincode.pincode) + '</option>'
             pincode_list.append(options_data)
             # print pincode_list
         data = {'pincode_list': pincode_list}
@@ -2421,7 +2465,6 @@ def get_pincode(request):
 def update_profile(request):
     try:
         if request.POST:
-            print '$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$'
             supplier_id = request.POST.get('supplier_id')
             print '............supplier_id............', supplier_id
             supplier_obj = Supplier.objects.get(supplier_id=request.POST.get('supplier_id'))
@@ -2433,11 +2476,11 @@ def update_profile(request):
             supplier_obj.address1 = request.POST.get('address1')
             supplier_obj.address2 = request.POST.get('address2')
             print supplier_obj.address2
-            supplier_obj.city = City.objects.get(city_id=request.POST.get('city'))
+            supplier_obj.city = City_Place.objects.get(city_place_id=request.POST.get('city'))
             print supplier_obj.city
             supplier_obj.country = Country.objects.get(country_id=request.POST.get('country'))
             supplier_obj.state = State.objects.get(state_id=request.POST.get('state'))
-            supplier_obj.pincode = Pincode.objects.get(pincode=request.POST.get('pincode'))
+            supplier_obj.pincode = Pincode.objects.get(pincode_id=request.POST.get('pincode'))
             supplier_obj.business_details = request.POST.get('business')
             supplier_obj.contact_person = request.POST.get('user_name')
             supplier_obj.contact_email = request.POST.get('user_email')
@@ -2481,8 +2524,10 @@ def subscriber_dashboard(request):
 
             Supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
             print "..................Supplier_obj.........", Supplier_obj
-
-            logo = SERVER_URL + Supplier_obj.logo.url
+            if Supplier_obj.logo:
+                logo = SERVER_URL + Supplier_obj.logo.url
+            else:
+                logo = ''
 
             #########.............Advert Stats.........................#####
             Advert_list = Advert.objects.filter(supplier_id=request.session['supplier_id'])
@@ -2492,9 +2537,10 @@ def subscriber_dashboard(request):
             avail_callbacks_count = 0
             avail_callsmade_count = 0
             avail_shares_count = 0
-
+            advert_id_list = []
             for advert_obj in Advert_list:
                 advert_id = advert_obj.advert_id
+                advert_id_list.append(advert_id)
                 discount_count = CouponCode.objects.filter(advert_id=advert_id).count()
                 callbacks_count = AdvertCallbacks.objects.filter(advert_id=advert_id).count()
                 callsmade_count = AdvertCallsMade.objects.filter(advert_id=advert_id).count()
@@ -2515,7 +2561,8 @@ def subscriber_dashboard(request):
             end_date = date(today.year, 12, 31)
             monthly_count = []
             # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
-            coupon_code_list = CouponCode.objects.filter(creation_date__range=[start_date, end_date]).extra(
+
+            coupon_code_list = CouponCode.objects.filter(creation_date__range=[start_date, end_date],advert_id__in=advert_id_list).extra(
                 select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
                 count=Count('advert_id'))
             print "...........coupon_code_list.......", coupon_code_list
@@ -2559,7 +2606,7 @@ def subscriber_dashboard(request):
             print '...........last_date2.........', last_date2
 
             list = []
-            total_view_list = AdvertView.objects.filter(creation_date__range=[last_date, current_date])
+            total_view_list = AdvertView.objects.filter(creation_date__range=[last_date, current_date],advert_id__in=advert_id_list)
             mon = tue = wen = thus = fri = sat = sun = 0
             if total_view_list:
                 for view_obj in total_view_list:
@@ -2630,7 +2677,10 @@ def subscriber_dashboard2(request):
             Supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
             print "..................Supplier_obj.........", Supplier_obj
 
-            logo = SERVER_URL + Supplier_obj.logo.url
+            if Supplier_obj.logo:
+                logo = SERVER_URL + Supplier_obj.logo.url
+            else:
+                logo = ''
 
             #########.............Dashboard Stats.........................#####
             total_payment_count = 0
@@ -2863,7 +2913,10 @@ def get_admin_filter(request):
 
                 Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
 
-                logo = SERVER_URL + Supplier_obj.logo.url
+                if Supplier_obj.logo:
+                    logo = SERVER_URL + Supplier_obj.logo.url
+                else:
+                    logo = ''
 
                 #########.............Advert Stats.......For a Month..................#####
                 print '..........Advert Stats.......For a Month.......'
@@ -3284,7 +3337,10 @@ def get_admin_filter(request):
 
                 Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
 
-                logo = SERVER_URL + Supplier_obj.logo.url
+                if Supplier_obj.logo:
+                    logo = SERVER_URL + Supplier_obj.logo.url
+                else:
+                    logo = ''
 
                 #########.............Advert Stats.......For a week..................#####
                 print '........Advert Stats.......For a week.....'
@@ -3474,7 +3530,10 @@ def get_filter(request):
 
                 Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
 
-                logo = SERVER_URL + Supplier_obj.logo.url
+                if Supplier_obj.logo:
+                    logo = SERVER_URL + Supplier_obj.logo.url
+                else:
+                    logo = ''
 
                 #########.............Advert Stats.......For a Month..................#####
                 print '..........Advert Stats.......For a Month.......'
@@ -3486,9 +3545,10 @@ def get_filter(request):
                 avail_callbacks_count = 0
                 avail_callsmade_count = 0
                 avail_shares_count = 0
-
+                advert_id_list = []
                 for advert_obj in Advert_list:
                     advert_id = advert_obj.advert_id
+                    advert_id_list.append(advert_id)
                     discount_count = CouponCode.objects.filter(advert_id=advert_id,
                                                                creation_date__range=[one_month_date,
                                                                                      today_date]).count()
@@ -3523,22 +3583,26 @@ def get_filter(request):
                         start_date = date(today.year, today.month, 01)
                         end_date = date(today.year, today.month, 8)
                         coupon_code_count1 = CouponCode.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 1:
                         start_date = date(today.year, today.month, 8)
                         end_date = date(today.year, today.month, 16)
                         coupon_code_count2 = CouponCode.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 2:
                         start_date = date(today.year, today.month, 16)
                         end_date = date(today.year, today.month, 23)
                         coupon_code_count3 = CouponCode.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 3:
                         start_date = date(today.year, today.month, 23)
                         end_date = date(today.year, today.month, 30)
                         coupon_code_count4 = CouponCode.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 4:
                         start_date = date(today.year, today.month, 30)
                         end_date = date(today.year, today.month, 31)
@@ -3563,27 +3627,32 @@ def get_filter(request):
                         start_date = date(today.year, today.month, 01)
                         end_date = date(today.year, today.month, 8)
                         advert_total_count1 = AdvertView.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 1:
                         start_date = date(today.year, today.month, 8)
                         end_date = date(today.year, today.month, 16)
                         advert_total_count2 = AdvertView.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 2:
                         start_date = date(today.year, today.month, 16)
                         end_date = date(today.year, today.month, 23)
                         advert_total_count3 = AdvertView.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 3:
                         start_date = date(today.year, today.month, 23)
                         end_date = date(today.year, today.month, 30)
                         advert_total_count4 = AdvertView.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                     elif i == 4:
                         start_date = date(today.year, today.month, 30)
                         end_date = date(today.year, today.month, 31)
                         advert_total_count5 = AdvertView.objects.filter(
-                            creation_date__range=[start_date, end_date]).count()
+                            creation_date__range=[start_date, end_date],advert_id__in=advert_id_list
+                            ).count()
                 data = {'var1': var1, 'success': 'true', 'logo': logo, 'avail_callbacks_count': avail_callbacks_count,
                         'avail_callsmade_count': avail_callsmade_count, 'avail_shares_count': avail_shares_count,
                         'avail_discount_count': avail_discount_count,
@@ -3599,7 +3668,10 @@ def get_filter(request):
 
                 Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
 
-                logo = SERVER_URL + Supplier_obj.logo.url
+                if Supplier_obj.logo:
+                    logo = SERVER_URL + Supplier_obj.logo.url
+                else:
+                    logo = ''
 
                 #########.............Advert Stats.......For a week..................#####
                 print '........Advert Stats.......For a week.....'
@@ -3611,9 +3683,10 @@ def get_filter(request):
                 avail_callbacks_count = 0
                 avail_callsmade_count = 0
                 avail_shares_count = 0
-
+                advert_id_list = []
                 for advert_obj in Advert_list:
                     advert_id = advert_obj.advert_id
+                    advert_id_list.append(advert_id)
                     discount_count = CouponCode.objects.filter(advert_id=advert_id,
                                                                creation_date__range=[one_month_date,
                                                                                      today_date]).count()
@@ -3638,7 +3711,7 @@ def get_filter(request):
                 last_date = (datetime.now() - timedelta(days=7))
 
                 list = []
-                total_view_list = CouponCode.objects.filter(creation_date__range=[last_date, current_date])
+                total_view_list = CouponCode.objects.filter(creation_date__range=[last_date, current_date],advert_id__in=advert_id_list)
                 mon1 = tue1 = wen1 = thus1 = fri1 = sat1 = sun1 = 0
                 if total_view_list:
                     for view_obj in total_view_list:
@@ -3669,7 +3742,7 @@ def get_filter(request):
                 last_date = (datetime.now() - timedelta(days=7))
 
                 list = []
-                total_view_list = AdvertView.objects.filter(creation_date__range=[last_date, current_date])
+                total_view_list = AdvertView.objects.filter(creation_date__range=[last_date, current_date],advert_id__in=advert_id_list)
                 mon2 = tue2 = wen2 = thus2 = fri2 = sat2 = sun2 = 0
                 if total_view_list:
                     for view_obj in total_view_list:
@@ -3723,17 +3796,16 @@ def subscriber_advert_stat(request):
         print "----------------request--------------", request.GET
         try:
             supplier_id = request.session['supplier_id']
-            print 'supplier_id', supplier_id
             advert_nm = request.GET.get('advert_nm')
-            print 'advert_nm', advert_nm
 
             Advert_list1 = Advert.objects.filter(supplier_id=request.session['supplier_id'])
-            print "..................Advert_list1.........", Advert_list1
 
             Supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
-            print "..................Supplier_obj.........", Supplier_obj
 
-            logo = SERVER_URL + Supplier_obj.logo.url
+            if Supplier_obj.logo:
+                logo = SERVER_URL + Supplier_obj.logo.url
+            else:
+                logo = ''
 
             #########################advert_views_total#############################
             advert_views_total = 0
@@ -3751,165 +3823,160 @@ def subscriber_advert_stat(request):
             print '...........start_date..........', start_date
             end_date = date(today.year, 12, 31)
 
-            for advert_obj in Advert_list1:
-                print advert_obj
-                advert_id = advert_obj.advert_id
-                advert_views = Advert.objects.filter(advert_id=advert_id,
+            #for advert_obj in Advert_list1:
+            advert_obj = Advert.objects.get(advert_id = request.GET.get('advert_id'))
+            advert_id = advert_obj.advert_id
+            advert_views = AdvertView.objects.filter(advert_id=advert_id,
+                                                 creation_date__range=[start_date, end_date]).count()
+            thumbs_count = AdvertLike.objects.filter(advert_id=advert_id,
                                                      creation_date__range=[start_date, end_date]).count()
-                thumbs_count = AdvertLike.objects.filter(advert_id=advert_id,
-                                                         creation_date__range=[start_date, end_date]).count()
-                shares_count = AdvertShares.objects.filter(advert_id=advert_id,
-                                                           creation_date__range=[start_date, end_date]).count()
+            shares_count = AdvertShares.objects.filter(advert_id=advert_id,
+                                                       creation_date__range=[start_date, end_date]).count()
 
-                advert_views_total = advert_views_total + advert_views
-                thumbs_count_total = thumbs_count_total + thumbs_count
-                shares_count_total = shares_count_total + shares_count
-                print '.................advert_views_total...........', advert_views_total
-                print '.................thumbs_count_total...........', thumbs_count_total
-                print '.................shares_count_total...........', shares_count_total
+            advert_views_total = advert_views_total + advert_views
+            thumbs_count_total = thumbs_count_total + thumbs_count
+            shares_count_total = shares_count_total + shares_count
 
-                #######.................Total views Graph........for a year.......########
+            #######.................Total views Graph........for a year.......########
 
-                FY_MONTH_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                today = date.today()
-                print '.......today.........', today
-                start_date = date(today.year, 01, 01)
-                print '...........start_date..........', start_date
-                end_date = date(today.year, 12, 31)
-                monthly_count = []
-                # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
+            FY_MONTH_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            today = date.today()
+            start_date = date(today.year, 01, 01)
+            end_date = date(today.year, 12, 31)
+            monthly_count = []
+            # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
 
-                coupon_code_list = Advert.objects.filter(advert_id=advert_id,
+            coupon_code_list = AdvertView.objects.filter(advert_id=advert_id,
+                                                     creation_date__range=[start_date, end_date]).extra(
+                select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
+                count=Count('advert_id'))
+            print "...........coupon_code_list...11....", coupon_code_list
+            list = {}
+
+            for sub_obj in coupon_code_list:
+                # advert_id = sub_obj.advert_id
+                # print 'SS advert SS',advert_id
+                print "sub_obj.get('count')", sub_obj.get('count')
+                if sub_obj.get('month'):
+                    list[sub_obj.get('month')] = sub_obj.get('count') or '0.00'
+                    print list
+
+            for i in FY_MONTH_LIST:
+                try:
+                    monthly_count.append(list[i])
+                except:
+                    monthly_count.append(0)
+
+            jan1 = jan1 + monthly_count[0]
+            print jan1
+            feb1 = feb1 + monthly_count[1]
+            print feb1
+            mar1 = mar1 + monthly_count[2]
+            print mar1
+            apr1 = apr1 + monthly_count[3]
+            may1 = may1 + monthly_count[4]
+            jun1 = jun1 + monthly_count[5]
+            jul1 = jul1 + monthly_count[6]
+            aug1 = aug1 + monthly_count[7]
+            print aug1
+            sep1 = sep1 + monthly_count[8]
+            oct1 = oct1 + monthly_count[9]
+            nov1 = nov1 + monthly_count[10]
+            dec1 = dec1 + monthly_count[11]
+
+            #######.................Total Like Graph........for a year.......########
+
+            FY_MONTH_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            today = date.today()
+            print '.......today......AdvertLike...', today
+            start_date = date(today.year, 01, 01)
+            print '...........start_date....AdvertLike......', start_date
+            end_date = date(today.year, 12, 31)
+            monthly_count = []
+            # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
+            coupon_code_list = AdvertLike.objects.filter(advert_id=advert_id,
                                                          creation_date__range=[start_date, end_date]).extra(
-                    select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
-                    count=Count('advert_id'))
-                print "...........coupon_code_list...11....", coupon_code_list
-                list = {}
+                select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
+                count=Count('advert_id'))
+            print "...........coupon_code_list....AdvertLike...", coupon_code_list
+            list = {}
 
-                for sub_obj in coupon_code_list:
-                    # advert_id = sub_obj.advert_id
-                    # print 'SS advert SS',advert_id
-                    print "sub_obj.get('count')", sub_obj.get('count')
-                    if sub_obj.get('month'):
-                        list[sub_obj.get('month')] = sub_obj.get('count') or '0.00'
-                        print list
+            for sub_obj in coupon_code_list:
 
-                for i in FY_MONTH_LIST:
-                    try:
-                        monthly_count.append(list[i])
-                    except:
-                        monthly_count.append(0)
+                print "sub_obj.get('count')", sub_obj.get('count')
+                if sub_obj.get('month'):
+                    list[sub_obj.get('month')] = sub_obj.get('count') or '0.00'
+                    print list
 
-                jan1 = jan1 + monthly_count[0]
-                print jan1
-                feb1 = feb1 + monthly_count[1]
-                print feb1
-                mar1 = mar1 + monthly_count[2]
-                print mar1
-                apr1 = apr1 + monthly_count[3]
-                may1 = may1 + monthly_count[4]
-                jun1 = jun1 + monthly_count[5]
-                jul1 = jul1 + monthly_count[6]
-                aug1 = aug1 + monthly_count[7]
-                print aug1
-                sep1 = sep1 + monthly_count[8]
-                oct1 = oct1 + monthly_count[9]
-                nov1 = nov1 + monthly_count[10]
-                dec1 = dec1 + monthly_count[11]
+            for i in FY_MONTH_LIST:
+                try:
+                    monthly_count.append(list[i])
+                except:
+                    monthly_count.append(0)
 
-                #######.................Total Like Graph........for a year.......########
+            jan2 = jan2 + monthly_count[0]
+            print jan2
+            feb2 = feb2 + monthly_count[1]
+            print feb2
+            mar2 = mar2 + monthly_count[2]
+            print mar2
+            apr2 = apr2 + monthly_count[3]
+            may2 = may2 + monthly_count[4]
+            jun2 = jun2 + monthly_count[5]
+            jul2 = jul2 + monthly_count[6]
+            print jul2
+            aug2 = aug2 + monthly_count[7]
+            print aug2
+            sep2 = sep2 + monthly_count[8]
+            oct2 = oct2 + monthly_count[9]
+            nov2 = nov2 + monthly_count[10]
+            dec2 = dec2 + monthly_count[11]
 
-                FY_MONTH_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                today = date.today()
-                print '.......today......AdvertLike...', today
-                start_date = date(today.year, 01, 01)
-                print '...........start_date....AdvertLike......', start_date
-                end_date = date(today.year, 12, 31)
-                monthly_count = []
-                # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
-                coupon_code_list = AdvertLike.objects.filter(advert_id=advert_id,
-                                                             creation_date__range=[start_date, end_date]).extra(
-                    select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
-                    count=Count('advert_id'))
-                print "...........coupon_code_list....AdvertLike...", coupon_code_list
-                list = {}
+            #######.................Total shares Graph........for a year.......########
 
-                for sub_obj in coupon_code_list:
+            FY_MONTH_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            today = date.today()
+            print '.......today.........', today
+            start_date = date(today.year, 01, 01)
+            print '...........start_date..........', start_date
+            end_date = date(today.year, 12, 31)
+            monthly_count = []
+            # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
+            coupon_code_list = AdvertShares.objects.filter(advert_id=advert_id,
+                                                           creation_date__range=[start_date, end_date]).extra(
+                select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
+                count=Count('advert_id'))
+            print "...........coupon_code_list.......", coupon_code_list
+            list = {}
 
-                    print "sub_obj.get('count')", sub_obj.get('count')
-                    if sub_obj.get('month'):
-                        list[sub_obj.get('month')] = sub_obj.get('count') or '0.00'
-                        print list
+            for sub_obj in coupon_code_list:
+                print "sub_obj.get('count')", sub_obj.get('count')
+                if sub_obj.get('month'):
+                    list[sub_obj.get('month')] = sub_obj.get('count') or '0.00'
+                    print list
 
-                for i in FY_MONTH_LIST:
-                    try:
-                        monthly_count.append(list[i])
-                    except:
-                        monthly_count.append(0)
+            for i in FY_MONTH_LIST:
+                try:
+                    monthly_count.append(list[i])
+                except:
+                    monthly_count.append(0)
 
-                jan2 = jan2 + monthly_count[0]
-                print jan2
-                feb2 = feb2 + monthly_count[1]
-                print feb2
-                mar2 = mar2 + monthly_count[2]
-                print mar2
-                apr2 = apr2 + monthly_count[3]
-                may2 = may2 + monthly_count[4]
-                jun2 = jun2 + monthly_count[5]
-                jul2 = jul2 + monthly_count[6]
-                print jul2
-                aug2 = aug2 + monthly_count[7]
-                print aug2
-                sep2 = sep2 + monthly_count[8]
-                oct2 = oct2 + monthly_count[9]
-                nov2 = nov2 + monthly_count[10]
-                dec2 = dec2 + monthly_count[11]
-
-                #######.................Total shares Graph........for a year.......########
-
-                FY_MONTH_LIST = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                today = date.today()
-                print '.......today.........', today
-                start_date = date(today.year, 01, 01)
-                print '...........start_date..........', start_date
-                end_date = date(today.year, 12, 31)
-                monthly_count = []
-                # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
-                coupon_code_list = AdvertShares.objects.filter(advert_id=advert_id,
-                                                               creation_date__range=[start_date, end_date]).extra(
-                    select={'month': "EXTRACT(month FROM creation_date)"}).values('month').annotate(
-                    count=Count('advert_id'))
-                print "...........coupon_code_list.......", coupon_code_list
-                list = {}
-
-                for sub_obj in coupon_code_list:
-                    print "sub_obj.get('count')", sub_obj.get('count')
-                    if sub_obj.get('month'):
-                        list[sub_obj.get('month')] = sub_obj.get('count') or '0.00'
-                        print list
-
-                for i in FY_MONTH_LIST:
-                    try:
-                        monthly_count.append(list[i])
-                    except:
-                        monthly_count.append(0)
-
-                jan3 = jan3 + monthly_count[0]
-                print jan3
-                feb3 = feb3 + monthly_count[1]
-                print feb3
-                mar3 = mar3 + monthly_count[2]
-                print mar3
-                apr3 = apr3 + monthly_count[3]
-                may3 = may3 + monthly_count[4]
-                jun3 = jun3 + monthly_count[5]
-                jul3 = jul3 + monthly_count[6]
-                aug3 = aug3 + monthly_count[7]
-                print aug3
-                sep3 = sep3 + monthly_count[8]
-                oct3 = oct3 + monthly_count[9]
-                nov3 = nov3 + monthly_count[10]
-                dec3 = dec3 + monthly_count[11]
+            jan3 = jan3 + monthly_count[0]
+            print jan3
+            feb3 = feb3 + monthly_count[1]
+            print feb3
+            mar3 = mar3 + monthly_count[2]
+            print mar3
+            apr3 = apr3 + monthly_count[3]
+            may3 = may3 + monthly_count[4]
+            jun3 = jun3 + monthly_count[5]
+            jul3 = jul3 + monthly_count[6]
+            aug3 = aug3 + monthly_count[7]
+            print aug3
+            sep3 = sep3 + monthly_count[8]
+            oct3 = oct3 + monthly_count[9]
+            nov3 = nov3 + monthly_count[10]
+            dec3 = dec3 + monthly_count[11]
 
             data = {'success': 'true', 'advert_nm': advert_nm, 'supplier_id': supplier_id, 'logo': logo,
                     'advert_views_total': advert_views_total, 'thumbs_count_total': thumbs_count_total,
@@ -3961,8 +4028,8 @@ def get_city(request):
     try:
         city_objs = City_Place.objects.filter(state_id=state_id, city_status='1')
         for city in city_objs:
-            options_data = '<option value=' + str(
-                city.city_place_id) + '>' + city.city_id.city_name + '</option>'
+            options_data = '<option value="' + str(
+                city.city_place_id) + '">' + city.city_id.city_name + '</option>'
             city_list.append(options_data)
             print city_list
         data = {'city_list': city_list}

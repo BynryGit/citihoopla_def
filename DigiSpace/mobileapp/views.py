@@ -37,15 +37,17 @@ import random
 import urllib  # Python URL functions
 import urllib2
 
+from helper import dd2dms
+
 # HTTP Response
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.files.base import ContentFile
 
-#Push Notifications
+# Push Notifications
 from push_notifications.models import APNSDevice, GCMDevice
 
-#SERVER_URL = "http://192.168.0.151:9090"
+# SERVER_URL = "http://192.168.0.151:9090"
 SERVER_URL = "http://52.40.205.128"
 
 # Constants
@@ -53,6 +55,8 @@ earth_radius = 6371.0
 degrees_to_radians = math.pi / 180.0
 radians_to_degrees = 180.0 / math.pi
 
+#from geopy.geocoders import Nominatim
+import geocoder
 
 @csrf_exempt
 def consumer_signup(request):
@@ -70,22 +74,22 @@ def consumer_signup(request):
             consumer_created_by=json_obj['full_name'],
             consumer_updated_by=json_obj['full_name'],
             consumer_updated_date=datetime.now(),
-            user_verified = 'false'
+            user_verified='false'
         );
         consumer_obj.save()
         consumer_obj.set_password(json_obj['password']);
         consumer_obj.save()
         device_id = json_obj['device_token']
         device_status = add_update_consumer_device_id(consumer_obj, device_id)
-        print "=======device_status=======",device_status
+        print "=======device_status=======", device_status
         ret = u''
         ret = ''.join(random.choice('0123456789') for i in range(6))
         OTP = ret
         consumer_obj.consumer_otp = str(OTP)
         consumer_obj.save()
-        #request.session["OTP"] = str(OTP)
-        #print request.session["OTP"]
-        sms_otp(consumer_obj,OTP)
+        # request.session["OTP"] = str(OTP)
+        # print request.session["OTP"]
+        sms_otp(consumer_obj, OTP)
         try:
             filename = "IMG_%s_%s.png" % (consumer_obj.username, str(datetime.now()).replace('.', '_'))
             resource = urllib.urlopen(json_obj['user_profile_image'])
@@ -108,18 +112,19 @@ def consumer_signup(request):
         }
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+
 def add_update_consumer_device_id(consumer_obj, device_id):
     try:
-        user_obj = User.objects.get(username = consumer_obj.consumer_email_id)
+        user_obj = User.objects.get(username=consumer_obj.consumer_email_id)
         check_device = GCMDevice.objects.get(user=user_obj)
-        check_device.registration_id= device_id
+        check_device.registration_id = device_id
         check_device.save()
         send_notification(user_obj)
         return True
     except GCMDevice.DoesNotExist as err:
         print 'app_push_notifications.py | user_obj | Exception ', err
         user_obj = User.objects.get(username=consumer_obj.consumer_email_id)
-        device = GCMDevice(registration_id = device_id, user = user_obj)
+        device = GCMDevice(registration_id=device_id, user=user_obj)
         device.save()
         send_notification(user_obj)
         return True
@@ -127,18 +132,22 @@ def add_update_consumer_device_id(consumer_obj, device_id):
         print 'app_push_notifications.py | user_obj | Exception ', err
         return False
 
+
 @csrf_exempt
 def send_notification(user_obj):
     try:
         devices = GCMDevice.objects.get(user=user_obj)
-        status = devices.send_message(None, extra={"message" : "Hello from City Hoopla", "badge": "1","sound":"default", "title":"City Hoopla"})
+        status = devices.send_message(None,
+                                      extra={"message": "Hello from City Hoopla", "badge": "1", "sound": "default",
+                                             "title": "City Hoopla"})
         print 'Status : ', status
         return True
-    except Exception,e:
+    except Exception, e:
         print e
         return False
 
-def sms_otp(consumer_obj,OTP):
+
+def sms_otp(consumer_obj, OTP):
     authkey = "118994AIG5vJOpg157989f23"
     mobiles = str(consumer_obj.consumer_contact_no)
 
@@ -150,13 +159,13 @@ def sms_otp(consumer_obj,OTP):
     country = "91"
 
     values = {
-              'authkey' : authkey,
-              'mobiles' : mobiles,
-              'message' : message,
-              'sender' : sender,
-              'route' : route,
-              'country' : country
-              }
+        'authkey': authkey,
+        'mobiles': mobiles,
+        'message': message,
+        'sender': sender,
+        'route': route,
+        'country': country
+    }
 
     url = "http://api.msg91.com/api/sendhttp.php"
     postdata = urllib.urlencode(values)
@@ -164,6 +173,7 @@ def sms_otp(consumer_obj,OTP):
     response = urllib2.urlopen(req)
     output = response.read()
     print output
+
 
 @csrf_exempt
 def resend_otp(request):
@@ -173,7 +183,7 @@ def resend_otp(request):
     ret = u''
     ret = ''.join(random.choice('0123456789') for i in range(6))
     OTP = ret
-    #request.session["OTP"] = str(OTP)
+    # request.session["OTP"] = str(OTP)
     consumer_obj = ConsumerProfile.objects.get(consumer_id=str(user_id))
     consumer_obj.consumer_contact_no = str(contact_no)
     consumer_obj.consumer_otp = str(OTP)
@@ -182,15 +192,16 @@ def resend_otp(request):
     data = {'success': 'true', 'message': 'OPT send to user'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+
 @csrf_exempt
 def check_otp(request):
     json_obj = json.loads(request.body)
-    #print request.session["OTP"]
-    #session_otp = request.session['OTP']
+    # print request.session["OTP"]
+    # session_otp = request.session['OTP']
     user_id = json_obj['user_id']
     contact_no = json_obj['contact_no']
     msg_otp = json_obj['OTP']
-    consumer_obj = ConsumerProfile.objects.get(consumer_id = str(user_id))
+    consumer_obj = ConsumerProfile.objects.get(consumer_id=str(user_id))
     session_otp = str(consumer_obj.consumer_otp)
     if session_otp == msg_otp:
         consumer_obj.user_verified = 'true'
@@ -200,6 +211,7 @@ def check_otp(request):
     else:
         data = {'success': 'false', 'message': "OPT doesn't match"}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 # Sign Up via Gmail and Facebook
 @csrf_exempt
@@ -225,7 +237,7 @@ def social_signup(request):
         consumer_obj.save()
 
         filename = "IMG_%s_%s.jpg" % (
-        consumer_obj.username, str(datetime.now()).replace('.', '_'))  # For giving filename to Image
+            consumer_obj.username, str(datetime.now()).replace('.', '_'))  # For giving filename to Image
         resource = urllib.urlopen(json_obj['user_profile_image'])
 
         consumer_obj.consumer_profile_pic = ContentFile(resource.read(), filename)  # assign image to model
@@ -251,6 +263,7 @@ def social_signup(request):
         data = {'success': 'false', 'message': 'Server Error'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+
 @csrf_exempt
 def set_notification_settings(request):
     try:
@@ -268,11 +281,12 @@ def set_notification_settings(request):
         customer_object.save()
 
         data = {'success': 'true', 'message': 'Notification setting updated successfully',
-                    'user_info': get_profile_info(customer_object.consumer_id)}
+                'user_info': get_profile_info(customer_object.consumer_id)}
     except Exception, e:
         print e
         data = {'success': 'false', 'message': "Server Error, Please try again!"}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 def get_profile_info(user_id):
     print "ID--", user_id
@@ -301,6 +315,7 @@ def get_profile_info(user_id):
     }
     return data
 
+
 @csrf_exempt
 def consumer_login(request):
     try:
@@ -319,7 +334,7 @@ def consumer_login(request):
                             count = int(consumer.no_of_login) + 1
                         else:
                             count = 1
-                        consumer.no_of_login= count
+                        consumer.no_of_login = count
                         consumer.save()
 
                         data = {'success': 'true', 'message': 'Login Successful',
@@ -340,6 +355,7 @@ def consumer_login(request):
         print e
         data = {'success': 'false', 'message': 'Internal Server Error '}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 # API for forgot password
 @csrf_exempt
@@ -395,13 +411,15 @@ def forgot_password(request):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
+# @csrf_exempt
+# @api_view(['GET'])
+# @renderer_classes((JSONRenderer,))
+# @authentication_classes((TokenAuthentication,))
+# @permission_classes((IsAuthenticated,))
 def get_city_list(request):
-    ##    pdb.set_trace()
     city_list = []
-
     try:
         city_objs = City_Place.objects.filter(city_status=1)
-
         for city in city_objs:
             city_id = str(city.city_place_id)
             city_name = str(city.city_id.city_name)
@@ -414,6 +432,85 @@ def get_city_list(request):
         data = {'city_list': city_list, 'success': 'true'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
+
+@csrf_exempt
+def get_about_city(request):
+    json_obj = json.loads(request.body)
+    city_id = json_obj['city_id']
+    try:
+        advert_list = []
+        # where_to_shop
+        # reputed_hospitals
+        # college_and_universities
+        # point_of_interest
+
+        city_obj = City_Place.objects.get(city_place_id=city_id)
+        city_name = city_obj.city_id.city_name
+        state_county_name = city_obj.city_id.state_id.state_name + ', ' + city_obj.city_id.state_id.country_id.country_name
+        city_image = city_obj.city_image.url
+        about_city = city_obj.about_city
+        city_add = city_name +', '+ state_county_name
+        location = geocoder.google(city_add)
+        latitude = location.lat
+        longitude = location.lng
+        long_degrees, lat_degrees = dd2dms(longitude, latitude)
+
+        point_of_interest_list = []
+        colleges_list = []
+        shopping_hub_list = []
+        hospital_list = []
+
+        point_of_interest_obj = Places.objects.filter(city_place_id = city_id, place_type = 'point_of_interest')
+        for point_of_interest in point_of_interest_obj:
+            poi_data = {
+                'place_details':point_of_interest.place_name,
+                'place_image':point_of_interest.place_image.url
+            }
+            point_of_interest_list.append(poi_data)
+
+        college_obj = Places.objects.filter(city_place_id=city_id, place_type='college_and_universities')
+        for college in college_obj:
+            college_data = {
+                'place_details':college.place_name,
+                'place_image':college.place_image.url
+            }
+            colleges_list.append(college_data)
+
+        shopping_obj = Places.objects.filter(city_place_id=city_id, place_type='where_to_shop')
+        for shopping in shopping_obj:
+            shopping_data = {
+                'place_details':shopping.place_name,
+                'place_image':shopping.place_image.url
+            }
+            shopping_hub_list.append(shopping_data)
+
+        hospital_obj = Places.objects.filter(city_place_id=city_id, place_type='reputed_hospitals')
+        for hospital in hospital_obj:
+            hospital_data = {
+                'place_details':hospital.place_name,
+                'place_image':hospital.place_image.url
+            }
+            hospital_list.append(hospital_data)
+
+        data = {
+            'success': 'true', 'message': '',
+            'city_name': city_name,
+            'state_county_name': state_county_name,
+            'city_image': city_image,
+            'about_city': about_city,
+            'longitude': long_degrees,
+            'latitude': lat_degrees,
+            'point_of_interest': point_of_interest_list,
+            'colleges': colleges_list,
+            'shopping_hub': shopping_hub_list,
+            'hospitals': hospital_list
+        }
+    except Exception, ke:
+        print ke
+        data = {'success': 'false', 'message': 'Something went wrong', 'advert_list': []}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
 @csrf_exempt
 def get_bottom_advert_list(request):
     json_obj = json.loads(request.body)
@@ -421,10 +518,10 @@ def get_bottom_advert_list(request):
     user_id = json_obj['user_id']
     try:
         advert_list = []
-        advert_obj_list = Advert.objects.filter(city_place_id = city_id)
+        advert_obj_list = Advert.objects.filter(city_place_id=city_id)
         for advert_obj in advert_obj_list:
-            advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id = str(advert_obj.advert_id))
-            pre_ser_obj_list = PremiumService.objects.filter(business_id = str(advert_sub_obj.business_id))
+            advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=str(advert_obj.advert_id))
+            pre_ser_obj_list = PremiumService.objects.filter(business_id=str(advert_sub_obj.business_id))
             for pre_ser_obj in pre_ser_obj_list:
                 if pre_ser_obj.premium_service_name == "Advert Slider":
                     advert_data = {
@@ -435,11 +532,12 @@ def get_bottom_advert_list(request):
                         "level": "0"
                     }
                     advert_list.append(advert_data)
-        data = {'success': 'true', 'message':'', 'advert_list':advert_list}
+        data = {'success': 'true', 'message': '', 'advert_list': advert_list}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'advert_list': []}
+        data = {'success': 'false', 'message': 'Something went wrong', 'advert_list': []}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_top_advert(request):
@@ -449,11 +547,11 @@ def get_top_advert(request):
     try:
         advert_list = []
         advert_data = ''
-        advert_obj_list = Advert.objects.filter(city_place_id = city_id)
+        advert_obj_list = Advert.objects.filter(city_place_id=city_id)
         if advert_obj_list:
             for advert_obj in advert_obj_list:
-                advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id = str(advert_obj.advert_id))
-                pre_ser_obj_list = PremiumService.objects.filter(business_id = str(advert_sub_obj.business_id))
+                advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=str(advert_obj.advert_id))
+                pre_ser_obj_list = PremiumService.objects.filter(business_id=str(advert_sub_obj.business_id))
                 for pre_ser_obj in pre_ser_obj_list:
                     if pre_ser_obj.premium_service_name == "Top Advert":
                         advert_data = {
@@ -465,11 +563,12 @@ def get_top_advert(request):
                         }
         else:
             advert_data = ''
-        data = {'success': 'true', 'message':'', 'advert_data':advert_data}
+        data = {'success': 'true', 'message': '', 'advert_data': advert_data}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'advert_data': ''}
+        data = {'success': 'false', 'message': 'Something went wrong', 'advert_data': ''}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_category_subcategory_list(request):
@@ -484,7 +583,7 @@ def get_category_subcategory_list(request):
         cat_objs = Category.objects.filter(category_status='1')
         x = 0
         for cat in cat_objs:
-            cat_city_obj = CategoryCityMap.objects.filter(category_id = str(cat.category_id))
+            cat_city_obj = CategoryCityMap.objects.filter(category_id=str(cat.category_id))
             if cat_city_obj:
                 for cat_city in cat_city_obj:
                     if int(cat_city.city_place_id.city_place_id) == int(city_id):
@@ -497,7 +596,7 @@ def get_category_subcategory_list(request):
             cat_objs = Category.objects.filter(category_id=category_id, category_status='1')
             for cat_obj in cat_objs:
                 cat_id = str(cat_obj.category_id)
-                advert_count,like_count,subcat_list = get_cat_data(cat_id, city_id)
+                advert_count, like_count, subcat_list = get_cat_data(cat_id, city_id)
                 cat_obj_data = {
                     "category_id": str(cat_id),
                     "category_name": cat_obj.category_name,
@@ -510,13 +609,14 @@ def get_category_subcategory_list(request):
                 }
                 category_list.append(cat_obj_data)
 
-        data = {'success': 'true', 'message':'', 'category_list': category_list,'level':level}
+        data = {'success': 'true', 'message': '', 'category_list': category_list, 'level': level}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'category_list': [],'level':''}
+        data = {'success': 'false', 'message': 'Something went wrong', 'category_list': [], 'level': ''}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
-def get_cat_data(cat_id,city_id):
+
+def get_cat_data(cat_id, city_id):
     advert_count = 0
     like_count = 0
     sub_cat_obj = CategoryLevel1.objects.filter(parent_category_id=cat_id, category_status='1')
@@ -548,7 +648,7 @@ def get_cat_data(cat_id,city_id):
                 else:
                     i = i + 1
         cat_id = str(sub_cat.category_id)
-        subcat2_list  = get_cat2_data(cat_id, city_id)
+        subcat2_list = get_cat2_data(cat_id, city_id)
 
         sub_cat_data = {
             "category_id": str(sub_cat.category_id),
@@ -561,7 +661,8 @@ def get_cat_data(cat_id,city_id):
         subcat_list.append(sub_cat_data)
     return advert_count, like_count, subcat_list
 
-def get_cat2_data(cat_id,city_id):
+
+def get_cat2_data(cat_id, city_id):
     advert_count = 0
     like_count = 0
     sub_cat_obj = CategoryLevel2.objects.filter(parent_category_id=cat_id, category_status='1')
@@ -586,15 +687,14 @@ def get_cat2_data(cat_id,city_id):
                     except Exception:
                         print ""
 
-                    # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
-                    # for advert_like in advert_like_obj:
-                    #     like_count = like_count + 1
+                        # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
+                        # for advert_like in advert_like_obj:
+                        #     like_count = like_count + 1
 
                 else:
                     i = i + 1
         cat_id = str(sub_cat.category_id)
         subcat3_list = get_cat3_data(cat_id, city_id)
-
 
         sub_cat_data = {
             "category_id": str(sub_cat.category_id),
@@ -603,11 +703,12 @@ def get_cat2_data(cat_id,city_id):
             "level": "2",
             "category": subcat3_list
         }
-        #advert_count = advert_count + int(advert_obj.count()) - i
+        # advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
     return subcat_list
 
-def get_cat3_data(cat_id,city_id):
+
+def get_cat3_data(cat_id, city_id):
     advert_count = 0
     like_count = 0
     sub_cat_obj = CategoryLevel3.objects.filter(parent_category_id=cat_id, category_status='1')
@@ -632,9 +733,9 @@ def get_cat3_data(cat_id,city_id):
                     except Exception:
                         print ""
 
-                    # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
-                    # for advert_like in advert_like_obj:
-                    #     like_count = like_count + 1
+                        # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
+                        # for advert_like in advert_like_obj:
+                        #     like_count = like_count + 1
 
                 else:
                     i = i + 1
@@ -648,11 +749,12 @@ def get_cat3_data(cat_id,city_id):
             "level": "3",
             "category": subcat4_list
         }
-        #advert_count = advert_count + int(advert_obj.count()) - i
+        # advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
     return subcat_list
 
-def get_cat4_data(cat_id,city_id):
+
+def get_cat4_data(cat_id, city_id):
     advert_count = 0
     like_count = 0
     sub_cat_obj = CategoryLevel4.objects.filter(parent_category_id=cat_id, category_status='1')
@@ -677,9 +779,9 @@ def get_cat4_data(cat_id,city_id):
                     except Exception:
                         print ""
 
-                    # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
-                    # for advert_like in advert_like_obj:
-                    #     like_count = like_count + 1
+                        # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
+                        # for advert_like in advert_like_obj:
+                        #     like_count = like_count + 1
 
                 else:
                     i = i + 1
@@ -693,11 +795,12 @@ def get_cat4_data(cat_id,city_id):
             "level": "4",
             "category": subcat5_list
         }
-        #advert_count = advert_count + int(advert_obj.count()) - i
+        # advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
     return subcat_list
 
-def get_cat5_data(cat_id,city_id):
+
+def get_cat5_data(cat_id, city_id):
     advert_count = 0
     like_count = 0
     sub_cat_obj = CategoryLevel5.objects.filter(parent_category_id=cat_id, category_status='1')
@@ -722,9 +825,9 @@ def get_cat5_data(cat_id,city_id):
                     except Exception:
                         print ""
 
-                    # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
-                    # for advert_like in advert_like_obj:
-                    #     like_count = like_count + 1
+                        # advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
+                        # for advert_like in advert_like_obj:
+                        #     like_count = like_count + 1
 
                 else:
                     i = i + 1
@@ -734,9 +837,10 @@ def get_cat5_data(cat_id,city_id):
             "total_adverts_count": str(int(advert_obj.count()) - i),
             "level": "5"
         }
-        #advert_count = advert_count + int(advert_obj.count()) - i
+        # advert_count = advert_count + int(advert_obj.count()) - i
         subcat_list.append(sub_cat_data)
     return subcat_list
+
 
 @csrf_exempt
 def get_category_list(request):
@@ -752,7 +856,7 @@ def get_category_list(request):
             cat_objs = Category.objects.filter(category_status='1')
             x = 0
             for cat in cat_objs:
-                cat_city_obj = CategoryCityMap.objects.filter(category_id = str(cat.category_id))
+                cat_city_obj = CategoryCityMap.objects.filter(category_id=str(cat.category_id))
                 if cat_city_obj:
                     for cat_city in cat_city_obj:
                         if int(cat_city.city_place_id.city_place_id) == int(city_id):
@@ -762,7 +866,7 @@ def get_category_list(request):
             print category_id_list
             for cat_city in category_id_list:
                 category_id = str(cat_city)
-                #print category_id
+                # print category_id
                 cat_objs = Category.objects.filter(category_id=category_id, category_status='1')
                 for cat_obj in cat_objs:
                     cat_id = str(cat_obj.category_id)
@@ -772,7 +876,7 @@ def get_category_list(request):
                     subcat_list = []
                     for sub_cat in sub_cat_obj:
                         i = 0
-                        advert_obj =  Advert.objects.filter(category_level_1=str(sub_cat.category_id))
+                        advert_obj = Advert.objects.filter(category_level_1=str(sub_cat.category_id))
                         for adverts in advert_obj:
                             advert_id = adverts.advert_id
                             if adverts.city_place_id:
@@ -816,7 +920,7 @@ def get_category_list(request):
                     category_list.append(cat_obj_data)
         else:
             if level == '1':
-                cat_objs = CategoryLevel1.objects.filter(category_id= json_obj['category_id'],
+                cat_objs = CategoryLevel1.objects.filter(category_id=json_obj['category_id'],
                                                          category_status='1')
             if level == '2':
                 cat_objs = CategoryLevel2.objects.filter(category_id=json_obj['category_id'],
@@ -896,11 +1000,12 @@ def get_category_list(request):
                     "category_color": color
                 }
                 category_list.append(cat_obj_data)
-        data = {'success': 'true', 'message':'', 'category_list': category_list,'level':level}
+        data = {'success': 'true', 'message': '', 'category_list': category_list, 'level': level}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'category_list': [],'level':''}
+        data = {'success': 'false', 'message': 'Something went wrong', 'category_list': [], 'level': ''}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_advert_list(request):
@@ -915,7 +1020,7 @@ def get_advert_list(request):
         if level == '1':
             advert_map_obj = Advert.objects.filter(category_level_1=category_id)
         if level == '2':
-            advert_map_obj = Advert.objects.filter(category_level_2=CategoryLevel2.objects.get(category_id = category_id))
+            advert_map_obj = Advert.objects.filter(category_level_2=CategoryLevel2.objects.get(category_id=category_id))
 
         if level == '3':
             advert_map_obj = Advert.objects.filter(category_level_3=category_id)
@@ -952,7 +1057,6 @@ def get_advert_list(request):
                         if advert_obj.city_place_id:
                             address = address + ' ' + advert_obj.city_place_id.city_id.city_name
 
-
                         phone_obj = PhoneNo.objects.filter(advert_id=advert_id)
 
                         for phone in phone_obj:
@@ -968,7 +1072,7 @@ def get_advert_list(request):
                             image_url = ''
 
                         try:
-                            advert_like_obj = AdvertLike.objects.get(advert_id=advert_id,user_id=str(user_id))
+                            advert_like_obj = AdvertLike.objects.get(advert_id=advert_id, user_id=str(user_id))
                             is_like = "true"
                         except Exception:
                             is_like = "false"
@@ -1005,14 +1109,15 @@ def get_advert_list(request):
                             "phone": phone_list,
                             "email": email_list,
                             "ratings": "3.2",
-                            "level":level
+                            "level": level
                         }
                         advert_list.append(advert_data)
-        data = {'success': 'true', 'message':'', 'advert_list': advert_list, 'category_id':category_id}
+        data = {'success': 'true', 'message': '', 'advert_list': advert_list, 'category_id': category_id}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'advert_list': [], 'category_id':category_id}
+        data = {'success': 'false', 'message': 'Something went wrong', 'advert_list': [], 'category_id': category_id}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_advert_details(request):
@@ -1039,7 +1144,7 @@ def get_advert_details(request):
         advert_obj.save()
 
         try:
-            coupon_obj = CouponCode.objects.get(advert_id=advert_id,user_id = json_obj['user_id'])
+            coupon_obj = CouponCode.objects.get(advert_id=advert_id, user_id=json_obj['user_id'])
             coupon_flag = 'true'
         except Exception, ke:
             coupon_flag = 'false'
@@ -1070,7 +1175,7 @@ def get_advert_details(request):
             landmark = advert_obj.area
         if advert_obj.city_place_id:
             address = address + ', ' + advert_obj.city_place_id.city_id.city_name
-            landmark = landmark +' '+ advert_obj.city_place_id.city_id.city_name
+            landmark = landmark + ' ' + advert_obj.city_place_id.city_id.city_name
         if advert_obj.state_id:
             address = address + ', ' + advert_obj.state_id.state_name
         if advert_obj.pincode_id:
@@ -1122,10 +1227,11 @@ def get_advert_details(request):
 
         hours_obj = WorkingHours.objects.filter(advert_id=advert_id)
         for hours in hours_obj:
-            timing = hours.day +', '+hours.start_time.lower()+' to '+hours.end_time.lower()
+            timing = hours.day + ', ' + hours.start_time.lower() + ' to ' + hours.end_time.lower()
             time_list.append(timing)
 
-        time_list = ["Monday, 9:30 am to 1:30 pm, 4:30 am to 11:30 pm", "Tuesday, 9:30 am to 1:30 pm, 4:30 am to 11:30 pm"]
+        time_list = ["Monday, 9:30 am to 1:30 pm, 4:30 am to 11:30 pm",
+                     "Tuesday, 9:30 am to 1:30 pm, 4:30 am to 11:30 pm"]
 
         advert_like_obj = AdvertLike.objects.filter(advert_id=advert_id)
 
@@ -1145,11 +1251,11 @@ def get_advert_details(request):
 
         review_list = []
         review_data_1 = {
-            "reviewer_name":"Alisha Menon",
+            "reviewer_name": "Alisha Menon",
             "reviewer_image": "/static/assets/layouts/layout2/img/City_Hoopla_Logo.png",
-            "review_date":"28 August 2016",
-            "review":"A new restaurant in busy area of Chinchwad, this one is gaining popularity because of its affordable barbecue and tasty food. Table booking is recommended. They have the option of ala carte as well as buffet meals. Buffet includes the barbecue snacks. The options in barbecue are less. Food is tasty. Service is good if you turn up early. Service quality diminishes at peak time. Overall it's a must visit once.",
-            "review_rating":"4.2"
+            "review_date": "28 August 2016",
+            "review": "A new restaurant in busy area of Chinchwad, this one is gaining popularity because of its affordable barbecue and tasty food. Table booking is recommended. They have the option of ala carte as well as buffet meals. Buffet includes the barbecue snacks. The options in barbecue are less. Food is tasty. Service is good if you turn up early. Service quality diminishes at peak time. Overall it's a must visit once.",
+            "review_rating": "4.2"
         }
         review_list.append(review_data_1)
         review_data_2 = {
@@ -1182,7 +1288,7 @@ def get_advert_details(request):
             "offer_start_date": start_date.strftime("%d %b %Y"),
             "offer_end_date": end_date.strftime("%d %b %Y"),
             "likes": str(like_count),
-            "is_like":is_like,
+            "is_like": is_like,
             "is_favourite": is_favourite,
             "views": advert_views,
             "reviews": "3",
@@ -1191,7 +1297,7 @@ def get_advert_details(request):
             "discount_description": discount_description,
             "product_description": product_description,
             "other_details": other_details,
-            "short_description":short_description,
+            "short_description": short_description,
             "latitude": advert_obj.latitude,
             "longitude": advert_obj.longitude,
             "opening_closing_time": time_list,
@@ -1199,17 +1305,19 @@ def get_advert_details(request):
             "phone_no": mobile_list,
             "image_list": image_list,
             "video_list": video_list,
-            "landmark":landmark,
-            "coupon_flag":coupon_flag,
+            "landmark": landmark,
+            "coupon_flag": coupon_flag,
             "review_list": review_list,
             "advert_speciality": speciality,
             "level": level
         }
         advert_list.append(advert_data)
-        data = {'success': 'true', 'message':'', 'advert_list': advert_list, 'category_id':category_id,'level':level}
+        data = {'success': 'true', 'message': '', 'advert_list': advert_list, 'category_id': category_id,
+                'level': level}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'advert_list': [],'category_id':category_id,'level':level}
+        data = {'success': 'false', 'message': 'Something went wrong', 'advert_list': [], 'category_id': category_id,
+                'level': level}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
@@ -1222,11 +1330,11 @@ def get_coupon_code(request):
         advert_id = str(advert_id)
         advert_obj = Advert.objects.get(advert_id=advert_id)
         advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
-        category_name =advert_sub_obj.business_id.category.category_name
+        category_name = advert_sub_obj.business_id.category.category_name
         city_name = advert_obj.city_place_id.city_id.city_name
         random_no = u''
         random_no = random_no.join(random.choice('0123456789') for i in range(4))
-        coupon_code = 'CH'+city_name[:3].upper()+category_name[:2].upper()+str(random_no)
+        coupon_code = 'CH' + city_name[:3].upper() + category_name[:2].upper() + str(random_no)
 
         coupon_obj = CouponCode.objects.create()
         coupon_obj.coupon_code = coupon_code
@@ -1235,11 +1343,12 @@ def get_coupon_code(request):
         coupon_obj.creation_date = datetime.now()
         coupon_obj.save()
 
-        data = {'success': 'true', 'message':'', 'coupon_code': coupon_code}
+        data = {'success': 'true', 'message': '', 'coupon_code': coupon_code}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'', 'coupon_code': ''}
+        data = {'success': 'false', 'message': '', 'coupon_code': ''}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def like_advert(request):
@@ -1254,11 +1363,12 @@ def like_advert(request):
         else:
             advert_like_obj = AdvertLike.objects.get(advert_id=json_obj['advert_id'], user_id=json_obj['user_id'])
             advert_like_obj.delete()
-        data = {'success': 'true', 'message':''}
+        data = {'success': 'true', 'message': ''}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Oops! Something went wrong'}
+        data = {'success': 'false', 'message': 'Oops! Something went wrong'}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def favourite_advert(request):
@@ -1273,10 +1383,10 @@ def favourite_advert(request):
         else:
             advert_fav_obj = AdvertFavourite.objects.get(advert_id=json_obj['advert_id'], user_id=json_obj['user_id'])
             advert_fav_obj.delete()
-        data = {'success': 'true', 'message':''}
+        data = {'success': 'true', 'message': ''}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Oops! Something went wrong'}
+        data = {'success': 'false', 'message': 'Oops! Something went wrong'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
@@ -1342,15 +1452,16 @@ def get_discount_details(request):
                 "ratings": "3.2",
                 "is_favourite": is_favourite,
                 "is_like": is_like,
-                "coupon_avail_date":coupons.creation_date.strftime("%d %b %Y"),
-                "status":status
+                "coupon_avail_date": coupons.creation_date.strftime("%d %b %Y"),
+                "status": status
             }
             discount_detail.append(advert_data)
-        data = {'success': 'true', 'message':'', 'count':len(discount_detail), 'discount_detail': discount_detail}
+        data = {'success': 'true', 'message': '', 'count': len(discount_detail), 'discount_detail': discount_detail}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'count':'' ,'discount_detail': []}
+        data = {'success': 'false', 'message': 'Something went wrong', 'count': '', 'discount_detail': []}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_favourite_details(request):
@@ -1415,11 +1526,12 @@ def get_favourite_details(request):
                 "is_like": is_like
             }
             discount_detail.append(advert_data)
-        data = {'success': 'true', 'message':'', 'count':len(discount_detail), 'favourite_detail': discount_detail}
+        data = {'success': 'true', 'message': '', 'count': len(discount_detail), 'favourite_detail': discount_detail}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'count':'' ,'message':'Something went wrong', 'favourite_detail': []}
+        data = {'success': 'false', 'count': '', 'message': 'Something went wrong', 'favourite_detail': []}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_active_discount_details(request):
@@ -1481,15 +1593,16 @@ def get_active_discount_details(request):
                     "ratings": "3.2",
                     "is_like": is_like,
                     "is_favourite": is_favourite,
-                    "coupon_avail_date":coupons.creation_date.strftime("%d %b %Y"),
-                    "status":status
+                    "coupon_avail_date": coupons.creation_date.strftime("%d %b %Y"),
+                    "status": status
                 }
                 discount_detail.append(advert_data)
-        data = {'success': 'true', 'message':'', 'count':len(discount_detail), 'discount_detail': discount_detail}
+        data = {'success': 'true', 'message': '', 'count': len(discount_detail), 'discount_detail': discount_detail}
     except Exception, ke:
         print ke
-        data = {'success': 'false', 'message':'Something went wrong', 'count':'' ,'discount_detail': []}
+        data = {'success': 'false', 'message': 'Something went wrong', 'count': '', 'discount_detail': []}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def edit_customer_profile(request):
@@ -1502,19 +1615,19 @@ def edit_customer_profile(request):
             customer_object.consumer_full_name = json_obj['full_name']
             customer_object.consumer_contact_no = json_obj['phone']
             customer_object.consumer_updated_by = json_obj['full_name']
-            #customer_object.consumer_email_id = json_obj['email_id']
+            # customer_object.consumer_email_id = json_obj['email_id']
             customer_object.device_token = json_obj['device_token']
             customer_object.consumer_area = json_obj['consumer_area']
             customer_object.consumer_updated_date = datetime.now()
             customer_object.save()
 
-            #try:
+            # try:
             #    filename = "IMG_%s_%s.png" % (customer_object.username, str(datetime.now()).replace('.', '_'))
             #    resource = urllib.urlopen(json_obj['user_profile_image'])
 
             #    customer_object.consumer_profile_pic = ContentFile(resource.read(), filename)  # assign image to model
             #    customer_object.save()
-            #except:
+            # except:
             #    pass
 
             data = {'success': 'true', 'message': 'Profile Updated Successfully',
@@ -1613,7 +1726,6 @@ def save_image(imgdata):
         return False
 
 
-
 @csrf_exempt
 def search_advert(request):
     print "REQUEST", request.body
@@ -1692,7 +1804,6 @@ def search_advert(request):
                                        'advert_city': advert_city, 'advert_id': advert_id, 'advert_name': advert_name,
                                        'advert_image': advert_image}
         data = {'success': 'true', 'advert_list': advert_list}
-
 
     except Exception, e:
         print e
@@ -1793,26 +1904,26 @@ def save_sellticket(request):
             original_price=json_obj['original_price'],
             asking_price=json_obj['asking_price'],
             contact_number=json_obj['contact_number']
-           
+
         )
         sellticket_obj.save()
 
         if json_obj['image_one']:
-            sellticket_obj.image_one =save_image(json_obj['image_one'])
+            sellticket_obj.image_one = save_image(json_obj['image_one'])
             sellticket_obj.save()
 
         if json_obj['image_two']:
-            sellticket_obj.image_two =save_image(json_obj['image_two'])
-            sellticket_obj.save()    
+            sellticket_obj.image_two = save_image(json_obj['image_two'])
+            sellticket_obj.save()
 
         if json_obj['image_three']:
-            sellticket_obj.image_three =save_image(json_obj['image_three'])
-            sellticket_obj.save()      
+            sellticket_obj.image_three = save_image(json_obj['image_three'])
+            sellticket_obj.save()
 
-        data = {'success': 'true','message': 'Sell Ticket Saved Successfully'}
+        data = {'success': 'true', 'message': 'Sell Ticket Saved Successfully'}
 
     except Exception, e:
-        print "Exception",e
+        print "Exception", e
         data = {'success': 'false', 'message': 'Sell Ticket not Save'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -1823,39 +1934,39 @@ def view_list_sellticket(request):
     try:
         # pdb.set_trace()
         sell_ticket_list = []
-        sell_ticket_obj=SellTicket.objects.filter()
-        if sell_ticket_obj:     
+        sell_ticket_obj = SellTicket.objects.filter()
+        if sell_ticket_obj:
             for ticket in sell_ticket_obj:
-                user_id=str(ticket.user_id)
+                user_id = str(ticket.user_id)
                 consumer_object = ConsumerProfile.objects.get(consumer_id=user_id)
                 phone_no = consumer_object.consumer_contact_no
-                email    = consumer_object.consumer_email_id
+                email = consumer_object.consumer_email_id
                 if ticket.image_one:
-                    image_one=ticket.image_one.url
+                    image_one = ticket.image_one.url
                 else:
-                    image_one=''
+                    image_one = ''
 
                 tkt_data = {
-                    "sellticket_id":str(ticket.sellticket_id),
-                    "event_name":ticket.event_name,
-                    "event_venue":ticket.event_venue,
-                    "start_date":ticket.start_date.strftime('%d/%m/%Y'),
-                    "start_time":ticket.start_time,
-                    "image_one":image_one,
-                    "phone_no":phone_no,
-                    "email":email
+                    "sellticket_id": str(ticket.sellticket_id),
+                    "event_name": ticket.event_name,
+                    "event_venue": ticket.event_venue,
+                    "start_date": ticket.start_date.strftime('%d/%m/%Y'),
+                    "start_time": ticket.start_time,
+                    "image_one": image_one,
+                    "phone_no": phone_no,
+                    "email": email
                 }
                 sell_ticket_list.append(tkt_data)
-            data = {"success":"true","sell_ticket_list":sell_ticket_list}
+            data = {"success": "true", "sell_ticket_list": sell_ticket_list}
         else:
-            tkt_data={
-                "":""
+            tkt_data = {
+                "": ""
             }
             sell_ticket_list.append(tkt_data)
-            data = {"success":"false",'message': "Sell Ticket not Availabel"} 
+            data = {"success": "false", 'message': "Sell Ticket not Availabel"}
 
     except Exception, e:
-        print "Exception",e
+        print "Exception", e
         data = {'success': 'false'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -1865,58 +1976,59 @@ def view_list_sellticket(request):
 def view_sellticket_detail(request):
     try:
         # pdb.set_trace()
-        sell_ticket_detail= []
+        sell_ticket_detail = []
         if request.method == 'POST':
             json_obj = json.loads(request.body)
             sellticket_id = json_obj['sellticket_id']
             ticket_object_list = SellTicket.objects.filter(sellticket_id=sellticket_id)
             for ticket_object in ticket_object_list:
-                user_id=str(ticket_object.user_id)
+                user_id = str(ticket_object.user_id)
                 consumer_object = ConsumerProfile.objects.get(consumer_id=user_id)
                 phone_no = consumer_object.consumer_contact_no
-                email    = consumer_object.consumer_email_id
+                email = consumer_object.consumer_email_id
 
                 if ticket_object.image_one:
-                    image_one=ticket_object.image_one.url
+                    image_one = ticket_object.image_one.url
                 else:
-                    image_one=''
+                    image_one = ''
                 if ticket_object.image_two:
-                    image_two=ticket_object.image_two.url
+                    image_two = ticket_object.image_two.url
                 else:
-                    image_two=''
+                    image_two = ''
                 if ticket_object.image_three:
-                    image_three=ticket_object.image_three.url
+                    image_three = ticket_object.image_three.url
                 else:
-                    image_three=''
+                    image_three = ''
                 if ticket_object.image_four:
-                    image_four=ticket_object.image_four.url
+                    image_four = ticket_object.image_four.url
                 else:
-                    image_four=''
+                    image_four = ''
 
                 ticket_data = {
-                    'image_one':image_one,
-                    'image_two':image_two,
-                    'image_three':image_three,
-                    'image_four':image_four,
-                    'event_name':ticket_object.event_name,
-                    'event_venue':ticket_object.event_venue,
-                    'start_date':ticket_object.start_date.strftime('%d/%m/%Y'),
-                    'start_time':ticket_object.start_time,
-                    'original_price':ticket_object.original_price,
-                    'no_of_tickets':ticket_object.no_of_tickets,
-                    'phone_no':phone_no,
-                    'email':email,
-                    'ticket_class':ticket_object.ticket_class,
-                    'asking_price':ticket_object.asking_price
-                } 
+                    'image_one': image_one,
+                    'image_two': image_two,
+                    'image_three': image_three,
+                    'image_four': image_four,
+                    'event_name': ticket_object.event_name,
+                    'event_venue': ticket_object.event_venue,
+                    'start_date': ticket_object.start_date.strftime('%d/%m/%Y'),
+                    'start_time': ticket_object.start_time,
+                    'original_price': ticket_object.original_price,
+                    'no_of_tickets': ticket_object.no_of_tickets,
+                    'phone_no': phone_no,
+                    'email': email,
+                    'ticket_class': ticket_object.ticket_class,
+                    'asking_price': ticket_object.asking_price
+                }
                 sell_ticket_detail.append(ticket_data)
 
-        data ={"success":"true","sell_ticket_detail":sell_ticket_detail}
+        data = {"success": "true", "sell_ticket_detail": sell_ticket_detail}
 
     except Exception, e:
-        print "Exception",e
+        print "Exception", e
         data = {'success': 'false'}
     return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 @csrf_exempt
 def get_map_advert_list(request):
@@ -1985,7 +2097,6 @@ def get_map_advert_list(request):
                 except Exception:
                     is_favourite = "false"
 
-
                 views_count = AdvertView.objects.filter(advert_id=advert_id).count()
                 like_count = AdvertLike.objects.filter(advert_id=advert_id).count()
 
@@ -2012,7 +2123,7 @@ def get_map_advert_list(request):
         # token = Token.objects.create(user=user)
         # resp = {}
         # resp['authorization'] = "Token " + str(token)
-        data = {"success": "true", "message":"", "advert_list": advert_list}
+        data = {"success": "true", "message": "", "advert_list": advert_list}
 
     except Exception, e:
         print "Exception", e
@@ -2040,6 +2151,7 @@ def bounding_box(latitude, longitude, distance):
     lon_max = longitude + lon_change
     lon_min = longitude - lon_change
     return (lon_max, lon_min, lat_max, lat_min)
+
 
 @csrf_exempt
 def post_advert_review(request):

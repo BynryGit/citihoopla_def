@@ -179,5 +179,13 @@ urlpatterns = patterns('',
     url(r'^get_consumer_activity/', 'Admin.dashboard.get_consumer_activity',name='get_consumer_activity'),
     url(r'^get_consumer_usage/', 'Admin.dashboard.get_consumer_usage',name='get_consumer_usage'),
 #rest_framewrok
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    url(r'^user-list/', 'Admin.views.user_list', name='user_list'),
+    url(r'^admin-add-user/', 'Admin.views.admin_add_user', name='admin_add_user'),
+    url(r'^add-new-user/', 'Admin.views.add_new_user', name='add_new_user'),
+    url(r'^edit-user-detail/', 'Admin.views.edit_user_detail', name='edit_user_detail'),
+    url(r'^save-user/', 'Admin.views.save_user', name='save_user'),
+    url(r'^save-user1/', 'Admin.views.save_user1', name='save_user1'),
+    url(r'^get-data/', 'Admin.views.get_data', name='get_data'),
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

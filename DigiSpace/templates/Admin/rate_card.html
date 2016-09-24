@@ -405,13 +405,19 @@ div.dataTables_filter label {
                                                         {% if forloop.counter == 1 %}
                                                             <li class="active">
                                                                 <a style="cursor:default">
-                                                                    <span onclick="changeCityData({{city.city_place_id}},{{forloop.counter}})" style="cursor:pointer" data-toggle="tab">
-                                                                        {{city.city_id.city_name}}
+                                                                    <span onclick="changeCityData({{city.city_id}},{{forloop.counter}})" style="cursor:pointer" data-toggle="tab">
+                                                                        {{city.city_name}}
                                                                     </span>
-                                                                    <span onclick="deleteRateCard({{city.city_place_id}},{{forloop.counter}})" id="trash_{{forloop.counter}}" class="float_right">
-                                                                        <i class="fa fa-trash"></i>
-                                                                    </span>
-                                                                    <span onclick="editRateCard({{city.city_place_id}})" id="pencil_{{forloop.counter}}" class="float_right">
+                                                                    {% if city.has_rate_card == 'true' %}
+                                                                        <span onclick="deleteRateCard({{city.city_id}},{{forloop.counter}})" id="trash_{{forloop.counter}}" class="float_right">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span id="trash_{{forloop.counter}}" class="float_right" style="cursor:default;">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </span>
+                                                                    {% endif %}
+                                                                    <span onclick="editRateCard({{city.city_id}})" id="pencil_{{forloop.counter}}" class="float_right">
                                                                         <i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;
                                                                     </span>
                                                                 </a>
@@ -419,13 +425,19 @@ div.dataTables_filter label {
                                                         {% else %}
                                                             <li>
                                                                 <a style="cursor:default">
-                                                                    <span onclick="changeCityData({{city.city_place_id}},{{forloop.counter}})" style="cursor:pointer" data-toggle="tab">
-                                                                        {{city.city_id.city_name}}
+                                                                    <span onclick="changeCityData({{city.city_id}},{{forloop.counter}})" style="cursor:pointer" data-toggle="tab">
+                                                                        {{city.city_name}}
                                                                     </span>
-                                                                    <span onclick="deleteRateCard({{city.city_place_id}})" id="trash_{{forloop.counter}}" class="float_right" style="display:none;">
-                                                                        <i class="fa fa-trash"></i>
-                                                                    </span>
-                                                                    <span onclick="editRateCard({{city.city_place_id}})" id="pencil_{{forloop.counter}}" class="float_right" style="display:none;">
+                                                                    {% if city.has_rate_card == 'true' %}
+                                                                        <span onclick="deleteRateCard({{city.city_id}},{{forloop.counter}})" id="trash_{{forloop.counter}}" class="float_right" style="display:none;">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <span id="trash_{{forloop.counter}}" class="float_right" style="display:none; cursor:default;">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </span>
+                                                                    {% endif %}
+                                                                    <span onclick="editRateCard({{city.city_id}})" id="pencil_{{forloop.counter}}" class="float_right" style="display:none;">
                                                                         <i class="fa fa-pencil"></i>&nbsp;&nbsp;&nbsp;
                                                                     </span>
                                                                 </a>
@@ -723,6 +735,8 @@ div.dataTables_filter label {
     }
 
     function deleteRateCard(city_id,counter){
+        $("#trash_"+counter).prop("onclick", null);
+        $("#trash_"+counter).css("cursor", "default");
         $.ajax({
             type : "GET",
             url : '/delete-rate-card/',
