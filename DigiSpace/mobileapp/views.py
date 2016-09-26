@@ -595,19 +595,20 @@ def get_category_subcategory_list(request):
             category_id = str(cat_city)
             cat_objs = Category.objects.filter(category_id=category_id, category_status='1')
             for cat_obj in cat_objs:
-                cat_id = str(cat_obj.category_id)
-                advert_count, like_count, subcat_list = get_cat_data(cat_id, city_id)
-                cat_obj_data = {
-                    "category_id": str(cat_id),
-                    "category_name": cat_obj.category_name,
-                    "category_img": cat_obj.category_image.url,
-                    "total_adverts_count": str(advert_count),
-                    "total_likes": str(like_count),
-                    "favorite": "0",
-                    "category": subcat_list,
-                    "category_color": str(cat_obj.category_color) or '#000000'
-                }
-                category_list.append(cat_obj_data)
+                if cat_obj.category_name !="Event Ticket Resale":
+                    cat_id = str(cat_obj.category_id)
+                    advert_count, like_count, subcat_list = get_cat_data(cat_id, city_id)
+                    cat_obj_data = {
+                        "category_id": str(cat_id),
+                        "category_name": cat_obj.category_name,
+                        "category_img": cat_obj.category_image.url,
+                        "total_adverts_count": str(advert_count),
+                        "total_likes": str(like_count),
+                        "favorite": "0",
+                        "category": subcat_list,
+                        "category_color": str(cat_obj.category_color) or '#000000'
+                    }
+                    category_list.append(cat_obj_data)
 
         data = {'success': 'true', 'message': '', 'category_list': category_list, 'level': level}
     except Exception, ke:
