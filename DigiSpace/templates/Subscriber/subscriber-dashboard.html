@@ -859,7 +859,7 @@ hr {
 
                                 <div class="col-lg-3" id="week" style="font-size: 12px;">
                                     <select class="form-control" onchange="change_data();">
-
+                                        <option value="">Select filter</option>
                                         <option value="week">Current Week</option>
                                         <option value="month">Current Month</option>
 
@@ -1086,7 +1086,9 @@ hr {
 function change_data(){
 
  week_var = $('#week :selected').val();
-
+if(week_var == ''){
+    return false;
+}
 var supplier_id={{request.session.supplier_id}};
 
 	$.ajax({

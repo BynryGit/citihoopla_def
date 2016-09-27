@@ -37,8 +37,12 @@ from django.views.decorators.cache import cache_control
 # HTTP Response
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+# from DigiSpace.tasks import send_to_subscriber
+# from DigiSpace.tasks import send_sms_to_consumer
+# from DigiSpace.tasks import send_email_to_consumer
 
-SERVER_URL = "http://52.40.205.128"   
+#from DigiSpace.tasks import print_some_times
+SERVER_URL = "http://52.40.205.128"
 #SERVER_URL = "http://127.0.0.1:8000"
 
 #CTI CRM APIs=============================================================================
@@ -48,6 +52,8 @@ def crm_login_form(request):
     return render(request,'CTI_CRM/operator_login.html', dict(form=form))
 
 def crm_home(request):
+    
+    #print_some_times.delay()
     return render(request,'CTI_CRM/crm_home.html')
 
 @csrf_exempt
@@ -89,6 +95,7 @@ def crm_login(request):
                 print 'logs: login request with: ', request.POST
                 username = request.POST['username']
                 password = request.POST['password']
+                number = request.session['number']
                 try:
                         user_obj = Operator.objects.get(username=username)
                         user = authenticate(username=username, password=password)
@@ -104,7 +111,9 @@ def crm_login(request):
                                     print "USERNAME",request.session['login_user']
                                     login(request,user)
                                     print "USERNAME",request.session['login_user']
-                                    data= { 'success' : 'true','username':request.session['login_user']}
+                                    data= { 'success' : 'true','username':request.session['login_user'],'number':number}
+                                    # loglink = "/CTI-CRM/crm_details/?number="+number
+                                    # return redirect(loglink)
                             else:
                                 data= { 'success' : 'false', 'message':'User Is Not Active'}
                                 return HttpResponse(json.dumps(data), content_type='application/json')
@@ -159,37 +168,48 @@ def caller_details_api(request):
 
 
 def crm_details(request):
-    user_obj = CallerDetails.objects.get(CallerID=request.GET.get('callerid'))
-    enquiry=''
-    address=''
-    e_date=''
-    action=''
-    caller_id=''
-    detail_list=[]
-    caller_id = user_obj.CallerID
-    phone_number = user_obj.IncomingTelNo
-    first_name = user_obj.first_name
-    last_name = user_obj.last_name
-    CallerArea = user_obj.CallerArea
-    CallerCity = user_obj.CallerCity
-    CallerPincode = user_obj.CallerPincode
+    if not request.user.is_authenticated():
+        request.session['number']=request.GET.get('number')
+        return redirect('/CTI-CRM/crm_login_form/')
+    else:
+        try:
+            request.session['number']=request.GET.get('number')
+            user_obj = CallerDetails.objects.get(IncomingTelNo=request.GET.get('number'))
+            enquiry=''
+            address=''
+            e_date=''
+            action=''
+            caller_id=''
+            detail_list=[]
+            caller_id = user_obj.CallerID
+            phone_number = user_obj.IncomingTelNo
+            first_name = user_obj.first_name
+            last_name = user_obj.last_name
+            email = user_obj.email
+            CallerArea = user_obj.CallerArea
+            CallerCity = user_obj.CallerCity
+            CallerPincode = user_obj.CallerPincode
 
-    enquiry_obj = EnquiryDetails.objects.filter(CallerID=user_obj)
-    print '--------enquiry obj-----',enquiry_obj
-    sr_no=0
-    for e in enquiry_obj:
-        sr_no=sr_no+1
-        enquiry = e.enquiryFor
-        print '-----enquiry-----',enquiry
-        address = str(e.SelectedArea) +','+str(e.SelectedCity)+'-'+str(e.SelectedPincode)
-        e_date = e.created_date
+            enquiry_obj = EnquiryDetails.objects.filter(CallerID=user_obj)
+            print '--------enquiry obj-----',enquiry_obj
+            sr_no=0
+            for e in enquiry_obj:
+                sr_no=sr_no+1
+                enquiry = e.enquiryFor
+                print '-----enquiry-----',enquiry
+                address = str(e.SelectedArea) +','+str(e.SelectedCity)+'-'+str(e.SelectedPincode)
+                e_date = e.created_date
 
-        data_list={'sr_no':sr_no,'enquiry':enquiry,'address':address,'e_date':e_date}
-        detail_list.append(data_list)
+                data_list={'sr_no':sr_no,'enquiry':enquiry,'address':address,'e_date':e_date}
+                detail_list.append(data_list)
 
-    data = {'detail_list':detail_list,'caller_id':caller_id,'phone_number':phone_number,'first_name':first_name,'last_name':last_name,'area':CallerArea,'city':CallerCity,'pincode':CallerPincode,
-            'enquiry':enquiry,'address':address,'e_date':e_date}
-    return render(request,'CTI_CRM/crm_details.html',data)
+            data = {'detail_list':detail_list,'caller_id':caller_id,'phone_number':phone_number,'email':email,'first_name':first_name,'last_name':last_name,'area':CallerArea,'city':CallerCity,'pincode':CallerPincode,
+                    'enquiry':enquiry,'address':address,'e_date':e_date}
+            return render(request,'CTI_CRM/crm_details.html',data)
+        except:
+            city_list = City.objects.all()
+            data = {'city_list':city_list,'number':request.session['number']}
+            return render(request,'CTI_CRM/new_consumer.html',data)
 
 def new_consumer(request):
     data={}
@@ -201,27 +221,28 @@ def new_consumer(request):
 def save_consumer_details(request):
     print "IN SAVE consumer"
     id = Pincode.objects.get(pincode=request.POST.get('pincode'))
+    print '---------id--------',id
     city = City.objects.get(city_id=request.POST.get('city'))
-    mobile = CallerDetails.objects.get(IncomingTelNo=request.POST.get('mobile'))
-    print '---------mobile--------',mobile
+    print '---------city--------',city
+    #mobile = CallerDetails.objects.get(IncomingTelNo=request.POST.get('mobile'))
+    print '---------mobile--------',request.POST.get('mobile')
     try:
-        if request.method == "POST":
-            if CallerDetails.objects.get(IncomingTelNo=request.POST.get('mobile')):
-                data = {'success': 'exists','caller_id':str(mobile)}
-            else:
-                caller_obj = CallerDetails(
-                    first_name=request.POST.get('fname'),
-                    last_name=request.POST.get('lname'),
-                    IncomingTelNo=request.POST.get('mobile'),
-                    email=request.POST.get('email'),
-                    CallerArea=request.POST.get('area'),
-                    CallerPincode=id,
-                    CallerCity=city,
-                    caller_created_date=datetime.now()
-                )
-                caller_obj.save()
-                print '--------caller id------',caller_obj
-                data = {'success': 'true','caller_id':str(caller_obj)}
+        # if CallerDetails.objects.get(IncomingTelNo=request.POST.get('mobile')):
+        #     data = {'success': 'exists','caller_id':str(request.POST.get('mobile'))}
+        # else:
+        caller_obj = CallerDetails(
+            first_name=request.POST.get('fname'),
+            last_name=request.POST.get('lname'),
+            IncomingTelNo=request.POST.get('mobile'),
+            email=request.POST.get('email'),
+            CallerArea=request.POST.get('area'),
+            CallerPincode=id,
+            CallerCity=city,
+            caller_created_date=datetime.now()
+        )
+        caller_obj.save()
+        print '--------caller id------',caller_obj.IncomingTelNo
+        data = {'success': 'true','number':str(caller_obj.IncomingTelNo)}
 
     except Exception, e:
         print 'Exception ', e
@@ -283,9 +304,101 @@ def enquiry_search_results(request):
 
 
 @csrf_exempt
+def send_subscriber_details(request):
+    i=0
+    slist=[]
+    list1=[]
+    list=[]
+    print '------------send data----------',request.POST.get('subscriber_id')
+    print '------------sms data----------',request.POST.get('sms')
+    print '------------email data----------',request.POST.get('email')
+    try:
+        list = request.POST.get('subscriber_id')
+        searchfor = request.POST.get('searchfor')
+        area = request.POST.get('area')
+        cid = request.POST.get('cid')
+        cobj = CallerDetails.objects.get(CallerID=cid)
+        c_number = cobj.IncomingTelNo
+        c_name = cobj.first_name
+        c_email = cobj.email
+        ele = list.split(',')
+        for i in range(len(ele)):
+            print ele[i]
+            supplier_obj = Supplier.objects.get(supplier_id=ele[i])
+            supplier_id = str(supplier_obj.supplier_id)
+            business_name = supplier_obj.business_name
+            email = supplier_obj.supplier_email
+            phone = supplier_obj.phone_no
+            address = supplier_obj.address1+ ' ' +supplier_obj.address2 +','+supplier_obj.city.city_name+'-'+supplier_obj.pincode.pincode
+            t = datetime.now()
+            list1={'supplier_id':supplier_id,'bname':business_name,'email':email,'phone':phone,'address':str(address),'time':t,
+                   'searchfor':searchfor,'area':area,'cid':cid,'c_number':c_number,'c_name':c_name,'c_email':c_email}
+            slist.append(list1)
+            data = {'success':'true'}
+        #send_to_subscriber.delay(slist)
+        if request.POST.get('sms'):
+            print '--------in the sms=-------'
+            send_sms_to_consumer.delay(slist)
+        if request.POST.get('email'):
+            print '--------in email------'
+            send_email_to_consumer.delay(slist)
+        if request.POST.get('sms') and request.POST.get('email'):
+            send_sms_to_consumer.delay(slist)
+            send_email_to_consumer.delay(slist)
+        #send_to_consumer.delay(slist)
+
+    except Exception as e:
+        print e
+        data = {'success':'false'}
+
+    print '----------data------',data
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+@csrf_exempt
+def send_consumer_details(request):
+    print '------------in consumer details----------',request.POST.get('subscriber_id')
+    i=0
+    slist=[]
+    list1=[]
+    list=[]
+    try:
+        list = request.POST.get('subscriber_id')
+        searchfor = request.POST.get('searchfor')
+        area = request.POST.get('area')
+        cid = request.POST.get('cid')
+        cobj = CallerDetails.objects.get(CallerID=cid)
+        c_number = cobj.IncomingTelNo
+        c_name = cobj.first_name
+        c_email = cobj.email
+        ele = list.split(',')
+        for i in range(len(ele)):
+            supplier_obj = Supplier.objects.get(supplier_id=ele[i])
+            supplier_id = str(supplier_obj.supplier_id)
+            business_name = supplier_obj.business_name
+            email = supplier_obj.supplier_email
+            phone = supplier_obj.phone_no
+            address = supplier_obj.address1+ ' ' +supplier_obj.address2 +','+supplier_obj.city.city_name+'-'+supplier_obj.pincode.pincode
+            t = datetime.now()
+            list1={'supplier_id':supplier_id,'bname':business_name,'email':email,'phone':phone,'address':str(address),'time':t,
+                   'searchfor':searchfor,'area':area,'cid':cid,'c_number':c_number,'c_name':c_name,'c_email':c_email}
+            slist.append(list1)
+            data = {'success':'true'}
+        #send_to_subscriber.delay(slist)
+        send_to_subscriber.delay(slist)
+
+    except Exception as e:
+        print e
+        data = {'success':'false'}
+
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+
+@csrf_exempt
 def save_enquiry_details(request):
     i=0
     print '------------in save----------',request.POST.get('alist')
+    print '------cid----',request.POST.get('cid')
     try:
         cid = CallerDetails.objects.get(CallerID=request.POST.get('cid'))
         list = request.POST.get('alist')
@@ -424,7 +537,7 @@ def enquiry_search_details(request):
                                 for s in supplier_obj:
                                     supplier_id = s.supplier_id
                                     business_name = str(s.business_name)
-                                    address = str(b.address1)+' '+str(b.address2)+','+str(b.city)+'-'+str(b.pincode)
+                                    address = str(s.address1)+' '+str(s.address2)+','+str(s.city_place_id.city_id.city_name)+'-'+str(s.pincode.pincode)
                                     business_obj = Business.objects.filter(supplier=s)
                                     for b in business_obj:
                                         cat = str(b.category)
@@ -446,8 +559,9 @@ def enquiry_search_details(request):
                                 for s in supplier_obj:
                                     supplier_id = s.supplier_id
                                     business_name = str(s.business_name)
-                                    address = str(b.address1)+' '+str(b.address2)+','+str(b.city)+'-'+str(b.pincode)
+                                    address = str(s.address1)+' '+str(s.address2)+','+str(s.city_place_id.city_id.city_name)+'-'+str(s.pincode.pincode)
                                     business_obj = Business.objects.filter(supplier=s)
+                                    subcat2_name = ''
                                     for b in business_obj:
                                         cat = str(b.category)
                                         cat_obj = Category.objects.filter(category_id=cat)
@@ -492,6 +606,7 @@ def business_search(text,area):
             supplier_id = b
             name = b.business_name
             address = str(b.address1)+' '+str(b.address2)+','+str(b.city)+'-'+str(b.pincode)
+            print '---------address-----',address
             category_obj = Business.objects.filter(supplier=b)
             print '-----------category obj-------',category_obj
             for c in category_obj:
@@ -516,6 +631,7 @@ def business_search(text,area):
             supplier_id = b
             name = b.business_name
             address = str(b.address1)+' '+str(b.address2)+','+str(b.city)+'-'+str(b.pincode)
+            print '---------address-----',address
             category_obj = Business.objects.filter(supplier__icontains=business_obj)
             for c in category_obj:
                 cat_obj = str(c.category)

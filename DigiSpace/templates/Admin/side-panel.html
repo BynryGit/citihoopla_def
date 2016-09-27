@@ -3,128 +3,244 @@
 <script type="text/javascript">
 
 </script>
+
+<style>
+
+    .page-header.navbar .page-logo .logo-default {
+        margin: 2px 0 0;
+        width: 105px;
+        background: #f3f2f2;
+    }
+
+    .page-header.navbar .page-logo {
+        background: #f3f2f2;
+    }
+
+    .page-header.navbar .page-logo {
+        float: left;
+        display: block;
+        width: 195px;
+        height: 68px;
+        padding-left: 0px;
+        padding-right: 20px;
+    }
+
+    .page-sidebar .page-sidebar-menu>li>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a {
+        /* fallback */
+        background-color: #0d67e6;
+        background-image: url(images/linear_bg_1.png);
+        background-repeat: repeat-y;
+        color:#fff;
+        font-weight: 500;
+
+
+        /* Safari 4-5, Chrome 1-9 */
+        background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+        /* Safari 5.1, Chrome 10+ */
+        background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* Firefox 3.6+ */
+        background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* IE 10 */
+        background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* Opera 11.10+ */
+        background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+    }
+
+
+
+    @media (max-width: 767px){
+    .page-header.navbar {
+         background-color: #0d67e6;
+      background-image: url(images/linear_bg_1.png);
+      background-repeat: repeat-y;
+
+      /* Safari 4-5, Chrome 1-9 */
+      background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+      /* Safari 5.1, Chrome 10+ */
+      background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+      /* Firefox 3.6+ */
+      background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+      /* IE 10 */
+      background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+      /* Opera 11.10+ */
+      background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+    }
+    }
+
+    .page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
+        border-top: 1px solid #33b2c9;
+        font-size: 16px;
+    }
+
+    .page-sidebar .page-sidebar-menu > li:last-child > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li:last-child > a {
+        border-bottom: 1px solid #33b2c9 !important;
+    }
+
+    .page-sidebar, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover {
+
+        background-color: #0d67e6;
+        background-image: url(images/linear_bg_1.png);
+        background-repeat: repeat-y;
+        color: #ffffff;
+        font-weight:500;
+
+        /* Safari 4-5, Chrome 1-9 */
+        background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+        /* Safari 5.1, Chrome 10+ */
+        background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* Firefox 3.6+ */
+        background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* IE 10 */
+        background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* Opera 11.10+ */
+        background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+    }
+
+    .page-content-wrapper {
+        float: left;
+        width: 100%;
+
+
+        background-size: 16% auto !important;
+        -webkit-background-size: 16% auto !important;
+        -ms-background-size: 16% auto !important;
+        -o-background-size: 16% auto !important;
+
+
+        background-color: #0d67e6;
+        background-image: url(images/linear_bg_1.png);
+        background-repeat: repeat-y;
+        font-weight:500;
+
+        /* Safari 4-5, Chrome 1-9 */
+        background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+        /* Safari 5.1, Chrome 10+ */
+        background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* Firefox 3.6+ */
+        background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* IE 10 */
+        background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+        /* Opera 11.10+ */
+        background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+    }
+
+    .nav-toggle{
+        background-color:  #00448b !important;
+    }
+
+    .icon-color{
+        color: #fff !important;
+        font-size: 16px;
+
+    }
+
+    @media (min-width: 992px)
+    .page-sidebar-menu.page-sidebar-menu-hover-submenu li .sub-menu>li>a {
+        margin: 3px;
+        font-size: 16px;
+    }
+
+    .page-sidebar .page-sidebar-menu .sub-menu>li>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu>li>a {
+        color: #fff;
+        font-size: 16px;
+    }
+
+    .tab-active{
+        background: rgb(13, 103, 230) none repeat scroll 0% 0% !important;
+        color: rgb(16, 245, 182) !important;
+    }
+
+    .icon-active{
+        color: rgb(16, 245, 182) !important;
+    }
+
+    .title{
+        display: inline-block !important;
+        width: 76%;
+        text-align: left !important;
+        font-size: 15px;
+    }
+
+    .icon-active-tab{
+        float:right;
+        padding-top:5px;
+    }
+
+    .page-header.navbar .menu-toggler {
+        background-image: url(/static/assets/layouts/layout2/img/sidebar_toggler_icon_blue.png);
+    }
+
+</style>
+
 <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false"
     data-auto-scroll="true" data-slide-speed="200">
     {% if request.session.privileges|check_list:'View Dashboard Details,View Advert Performance,View Financial Details,View Selected Subscriber Details,All' == 'true' %}
-        <li id="dashboard_nav" class="nav-item start">
-            <a href="/dashboard/" class="nav-link nav-toggle">
-                <i class="icon-home"></i>
-                <span class="title">Dashboard</span>
-                <span class="selected"></span>
-                <span class="arrow open"></span>
+        <li id="dashboard_nav" class="nav-item ">
+            <a id="dashboard_anchor" href="/dashboard/" class="nav-link nav-toggle">
+                <i id="dashboard_icon" class="icon-home icon-color" style="display: inline-block !important;"></i>
+                <span class="title">Dashboard
+                    <i id="dashboard_active" class="icon-active-tab fa fa-chevron-right" style="display:none;"></i>
+                </span>
+                <!--<span class="arrow open"></span>-->
             </a>
         </li>
     {% endif %}
     {% if request.session.privileges|check_list:'Consumer Management,Subscription Management,All' == 'true' %}
-        <li id="customer_nav" class="nav-item  ">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-users"></i>
-                <span class="title">Customers </span>
-                <span class="arrow"></span>
+        <li id="supplier_nav" class="nav-item  ">
+            <a id="supplier_anchor" href="/view-subscriber-list/" class="nav-link nav-toggle">
+                <i id="supplier_icon" class="icon-users icon-color" style="display: inline-block !important;"></i>
+                <span class="title">Subscribers
+                    <i id="supplier_active" class="icon-active-tab fa fa-chevron-right" style="display:none;"></i>
+                </span>
             </a>
-            <ul class="sub-menu">
-                {% if request.session.privileges|check_list:'Subscription Management,All' == 'true' %}
-                    <li id="supplier_nav" class="nav-item start ">
-                        <a href="/subscriber/" class="nav-link ">
-                            <i class="icon-user"></i>
-                            <span class="title">Subscribers</span>
-                        </a>
-                    </li>
-                {% endif %}
-
-                {% if request.session.privileges|check_list:'Consumer Management,All' == 'true' %}
-                    <li id="consumer_nav" class="nav-item start ">
-                        <a href="/consumer/" class="nav-link ">
-                            <i class="icon-user"></i>
-                            <span class="title">Consumers</span>
-                            <span class="badge badge-success"></span>
-                        </a>
-                    </li>
-                {% endif %}
-
-            </ul>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'Consumer Management,Subscription Management,All' == 'true' %}
+        <li id="consumer_nav" class="nav-item  ">
+            <a id="consumer_anchor" href="/consumer-list/" class="nav-link nav-toggle">
+                <i id="consumer_icon" class="icon-users icon-color" style="display: inline-block !important;"></i>
+                <span class="title">Consumers
+                    <i id="consumer_active" class="icon-active-tab fa fa-chevron-right" style="display:none;"></i>
+                </span>
+            </a>
         </li>
     {% endif %}
     {% if request.session.privileges|check_list:'Admin Management,All' == 'true' %}
-        <li id="admin_nav" class="nav-item  ">
-            <a href="/user/" class="nav-link nav-toggle">
-                <i class="icon-user"></i>
-                <span class="title">Admin </span>
-                <span class="arrow"></span>
-            </a>
-        </li>
-    {% endif %}
-    {% if request.session.privileges|check_list:'Rate Card Management,All' == 'true' %}
-        <li id="rate_card_nav" class="nav-item  ">
-            <a href="/rate-card/" class="nav-link nav-toggle">
-                <i class="icon-settings"></i>
-                <span class="title">Rate Card </span>
-                <span class="arrow"></span>
-            </a>
-        </li>
-    {% endif %}
-    {% if request.session.privileges|check_list:'Push Notification,All' == 'true' %}
-        <li id="notification_nav" class="nav-item  ">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="icon-settings"></i>
-                <span class="title">Notifications</span>
-                <span class="arrow"></span>
+        <li id="administration_nav" class="nav-item ">
+            <a id="administration_anchor" class="nav-link nav-toggle">
+                <i id="administration_icon" class="icon-user icon-color" style="display: inline-block !important;"></i>
+                <span class="title">Administration
+                    <i id="administration_active" class="icon-active-tab fa fa-chevron-right" style="display:none;"></i>
+                </span>
             </a>
             <ul class="sub-menu">
-                {% if request.session.privileges|check_list:'All' == 'true' %}
-                    <li id="sms_nav" class="nav-item start ">
-                        <a href="/send_sms/" class="nav-link ">
-                            <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                            <span class="title">SMS</span>
-                        </a>
-                    </li>
-                {% endif %}
-                {% if request.session.privileges|check_list:'All' == 'true' %}
-                <li id="email_nav" class="nav-item start ">
-                    <a href="/send_email/" class="nav-link ">
-                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                        <span class="title">Email</span>
-                        <span class="badge badge-success"></span>
-                    </a>
-                </li>
-                {% endif %}
-                {% if request.session.privileges|check_list:'Push Notification,All' == 'true' %}
-                <li id="push_nav" class="nav-item start ">
-                    <a href="/sms/" class="nav-link ">
-                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
-                        <span class="title">Push</span>
-                        <span class="badge badge-success"></span>
-                    </a>
-                </li>
-                {% endif %}
-            </ul>
-        </li>
-    {% endif %}
-    {% if request.session.privileges|check_list:'Ref Data Management,Assign Roles,All' == 'true' %}
-        <li id="ref_data_nav" class="nav-item ">
-            <a class="nav-link nav-toggle">
-                <i class="icon-bulb"></i>
-                <span class="title">Reference Data </span>
-                <span class="arrow"></span>
-            </a>
-            <ul class="sub-menu">
-                <li id="city_nav" class="nav-item start ">
-                    <a href="/reference-data/" class="nav-link ">
-                        <i class="icon-bar-chart"></i>
-                        <span class="title"> City </span>
-                    </a>
-                </li>
-                <li id="category_nav" class="nav-item start ">
-                    <a href="/category/" class="nav-link ">
-                        <i class="icon-bulb"></i>
-                        <span class="title"> Category </span>
+                <li id="admin_nav" class="nav-item start">
+                    <a id="admin_anchor" href="/user-list/" class="nav-link">
+                        <i id="admin_icon" class="icon-user icon-color" style="display: inline-block !important;"></i>
+                        <span class="title">User</span>
                         <span class="badge badge-success"></span>
                     </a>
                 </li>
                 {% if request.session.privileges|check_list:'Assign Roles,All' == 'true' %}
                     <li id="user_role_nav" class="nav-item start ">
-                        <a href="/user-role/" class="nav-link ">
-                            <i class="icon-user"></i>
+                        <a href="/role-list/" class="nav-link ">
+                            <i class="icon-user-following icon-color"></i>
                             <span class="title"> User Role </span>
                             <span class="badge badge-success"></span>
                         </a>
@@ -133,4 +249,49 @@
             </ul>
         </li>
     {% endif %}
+    {% if request.session.privileges|check_list:'Rate Card Management,Ref Data Management,Assign Roles,All' == 'true' %}
+        <li id="ref_data_nav" class="nav-item ">
+            <a id="configure_anchor" class="nav-link nav-toggle">
+                <i id="configure_icon" class="icon-settings icon-color" style="display: inline-block !important;"></i>
+                <span class="title">Configure
+                    <i id="configure_active" class="icon-active-tab fa fa-chevron-right" style="display:none;"></i>
+                </span>
+            </a>
+            <ul class="sub-menu">
+                <li id="city_nav" class="nav-item start ">
+                    <a href="/reference-data/" class="nav-link ">
+                        <i class="icon-pointer icon-color"></i>
+                        <span class="title"> City </span>
+                    </a>
+                </li>
+                <li id="category_nav" class="nav-item start ">
+                    <a href="/category/" class="nav-link ">
+                        <i class="icon-notebook icon-color"></i>
+                        <span class="title"> Category </span>
+                        <span class="badge badge-success"></span>
+                    </a>
+                </li>
+                {% if request.session.privileges|check_list:'Rate Card Management,All' == 'true' %}
+                <li id="rate_card_nav" class="nav-item start ">
+                    <a href="/rate-card/" class="nav-link ">
+                        <i class="icon-wallet icon-color"></i>
+                        <span class="title"> Rate Card </span>
+                        <span class="badge badge-success"></span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </li>
+    {% endif %}
+    {% if request.session.privileges|check_list:'All' == 'true' %}
+        <li id="reports_nav" class="nav-item  ">
+            <a id="reports_anchor" href="/admin-report/" class="nav-link nav-toggle">
+                <i id="reports_icon" class="icon-docs icon-color" style="display: inline-block !important;"></i>
+                <span class="title">Reports
+                    <i id="reports_active" class="icon-active-tab fa fa-chevron-right" style="display:none;"></i>
+                </span>
+            </a>
+        </li>
+    {% endif %}
+
 </ul>

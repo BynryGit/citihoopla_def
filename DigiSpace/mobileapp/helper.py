@@ -2,9 +2,9 @@ import json
 import math
 from datetime import datetime
 from django.utils import timezone
-from django.shortcuts import render, get_object_or_404
-from django.core import serializers
-from rest_framework.authtoken.models import Token
+#from django.shortcuts import render, get_object_or_404
+#from django.core import serializers
+#from rest_framework.authtoken.models import Token
 from digispaceapp.models import *
 import math
 

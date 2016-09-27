@@ -19,7 +19,7 @@ License: You must have a valid license purchased only from themeforest(the above
 {% load staticfiles %}
     <head>
         <meta charset="utf-8" />
-        <title>City Hoopla | Edit User Role</title>
+        <title>City Hoopla | Add Role</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -221,7 +221,6 @@ height: 65px;
 }
 
 .error{
-
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
@@ -230,7 +229,6 @@ height: 65px;
 .form-wizard .steps > li.active > a.step .desc {
     color: #2F353B;
     font-weight: 700;
-
 }
 
 .portlet.light {
@@ -404,6 +402,10 @@ hr {
   background: -o-linear-gradient(left, #0d67e6, #11ca9a);
 }
 
+.page-sidebar .page-sidebar-menu > li > a > .title, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .title {
+    text-align: left !important;
+}
+
 .grey_color{
     border: 1px solid rgb(72, 72, 72);
     color: rgb(255, 255, 255);
@@ -551,33 +553,24 @@ hr {
                     
                 </div>  
         </div>
-<!-- BEGIN HEADER -->
-<div id="processing" style="display:none;">
-    <div id="loading">
-        <img src="{% static 'assets/loading-bars.gif' %}" style="height : 100px;">
-
-    </div>
-</div>
-<!-- BEGIN HEADER -->
-<div class="page-header navbar navbar-fixed-top">
-    <!-- BEGIN HEADER INNER -->
-    <div class="page-header-inner ">
-        <!-- BEGIN LOGO -->
-        <div class="page-logo">
-            <a href="index.html">
-                <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo"
-                     class="logo-default"/> </a>
-            <div class="menu-toggler sidebar-toggler">
-                <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
-            </div>
-        </div>
-        <!-- END LOGO -->
-        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-        <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse"
-           data-target=".navbar-collapse"> </a>
-        <!-- END RESPONSIVE MENU TOGGLER -->
-        <!-- BEGIN PAGE TOP -->
-        <div class="page-top">
+        <!-- BEGIN HEADER -->
+        <div class="page-header navbar navbar-fixed-top">
+                 <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner ">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="/dashboard/">
+                         <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo" class="logo-default"/> </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top">
             <!-- BEGIN TOP NAVIGATION MENU -->
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
@@ -600,11 +593,11 @@ hr {
             </div>
             <!-- END TOP NAVIGATION MENU -->
         </div>
-        <!-- END PAGE TOP -->
-    </div>
-    <!-- END HEADER INNER -->
-</div>
-<!-- END HEADER -->
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
         <!-- BEGIN HEADER & CONTENT DIVIDER -->
         <div class="clearfix"> </div>
         <!-- END HEADER & CONTENT DIVIDER -->
@@ -633,29 +626,30 @@ hr {
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
-                		<!-- <h3 class="page-title"> Reference Data 
-                    </h3> -->
-                    <!-- BEGIN PAGE HEADER-->
-                 
-
-                    <!-- END PAGE HEADER-->
+                		
+                   
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="portlet light  ">
-		                               <div class="page-bar">
-						                        <ul class="page-breadcrumb">
-						                          
-																<li>
-						                                <a href="/role-list/" style="color: #3eb199;font-size: 16px;"> Role</a>
-						                               
-						                            </li> 
-						                             <i class="fa fa-angle-right"></i>
-						                            <li>
-						                                <span style="color: #00448b;font-size: 16px;">Update Role </span>
-						                            </li>                           
-						                           
-						                        </ul>
-						                    </div>
+                            
+                             <!-- BEGIN PAGE HEADER-->
+				                   <div class="page-bar">
+				                        <ul class="page-breadcrumb">
+				                            
+				                            <li>
+				                                <a href="/role-list/" style="color: #3eb199;font-size: 16px;"> Role</a>
+				                                <i class="fa fa-angle-right"></i>
+				                            </li>
+														<li>
+				                                <span style="color: #00448b;font-size: 16px;"> Add Role</span>
+				
+				                             </li> 
+				                                           
+				                           
+				                        </ul>
+				                    </div>
+				
+				                    <!-- END PAGE HEADER-->
                                  <!-- <div class="portlet-title">
                                     <div class="caption">
                                         <i class="icon-social-dribbble font-green"></i>
@@ -675,8 +669,8 @@ hr {
 	                                                <label class="control-label">User Role
 	                                                <span class="required"> * </span>
 	                                                </label><label class="error" style="color:red; display:none;"></label>
-	                                                    <input id="edit_role" class="form-control" value="{{ role_name }}" maxlength="25" type="text">
-	                                                     <input type="hidden" id="role_id" value="{{ role_id }}" type="text">	 
+	                                                    <input id="user_role" class="form-control" maxlength="25" type="text">
+	                                                      
 	                                         		</div>
 	                                         	</div>
 				                               </div>
@@ -689,62 +683,40 @@ hr {
                                                       <div class="form-body">
                                                     		<div class="col-lg-4" style="padding-top: 10px;">
                                                         <!-- BEGIN FORM-->
- 																				<div class="row">    
- 																					<div class="form-group">
+ 																				<div class="row">                                                       
+                                                                <div class="form-group">
 		                                                              <label class="control-label col-md-4">All  </label>
                                                                     <div class="col-md-2">
-                                                                    	{% if prv_list.prv13 == 'All'%}
-                                                                        <input type="checkbox" checked class="privilage all_chk" id="all_check"  value="all">
-                                                                        {% else %}
-                                                                       <input type="checkbox"  class="privilage all" id="all" value="all"> 
-                                                                     {% endif %}  
-                                                                  
-                                                                    </div>
-                                                                </div>                                 
-                                                                <div class="form-group al_check">
-                                                                    <label class="control-label col-md-4">Admin Management</label>                                                                 
-                                                                    <div class="col-md-2">
-                                                                    {% if prv_list.prv1 == 'Admin Management'%}
-                                                                        <input type="checkbox" checked class="privilage al_check" id="" value="adm_mang">
-                                                                        {% else %}
-                                                                      <input type="checkbox"  class="privilage other" value="adm_mang">  
-                                                                      {% endif %}
+                                                                        <input type="checkbox" class="privilage all" id="all"  value="all">
                                                                     </div>
                                                                 </div>
-                                                         <div class="form-group">
+                                                                <div class="form-group prev">
+                                                                    <label class="control-label col-md-4">Admin Management</label>
+                                                                    <div class="col-md-2">
+                                                                        <input type="checkbox" class="privilage other" value="adm_mang">
+                                                                    </div>
+                                                                </div>
+                                                         <div class="form-group prev">
 	                                                        <label class="col-md-4 control-label">Consumer Management</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           		{% if prv_list.prv2 == 'Consumer Management'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="cons_mang">  
-                                                                   {% else %}  
-                                                                  <input type="checkbox"  class="privilage other" value="cons_mang">
-                                                                  {% endif %} 
+                                                                    <input type="checkbox" class="privilage other" value="cons_mang">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
 	                                                    
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="col-md-4 control-label">Push Notification</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           		{% if prv_list.prv3 == 'Push Notification'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="push_not">
-                                                                   {% else %}
-                                                                   <input type="checkbox" class="privilage other" value="push_not">
-                                                                     {% endif %}   
+                                                                    <input type="checkbox" class="privilage other" value="push_not">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
-	                                                    
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="control-label col-md-4">View Advert Performance  </label>
 	                                                        <div class="col-md-2">
-	                                                        {% if prv_list.prv12 == 'View Advert Performance' %}
-	                                                            <input type="checkbox"checked class="privilage al_check" value="vap">
-	                                                          {% else %}
 	                                                            <input type="checkbox" class="privilage other" value="vap">
-	                                                          {% endif %}  
 	                                                        </div>
                                                        </div>
 	                                                  </div>
@@ -754,67 +726,47 @@ hr {
 	                                     			<div class="col-lg-4">
                                                         <!-- BEGIN FORM-->
  																	<div class="row">
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev" >
 	                                                        <label class="col-md-6 control-label">Rate Card Management</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           		{% if prv_list.prv4 == 'Rate Card Management'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="rcm"> 
-                                                                    {% else %}
-                                                                    <input type="checkbox"  class="privilage other" value="rcm"> 
-                                                                   {% endif %}  
+                                                                    <input type="checkbox" class="privilage other" value="rcm">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
 	                                                      
 	                                                    
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="col-md-6 control-label">Ref Data Management</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           		 {% if prv_list.prv5 == 'Ref Data Management'%}	
-                                                                    <input type="checkbox" checked class="privilage al_check" value="rdm">  
-                                                                    {% else %}
-                                                                     <input type="checkbox"  class="privilage other" value="rdm">
-                                                                    {% endif %} 
+                                                                    <input type="checkbox" class="privilage other" value="rdm">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
 	                                                    
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="col-md-6 control-label">Record Payment Module</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           		{% if prv_list.prv6 == 'Record Payment Module'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="rpm">
-                                                                   {% else %}  
-                                                                  <input type="checkbox"  class="privilage other" value="rpm"> 
-                                                                 {% endif %}   
+                                                                    <input type="checkbox" class="privilage other" value="rpm">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
 	                                                    
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="col-md-6 control-label">View Dashboard Details</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           		{% if prv_list.prv7 == 'View Dashboard Details'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="vdd"> 
-                                                                   {% else %}   
-                                                                  <input type="checkbox"  class="privilage other" value="vdd">  
-                                                                  {% endif %}
+                                                                    <input type="checkbox" class="privilage other" value="vdd">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
 	                                                    
-	                                                    <div class="form-group">
+	                                                     <div class="form-group prev">
 	                                                        <label class="control-label col-md-6">Subscription Management  </label>
 	                                                        <div class="col-md-2">
-	                                                        	{% if prv_list.prv == 'Subscription Management'%}
-	                                                            <input type="checkbox" checked class="privilage al_check" value="sub_mang">
-	                                                            {% else %}
-	                                                           <input type="checkbox"  class="privilage other" value="sub_mang"> 
-	                                                         {% endif %}  
+	                                                            <input type="checkbox" class="privilage other" value="sub_mang">
 	                                                        </div>
                                                        </div>
 	                                                  </div>
@@ -823,84 +775,61 @@ hr {
 	                                                    
 	                                                 <div class="col-lg-4">
 	                                                 	<div class="row">
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="col-md-6 control-label">View Financial Details</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           {% if prv_list.prv11 == 'View Financial Details'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="vfd">  
-                                                                  {% else %}   
-                                                                  <input type="checkbox"  class="privilage other" value="vfd">
-                                                                 {% endif %} 
+                                                                    <input type="checkbox" class="privilage other" value="vfd">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
                                                                 
-	                                                      <div class="form-group">
+	                                                      <div class="form-group prev">
 	                                                        <label class="col-md-6 control-label">View List of TID with Details</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           {% if prv_list.prv8 == 'View List of TID with Details'%}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="vlt">
-                                                                    {% else %}
-                                                                    <input type="checkbox"  class="privilage other" value="vlt">   
-                                                                  {% endif %}  
+                                                                    <input type="checkbox" class="privilage other" value="vlt">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>   
 	                                                    
-	                                                     <div class="form-group" style="padding-top: 10px;">
+	                                                     <div class="form-group prev" style="padding-top: 10px;">
 	                                                        <label class="col-md-6 control-label">Assign Roles</label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           {% if prv_list.prv9 == 'Assign Roles' %}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="asr">  
-                                                                     {% else %}
-                                                                     <input type="checkbox"  class="privilage other" value="asr">
-                                                                   {% endif %}  
+                                                                    <input type="checkbox" class="privilage other" value="asr">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>   
 	                                                    
-	                                                    <div class="form-group">
+	                                                    <div class="form-group prev">
 	                                                        <label class="col-md-6 control-label">View Selected Subscriber Details                                                                                                                                                                                             </label>
 	                                                        <div class="col-md-2 check_box">
 	                                                           <div class="checkbox-list">
-	                                                           {% if prv_list.prv10 == 'View Selected Subscriber Details' %}
-                                                                    <input type="checkbox" checked class="privilage al_check" value="vsd">
-                                                                   {% else %}
-                                                                       <input type="checkbox"  class="privilage other" value="vsd">
-                                                                     {% endif %}  
+                                                                    <input type="checkbox" class="privilage other" value="vsd">   
                                                             	</div>
 	                                                        </div>
 	                                                    </div>
 	                                                    
-	                                                    <div class="form-group none_pre">
-	                                                        <label class="col-md-6 control-label">None                                                                                                                                                                                            </label>
-	                                                        <div class="col-md-2 check_box">
-	                                                           <div class="checkbox-list">
-	                                                           {% if prv_list.prv14 == 'None' %}
-                                                                    <input type="checkbox" checked class="privilage none_chk" id="none_check" value="none">
-                                                                   {% else %}
-                                                                       <input type="checkbox"  class="privilage none" id="none" value="none">
-                                                                     {% endif %}  
-                                                            	</div>
+	                                                    <div class="form-group none_pre" style="padding-top: 13px;">
+	                                                        <label class="control-label col-md-6">None  </label>
+	                                                        <div class="col-md-2">
+	                                                            <input type="checkbox" id="none" class="privilage none" value="none">
 	                                                        </div>
-	                                                    </div>
+                                                       </div>
 	                                                  </div>
 	                                                </div>
 	                                              </div>
-	                                             </div>
-	                                                      
+	                                             </div>      
 	                                           </div>
 	                                         </form>  
 	                                                      
 	                                                    
 	                                                    <div class="text-right m-t-xs" style="margin-top: 10px;">
 											                        <a href="/role-list/" type="button"
-	                                                                   class="btn btn-outline grey_color ">Cancel</a>
+	                                                                    class="btn btn-outline grey_color ">Cancel</a>
                                                            <input  type="submit" id="save_place"
-                                                                  class="btn btn-outline done_btn" onclick="update_user_role()" value="Update">
+                                                                   class="btn btn-outline done_btn" onclick="add_user_role()" value="Save">
                                                            </input>
                     												</div>   
                                                                 
@@ -973,7 +902,28 @@ hr {
   </div>
 </div>
   
-    
+   <div class="modal fade draggable-modal" id="success_modal" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    		 <div class="modal-header">
+			       				<img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;" src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
+			         			
+			      			 </div>                                                
+                        <div class="modal-body">
+                            <form action="index.html" class="form-horizontal form-row-seperated">
+                			<div class="form-body">
+                    			<h4 class="text-center">User Role added successfully</h4>
+                        </div>
+                        <div style="text-align:center !important;" class="modal-footer">
+                        <a type="button" href="/role-list/" class="btn green" >OK</a>
+                            
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </div>  
   
   
   <div class="modal fade draggable-modal" id="success_modal_edit" tabindex="-1" role="basic" aria-hidden="true">
@@ -989,7 +939,7 @@ hr {
                     <h4 class="text-center">User Role updated successfully</h4>
                         </div>
                         <div style="text-align:center !important;" class="modal-footer">
-                        <a type="button" href="/role-list/" class="btn green" >OK</a>
+                        <button type="button" onclick="location.reload();" class="btn green" data-dismiss="modal">OK</button>
                             
                         </div>
                     </div>
@@ -1037,7 +987,7 @@ hr {
 			<div class="col-md-3"><label>Edit User Role</label></div>    
 			<div class="col-md-9"><input id="edit_role" maxlength="25" class="form-control" type="text">
 			<label class="error" style="color:red; display:none;"></label>	
-																								
+			<input type="hidden" id="role_id"  type="text">																						
 			</div>
 			         
         </div>
@@ -1049,7 +999,7 @@ hr {
                                             <div class="row">
                                                 <div class="col-md-12">
                                                 <button type="button" class="btn default" data-dismiss="modal">Cancel</button>
-                                                <!-- <input value="Save" onclick="update_user_role()" type="button"  class="btn green"> -->
+                                                <input value="Save" onclick="update_user_role()" type="button"  class="btn green">
 
                                                                               
                                                
@@ -1204,96 +1154,20 @@ hr {
         <!-- END THEME LAYOUT SCRIPTS -->
      <script>
 
-        $("#administration_anchor").addClass("tab-active");
-        $("#administration_icon").addClass("icon-active");
-        $("#administration_active").css("display","block");
-        $("#user_role_nav").addClass("active");
+     $("#administration_anchor").addClass("tab-active");
+	$("#administration_icon").addClass("icon-active");
+	$("#administration_active").css("display","block");
+	$("#user_role_nav").addClass("active");
 
         $(document).ready(function(){
-         $("#all").click( enable_cb1) ;
-         $("#all_check").click( enable_cb1) ;
-         $("#none").click(enable_cb) ;
-         
-
-/*$('input.al_check').each(function(i)
-			{
-				if(this.checked){
-					enable_cb3();
-				}else{
-				
-					enable_cb4();
-				}
-			}); */      
-			 $(".none").change(function(){
-			if(this.checked){
-	   		$('.checker').find('span').removeClass('checked'); 
-	   		$('.none_pre').find('span').addClass('checked');
-	   	}     
-	   	
-		});
-			
-			$('input.all_chk').each(function(i)
-			{
-				if(this.checked){
-					$("input.other").attr("disabled", true);
-				    $("input.none").attr("disabled", true);
-				    $('.checker').find('span').addClass('checked');
-				    enable_cb1()
-				}else{
-				
-					enable_cb4();
-				}
-			});  
-			
-$('input.none_chk').each(function(i)
-			{
-				if(this.checked){
-					$("input.other").attr("disabled", true);
-					$("input.al_check").attr("disabled", true);
-    				$("input.all").attr("disabled", true);
-    				$('.checker').find('span').removeClass('checked'); 
-	   			$('.none_pre').find('span').addClass('checked');
-				}else{
-					$("input.al_check").removeAttr("disabled");
-					$("input.other").removeAttr("disabled");
-   				 $("input.all").removeAttr("disabled");
-   				 
-				}
-			});  
-
+         $('#user_role').val('');
+         $('#edit_role').val('');
+        //  		 $("#all").click( enable_cb1) ;
+         		 $("#none").click( enable_cb) ;
+          
+	
     
-    $("input.al_check").change(function() {
-                    var ischecked= $(this).is(':checked');
-                    if(!ischecked){
-                    	enable_cb4();
-                    	
-                    }
-                }); 
- 		 
- 
-   $("#all_check").change(function() {
-                    var ischecked= $(this).is(':checked');
-                    if(!ischecked){
-                    	enable_cb1()
-                    	enable_cb2()
-                    	$('.checker').find('span').removeClass('checked'); 
-                    }else{
-                    $('.checker').find('span').addClass('checked');
-                    $('.none_pre').find('span').removeClass('checked');
-                    } 
-                }); 
- 		}); 
- 		
- 		 $("input.none_chk").change(function() {
-                    var ischecked= $(this).is(':checked');
-                    if(!ischecked){
-                    	$("input.al_check").removeAttr("disabled");
-                    	$("input.other").removeAttr("disabled");
-   						 $("input.all").removeAttr("disabled");
-                    }
-                }); 
- 		
- 		 $("#all").change(function(){
+    $("#all").change(function(){
 			if(this.checked){
 	   		$('.checker').find('span').addClass('checked');
 	   		enable_cb1() ;
@@ -1303,32 +1177,29 @@ $('input.none_chk').each(function(i)
 				enable_cb2();
 	   	}
 		});
- 		
- 			 $(".other").change(function(){
+    
+
+ 	});  
+ 	
+ 	 $(".none").change(function(){
 			if(this.checked){
-	   		enable_cb3();
-	   		$("input.none_chk").attr("disabled", true);
+	   		$('.checker').find('span').removeClass('checked'); 
+	   		$('.none_pre').find('span').addClass('checked');
 	   	}     
-	   	else{
-		  	
-				enable_cb4();
-				$("input.none_chk").removeAttr("disabled");
-	   	}
+	   	
 		});
-		
-		
- 		
-  		function enable_cb() {
+    
+
+ function enable_cb() {
 		
   if (this.checked) {
  
     $("input.other").attr("disabled", true);
     $("input.all").attr("disabled", true);
-     $("input.al_check").attr("disabled", true);
+    
   } else {
     $("input.other").removeAttr("disabled");
     $("input.all").removeAttr("disabled");
-     $("input.al_check").removeAttr("disabled");
   }
 }
 
@@ -1339,7 +1210,8 @@ $('input.none_chk').each(function(i)
     $('.none_pre').find('span').removeClass('checked');
 
 }
-	function enable_cb2() {	
+
+		function enable_cb2() {	
     $("input.other").removeAttr("disabled");
     $("input.none").removeAttr("disabled");
 }
@@ -1388,7 +1260,7 @@ function validateUserRole(user_role){
 			}
 		} 
      
- /*  function	add_user_role() {
+   function	add_user_role() {
  
 	if(validateUserRole("#user_role")){	
 	
@@ -1438,9 +1310,31 @@ function validateUserRole(user_role){
 		
 	});
 	}
-}	*/
+}	
 
+function edit_user_role(id) {
    
+        $.ajax({
+            type: 'GET',
+            url: '/edit-user-role/',
+            data: {'role_id': id},
+            success: function (response) {
+                if (response.success == 'true') {
+				       $('#edit_role').val(response.role_name);
+				       $('#role_id').val(response.role_id);
+
+			          $("#editUserRole").modal('show');
+                }
+                else {
+                    console.log('ERRORS: ' + response.error_message);
+                }
+            },
+
+            error: function (response) {
+                alert('error');
+            },
+        });
+    }    
     
 function validateRoleName(edit_role){
 	
@@ -1459,33 +1353,14 @@ function validateRoleName(edit_role){
 }    
     
   function	update_user_role() {
-  
  
 	if(validateRoleName("#edit_role")){	
-	var prv = chek_privilage()
-	if (prv == false){
-
-					return false;	
-	}					
-				
-	
-	var checkboxValues = []
-			checkboxValues = $('.privilage:checked').map(function() {
-			    return $(this).val();
-			}).get(); 
-			
-		var formData= new FormData();
-		formData.append("role_id",$('#role_id').val())
-		formData.append("edit_role",$('#edit_role').val());				
-		formData.append("privil_list",checkboxValues);
+$('#editUserRole').modal('hide');
 	
 	$.ajax({
 		type : 'POST',
 		url : '/update-user-role/',
-		data : formData,
-		cache: false,
-      processData: false,
- 		contentType: false,
+		data : {'edit_role':$('#edit_role').val(),'role_id':$('#role_id').val()},
 		success: function(response) {
 			if(response.success=='true'){
 				$('#editUserRole').modal('hide');
@@ -1495,12 +1370,6 @@ function validateRoleName(edit_role){
 		$("#error-modal").modal('show');
 			}
 		},
-		beforeSend: function () {
-            $("#processing").css('display','block');
-            },
-            complete: function () {
-                $("#processing").css('display','none');
-            },
 		error: function(response){
 			alert('error');
 		}
@@ -1571,6 +1440,8 @@ function active_service(id){
             },
         });    
     } 
+    
+
       
 </script>
     </body>

@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     url(r'^rate-card/', 'Admin.views.rate_card',name='rate_card'),
     url(r'^backoffice/', 'Admin.views.backoffice',name='backoffice'),
     url(r'^reload-captcha/', 'Admin.captcha_mod.reload_captcha', name='captcha_reload'),
-    url(r'^dashboard/', 'Admin.views.dashboard',name='dashboard'),
+    # url(r'^dashboard/', 'Admin.views.dashboard',name='dashboard'),
     url(r'^subscriber/', 'Admin.views.subscriber',name='subscriber'),
     url(r'^consumer/', 'Admin.views.consumer',name='consumer'),
     url(r'^user/', 'Admin.views.user',name='user'),
@@ -33,7 +33,7 @@ urlpatterns = patterns('',
     url(r'^add-subscriber/', 'Admin.supplier.add_subscriber',name='add_subscriber'),
     url(r'^signin/', 'Admin.views.signin',name='signin'),
     url(r'^log-out/', 'Admin.views.signing_out',name='signing_out'),
-    url(r'^add-user/', 'Admin.views.add_user',name='add_user'),
+    #url(r'^add-user/', 'Admin.views.add_user',name='add_user'),
     url(r'^view-user-list/', 'Admin.views.view_user_list',name='view_user_list'),
     url(r'^delete-user/', 'Admin.views.delete_user',name='delete_user'),
     url(r'^view-user-detail/', 'Admin.views.view_user_detail',name='view_user_detail'),
@@ -67,6 +67,15 @@ urlpatterns = patterns('',
     # Advert Book
     url(r'^advert-booking-list/', 'Admin.advert.advert_booking_list',name='advert_booking_list'),
 
+    # New Version urls related to subscriber
+
+    url(r'^get-basic-subscription-amount/', 'Admin.supplier.get_basic_subscription_amount',name='get_basic_subscription_amount'),  
+    url(r'^get-premium-subscription-amount/', 'Admin.supplier.get_premium_subscription_amount',name='get_premium_subscription_amount'),  
+    url(r'^renew-subscription/', 'Admin.supplier.renew_subscription',name='renew_subscription'),
+    url(r'^edit-subscription/', 'Admin.supplier.edit_subscription',name='edit_subscription'),
+    url(r'^update-subscription-plan/', 'Admin.supplier.update_subscription_plan',name='update_subscription_plan'),
+    url(r'^update-payment-details/', 'Admin.supplier.update_payment_details',name='update_payment_details'),
+
 #shubham
 
     url(r'^register-city/', 'Admin.consumer.register_city',name='register_city'),
@@ -91,7 +100,7 @@ urlpatterns = patterns('',
     url(r'^active-user-role/', 'Admin.views.active_user_role',name='active_user_role'),
     url(r'^save-city/', 'Admin.views.save_city',name='save_city'),
     url(r'^save-city-data/', 'Admin.views.save_city_data',name='save_place'),
-    url(r'^view-city/', 'Admin.views.view_city',name='view_city'),   
+    # url(r'^view-city/', 'Admin.views.view_city',name='view_city'),   
     url(r'^delete-city/', 'Admin.views.delete_city',name='delete_city'),  
     url(r'^active-city/', 'Admin.views.active_city',name='active_city'),
     url(r'^edit-city/', 'Admin.views.edit_city',name='edit_city'), 
@@ -109,8 +118,8 @@ urlpatterns = patterns('',
     url(r'^update-category/', 'Admin.category.update_category',name='update_category'),        
     url(r'^get_city/', 'Admin.category.get_city',name='get-city'),
     url(r'^get-cat-sequence/', 'Admin.category.get_cat_sequence',name='get_cat_sequence'),
-
     # rate card urls
+
     url(r'^add-rate-card/', 'Admin.ratecard.add_rate_card',name='add_rate_card'),
     url(r'^edit-rate-card/', 'Admin.ratecard.edit_rate_card',name='edit_rate_card'),
     url(r'^delete-rate-card/', 'Admin.ratecard.delete_rate_card',name='delete_rate_card'),
@@ -154,20 +163,20 @@ urlpatterns = patterns('',
 #updated changes
     url(r'^get-city-place/', 'Admin.advert.get_city_place',name='get-city-place'),
     url(r'^get-pincode-place/', 'Admin.advert.get_pincode_place',name='get-pincode-place'), 
+    url(r'^get-pincode-places/', 'Admin.advert.get_pincode_places',name='get-pincode-place'), 
 
 #Consumer urls
     url(r'^consumer-list/', 'Admin.consumer.view_user_list',name='view_user_list'),
     url(r'^booking/', 'Admin.consumer.subscriber_bookings',name='subscriber_bookings'),
-    url(r'^booking-list/', 'Admin.consumer.view_booking_list',name='view_booking_list'),
     url(r'^sms/', 'Admin.consumer.sms',name='sms'),
     url(r'^send_sms/', 'Admin.consumer.send_sms',name='send_sms'),
     url(r'^email/', 'Admin.consumer.email',name='email'),
     url(r'^send_email/', 'Admin.consumer.send_email',name='send_email'),
     url(r'^admin-send-email/', 'Admin.consumer.admin_send_email',name='admin_send_email'),
     url(r'^admin-send-sms/', 'Admin.consumer.admin_send_sms',name='admin_send_sms'),
-    url(r'^advert_booking/', 'Admin.consumer.advert_booking',name='advert_booking'),
+    url(r'^consumer-booking-details/', 'Admin.consumer.consumer_booking_details',name='advert_booking'),
 
-#Dashboard
+# #Dashboard
     url(r'^get_advert_list/', 'Admin.dashboard.get_advert_list',name='get_advert_list'),
     url(r'^get_advert_date/', 'Admin.dashboard.get_advert_date',name='get_advert_date'),
     url(r'^get_advert_health/', 'Admin.dashboard.get_advert_health',name='get_advert_health'),
@@ -178,14 +187,25 @@ urlpatterns = patterns('',
     url(r'^get_new_registered_consumer/', 'Admin.dashboard.get_new_registered_consumer',name='get_new_registered_consumer'),
     url(r'^get_consumer_activity/', 'Admin.dashboard.get_consumer_activity',name='get_consumer_activity'),
     url(r'^get_consumer_usage/', 'Admin.dashboard.get_consumer_usage',name='get_consumer_usage'),
-#rest_framewrok
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
+    #Dashboard Admin SHUBHAM
+    url(r'^dashboard/', 'Admin.dashboard.admin_dashboard',name='admin_dashboard'),
+    url(r'^get-admin-filter/', 'Admin.dashboard.get_admin_filter',name='get_admin_filter'),
+    url(r'^get-admin-stat/', 'Admin.dashboard.get_admin_stat',name='get_admin_stat'),
+    url(r'^admin-report/', 'Admin.dashboard.admin_report',name='admin_report'),
+    url(r'^get-subscriber-list/', 'Admin.dashboard.get_subscriber_list',name='get_subscriber_list'),
+
+    #user
     url(r'^user-list/', 'Admin.views.user_list', name='user_list'),
-    url(r'^admin-add-user/', 'Admin.views.admin_add_user', name='admin_add_user'),
+    url(r'^add-user/', 'Admin.views.admin_add_user', name='admin_add_user'),
     url(r'^add-new-user/', 'Admin.views.add_new_user', name='add_new_user'),
     url(r'^edit-user-detail/', 'Admin.views.edit_user_detail', name='edit_user_detail'),
     url(r'^save-user/', 'Admin.views.save_user', name='save_user'),
     url(r'^save-user1/', 'Admin.views.save_user1', name='save_user1'),
     url(r'^get-data/', 'Admin.views.get_data', name='get_data'),
+
+# Admin add user ROLE SHUBHAM
+    url(r'^role-list/', 'Admin.views.role_list',name='role_list'),
+    url(r'^add-new-role/', 'Admin.views.add_new_role',name='add_new_role'),
+
 )+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

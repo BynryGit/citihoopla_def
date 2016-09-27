@@ -19,7 +19,7 @@ License: You must have a valid license purchased only from themeforest(the above
     {% load staticfiles %}
     <head>
         <meta charset="utf-8" />
-        <title>City Hoopla | Add Subscriber</title>
+        <title>City Hoopla | Edit Subscriber</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -222,6 +222,7 @@ height: 65px;
 }
 
 .error{
+
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
@@ -230,6 +231,7 @@ height: 65px;
 .form-wizard .steps > li.active > a.step .desc {
     color: #2F353B;
     font-weight: 700;
+    font-family: 'Roboto Bold', 'Roboto';
 }
 
 .portlet.light {
@@ -377,7 +379,6 @@ hr {
     font-weight:700;
 }
 
-
 .form-wizard .steps > li > a.step .number {
     background-color: #e2e1e1 !important;
     color: #fff;
@@ -418,7 +419,6 @@ hr {
     border: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
 }
 
-
 .grey_color{
     border: 1px solid rgb(72, 72, 72);
     color: rgb(255, 255, 255);
@@ -454,7 +454,6 @@ hr {
     border: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
 
 }
-
 
 .font-14{
     font-size:14px;
@@ -515,7 +514,12 @@ hr {
         font-weight: 700;
     }
 
+    .error{
 
+        font-weight: 400;
+        font-style: normal;
+        font-size: 12px;
+    }
 
     </style>
 
@@ -544,28 +548,28 @@ hr {
                 <!-- END RESPONSIVE MENU TOGGLER -->
                 <!-- BEGIN PAGE TOP -->
                 <div class="page-top">
-                    <!-- BEGIN TOP NAVIGATION MENU -->
-                    <div class="top-menu">
-                        <ul class="nav navbar-nav pull-right">
-                            <li class="dropdown dropdown-user">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-                                   data-close-others="true">
-                                    <!-- <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
-                                    <span class="username username-hide-on-mobile"> {{ request.session.login_user }} </span>
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-default">
-                                    <li>
-                                        <a href="/log-out/">
-                                            <i class="icon-key"></i> Log Out </a>
-                                    </li>
-                                </ul>
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <!-- <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
+                            <span class="username username-hide-on-mobile"> {{ request.session.login_user }} </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li>
+                                <a href="/log-out/">
+                                    <i class="icon-key"></i> Log Out </a>
                             </li>
-                            <!-- END USER LOGIN DROPDOWN -->
                         </ul>
-                    </div>
-                    <!-- END TOP NAVIGATION MENU -->
-                </div>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
                 <!-- END PAGE TOP -->
             </div>
             <!-- END HEADER INNER -->
@@ -601,43 +605,13 @@ hr {
                                 <div class="col-lg-12">
                                     <a class="brad-crum-1" href="/view-subscriber-list/">Subscriber</a>
                                     <i class="fa fa-angle-right"></i>
-                                    <span class="brad-crum-2">Add Subscriber</span>
+                                    <span class="brad-crum-2">Edit Subscriber</span>
                                   <div class="portlet-body">
                                         <div class="portlet light " id="form_wizard_1">
 
                                             <div class="portlet-body form">
                                                     <div class="form-wizard">
                                                         <div class="form-body">
-
-                                                            <ul class="nav nav-pills nav-justified steps" style="padding-bottom: 0px;">
-                                                                <li id="tab_1">
-                                                                    <a href="#tab1" data-toggle="tab" class="step ">
-                                                                        <span id="number_1" class="number"> 1 </span>
-                                                                        <br>
-                                                                        <span id="desc_1" class="desc">
-                                                                            <i class="fa fa-check"></i> Business Details
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-                                                                <li id="tab_2">
-                                                                    <a href="#tab2" data-toggle="tab" class="step ">
-                                                                        <span id="number_2" class="number"> 2 </span>
-                                                                        <br>
-                                                                       <span id="desc_2" class="desc">
-                                                                            <i class="fa fa-check"></i> Subscription Details
-                                                                        </span>
-                                                                    </a>
-                                                                </li>
-                                                                <li id="tab_3">
-                                                                    <a href="#tab3" data-toggle="tab" class="step">
-                                                                        <span id="number_3" class="number"> 3 </span>
-                                                                        <br>
-                                                                        <span id="desc_3" class="desc">
-                                                                            <i class="fa fa-check"></i> Payment Details
-                                                                        </span>
-                                                                    </a>
-                                                                </li>   
-                                                            </ul>
 
                                                             <!--<div id="bar" class="progress progress-striped"-->
                                                                  <!--role="progressbar">-->
@@ -649,7 +623,6 @@ hr {
                                                                   <div class="alert alert-success display-none">
                                                                       <button class="close" data-dismiss="alert"></button> Your form validation is successful! </div> -->
 
-                                                                   <div class="tab-pane " id="tab1">
                                                                 	<div class="row">
                                                                     <div class="col-lg-2 col-md-2">
                                                                                 <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -680,6 +653,11 @@ hr {
 						                                                                         style="width: 150px !important; height: 135px; cursor:pointer;"
 						                                                                         title="Upload Image"
 						                                                                         onclick="javascript:$('#display_image').click();">
+						                                                                          {% if display_image %}
+                                                                                            <img id="user_img" src="{{display_image}}" alt="">
+                                                                                            {% else %}
+                                                                                            <img id="user_img" src="{% static 'vendor/default.png' %}" alt="">
+                                                                                            {% endif %}
 						                                                                        <img id="user_img"
 						                                                                             src="{% static 'vendor/default.png' %}"
 						                                                                             alt="">
@@ -706,10 +684,11 @@ hr {
                                                                                             Business Name
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input id="supplier_id" hidden value="{{ supplier_id }}"></input>
                                                                                         <input type="text"
                                                                                                id="business_name"
                                                                                                name="business_name"
-                                                                                               class="form-control"/> </input>
+                                                                                               class="form-control"/ value="{{ business_name }}"> </input>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
                                                                                     </div>
@@ -722,7 +701,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <textarea id="business" maxlength="5000"
-                                                                                                  class="form-control"></textarea>
+                                                                                                  class="form-control">{{business_details}}</textarea>
                                                                                         <label id="short_discription_count" class="control-label  dis_count" style="font-size:15px;; float:right">
                                                                                                         0 /5000 Characters
                                                                                                     </label>
@@ -739,7 +718,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text" 
-                                                                                               name="phone_no" onkeypress="return validateIntKeyPress(this,event);"
+                                                                                               name="phone_no" value="{{phone_no}}" onkeypress="return validateIntKeyPress(this,event);"
                                                                                                id="phone_no" maxlength="10"
                                                                                                class="form-control "/>
                                                                                         <label class="error"
@@ -752,7 +731,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Secondary Number
                                                                                             
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{secondary_phone_no}}" 
                                                                                                onkeypress="return validateIntKeyPress(this,event);"
                                                                                                name="sec_phone_no"
                                                                                                maxlength="10"  id="sec_phone_no"
@@ -769,7 +748,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Primary Email
                                                                                             <span class="required"> * </span>
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{supplier_email}}"
                                                                                                name="pri_email"
                                                                                                id="pri_email"
                                                                                                class="form-control "/>
@@ -784,7 +763,7 @@ hr {
                                                                                             Email
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               
+                                                                                               value="{{secondary_email}}"
                                                                                                name="sec_email"
                                                                                                id="sec_email"
                                                                                                class="form-control "/></input>
@@ -810,7 +789,7 @@ hr {
                                                                                             Line 1
                                                                                             <span class="required"> * </span>
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{address1}}"
                                                                                                class="form-control"
                                                                                                name="address1"
                                                                                                id="address1"/></input>
@@ -825,7 +804,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Address
                                                                                             Line 2
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{address2}}"
                                                                                                class="form-control"
                                                                                                name="address2"
                                                                                                id="address2"/>
@@ -837,6 +816,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Country
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input type="hidden" value="{{country}}" id="selectedCountry"/>
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 onchange="getState();"
                                                                                                 id="country"
@@ -858,12 +838,16 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">State
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        	<input type="hidden" value="{{state}}" id="selectedState"/>	
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 id="state" onchange="getCity();"
                                                                                                 name="state">
                                                                                             <option value="">
                                                                                                 Select State
                                                                                             </option>
+                                                                                               {% for state in state_list %}	
+															                        										<option value="{{ state.state_id }}"> {{ state.state_name }}</option>
+															                        									{% endfor %}
                                                                                         </select>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -875,12 +859,16 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">City
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input type="hidden" value="{{city}}" id="selectedCity"/>
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 id="city" onchange="getPincode();"
                                                                                                 name="city">
                                                                                             <option value="">
                                                                                                 Select City
                                                                                             </option>
+                                                                                            {% for city in city_list %}	
+	                                      			                           							<option value="{{ city.city_place_id }}"> {{ city.city_id.city_name }}</option>
+																		                       						{% endfor %}
                                                                                         </select>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -892,12 +880,20 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Pincode
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input type="hidden" value="{{pincode}}" id="selectedPincode"/>
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 id="pincode"
                                                                                                 name="pincode">
                                                                                             <option value="">
                                                                                                 Select Pincode
                                                                                             </option>
+                                                                                            {% for pincode in pincode_list %}	
+																			                         {% if pincode == user_pincode %}
+																		                           <option selected value="{{user_pincode}}">{{user_pincode}}</option>
+																		                           {% else %}
+																		                           <option value="{{pincode}}"> {{pincode}}</option>
+																		                           {% endif %}	                        
+																			                        {% endfor %}
                                                                                         </select>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -919,7 +915,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               name="user_name"
+                                                                                               name="user_name" value="{{contact_person}}"
                                                                                                id="user_name"
                                                                                                class="form-control contact_name"/></input>
                                                                                         <label class="error"
@@ -934,7 +930,7 @@ hr {
                                                                                         </label>
                                                                                         <input type="text"
                                                                                                onkeypress="return validateIntKeyPress(this,event);"
-                                                                                               name="user_contact_no"
+                                                                                               name="user_contact_no" value="{{contact_no}}"
                                                                                                maxlength="10" id="user_contact_no"
                                                                                                class="form-control phone_number"/></input>
                                                                                         <label class="error"
@@ -947,7 +943,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               name="user_email"
+                                                                                               name="user_email" value="{{contact_email}}"
                                                                                                id="user_email"
                                                                                                class="form-control"/></input>
                                                                                         <label class="error"
@@ -957,8 +953,7 @@ hr {
                                                                             </div>
 
                                                                             <br>
-                                                                            
-                                                                            <div class="row div-border div-color">
+                                                                                                      <div class="row div-border div-color">
                                                                                 <div class="col-lg-12 col-md-12">
                                                                                     <div class="form-group" style="margin-top: 10px;margin-bottom: 0px;">
                                                                                         <label  style="font-size:15px; font-weight:700;">Sales Person Details </label>
@@ -971,7 +966,7 @@ hr {
                                                                                         </label>
                                                                                         <input type="text"
                                                                                                name="user_name"
-                                                                                               id="sale_person_name"
+                                                                                               id="sale_person_name" value="{{ sales_person_name }}"
                                                                                                class="form-control contact_name"/></input>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -985,7 +980,7 @@ hr {
                                                                                         </label>
                                                                                         <input type="text"
                                                                                                onkeypress="return validateIntKeyPress(this,event);"
-                                                                                               name="user_contact_no"
+                                                                                               name="user_contact_no" value="{{ sales_person_contact_number }}"
                                                                                                maxlength="10" id="sale_person_contact_no"
                                                                                                class="form-control phone_number"/></input>
                                                                                         <label class="error"
@@ -998,7 +993,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               name="user_email"
+                                                                                               name="user_email" value="{{ sales_person_email  }}"
                                                                                                id="sale_person_email"
                                                                                                class="form-control"/></input>
                                                                                         <label class="error"
@@ -1020,664 +1015,17 @@ hr {
                                                                                 <button type="submit"
                                                                                    id="save-quit"
                                                                                    class="btn btn-outline grey_color"> Save & Quit</button>
-                                                                                <button type="submit" href="#" id="save-continue"
+                                                                                <!-- <button type="submit" href="#" id="save-continue"
                                                                                         class="btn btn-outline done_btn">
                                                                                     Save & Continue
-                                                                                </button>
+                                                                                </button> -->
                                                                               
                                                                             </div>
                                                                         </div>
                                                                         </div>
-                                                                </div>   
-                                                                
-                                                                 <div class="tab-pane " id="tab2">
-                                                                    <hr>
-
-                                                                    <form id="subscription_form" method="POST">
-                                                                    	 
-                                                                        <div class="row">
-                                                                            <div class="col-lg-4 col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label class="control-label font-18 font-bold font-blue"> Business Category </label>
-                                                                                    <input type="hidden" name="supplier_id"
-                                                                                          id="user_id">
-                                                                                    <span class="required"> * </span>
-                                                                                    <select data-level="0"
-                                                                                            class="form-control sel2"
-                                                                                            id="sub_category" name="sub_category">
-                                                                                        <option value="">Select
-                                                                                            Category
-                                                                                        </option>
-                                                                                        {% for cat in category_list %}
-                                                                                        <option value="{{ cat.category_id }}">
-                                                                                            {{ cat.category_name }}
-                                                                                        </option>
-                                                                                        {% endfor %}
-                                                                                    </select>
-                                                                                    <label id="sub_category_lebel" class="error font-12 font-regular"
-                                                                                           style="color:red; display:none;"></label>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="col-lg-10 col-md-10" style="padding-top:16px; padding-left: 0px; border-right: 1px solid #6B6B6B;">
-                                                                            <label class="control-label font-18 font-bold font-blue">Subscription Plans
-                                                                            </label>
-                                                                            <div class="form-group" style="margin-bottom: 7px;">
-                                                                                <div class="row" id="service">
-                                                                                    <div class="col-lg-12">
-                                                                                        <label class="control-label font-15 font-bold font-green" style="margin-bottom: 0px; padding-bottom: 0px;">Basic Subscription
-                                                                                        </label><!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                                        <label class="error font-12">Atleast one basic Plan needs to be selected</label> -->
-
-                                                                                     </div>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-
-                                                                            <div class="form-group">
-                                                                                <div class="row" id="duration">
-                                                                                    <div class="col-lg-12 col-md-12" style="padding-left: 0px;padding-right: 0px;">
-                                                                                        <ul class="radio-list list-inline"
-                                                                                            data-error-container="#form_2_membership_error">
-                                                                                            <div class="col-lg-4 col-md-4">
-                                                                                                <label class="control-label font-15 font-regular">Duration
-                                                                                                    <span class="required"> * </span>
-                                                                                                </label>
-                                                                                                <select data-level="0"
-                                                                                                        class="form-control sel2"
-                                                                                                        id="duration_list" name="duration_list">
-                                                                                                    <option value="">Select Duration</option>
-                                                                                                    <option value="3">3 Days</option>
-                                                                                                    <option value="7">7 Days</option>
-                                                                                                    <option value="30">30 Days</option>
-                                                                                                    <option value="90">90 Days</option>
-                                                                                                    <option value="180">180 Days</option>
-                                                                                                </select>
-                                                                                                <label id="selectedDuration" class="font-12 font-regular"
-                                                                                                    style="color:red; display:none;"></label>
-                                                                                            </div>
-                                                                                            <div class="col-lg-4 col-md-4">
-                                                                                                <label class="font-15 font-regular">
-                                                                                                        Start
-                                                                                                        Date </label>
-                                                                                                <input type="text" disabled name="start_date"
-                                                                                                       id="dt50" onchange="basic_subscription()"
-                                                                                                       class="form-control date-picker">
-                                                                                                <label id="basicStartDate" class="font-12 font-regular"
-                                                                                                    style="color:red; display:none;"></label>
-                                                                                            </div>
-                                                                                            <div class="col-lg-4 col-md-4">
-                                                                                                <label class="font-15 font-regular" >End Date </label>
-                                                                                                <input type="text"
-                                                                                                       id="dt2" readonly
-                                                                                                       class="form-control end-date"
-                                                                                                       name="end_date"/>
-                                                                                                <label id="basicEndDate" class="font-12 font-regular"
-                                                                                                    style="color:red; display:none;"></label>
-                                                                                            </div>
-                                                                                        </ul>
-                                                                                    </div>
-                                                                                </div>
-
-                                                                                <label class="error font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                            </div>
-
-                                                                            <div class="form-group" style="padding-top:20px;">
-                                                                                <div class="row" id="premium_service">
-                                                                                    <div class="col-lg-12">
-                                                                                        <div class="form-group">
-                                                                                            <label class="control-label font-15 font-bold font-green">Buy
-                                                                                                Premium Service
-                                                                                            </label>
-                                                                                            <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-                                                                                            {% for advert in advert_service_list %}
-                                                                                            <ul class="radio-list list-inline"
-                                                                                                data-error-container="#form_2_membership_error">
-                                                                                                <div class="row">
-                                                                                                    <div class="col-lg-3 col-md-3 check-advert" style="padding-top: 30px;">
-                                                                                                        <li>
-                                                                                                            <label id="lebel_{{advert.advert_rate_card_id}}" class="font-15 font-regular">
-                                                                                                                <input type="checkbox"
-                                                                                                                       id="check_{{advert.advert_rate_card_id}}"
-                                                                                                                       value="{{advert.advert_service_name}}"
-                                                                                                                       onclick='check_advert({{advert.advert_rate_card_id}});'
-                                                                                                                       disabled="disabled"
-                                                                                                                       name="premium_service"
-                                                                                                                       class="premium_checkbox"/>{{advert.advert_service_name}}</label>
-                                                                                                        </li>
-                                                                                                    </div>
-                                                                                                    <div class="col-lg-3 col-md-3">
-                                                    
-                                                                                                        <label class="control-label font-15 font-regular" >Duration
-                                                                                                        </label>
-                                                                                                        <select id="day_{{advert.advert_rate_card_id}}"
-                                                                                                                disabled="disabled"
-                                                                                                                name="premium_ser_duration" onchange="premium_duration({{advert.advert_rate_card_id}})"
-                                                                                                                class="form-control sel2 days">
-
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                    <div class="col-lg-3 col-md-3">
-                                                                                                        <label class="control-label font-15 font-regular">Start Date
-                                                                                                        </label>
-                                                                                                        <input type="text"
-                                                                                                               id="start_{{advert.advert_rate_card_id}}"
-                                                                                                               disabled="disabled" onchange="premium_startdate({{advert.advert_rate_card_id}})"
-                                                                                                               class="form-control pre_start_date date-picker1"
-                                                                                                               name="premium_start_date">
-                                                                                                    </div>
-                                                                                                    <div class="col-lg-3 col-md-3">
-                                                                                                        <label class="control-label font-15 font-regular" >End Date
-                                                                                                        </label>
-                                                                                                        <input type="text"
-                                                                                                               id="end_{{advert.advert_rate_card_id}}"
-                                                                                                               class="form-control pre_end_date"
-                                                                                                               readonly
-                                                                                                               name="premium_end_date">
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </ul>
-                                                                                            {% endfor %}
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <label id="mismatch-days" class="error font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                                <label id="startdateemptyerror" class="font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <div class="col-lg-2 col-md-2" >
-                                                                            <label class="control-label font-15 font-bold font-green" >Subscription Amount
-                                                                            </label>
-                                                                            <label class="control-label font-12 font-regular" >( Excluding Tax )
-                                                                            </label>
-                                                                            <input type="text"
-                                                                               id="amount" readonly style="border-left:none; border-right:none; border-top:none; background-color: #fff;"
-                                                                               class="form-control"
-                                                                               name=""/>
-                                                                        </div>
-                                                                        <div class="col-lg-12 col-md-12  row">
-                                                                            <hr>
-                                                                        </div>
-                                                                        <br>
-
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12 col-md-12 text-right">
-
-                                                                                <a type="button"
-                                                                                       href="/view-subscriber-list/"
-                                                                                       class="btn btn-outline grey_color"> Cancel </a>
-                                                                                <input type="button" value="Save & Quit"
-                                                                                        id="save-service-detail"
-                                                                                        class="btn btn-outline grey_color">
-                                                                                <input type="button" value="Save & Continue"
-                                                                                        id="continue-service-detail"
-                                                                                        class="btn btn-outline done_btn">
-                                                                            </div>
-                                                                        </div>
-
-                                                                    </form>
                                                                 </div> 
                                                                 
-                                                                <div class="tab-pane active" id="tab3">
-                                                                    <hr>
-                                                                    <div class="form-group">
-                                                                        <form id="payment_form">
-                                                                            <div class="row">
-                                                                                <div class="col-lg-12 col-md-12" id="sub_success_div" >
-                                                                                    <label id="sub_success" class="font-15 font-regular" ></label>
-                                                                                    <input id="business_id1" hidden name="business_id"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="row">
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-regular" >Subscription
-                                                                                        Amount
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <input id="generated_amount"
-                                                                                           onkeyup="changeprice_edit()"
-                                                                                           readonly type="text"
-                                                                                           class="form-control"
-                                                                                           name="payment_amount"/>
-                                                                                </div>
-
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-regular">Tax Payable
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <select id="tax_type" name="tax_type"
-                                                                                            style="width:100%;"
-                                                                                            onchange="changeprice_edit()"
-                                                                                            class="form-control sel2">
-                                                                                        <option value=""> Tax Type</option>
-                                                                                        {% for tax in tax_list %}
-                                                                                        <option value="{{tax.tax_rate}}">
-                                                                                            {{tax.tax_type}}
-                                                                                        </option>
-                                                                                        {% endfor %}
-                                                                                    </select>
-                                                                                    <label class="error font-12 font-regular"
-                                                                                           style="color:red; display:none;"></label>
-                                                                                </div>
-
-                                                                                <label class="error font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-bold" >Total Amount Payable
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <input type="text" id="payable_amount"
-                                                                                           readonly class="form-control"
-                                                                                           name="total_payable_amount"/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <br>
-                                                                            <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-                                                                            <div class="row">
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-regular">Total Amount Paid
-                                                                                    </label>
-                                                                                    <input type="text" id="paid_amount"
-                                                                                           onkeypress="return validateIntKeyPress(this,event);"
-                                                                                           class="form-control"
-                                                                                           name="total_paid_amount"/>
-                                                                                    <label class="error font-12 font-regular"
-                                                                                           style="color:red; display:none;"></label>
-                                                                                </div>
-                                                                                <div class="col-lg-8 col-md-8" id="payment_mode">
-                                                                                    <label class="control-label font-15 font-regular" >
-                                                                                        Payment Mode
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <ul class="radio-list list-inline"
-                                                                                        data-error-container="#form_2_membership_error">
-                                                                                        <li>
-                                                                                            <label class="font-15 font-regular" >
-                                                                                                <input type="radio"
-                                                                                                       class="radio"
-                                                                                                       name="payment_mode"
-                                                                                                       value="cash"/> Cash
-                                                                                            </label>
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <label class="font-15 font-regular" >
-                                                                                                <input type="radio"
-                                                                                                       id="cheque"
-                                                                                                       class="radio"
-                                                                                                       name="payment_mode"
-                                                                                                       value="cheque"/>
-                                                                                                Cheque </label>
-                                                                                           
-                                                                                        </li>
-                                                                                    </ul>
-
-                                                                                </div>
-                                                                                <label class="error col-lg-offset-4 col-md-offset-4 col-md-8 col-lg-12 font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                            </div>
-
-
-                                                                            <div class="row" id="che">
-                                                                                <br>
-                                                                                <label class="control-label font-15 font-regular" style="margin-left: 14px;">Cheque
-                                                                                    Details </label>
-                                                                                <div class="form-group">
-
-                                                                                        <div class="col-lg-4 col-md-4">
-                                                                                            <label class="control-label font-15 font-regular">
-                                                                                                Bank Name
-                                                                                                <span class="required"> * </span>
-                                                                                            </label>
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   id="bank_name"
-                                                                                                   name="bank_name"/>
-                                                                                            <label class="error font-12 font-regular"
-                                                                                                   style="color:red; display:none;"></label>
-                                                                                        </div>
-
-                                                                                        <div class="col-lg-4 col-md-4">
-                                                                                            <label class="control-label font-15 font-regular" >
-                                                                                                Bank Branch Name
-                                                                                                <span class="required"> * </span>
-                                                                                            </label>
-                                                                                            <input type="text"
-                                                                                                   class="form-control"
-                                                                                                   id="bank_branch_name"
-                                                                                                   name="bank_branch_name"/>
-                                                                                            <label class="error font-12 font-regular"
-                                                                                                   style="color:red; display:none;"></label>
-                                                                                        </div>
-
-                                                                                        <div class="col-lg-4 col-md-4">
-                                                                                            <label class="control-label font-15 font-regular" >
-                                                                                                Cheque Number
-                                                                                                <span class="required"> * </span>
-                                                                                            </label>
-                                                                                            <input type="text"
-                                                                                                   onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                                                   class="form-control"
-                                                                                                   id="cheque_number"
-                                                                                                   name="cheque_number"/>
-                                                                                            <label class="error font-12 font-regular"
-                                                                                                   style="color:red; display:none;"></label>
-                                                                                        </div>
-
-                                                                                </div>
-                                                                            </div>
-                                                                            <br>
-
-                                                                            <div class="row">
-                                                                                <div class="col-lg-12 col-md-12">
-                                                                                    <label class="control-label font-15 font-regular">Note
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <textarea type="text" id="note"
-                                                                                           class="form-control"
-                                                                                           name="payment_note"></textarea>
-                                                                                    <label class="error col-lg-12 font-12 font-regular "
-                                                                                           style="color:red; display:none;padding-left: 0px;"></label>
-                                                                                </div>
-
-
-                                                                            </div>
-                                                                        </form>
-                                                                        <br>
-                                                                        <hr>
-
-
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12 col-md-12 text-right">
-                                                                                <a type="button"
-                                                                                       href="/view-subscriber-list/"
-                                                                                       class="btn btn-outline grey_color"> Cancel </a>
-                                                                                <button type="button"
-                                                                                   id="save_payment_detail"
-                                                                                   class="btn btn-outline grey_color"> Save & Quit</button>
-                                                                                <button type="submit" id="save_payment_continue"
-                                                                                        class="btn btn-outline done_btn">
-                                                                                   &nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;
-                                                                                </button> 
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>  
-
-
-                                                           <!-- <div class="tab-pane " id="tab4">
-																				<hr>
-																					<div class="row">
-																					  <div class="col-lg-6 col-md-6 ">
-																					  		<br>
-																						 <div class="row div-color">
-																									<br>
-																							<div class="col-md-12">
-																								<div class="row ">
-																								
-																									<div class=" col-md-4">
-																										<div class="form-group">
-		                                                                            <label class="brad-crum-2" style="font-size:15px; font-weight:700;">Business Details </label>
-		                                                                        </div>
-		                                                                      </div>  
-		                                                                      <div class=" col-md-8"> 
-		                                                                        <div class="form-group">
-		                                                                            <a class="fa fa-pencil " style="float: right !important;margin-top:8px;" data-toggle="modal" data-target="#large"></a>
-		                                                                        </div>
-		                                                                       </div> 
-                                                                         </div>
-                                                                         <hr style="margin-top:0;">
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6" >
-																									 	<div class="item_image" style="text-align:center ;border: 1px solid #cccccc;  important;  background: white;">
-				                                                                    <img src="../assets/layouts/layout2/img/City_Hoopla_Logo.png"
-				                                                                         style="width: 100%; height: 100px !important;"
-				                                                                         class="img-responsive"> </img>
-                                                                					</div>
-																									 </div>
-																									 
-																									 <div class="col-md-6 ">
-																									 	 <div class="row">
-																									 		<label class="control-label " style="font-size:15px; font-weight:700; ">Resto n Cuisine
-	                                                                               </label>
-		                                                                          </div> 
-		                                                                         <div class="row">
-		                                                                         	 <p style="font-size:15px; font-weight:500;">This is a sample text and this is only for the demo. This will have description about the business.This is a sample text and this is only for the demo. This will have description about the business</p>
-		                                                                         </div>     
-																									 </div>                                                                     
-                                                                         </div>
-                                                                    
-                                                                         
-                                                                         <div class="row">
-                                                                         	<div class="col-md-6"  >
-                                                                         		<div class="row">
-		                                                                         	<label class="control-label " style="font-size:15px; font-weight:700;margin-left: 12px !important;">Mobile Number
-			                                                                               </label>
-			                                                                     </div>
-			                                                                     <div class="row">
-			                                                                     	<p style="font-size:15px; font-weight:500;margin-left:12px !important" >9876541230</p>
-			                                                                     </div>        
-	                                                                        </div>   
-	                                                                        <div class="col-md-6">
-                                                                         		<div class="row">
-		                                                                         	<label class="control-label " style="font-size:15px; font-weight:700; ">Secondary Number
-			                                                                               </label>
-			                                                                     </div>
-			                                                                     <div class="row">
-			                                                                     	<p style="font-size:15px; font-weight:500;">9876541230</p>
-			                                                                     </div>        
-	                                                                        </div>    
-                                                                         </div>
-                                                                         
-                                                                         
-                                                                         <div class="row">
-                                                                         	<div class="col-md-6"  >
-                                                                         		<div class="row">
-		                                                                         	<label class="control-label " style="font-size:15px; font-weight:700;margin-left: 12px !important;">Primary Email
-			                                                                               </label>
-			                                                                     </div>
-			                                                                     <div class="row">
-			                                                                     	<p style="font-size:15px; font-weight:500;margin-left:12px !important" >primary@gmail.com</p>
-			                                                                     </div>        
-	                                                                        </div>   
-	                                                                        <div class="col-md-6">
-                                                                         		<div class="row">
-		                                                                         	<label class="control-label " style="font-size:15px; font-weight:700; ">Secondary Email
-			                                                                               </label>
-			                                                                     </div>
-			                                                                     <div class="row">
-			                                                                     	<p style="font-size:15px; font-weight:500;">secondary@gmail.com</p>
-			                                                                     </div>        
-	                                                                        </div>    
-                                                                         </div>
-                                                                         
-                                                                         
-                                                                         <div class="row">
-                                                                         	<div class="col-md-12">
-																										<div class="row">
-			                                                                        <label class="control-label " style="font-size:15px; font-weight:700; margin-left:12px !important">Address
-				                                                                               </label>
-				                                                                   </div>
-				                                                                   <div class="row">
-				                                                                    		<p style="font-size:15px; font-weight:500; margin-left:12px !important">bulding no 1, street no 1, area , pune, Maharashtra, 411041</p>
-				                                                                   </div>
-			                                                                 </div>                                                                          
-                                                                         </div>
-                                                                         
-                                                                         <div class="row">
-                                                                         	<div class="col-md-6">
-																										<div class="row">
-			                                                                        <label class="control-label " style="font-size:15px; font-weight:700; margin-left:12px !important">Primary Contact Details
-				                                                                               </label>
-				                                                                   </div>
-				                                                                   <div class="row">
-				                                                                    		<p style="font-size:15px; font-weight:500; margin-left:12px !important">Kiran Kumar</p>
-				                                                                   
-				                                                                    		<p style="font-size:15px; font-weight:500; margin-left:12px !important; margin-top:-20px !important;">kiran.kumar@gmail.com</p>
-				                                                                   
-				                                                                   
-				                                                                    		<p style="font-size:15px; font-weight:500; margin-left:12px !important; margin-top:-20px !important;">9632587410</p>
-				                                                                   </div>
-			                                                                 </div>                                                                          
-                                                                         </div>
-																							</div>
-																						</div>
-																					</div>		
-																							
-																							<div class="col-lg-1 col-md-1">
-																							</div>
-																							
-																																													
-																						<div class="col-lg-5 col-md-5 ">
-																									<br>
-																							<div class="row div-color">
-																								<br>
-																								<div class="col-md-12 ">
-																								<div class="row">
-																									<div class=" col-md-6">
-																										<div class="form-group">
-		                                                                            <label class="brad-crum-2" style="font-size:15px; font-weight:700;">Subscription Details </label>
-		                                                                        </div>
-		                                                                      </div>  
-		                                                                      <div class=" col-md-6"> 
-		                                                                        <div class="form-group">
-		                                                                            <a class="fa fa-pencil " style="float: right !important;margin-top:8px;" data-toggle="modal" data-target="#large"></a>
-		                                                                        </div>
-		                                                                       </div> 
-                                                                         </div>
-                                                                         <hr style="margin-top:0;">
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:700; ">Category :
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Restaurent, Indian, Punjabi
-	                                                                               </label>  
-																									 </div>                                                                  
-                                                                         </div>
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:700; ">Basic Subscription :
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Starts on Oct 2,2016
-	                                                                               </label>  
-																									 </div>
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Ends on Oct 2,2016
-	                                                                               </label>  
-																									 </div>                                                                  
-                                                                         </div>
-                                                                         
-                                                                         <div class="row">
-                                                                         	 <div class="col-md-12">
-                                                                         	 	<label class="control-label " style="font-size:15px; font-weight:700; ">Premium Services
-	                                                                               </label> 
-                                                                         	 </div>
-                                                                         </div>
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">No. 1 Listing
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Starts on Oct 2,2016
-	                                                                               </label>  
-																									 </div>
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Ends on Oct 2,2016
-	                                                                               </label>  
-																									 </div>                                                                  
-                                                                     	</div>   
-																							</div>
-																						</div>
-																						<br>
-																						
-																						
-																						<div class="row div-color" >
-																							<br>
-																							<div class="col-md-12 ">
-																								<div class="row">
-																									<div class=" col-md-6">
-																										<div class="form-group">
-		                                                                            <label class="brad-crum-2" style="font-size:15px; font-weight:700;">Payment Details </label>
-		                                                                        </div>
-		                                                                      </div>  
-		                                                                      <div class=" col-md-6"> 
-		                                                                        <div class="form-group">
-		                                                                            <a class="fa fa-pencil " style="float: right !important;margin-top:8px;" data-toggle="modal" data-target="#large"></a>
-		                                                                        </div>
-		                                                                       </div> 
-                                                                         </div>
-                                                                         <hr style="margin-top:0;">
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Subscription Amount
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">300
-	                                                                               </label>  
-																									 </div>                                                                  
-                                                                         </div>
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">Tax
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">90
-	                                                                               </label>  
-																									 </div>                                                              
-                                                                         </div>
-																								<br>
-																								<hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">                                                                         
-                                                                         <br>
-                                                                         
-                                                                         <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:700; ">Total Amount Payable
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">330
-	                                                                               </label>  
-																									 </div>                                                                  
-                                                                         </div> 
-                                                                         
-                                                                          <div class="row">
-																									 <div class="col-md-6 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:700; ">Total Amount Paid
-	                                                                               </label>  
-																									 </div>   
-																									 <div class="col-md-3 ">
-																									 		<label class="control-label " style="font-size:15px; font-weight:500; ">300
-	                                                                               </label>  
-																									 </div>                                                                  
-                                                                         </div>  
-																							</div>	
-																						</div>
-																						<br></br>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-                                                        </div> -->
-
-                                                    </div>
+                                                                 
                                                 <!--</form>-->
                                             </div>
                                         </div>
@@ -1732,7 +1080,7 @@ hr {
                 <div class="modal-body">
 
                 <div class="form-body">
-                    <h4 class="text-center">Subscriber added successfully</h4>
+                    <h4 class="text-center">Subscriber updated successfully</h4>
                         </div>
                         <div style="text-align:center !important;" class="modal-footer">
 							<a href="/view-subscriber-list/"> <input type="submit" value="OK"
@@ -1777,7 +1125,7 @@ hr {
         
         <!-- Modal for Subscription -->
         
-  <div style="overflow-y:hidden;" id="subscriber_error-modal" class="modal fade" role="dialog">
+        <div style="overflow-y:hidden;" id="subscriber_error-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -1847,37 +1195,6 @@ hr {
                 <div style="text-align:center !important;" class="modal-footer">
                     <input data-dismiss="modal" type="submit" value="OK"
                            class="btn btn-primary" id="btn-loading-demo">
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-
- <div style="overflow-y:hidden;" id="final-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-
-                <img style="width: 100px; height: 29px; margin-top: -11px; margin-left: 236px;"
-                     src="/static/assets/layouts/layout2/img/City_Hoopla_Logo.png" alt="logo" class="logo-default">
-
-            </div>
-            <div class="modal-body">
-                <div class="form-body">
-                    <h4 class="text-center"><span >Payment Information for Subscriber "Resto n Cuisine "is succesfully updated with payment ID: 45122122</span></h4>
-                </div>
-                <div style="text-align:center !important;" class="modal-footer">
-                    <a type="button"
-                     href="/view-subscriber-list/"
-                     class="btn btn-outline grey_color"> Yes </a>
-                      <a type="button"
-                     href="/view-subscriber-list/"
-                     class="btn btn-outline grey_color"> No </a>
 
                 </div>
             </div>
@@ -1958,11 +1275,18 @@ $(".sel2").select2({
                 $("#cheque_number").val('');
             }
         });
-
+	
         
 
 });
 
+			text_length = $("#business").val().trim().length;
+            text_count = text_length + "/5000 Characters";
+            $("#business").parent().children('.dis_count').text(text_count);
+
+$('#country option[value='+ $('#selectedCountry').val() +']').attr("selected", "selected");
+$('#state option[value='+ $('#selectedState').val() +']').attr("selected", "selected");
+$('#city option[value='+ $('#selectedCity').val() +']').attr("selected", "selected");
   	/* Get State */
 
     function getState() {
@@ -2307,7 +1631,6 @@ function checkUserEmail(user_email){
    }
 }
 
-
 function checkSaleName(user_name){
  	var namePattern = /^[a-zA-Z\s]+$/;  
 	first_name = $(user_name).val()  
@@ -2379,6 +1702,7 @@ function validateData(){
 
 	
 		formData.append("logo",file);
+		formData.append("supplier_id",$('#supplier_id').val());
 		formData.append("business_name",$('#business_name').val());
 		formData.append("phone_no",$('#phone_no').val());    
 		formData.append("sec_phone_no",$('#sec_phone_no').val());    
@@ -2397,11 +1721,12 @@ function validateData(){
 		formData.append("sale_person_name",$('#sale_person_name').val());
 		formData.append("sale_person_contact_no",$('#sale_person_contact_no').val());
 		formData.append("sale_person_email",$('#sale_person_email').val());
+		
 
   			$.ajax({
   				  
 				  type	: "POST",
-				   url : '/save-supplier/',
+				   url : '/update-subscriber/',
  					data : formData,
 					cache: false,
 		         processData: false,
@@ -2430,81 +1755,7 @@ function validateData(){
 	
 	/*  End  */
 	
-	/*--------------------Save Business Details on Save and Continue Button*/
-	
-	$("#save-continue").click(function(event)  {
-		  event.preventDefault();
-		 
-if(validateData()){
-	  	var input = document.getElementById("display_image");  	  
-		file = input.files[0];
-	   var formData= new FormData();
-	
-		formData.append("logo",file);
-		formData.append("business_name",$('#business_name').val());
-		formData.append("phone_no",$('#phone_no').val());    
-		formData.append("sec_phone_no",$('#sec_phone_no').val());    
-		formData.append("email",$('#pri_email').val());    
-		formData.append("sec_email",$('#sec_email').val());
-		formData.append("address1",$('#address1').val());
-		formData.append("address2",$('#address2').val());
-		formData.append("country",$('#country').val());
-		formData.append("state",$('#state').val());
-		formData.append("city",$('#city').val());
-		formData.append("pincode",$('#pincode').val());
-		formData.append("business",$('#business').val());
-		formData.append("user_name",$('#user_name').val());
-		formData.append("user_email",$('#user_email').val());
-		formData.append("user_contact_no",$('#user_contact_no').val());
-		formData.append("sale_person_name",$('#sale_person_name').val());
-		formData.append("sale_person_contact_no",$('#sale_person_contact_no').val());
-		formData.append("sale_person_email",$('#sale_person_email').val());
-
-  			$.ajax({
-  				  
-				  type	: "POST",
-				   url : '/save-supplier/',
- 					data : formData,
-					cache: false,
-		         processData: false,
-		    		contentType: false,                       
-              success: function (response) {
-	              if(response.success=='true'){
-	           	  		$("#tab_1").removeClass("active");
-                    $("#number_1").text("");
-                    $("#number_1").addClass("fa fa-check");
-                    $("#number_1").addClass("done");
-                    $("#number_1").css("padding-top","15px");
-                    $("#number_1").css("padding-left","13px");
-                    $("#number_1").css("font-size","18px");
-                    $("#desc_1").addClass("desc_done");
-                    $("#tab_2").addClass("active");
-                    $("#tab1").removeClass("active");
-                    $("#tab2").addClass("active");
-                    $("#user_id").val(response.email);
-	              	}
-	      			if (response.success == "false") {
-							$("#error-modal").modal('show');                    
-	       			}							                        		                      		                       		
-               },
-            beforeSend: function () {
-            $("#processing").css('display','block');
-            },
-            complete: function () {
-                $("#processing").css('display','none');
-            },
-               error : function(response){
-                  	alert("_Error");
-            	}              
-           });   
-	
-	}
-
-});	
-	
-	/*  End  */
-	
-			/* Subscription Plans  */
+				/* Subscription Plans  */
 			
 
 			 $( ".date-picker" ).datepicker({ 
@@ -2515,9 +1766,9 @@ if(validateData()){
 			    referanceDay = {
         '3' : "3 Days",
         '7' : "3 Days,7 Days",
-        '30': "3 Days,7 Days,30 Days",
-        '90': "3 Days,7 Days,30 Days,90 Days",
-       '180': "3 Days,7 Days,30 Days,90 Days,180 Days",
+        '30'    : "3 Days,7 Days,30 Days",
+        '90'    : "3 Days,7 Days,30 Days,90 Days",
+        '180'   : "3 Days,7 Days,30 Days,90 Days,180 Days",
 
    	 }
 
@@ -2632,27 +1883,22 @@ if(validateData()){
             service_name = $('#lebel_'+id).text();
             if (service_name.trim() == 'No.1 Listing'){
                 total_amount = parseInt(total_amount) - parseInt(amount_1);
-                amount_1=0
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'No.2 Listing'){
                 total_amount = parseInt(total_amount) - parseInt(amount_2);
-                 amount_2=0
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'No.3 Listing'){
                 total_amount = parseInt(total_amount) - parseInt(amount_3);
-                 amount_3=0
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'Advert Slider'){
                 total_amount = parseInt(total_amount) - parseInt(amount_4);
-                 amount_4=0
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'Top Advert'){
                 total_amount = parseInt(total_amount) - parseInt(amount_5);
-                 amount_5=0
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
 
@@ -2698,7 +1944,6 @@ if(validateData()){
         if(duration == "0"){
             return false;
         }
-     
 
         $.ajax({
             type : "POST",
@@ -2779,11 +2024,11 @@ if(validateData()){
         if(valid_dur == false){
             return false;
         }
-        valid_start_date = validate_subscription("#dt50","#basicStartDate","Please Select Start Date");
+        valid_start_date = validate_subscription("#dt50","#basicStartDate","Please add Start Date");
         if(valid_start_date == false){
             return false;
         }
-        valid_end_date = validate_subscription("#dt2","#basicEndDate","Please Select End Date");
+        valid_end_date = validate_subscription("#dt2","#basicEndDate","Please add End Date");
         if(valid_start_date == false){
             return false;
         }
@@ -2847,14 +2092,14 @@ if(validateData()){
             }
             else if($("#start_"+id[1]).val() == ""){
                 $("#mismatch-days").css("display", "block");
-                msg = "Please Select Start Date for "+$(this).val();
+                msg = "Please add Start Date for "+$(this).val();
                 $("#mismatch-days").text(msg);
                 flag = 1;
                 return false;
             }
             else if($("#end_"+id[1]).val() == ""){
                 $("#mismatch-days").css("display", "block");
-                msg = "Please Select Start Date for "+$(this).val();
+                msg = "Please add Start Date for "+$(this).val();
                 $("#mismatch-days").text(msg);
                 flag = 1;
                 return false;
@@ -2889,11 +2134,11 @@ if(validateData()){
         if(valid_dur == false){
             return false;
         }
-        valid_start_date = validate_subscription("#dt50","#basicStartDate","Please Select Start Date");
+        valid_start_date = validate_subscription("#dt50","#basicStartDate","Please add Start Date");
         if(valid_start_date == false){
             return false;
         }
-        valid_end_date = validate_subscription("#dt2","#basicEndDate","Please Select End Date");
+        valid_end_date = validate_subscription("#dt2","#basicEndDate","Please add End Date");
         if(valid_start_date == false){
             return false;
         }
@@ -2911,7 +2156,7 @@ if(validateData()){
 
             success: function (response) {
                 if(response.success=='true'){
-                	  
+                	  $("#subscriber_error-modal1").modal('show');
                     $("#subscriber-error-message").text(response.message);
                     $("#generated_amount").val($("#amount").val());
                     $("#sub_success").text(response.message);
@@ -2974,14 +2219,14 @@ if(validateData()){
             }
             else if($("#start_"+id[1]).val() == ""){
                 $("#mismatch-days").css("display", "block");
-                msg = "Please Select Start Date for "+$(this).val();
+                msg = "Please add Start Date for "+$(this).val();
                 $("#mismatch-days").text(msg);
                 flag = 1;
                 return false;
             }
             else if($("#end_"+id[1]).val() == ""){
                 $("#mismatch-days").css("display", "block");
-                msg = "Please Select Start Date for "+$(this).val();
+                msg = "Please add Start Date for "+$(this).val();
                 $("#mismatch-days").text(msg);
                 flag = 1;
                 return false;

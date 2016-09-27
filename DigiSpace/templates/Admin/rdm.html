@@ -56,40 +56,15 @@ License: You must have a valid license purchased only from themeforest(the above
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
     <style type="text/css">
-#processing{
-    height: 100vh;
-    position: fixed;
-    width: 100%;
-    margin: 0px auto;
-    z-index: 9999;
-    background-color: #FFF;
-    background-image: none;
-    background-attachment: scroll;
-    background-position: 0% 0%;
-    background-clip: border-box;
-    background-origin: padding-box;
-    background-repeat: repeat;
-    background-size: inherit;
-    opacity: 0.5;
+.has-success .control-label{
+    color : #333;
 }
 
-#loading{
-	width: 36%;
-	height: 22px;
-	position: absolute;
-	top: 26%;
-	left: 32%;
-	margin: -28px 0px 0px -25px;
-	text-align: center;
-	font-size: 13px;
-	font-weight: 500;
-	color: #000;
+.has-success .form-control {
+    border: 1px solid #C2CAD8;
 }
 
-
-
-
-		div.dataTables_wrapper div.dataTables_info {
+        div.dataTables_wrapper div.dataTables_info {
     padding-top: 8px;
     white-space: nowrap;
     display: none;
@@ -108,32 +83,323 @@ div.dataTables_filter label {
     display: none;
 }
 
-.table-scrollable > .table-bordered > tbody > tr > td:first-child, .table-scrollable > .table-bordered > tbody > tr > th:first-child, .table-scrollable > .table-bordered > tfoot > tr > td:first-child, .table-scrollable > .table-bordered > tfoot > tr > th:first-child, .table-scrollable > .table-bordered > thead > tr > td:first-child, .table-scrollable > .table-bordered > thead > tr > th:first-child {
-    border-left: 0px none;
-    width: 25% !important;
+.border_s{
+
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+.fa-lg {
+    font-size: 2.333333em;
+    line-height: .75em;
+    vertical-align: -15%;
 }
 
-.table-scrollable > .table-bordered > tbody > tr:last-child > td, .table-scrollable > .table-bordered > tbody > tr:last-child > th, .table-scrollable > .table-bordered > tfoot > tr:last-child > td, .table-scrollable > .table-bordered > tfoot > tr:last-child > th, .table-scrollable > .table-bordered > thead > tr:last-child > td, .table-scrollable > .table-bordered > thead > tr:last-child > th, .table.table-bordered thead > tr > th {
-    border-bottom: 0px none;
-    width: 21% !important;
-}
-
-.table-scrollable>.table-bordered>tbody>tr>td:last-child, .table-scrollable>.table-bordered>tbody>tr>th:last-child, .table-scrollable>.table-bordered>tfoot>tr>td:last-child, .table-scrollable>.table-bordered>tfoot>tr>th:last-child, .table-scrollable>.table-bordered>thead>tr>td:last-child, .table-scrollable>.table-bordered>thead>tr>th:last-child {
-    border-right: 0;
+div.checker span {
+    display: -moz-inline-box;
+    display: inline-block;
+    zoom: 1;
     text-align: center;
+    background-position: 0 -260px;
+
 }
 
-.page-header.navbar .page-logo .logo-default {
-    margin: 2px 0 0;
-    width: 105px;
-    background: rgba(255, 255, 255, 0.48);
+#processing{
+    height: 100vh;
+    position: fixed;
+    width: 100%;
+    margin: 0px auto;
+    z-index: 9999;
+    background-color: #FFF;
+    background-image: none;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-repeat: repeat;
+    background-size: inherit;
+    opacity: 0.5;
 }
 
-.page-header.navbar .page-logo {
+#loading{
+    width: 36%;
+    height: 22px;
+    position: absolute;
+    top: 26%;
+    left: 32%;
+    margin: -28px 0px 0px -25px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: #000;
+}
+
+
+.form-height{
+height: 65px;
+}
+
+.user-image img {
+    max-width: 100%;
+}
+
+.fileinput .thumbnail>img {
+    height: 178px !important;
+}
+
+.fileinput-preview.thumbnail {
+    max-width: 278px;
+}
+
+
+
+.btn-file {
+    overflow: hidden;
+    position: relative;
+    vertical-align: middle;
+}
+
+.user-image .user-image-buttons {
+    position: static;
+
+    <!--top: 20%;-->
+    <!--left: 37%;-->
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.btn-default-add {
+    color: #ffffff;
+    font-size: 18px;
+    border-radius: 19px !important;
+  background-color: #0d67e6;
+      /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
+
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
+
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+    
+}
+
+.btn-red{
+    display: none;
+}
+
+.btn-sm, .btn-group-sm>.btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn {
+    transition: all 0.3s ease 0s !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    position: relative;
+}
+
+.fileinput .btn {
+    vertical-align: middle;
+}
+
+.bootstrap-tagsinput {
+    line-height: 35px;
+    width: 980px;
+}
+
+.error{
+
+    font-weight: 400;
+    font-style: normal;
+    font-size: 12px;
+}
+
+.form-wizard .steps > li.active > a.step .desc {
+    color: #2F353B;
+    font-weight: 700;
+}
+
+.portlet.light {
+    <!--padding: 0px 0px 4px;-->
+    <!--background-color: #eef1f5;-->
+}
+
+.form-wizard .steps, .form-wizard .steps > li > a.step {
+    <!--background-color: #eef1f5;-->
+    background-image: none;
+    border: 0;
+    box-shadow: none;
+    filter: none;
+}
+
+.dropzone .dz-preview, .dropzone-previews .dz-preview{
+    margin: 3px !important;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #6B6B6B;
+    border-bottom: 0;
+}
+
+
+#tab2 {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.map-wrapper {
+    float: left;
+    margin: 0px 0px 0 0px;
+}
+
+#map {
+    border: 1px solid #DDD;
+    width: 292px;
+    overflow: hidden;
+    height: 223px;
+    margin: 10px 0 10px 0;
+    -webkit-box-shadow: #AAA 0px 0px 15px;
+}
+
+#my-awesome-dropzone-3{
+    border: 3px dashed black !important;
+    min-height: 224px !important;
+    background: #ffffff;
+}
+
+#my-active-dropzone{
+    border: 3px dashed black !important;
+    min-height: 224px !important;
+    background: #ffffff;
+}
+
+.dropzone .dz-preview .dz-details img, .dropzone-previews .dz-preview .dz-details img {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.dropzone .dz-preview, .dropzone-previews .dz-preview {
+    background: rgba(255,255,255,0.8);
+    position: relative;
+    display: inline-block;
+    margin: 4px;
+    vertical-align: top;
+    border: 1px solid #acacac;
+    padding: 6px 6px 6px 6px;
+}
+
+.sel2{
+    width: 100%;
+}
+
+.tab-active{
+    background: rgb(13, 103, 230) none repeat scroll 0% 0% !important;
+    color: rgb(16, 245, 182) !important;
+}
+
+.sel2{
+    width: 100%;
+}
+
+.div-border-top{
+    border: 1px solid #cccccc;
+    border-bottom: none;
+}
+
+.div-border-bottom{
+    border: 1px solid #cccccc;
+    border-top: none;
+}
+
+.div-border-left-right{
+    border: 1px solid #cccccc;
+    border-top: none;
+    border-bottom: none;
+}
+
+.div-border{
+    border: 1px solid #cccccc;
+}
+
+.div-color{
+    background-color: rgb(243, 242, 242);
+    border: 2px solid rgb(204, 204, 204) !important;
+    border-radius: 10px !important;
+    margin-right: 0.5%;
+    margin-left: 0.5%;
+    margin-bottom: 1%;
+}
+
+
+@media (min-width:992px) {
+    .col-lg-3 {
+        width:24% !important;
+    }
+}
+
+
+
+.form-control {
+    border: 1px solid #c0c0c0;
+}
+
+.brad-crum-1{
+    font-size:16px;
+    color: #3eb199;
+}
+
+.brad-crum-2{
+    font-size:16px;
+    color: #00448b;
+}
+
+.brad-crum-3{
+    font-size:16px;
+    color: #00448b;
+    font-weight:700;
+}
+
+
+.form-wizard .steps > li.active > a.step .number {
+    background-color: #0d67e6;
+    color: #fff;
+}
+
+.form-wizard .steps > li > a.step .number{
   /* fallback */
   background-color: #0d67e6;
   background-image: url(images/linear_bg_1.png);
   background-repeat: repeat-y;
+  color: #ffffff;
+  font-weight:500;
 
   /* Safari 4-5, Chrome 1-9 */
   background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
@@ -151,28 +417,50 @@ div.dataTables_filter label {
   background: -o-linear-gradient(left, #0d67e6, #11ca9a);
 }
 
-@media (max-width: 767px){
-.page-header.navbar {
-     background-color: #0d67e6;
-  background-image: url(images/linear_bg_1.png);
-  background-repeat: repeat-y;
-
-  /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-  /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Firefox 3.6+ */
-  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* IE 10 */
-  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Opera 11.10+ */
-  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
+.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
+    text-align: left !important;
 }
+
+.page-sidebar .page-sidebar-menu > li > a > .title, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .title {
+    text-align: left !important;
 }
+
+.grey_color{
+    border: 1px solid rgb(72, 72, 72);
+    color: rgb(255, 255, 255);
+    background: rgb(72, 72, 72) none repeat scroll 0% 0%;
+    border-radius: 20px !important;
+}
+
+.done_btn{
+    color: rgb(255, 255, 255);
+    border-radius: 20px !important;
+    background-color: #0d67e6;
+    background-image: url(images/linear_bg_1.png);
+    background-repeat: repeat-y;
+
+    /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a)) !important;
+    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a)) !important;
+
+    /* Safari 5.1, Chrome 10+ */
+    background: -webkit-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -webkit-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+    /* Firefox 3.6+ */
+    background: -moz-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -moz-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+    /* IE 10 */
+    background: -ms-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -ms-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
+    border: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
+
+}
+
 	</style>
 
      <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
@@ -309,7 +597,7 @@ div.dataTables_filter label {
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                     <!-- <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
-                                    <span class="username username-hide-on-mobile"> {{ username }} </span>
+                                    <span class="username username-hide-on-mobile"> {{ request.session.login_user }} </span>
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
@@ -361,110 +649,130 @@ div.dataTables_filter label {
             <div class="page-content-wrapper">
                 <!-- BEGIN CONTENT BODY -->
                 <div class="page-content">
-                		<h3 class="page-title"> Reference Data 
-                    </h3>
-                    <!-- BEGIN PAGE HEADER-->
-                   <div class="page-bar">
-                        <ul class="page-breadcrumb">
-                            <li>
-                                <a><span>Reference Data</span></a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <a><span>City</span></a>
-                                <i class="fa fa-angle-right"></i>
-                            </li>
-                            <li>
-                                <span> List</span>
-                            </li>
-                        </ul>
-                    </div>
+                	
 
                     <!-- END PAGE HEADER-->
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="portlet light  ">
-                                 <div class="portlet-title">
-                                    <div class="caption">
-                                        <i class="icon-social-dribbble font-green"></i>
-                                        <span class="caption-subject font-green bold uppercase">City List</span>
-                                    </div>
-                                </div>
+                                <span class="brad-crum-1">Configure</span>
+                                <i class="fa fa-angle-right"></i>
+                                    <span class="brad-crum-2"> City</span>
+                                    <div class="portlet-body">
+                                        <div class="row " >
+	                                			<div class="col-lg-4 col-md-4 form-group" >
+	                                       	 <div class="input-group form-group">
+		                                        	 <span class="input-group-btn">
+																	<span class="btn btn btn-default">
+								                                        <span class="fa fa-search"></span>
+								                           </span>
+																 </span>
+		                                           <input type="text" class="form-control " id="txtSearch"
+		                                                   placeholder="Search Consumer" name="s"/>
+				                                  </div>	
+	                                        </div>
+		                                
+                                   			<div class="form-group col-lg-3 col-md-3" >
+                                   				 <label class="control-label">Sort By  :</label>
+	                                     			<select name="cars" style="    height: 30px; width:50% ;margin-left: 7px; color: #797979;">
+															   	<option value="newest_first">Newest First</option>
+															    	<option value="oldest_first">Oldest First</option>
+																</select>	
+                                     		</div> 
+                                     		
+		                                		<div class="col-lg-2	col-md-2 form-group" style="margin-top: 0.5% ! important;">
+		                                			<span >
+																<i class="fa fa-filter "   aria-hidden="true"></i>
+                                               <a data-toggle="modal"  href="#createNew" type="submit">Filters</a>
+                                             </span>  
+		                                		</div>
+		                                		
+		                                		<div class=" col-lg-3 col-md-3 form-group">
+				                                    <div class="pull-right">
+				                                        <a class="btn done_btn"  href="/add-city/" > Add City</a>
+				                                   	</div>
+				                                </div>
+		                    					</div>
+                                        <hr> 
+                                        
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                {% for city in city_list%}
+                                                <div class="col-lg-3 col-md-6 col-sm-6 div-color connect-cat">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-top: 10px; padding:0px;">
+                                                    	{% if city.status == 'Active' %}
+                                                            <div class="col-lg-1 col-md-1 col-sm-1" style="padding:0px;">
+                                                                <i style="color: forestgreen;" class="fa fa-circle"
+                                                                   aria-hidden="true"></i>
+                                                            </div>
+                                                        {% else%}
+                                                            <div class="col-lg-1 col-md-1 col-sm-1" style="padding:0px;">
+                                                                <i style="color: red;" class="fa fa-circle"
+                                                                   aria-hidden="true"></i>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-left:8px; padding-right:2px;height: 61px !important;">
+                                                            <span style="font-weight: 700; font-size: 14px;" class="profile-text area">
+                                                                {{city.city_name}}</span>
+                                                            <br>
+                                                            <span style="font-weight:500;">{{ city.state}}
+	                                            					</span>
+                                                            
+                                                        </div>
+                                                        {% if city.status == 'Inactive' %}
+												                           <div class="col-md-5 col-sm-5 " style="padding-right: 6px !important;">
+	                                            							<div class="pull-right">
+												                         			<a class="fa fa fa-repeat" onclick="active_service({{city.city_place_id}})" style="color:#3eb199; font-size:17px;"
+												                                                       ></a>
+												                         		</div>
+												                           </div>                            
+												                         {% else %}
+												                         {% if city.delete == 'delete' %}
+												                         <div class="col-md-5 col-sm-5 " style="padding-right: 6px !important;">
+	                                            							<div class="pull-right">
+												                          		<a class="fa fa-pencil"  style="color:#3eb199; font-size:17px;"
+												                                                       ></a>
+												                                   
+												                           		<span style="font-size:20px;">|</span>
+												                           		
+												                         		<a class="fa fa-trash-o" onclick="delete_user_detail({{city.city_place_id}})" style="color:#3eb199; font-size:17px;"
+												                                                       ></a>    
+												                          </div>	
+                                            			 			</div>
+                                            			 			{% elif city.delete == 'delete1' %}  
+                                            			 			  <div class="col-md-5 col-sm-5 " style="padding-right: 6px !important;">
+	                                            							<div class="pull-right">
+												                          		<a class="fa fa-pencil"  style="color:#3eb199; font-size:17px;"
+												                                                       ></a>
+												                                   
+												          
+												                          </div>	
+                                            			 			</div>                           
+												                          {% endif %} 
+												                          {% endif %} 
+                                                         
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-sm-12" style="margin-left: 11px ! important;margin-top: 12px !important;  margin-bottom: 0px; width: 90%; ">
+                                                            <div class="row"
+                                                                 style="text-align:center">
+                                                                <div class="item_image" style="text-align:center">
+                                                                    <img src="{{ city.city_image }}"
+                                                                         style="width: 100%; height: 180px !important;margin-top:8px !important;margin-bottom: 12px !important;"
+                                                                         class="img-responsive"> </img>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
  
-                                <div class="portlet-body form">
-                                    <!-- BEGIN FORM-->
-                                    <form action="" >
-                                        	<div class="row ">
-				                                <div class="col-lg-10 form-group">
-				                                    <form action="">
-				                                        <div class="input-group form-group">
-				                                            <input type="text" class="form-control " id="txtSearch"
-				                                                   placeholder="Search City" name="s"/>
-																		<span class="input-group-btn">
-																			<span class="btn btn btn-default">
-										                                        <span class="fa fa-search"></span>
-										                                    </span>
-																		</span>
-				                                        </div>
-				                                    </form>
-				                                </div>
-				                                <div class="col-lg-2 form-group">
-				                                    <div  class="pull-right ">
-				                                        <a class="btn btn-success"  href="/add-city/" > Add City</a>
-				                                    </div>
-				                                </div>
-                            					</div>
-                                    </form>
-                                    <div class="row">
-                                    	<div class="col-lg-12">
-                                    			<div class="portlet-body">
-				                                    <div class="table-toolbar">
-				                                         <!-- <div class="row">
-				                                            <div class="col-md-6">
-				                                            </div>
-				                                            <div class="col-md-6">
-				                                                <div class="btn-group pull-right">
-				                                                    <button class="btn green  btn-outline dropdown-toggle" data-toggle="dropdown">Tools
-				                                                        <i class="fa fa-angle-down"></i>
-				                                                    </button>
-				                                                    <ul class="dropdown-menu pull-right"> -->
-				                                                        <!-- <li>
-				                                                            <a href="javascript:;">
-				                                                                <i class="fa fa-print"></i> Print </a>
-				                                                        </li>
-				                                                        <li>
-				                                                            <a href="javascript:;">
-				                                                                <i class="fa fa-file-pdf-o"></i> Save as PDF </a>
-				                                                        </li> -->
-				                                                <!--         <li>
-				                                                            	<a href="javascript:;">
-				                                                                	<i class="fa fa-file-excel-o"></i> Export to Excel </a>
-				                                                                <a href="javascript:;">
-				                                                                	<i class="fa fa-file-excel-o"></i> Bulk Upload </a>
-				                                                        </li>
-				                                                    </ul>
-				                                                </div>
-				                                            </div>
-				                                        </div> -->
-				                                    </div>
-                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="city_table">
-                                        <thead>
-                                            <tr>
-                                               <!--  <th>
-                                                     <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /> </th>  -->
-                                                <th> City Name </th>
-                                                 <th> Country </th>
-                                                <th> State </th>
-                                                <th> Status </th>
-                                                <th  style="text-align: center;"> Action </th>
-                                            </tr>
-                                        </thead>
-                                    	 	</table> 	
-                                    	</div>
-                                    </div>
-                                    <!-- END FORM-->
-                                </div>
-                       </div>     
+                                    
                             <!-- END PORTLET-->
                         </div>
                     </div>
@@ -622,8 +930,11 @@ div.dataTables_filter label {
         
          <script type="text/javascript">
 
-         $("#ref_data_nav").addClass("active");
-         $("#city_nav").addClass("active");
+
+        $("#configure_anchor").addClass("tab-active");
+        $("#configure_icon").addClass("icon-active");
+        $("#configure_active").css("display","block");
+        $("#city_nav").addClass("active");
 
         $(document).ready(function(){
 			 var oTable = $('#city_table').dataTable({

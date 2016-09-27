@@ -6,7 +6,7 @@
 {% load staticfiles %}
     <head>
     <meta charset="utf-8"/>
-    <title>City Hoopla | Profile </title>
+    <title>City Hoopla | Edit User </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="" name="description"/>
@@ -138,82 +138,6 @@ div.checker span {
     color: #000;
 }
 
-.page-header.navbar .page-logo .logo-default {
-    margin: 2px 0 0;
-    width: 105px;
-    background: #f3f2f2;
-}
-
-.page-header.navbar .page-logo {
-    background: #f3f2f2;
-}
-
-.page-header.navbar .page-logo {
-    float: left;
-    display: block;
-    width: 195px;
-    height: 68px;
-    padding-left: 0px;
-    padding-right: 20px;
-}
-
-.page-sidebar .page-sidebar-menu>li>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a {
-  /* fallback */
-  background-color: #0d67e6;
-  background-image: url(images/linear_bg_1.png);
-  background-repeat: repeat-y;
-  color:#fff;
-  font-size: 16px;
-  font-weight: 500;
-  font-family: 'Regular';
-
-  /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-  /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Firefox 3.6+ */
-  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* IE 10 */
-  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Opera 11.10+ */
-  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
-}
-
-li [class*=" fa-"], li [class*=" glyphicon-"], li [class*=" icon-"], li [class^=fa-], li [class^=glyphicon-], li [class^=icon-] {
-    display: inline-block;
-    width: 2em;
-    font-size: 22px;
-}
-
-
-
-@media (max-width: 767px){
-.page-header.navbar {
-     background-color: #0d67e6;
-  background-image: url(images/linear_bg_1.png);
-  background-repeat: repeat-y;
-
-  /* Safari 4-5, Chrome 1-9 */
-  background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-  /* Safari 5.1, Chrome 10+ */
-  background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Firefox 3.6+ */
-  background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* IE 10 */
-  background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-  /* Opera 11.10+ */
-  background: -o-linear-gradient(left, #0d67e6, #11ca9a);
-}
-}
-
 .form-height{
 height: 65px;
 }
@@ -301,7 +225,7 @@ height: 65px;
 }
 
 .error{
-    font-family: 'Roboto Bold', 'Roboto';
+
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
@@ -310,7 +234,7 @@ height: 65px;
 .form-wizard .steps > li.active > a.step .desc {
     color: #2F353B;
     font-weight: 700;
-    font-family: 'Roboto Bold', 'Roboto';
+
 }
 
 .portlet.light {
@@ -435,10 +359,6 @@ hr {
     }
 }
 
-.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
-    min-height: 74px;
-}
-
 .form-control {
     border: 1px solid #c0c0c0;
 }
@@ -457,69 +377,6 @@ hr {
     font-size:16px;
     color: #00448b;
     font-weight:700;
-}
-
-.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
-    border-top: 1px solid #33b2c9;
-    padding-left: 0px;
-    padding-right: 0px;
-    font-size: 17px;
-}
-
-.page-sidebar .page-sidebar-menu > li:last-child > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li:last-child > a {
-    border-bottom: 1px solid #33b2c9 !important;
-}
-
-.page-sidebar, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover {
-
-    background-color: #0d67e6;
-    background-image: url(images/linear_bg_1.png);
-    background-repeat: repeat-y;
-    color: #ffffff;
-    font-weight:500;
-
-    /* Safari 4-5, Chrome 1-9 */
-    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-    /* Safari 5.1, Chrome 10+ */
-    background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-    /* Firefox 3.6+ */
-    background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-    /* IE 10 */
-    background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-    /* Opera 11.10+ */
-    background: -o-linear-gradient(left, #0d67e6, #11ca9a);
-}
-
-.page-content-wrapper {
-    float: left;
-    width: 100%;
-    background-size: 16% auto !important;
-    -webkit-background-size: 20% auto !important;
-    -ms-background-size: 16% auto !important;
-    -o-background-size: 16% auto !important;
-    background-color: #0d67e6;
-    background-image: url(images/linear_bg_1.png);
-    background-repeat: repeat-y;
-    font-weight:500;
-
-    /* Safari 4-5, Chrome 1-9 */
-    background: -webkit-gradient(linear, left top, right top, from(#0d67e6), to(#11ca9a));
-
-    /* Safari 5.1, Chrome 10+ */
-    background: -webkit-linear-gradient(left, #0d67e6, #11ca9a);
-
-    /* Firefox 3.6+ */
-    background: -moz-linear-gradient(left, #0d67e6, #11ca9a);
-
-    /* IE 10 */
-    background: -ms-linear-gradient(left, #0d67e6, #11ca9a);
-
-    /* Opera 11.10+ */
-    background: -o-linear-gradient(left, #0d67e6, #11ca9a);
 }
 
 .form-wizard .steps > li.active > a.step .number {
@@ -549,14 +406,6 @@ hr {
 
   /* Opera 11.10+ */
   background: -o-linear-gradient(left, #0d67e6, #11ca9a);
-}
-
-.page-sidebar .page-sidebar-menu > li > a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a {
-    text-align: left !important;
-}
-
-.page-sidebar .page-sidebar-menu > li > a > .title, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a > .title {
-    text-align: left !important;
 }
 
 .grey_color{
@@ -593,10 +442,6 @@ hr {
     background: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
     border: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
 
-}
-
-.page-header.navbar .menu-toggler {
-    background-image: url(/static/assets/layouts/layout2/img/sidebar_toggler_icon_blue.png);
 }
 
     .font-14{
@@ -733,34 +578,19 @@ hr {
         <!-- BEGIN PAGE TOP -->
         <div class="page-top">
             <!-- BEGIN TOP NAVIGATION MENU -->
-
-            <div class="top-menu" style="display:inline-block;">
+            <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
-                    <!-- BEGIN NOTIFICATION DROPDOWN -->
-                    <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                    <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
-                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-                           data-close-others="true">
-                            <i class="icon-bell"></i>
-                            <span class="badge badge-default" style=" background-color: #d22917;"> 7 </span>
-                        </a>
-                    </li>
-                    <!-- END NOTIFICATION DROPDOWN -->
                     <li class="dropdown dropdown-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                            data-close-others="true">
-                            <img style=" width: 40px;" alt="" class="img-circle" src="{{request.session.user_image}}">
-                            <span class="username username-hide-on-mobile"> {{ request.session.login_user }}  </span>
+                            <!-- <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
+                            <span class="username username-hide-on-mobile"> {{ request.session.login_user }} </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
-                                <a href="/subscriber-portal/subscriber-profile/?supplier_id={{request.session.supplier_id}}">
-                                    <i class="fa fa-user" aria-hidden="true"></i> My Profile </a>
-                            </li>
-                            <li>
-                                <a href="/subscriber-portal/log-out/">
-                                    <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out </a>
+                                <a href="/log-out/">
+                                    <i class="icon-key"></i> Log Out </a>
                             </li>
                         </ul>
                     </li>
@@ -784,60 +614,10 @@ hr {
 <div class="page-container">
     <!-- BEGIN SIDEBAR -->
     <div class="page-sidebar-wrapper">
-        <!-- END SIDEBAR -->
-        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-        <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-        <div class="page-sidebar navbar-collapse collapse" style="height: 56.5% !important;">
-            <!--<div class="page-sidebar navbar-collapse collapse" style="background-color:#333333">-->
-            <!-- BEGIN SIDEBAR MENU -->
-            <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
-            <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
-            <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
-            <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-            <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
-            <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-            <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu "
-                data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                <li class="nav-item ">
-                    <a href="/subscriber-portal/subscriber-dashboard/?supplier_id={{request.session.supplier_id}}"
-                    class="nav-link nav-toggle"
-                       style="background-color: rgb(13, 103, 230);">
-                        <i class="fa fa-home" style="display: inline-block; color: #ffffff !important;"
-                           aria-hidden="true"></i>
-                        <span class="title" style="display: inline-block;"> Dashboard </span>
-                    </a>
-                </li>
-
-                <li class="nav-item  ">
-                    <a href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}"
-                    class="nav-link nav-toggle"
-                       style="background-color: rgb(13, 103, 230);"
-                      >
-                        <i class="fa fa-users" style="display: inline-block; color:#ffffff !important; "
-                           aria-hidden="true"></i>
-                        <span class="title" style="display: inline-block; width: 72%;">  Advert
-                        
-                        </span>
-
-
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/subscriber-portal/subscriber-booking/?supplier_id={{request.session.supplier_id}}"
-                      >
-                        <i class="fa fa-calendar-check-o" style="display: inline-block; color:#ffffff !important;"
-                           aria-hidden="true"></i>
-                        <span class="title" style="display: inline-block;">  Bookings 
-
-                        </span>
-                    </a>
-                </li>
-
-            </ul>
-            <!-- END SIDEBAR MENU -->
-        </div>
-        <!-- END SIDEBAR -->
-    </div>
+                <div class="page-sidebar navbar-collapse collapse">
+                    {% include 'Admin/side-panel.html' %}
+                </div>
+            </div>
     <!-- END SIDEBAR -->    
             
   <!-- BEGIN CONTENT -->
@@ -864,7 +644,7 @@ hr {
 	                                                                <span class="required"> * </span>
 	                                                            </label>
 	                                                                <input  value="{{user_first_name}}" id="First_name"  class="form-control" />
-																						 <label class="error" style="color:red; display:none;"></label>                                                          	
+																						 <label id="first_name_error" class="error" style="color:red; display:none;"></label>                                                          	
                                                           		</div>
                                                           		
                                                           		<div class="col-xs-6"  >
@@ -872,7 +652,7 @@ hr {
 	                                                                <span class="required"> * </span>
 	                                                            </label>
 	                                                                <input value="{{user_last_name}}" id="Last_name"  class="form-control" />
-																						 <label class="error" style="color:red; display:none;"></label>                                                          	
+																						 <label id="last_name_error" class="error" style="color:red; display:none;"></label>                                                          	
                                                           		</div>
                                                           		
                                                           	</div>
@@ -914,7 +694,7 @@ hr {
 		                                                            <label class="control-label"> <br>Contact Number
 		                                                                <span class="required"> * </span>
 		                                                            </label>
-		                                                             <input style=" font-family: 'Roboto Light', 'Roboto';" value="{{user_contact_no}}" id="phone_no" maxlength="10" class="form-control" onkeypress="return validateIntKeyPress(this,event);"  />
+		                                                             <input onkeypress="return validateIntKeyPress(this,event);"  value="{{user_contact_no}}" id="phone_no" maxlength="10" class="form-control"  />
 	                                                          		<label class="error" style="color:red; display:none;"></label>                                                          	
 	                                                          	</div>
 	                                                          	
@@ -922,7 +702,7 @@ hr {
  																				 		<label class="control-label"><br>Old Password
 
 	                                                            </label>
-	                                                                <input  value="" type="password" maxlength="10" id="oldpassword" class="form-control" onkeypress="return validateIntKeyPress(this,event);" name="contact_no" />
+	                                                                <input  value="" type="password" maxlength="10" id="oldpassword" class="form-control"  name="contact_no" />
  																				 		<label class="error" style="color:red; display:none;"></label>
  																				 </div>
                                                           		
@@ -933,7 +713,7 @@ hr {
  																				 		<label class="control-label"><br>New Password
 
 	                                                            </label>
-	                                                                <input  value="" type="password" maxlength="10" id="newpassword" class="form-control" onkeypress="return validateIntKeyPress(this,event);" name="contact_no" />
+	                                                                <input  value="" type="password" maxlength="10" id="newpassword" class="form-control"  name="contact_no" />
  																				 		<label class="error" style="color:red; display:none;"></label>
  																				 </div>
  																				 
@@ -942,7 +722,7 @@ hr {
 
 	                                                            </label>
 	                                                                <input   value="" type="password" id="re-newpassword" class="form-control" name="re-newpassword" />
- 																		            <label class="error" style="color:red; display:none;"></label>                                                                                                                 				 
+ 																		            <label id="confirmpas_err" class="error" style="color:red; display:none;"></label>                                                                                                                 				 
  																				 </div>
  																				</div>
  																		
@@ -1035,7 +815,7 @@ hr {
                     <h4 class="text-center">User updated successfully</h4>
                         </div>
                         <div style="text-align:center !important;" class="modal-footer">
-                        <button type="button" onclick="location.reload();" class="btn green" data-dismiss="modal">OK</button>
+                        <a type="button" href="/user-list/" class="btn green" >OK</a>
                             
                         </div>
                     </div>
@@ -1127,7 +907,13 @@ hr {
 <script src="{%static 'assets/global/plugins/bootstrap-datepicker/js/bootstrap-datetimepicker.min.js'%}"
         type="text/javascript"></script>
 <!-- END THEME LAYOUT SCRIPTS -->  
-  <script type="text/javascript"> 
+  <script type="text/javascript">
+
+  $("#administration_anchor").addClass("tab-active");
+		$("#admin_nav").addClass("active");
+        $("#administration_icon").addClass("icon-active");
+        $("#administration_active").css("display","block");
+        $("#admin_nav").addClass("active");
 
  $('#role').val({{role_id}}).change();
  
@@ -1158,7 +944,9 @@ $("#save-continue").click(function(event)  {
 		var password = $('#newpassword').val();
  		var re_password = $('#re-newpassword').val();
 	   if (password != re_password) {
-	 			$("#pwd_macth").modal('show');
+
+				 $('#confirmpas_err').css("display", "block");
+             $('#confirmpas_err').text("Password don't match");
  				return false;	
 	 		}
 	
@@ -1255,26 +1043,31 @@ $("#save-continue").click(function(event)  {
 
 
 function checkFirst_name(First_name){
+
 	First_name = $(First_name).val()   
-  
-   if(First_name!=''){
- 	$(First_name).parent().children('.error').css("display", "none");
+  	var namePattern = /[A-Za-z]$/;
+   
+   if(First_name!='' & namePattern.test(First_name)){
+   
+   
+
+ 	$('#first_name_error').css("display", "none");
    return true;
    }else{
-    $(First_name).parent().children('.error').css("display", "block");
-    $(First_name).parent().children('.error').text("Please enter First Name");
+    $('#first_name_error').css("display", "block");
+    $('#first_name_error').text("Please enter valid name");
    return false; 
    }
 }
 function checkLast_name(Last_name){
 	Last_name = $(Last_name).val()   
-  
-   if(Last_name!=''){
- 	$(Last_name).parent().children('.error').css("display", "none");
+  	var namePattern = /[A-Za-z]$/;
+   if(Last_name!='' & namePattern.test(Last_name)){
+ 	$('#last_name_error').css("display", "none");
    return true;
    }else{
-    $(Last_name).parent().children('.error').css("display", "block");
-    $(Last_name).parent().children('.error').text("Please enter Last Name");
+    $('#last_name_error').css("display", "block");
+    $('#last_name_error').text("Please enter valid name");
    return false; 
    }
 }
@@ -1324,6 +1117,14 @@ function checkpassword(newpassword){
    }
 }
 
+    function validateIntKeyPress(el, evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    
 </script>
 
 </body>

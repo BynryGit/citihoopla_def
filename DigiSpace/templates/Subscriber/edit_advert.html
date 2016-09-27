@@ -3526,22 +3526,27 @@ License: You must have a valid license purchased only from themeforest(the above
             service_name = $('#lebel_'+id).text();
             if (service_name.trim() == 'No.1 Listing'){
                 total_amount = parseInt(total_amount) - parseInt(amount_1);
+                amount_1 = 0;
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'No.2 Listing'){
                 total_amount = parseInt(total_amount) - parseInt(amount_2);
+                amount_2 = 0;
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'No.3 Listing'){
                 total_amount = parseInt(total_amount) - parseInt(amount_3);
+                amount_3 = 0;
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'Advert Slider'){
                 total_amount = parseInt(total_amount) - parseInt(amount_4);
+                amount_4 = 0;
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
             if (service_name.trim() == 'Top Advert'){
                 total_amount = parseInt(total_amount) - parseInt(amount_5);
+                amount_5 = 0;
                 $("#amount").val(parseFloat(total_amount).toFixed(2));
             }
 

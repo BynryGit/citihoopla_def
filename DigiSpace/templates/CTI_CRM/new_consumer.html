@@ -19,7 +19,7 @@ License: You must have a valid license purchased only from themeforest(the above
     {% load staticfiles %}
     <head>
         <meta charset="utf-8" />
-        <title>City Hoopla | Edit Subscriber</title>
+        <title>City Hoopla | CTI-CRM</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -192,6 +192,8 @@ div.dataTables_filter label {
 }
 }
 
+.page-content-wrapper .page-content1{margin-top:0;min-height:600px;padding:25px 20px 10px}
+
 	</style>
 
      <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
@@ -203,35 +205,18 @@ div.dataTables_filter label {
 				</div>	
   			</div>
         <div class="page-header navbar navbar-fixed-top">
-                 <!-- BEGIN HEADER INNER -->
             <div class="page-header-inner ">
-                <!-- BEGIN LOGO -->
                 <div class="page-logo">
                     <a href="/dashboard/">
                         <img src="{% static 'assets/layouts/layout2/img/City_Hoopla_Logo.png' %}" alt="logo" class="logo-default"/> </a>
-                    <div class="menu-toggler sidebar-toggler">
-                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
-                    </div>
+                    
                 </div>
-                <!-- END LOGO -->
-                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
-                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
-                <!-- END RESPONSIVE MENU TOGGLER -->
-                <!-- BEGIN PAGE TOP -->
                 <div class="page-top">
-                    <!-- BEGIN TOP NAVIGATION MENU -->
                     <div class="top-menu">
                         <ul class="nav navbar-nav pull-right">
-                            <!-- BEGIN NOTIFICATION DROPDOWN -->
-                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-                            
-                            <!-- END NOTIFICATION DROPDOWN -->   
-                            <!-- BEGIN USER LOGIN DROPDOWN -->
-                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
                             <li class="dropdown dropdown-user">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-
-                                    <span class="username username-hide-on-mobile"> {{ username }} </span>
+                                    <span class="username username-hide-on-mobile"> Welcome{{ username }} </span>
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
@@ -256,36 +241,10 @@ div.dataTables_filter label {
         <!-- END HEADER & CONTENT DIVIDER -->
         <!-- BEGIN CONTAINER -->
         <div class="page-container">
-            <!-- BEGIN SIDEBAR -->
-            <div class="page-sidebar-wrapper">
-                <!-- END SIDEBAR -->
-                <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-                <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-                <div class="page-sidebar navbar-collapse collapse">
-                   
-                    <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
-                        <li class="nav-item start  open">
-                            <a href="/CTI-CRM/crm_home/" class="nav-link nav-toggle">
-                                <i class="icon-home"></i>
-                                <span class="title">CRM</span>
-                                <span class="selected"></span>
-                                <span class="arrow open"></span>
-                            </a>                 
-                        </li>
-                        
-                        
-                         
-                        
-                    </ul>
-                    <!-- END SIDEBAR MENU -->
-                </div>
-                <!-- END SIDEBAR -->
-            </div>
-            <!-- END SIDEBAR -->
-            <!-- BEGIN CONTENT -->
-            <div class="page-content-wrapper">
-                <!-- BEGIN CONTENT BODY -->
-                <div class="page-content">
+            
+            <div class="page-content-wrapper" style="background-color: rgb(238, 241, 245);">
+                
+                <div class="page-content1">
                 		<h3 class="page-title"> New Caller 
                     </h3>
                     <!-- BEGIN PAGE HEADER-->
@@ -303,7 +262,7 @@ div.dataTables_filter label {
 <div class="row">
   			<div class="portlet-body form">
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-sm-12">
  						<div class="portlet-body">
  							<div class="portlet light " id="form_wizard_1">
   								<div class="portlet-body form">
@@ -315,22 +274,22 @@ div.dataTables_filter label {
  													<div class="tab-pane active" id="tab1">
   		<div class="form-group">
   	 		<div class="row">
-		  	 	<div class="col-lg-3">
+		  	 	<div class="col-sm-3">
 					<label class="control-label">First Name<span style="color:red;">*</span>	</label>
 					<input required placeholder ="First Name" name="fname" id="fname" type="text" pattern="[A-Za-z\s]+" class="form-control" />
 					<!-- <label class="error" style="color:red; display:none;"></label>		 -->
 		 		</div>
-		 		<div class="col-lg-3">
+		 		<div class="col-sm-3">
 					<label class="control-label">Last Name<span style="color:red;">*</span>	</label>
 					<input required placeholder ="Last Name" name="lname" id="lname" type="text" pattern="[A-Za-z\s]+" class="form-control" />
 					<!-- <label class="error" style="color:red; display:none;"></label>		 -->
 		 		</div>
-	 			<div class="col-lg-3">
+	 			<div class="col-sm-3">
 					<label class="control-label">Phone Number<span style="color:red;">*</span></label>
-						<input required placeholder ="Phone Number" id="mobile" type="text" class="form-control" maxlength="10" pattern="[0-9]{10}" name="mobile"/>
+						<input readonly required placeholder ="Phone Number" value="{{number}}" id="mobile" type="text" class="form-control" maxlength="10" pattern="[0-9]{10}" name="mobile"/>
 						<!-- <label class="error" style="color:red; display:none;"></label>	 -->	 						
 				</div>
-				<div class="col-lg-3">
+				<div class="col-sm-3">
 					<label class="control-label">Email</label>
 						<input placeholder ="Email" type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"  name="email" id="email"/>
 						<!-- <label class="error" style="color:red; display:none;"></label>	 -->	 						
@@ -340,7 +299,7 @@ div.dataTables_filter label {
  		</div> 
  		<div class="form-group">
   			<div class="row">
-  				<div class="col-lg-3">
+  				<div class="col-sm-3">
  					<label class="control-label">City<span style="color:red;">*</span></label>	                                                            
 						<select name="city" id="city" class="form-control sel2" required="">
                   	<option value="">Select City</option>
@@ -350,7 +309,7 @@ div.dataTables_filter label {
                   </select>
                  <!--  <label class="error" style="color:red; display:none;"></label>	 -->					
 			 	</div>  	   				
-		 		<div class="col-lg-3">
+		 		<div class="col-sm-3">
  					<label class="control-label">Pincode<span style="color:red;">*</span></label>
             		<input type="hidden" value="{{pincode}}" id="selectedPincode"/>
 	 					<select name="pincode" id="pincode" class="form-control sel2" required="">
@@ -361,7 +320,7 @@ div.dataTables_filter label {
 	               </select>
              		<!-- <label class="error" style="color:red; display:none;"></label>    -->
 				</div>	
-				<div class="col-lg-3">
+				<div class="col-sm-3">
 					<label class="control-label">Area<span style="color:red;">*</span></label>
 					<input required id="area" type="text" placeholder="Area" class="form-control" name="area" />
 					<!-- <label class="error" style="color:red; display:none;"></label>		 -->
@@ -369,11 +328,12 @@ div.dataTables_filter label {
 		 					  				 	
   			</div>
  		</div>	
+ 		<hr style="border-color: #DDD">
 		<div class="form-group">
   			<div class="row">
-			 	<div class="col-md-offset-9 col-lg-3">
- 					<a type="button" href="/CTI-CRM/crm_home/" id="verify" style="margin-top: 25px;" class="btn btn-outline green" >Cancel</a>						
- 					<button type="button" id="save_btn" style="margin-top: 25px;" class="btn btn-outline green" >Save & Enquire</button>						
+			 	<div class="col-md-12">
+					<button type="button" id="save_btn" style="border-radius: 10px !important;margin-top: 25px;" class="btn btn-outline green" >Save</button>
+ 					<!-- <a type="button" href="/CTI-CRM/crm_home/" id="verify" style="border-radius: 10px !important;margin-top: 25px;" class="btn btn-outline green" >Cancel</a> -->						
 			 	</div> 	
   			</div>
  		</div>	
@@ -524,10 +484,10 @@ $("#save_btn").click(function(event)  {
 			    	contentType: false,                       
 	            success: function (response) {
 	            	 if(response.success=='exists'){	            	 
-			          	location.href="/CTI-CRM/crm_details/?callerid="+response.caller_id			         
+			          	location.href="/CTI-CRM/crm_details/?number="+response.number			         
 			         }
 			         if(response.success=='true'){
-			         	location.href="/CTI-CRM/enquiry_form/?callerid="+response.caller_id
+			         	location.href="/CTI-CRM/crm_details/?number="+response.number
 			         }
 			      	if (response.success == "false") {
 							$('#error-message1').html('');

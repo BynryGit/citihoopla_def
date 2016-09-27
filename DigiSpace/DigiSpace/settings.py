@@ -37,17 +37,16 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
     'digispaceapp',
     'subscriberapp',
+    'crmapp',
     'captcha',
     'push_notifications',
     'digispaceapp.templatetags.my_template_tag'
 )
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-    "GCM_API_KEY": "AIzaSyAdxzP7nuEVzuWg18S5TdnyhGdEBVWtEOc",
+    "GCM_API_KEY": "AIzaSyDc3llc1alxNzkeoDgy9YpJnqUu4bQJJ_w",
 }
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +56,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 CAPTCHA_IMAGE_SIZE=(142,35)
@@ -72,32 +71,6 @@ WSGI_APPLICATION = 'DigiSpace.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-'''DATABASES = {
-   'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'digispace_db',
-            'USER': 'root',
-            'PASSWORD': 'root',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-            'TIME_ZONE': 'Asia/Kolkata',
-
-   }
-}'''
-
-# DATABASES = {
-#     'default': {
-#              'ENGINE': 'django.db.backends.mysql',
-#              'NAME': 'digispace_parallel',
-#              'USER': 'root',
-#              'PASSWORD': 'root1234',
-#              'HOST': 'newdigispace.cdaktz8aqmgo.us-west-2.rds.amazonaws.com',
-#              'PORT': '3306'
-#              #'TIME_ZONE': 'Asia/Kolkata',
-#
-#     }
-#  }
-
 DATABASES = {
     'default': {
              'ENGINE': 'django.db.backends.mysql',
@@ -111,12 +84,18 @@ DATABASES = {
     }
  }
 
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    )
-}
+# DATABASES = {
+#     'default': {
+#              'ENGINE': 'django.db.backends.mysql',
+#              'NAME': 'digispace_parallel',
+#              'USER': 'root',
+#              'PASSWORD': 'root1234',
+#              'HOST': 'newdigispace.cdaktz8aqmgo.us-west-2.rds.amazonaws.com',
+#              'PORT': '3306'
+#              #'TIME_ZONE': 'Asia/Kolkata',
+#
+#     }
+#  }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -139,7 +118,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.auth.context_processors.auth',
 )
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/

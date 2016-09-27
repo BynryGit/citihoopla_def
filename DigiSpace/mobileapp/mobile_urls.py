@@ -12,12 +12,13 @@ mobileapp_urlpattern = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^signup/', 'mobileapp.views.consumer_signup',name='signup'),
+    url(r'^signup/', 'mobileapp.views.consumer_signup',name='signup'),
     url(r'^check-otp/', 'mobileapp.views.check_otp',name='check_otp'),
     url(r'^resend-otp/', 'mobileapp.views.resend_otp',name='resend_otp'),
     url(r'^social-signup/', 'mobileapp.views.social_signup',name='social_signup'),
+    url(r'^consumer-login/', 'mobileapp.views.consumer_login',name='login'),
     url(r'^forget-password/', 'mobileapp.views.forgot_password',name='forget-password'),
-    #url(r'^get-city-list/', 'mobileapp.views.get_city_list',name='get_city_list'),
+    url(r'^get-city-list/', 'mobileapp.views.get_city_list',name='get_city_list'),
     url(r'^get-category-list/', 'mobileapp.views.get_category_list',name='get_category_list'),
     url(r'^get-advert-details/', 'mobileapp.views.get_advert_details',name='get_advert_details'),
     url(r'^get-advert-list/', 'mobileapp.views.get_advert_list',name='get_advert_list'),
@@ -41,17 +42,12 @@ mobileapp_urlpattern = patterns('',
     url(r'^save-sellticket/', 'mobileapp.views.save_sellticket',name='save_sellticket'),
     url(r'^view-list-sellticket/', 'mobileapp.views.view_list_sellticket',name='view_list_sellticket'),
     url(r'^view-sellticket-detail/','mobileapp.views.view_sellticket_detail',name='view_sellticket_detail'),
+    url(r'^like-sellticket/', 'mobileapp.views.like_sellticket',name='like_sellticket'),
+    url(r'^favourite-sellticket/', 'mobileapp.views.favourite_sellticket',name='favourite_sellticket'),
+    url(r'^post-sellticket-review/', 'mobileapp.views.post_sellticket_review',name='post_sellticket_review'),
+    url(r'^get-map-advert-list/', 'mobileapp.views.get_map_advert_list',name='get_map_advert_list'),
+    url(r'^post-advert-review/', 'mobileapp.views.post_advert_review',name='post_advert_review'),
 
-    #url(r'^get-map-advert-list/', 'mobileapp.views.get_map_advert_list',name='get_map_advert_list'),
-    #url(r'^post-advert-review/', 'mobileapp.views.post_advert_review',name='post_advert_review'),
-#---------------------------------------Rest API------------------------------------------------
-    url(r'^get-map-advert-list/', 'mobileapp.mobile_rest_apis.get_map_advert_list',name='get_map_advert_list'),
-    url(r'^post-advert-review/', 'mobileapp.mobile_rest_apis.post_advert_review',name='post_advert_review'),
-    url(r'^consumer-login/', 'mobileapp.mobile_rest_apis.login', name='login'),
-    url(r'^signup/', 'mobileapp.mobile_rest_apis.consumer_signup',name='signup'),
-    url(r'^get-city-list/', 'mobileapp.mobile_rest_apis.get_city_list',name='get_city_list'),
-
-#-------------------------New URLS------------------------------------------------------------------
     url(r'^get-about-city/', 'mobileapp.views.get_about_city',name='get_about_city'),
-
+   
 ) + static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

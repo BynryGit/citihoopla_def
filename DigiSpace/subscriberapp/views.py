@@ -1958,7 +1958,7 @@ def subscriber_profile(request):
                     final_list1.append(list1)
 
                 list = {'advert_id': advert_id, 'advert_name': advert_name, 'address_line_1': address_line_1,
-                        'area': area, 'category_name': category_name,
+                        'area': area, 'category_name': category_name, 
                         'count_total': count_total, 'start_date': start_date, 'date_gap': date_gap}
                 final_list.append(list)
 
@@ -2364,7 +2364,7 @@ def subscriber_booking(request):
                 print 'advert_id', advert_id
                 if advert_obj.display_image:
                     display_image = SERVER_URL + advert_obj.display_image.url
-                else:
+                else: 
                     display_image = ''
                 advert_sub_list = CouponCode.objects.filter(advert_id=advert_id)
 

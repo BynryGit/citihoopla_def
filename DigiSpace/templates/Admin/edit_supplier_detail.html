@@ -222,6 +222,7 @@ height: 65px;
 }
 
 .error{
+
     font-weight: 400;
     font-style: normal;
     font-size: 12px;
@@ -230,6 +231,7 @@ height: 65px;
 .form-wizard .steps > li.active > a.step .desc {
     color: #2F353B;
     font-weight: 700;
+   
 }
 
 .portlet.light {
@@ -357,6 +359,7 @@ hr {
     }*/
 }
 
+
 .form-control {
     border: 1px solid #c0c0c0;
 }
@@ -376,7 +379,6 @@ hr {
     color: #00448b;
     font-weight:700;
 }
-
 
 .form-wizard .steps > li > a.step .number {
     background-color: #e2e1e1 !important;
@@ -418,7 +420,6 @@ hr {
     border: -o-linear-gradient(left, #0d67e6, #11ca9a) !important;
 }
 
-
 .grey_color{
     border: 1px solid rgb(72, 72, 72);
     color: rgb(255, 255, 255);
@@ -455,6 +456,9 @@ hr {
 
 }
 
+.page-header-inner{
+    background: #f3f2f2;
+}
 
 .font-14{
     font-size:14px;
@@ -544,28 +548,28 @@ hr {
                 <!-- END RESPONSIVE MENU TOGGLER -->
                 <!-- BEGIN PAGE TOP -->
                 <div class="page-top">
-                    <!-- BEGIN TOP NAVIGATION MENU -->
-                    <div class="top-menu">
-                        <ul class="nav navbar-nav pull-right">
-                            <li class="dropdown dropdown-user">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
-                                   data-close-others="true">
-                                    <!-- <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
-                                    <span class="username username-hide-on-mobile"> {{ request.session.login_user }} </span>
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-default">
-                                    <li>
-                                        <a href="/log-out/">
-                                            <i class="icon-key"></i> Log Out </a>
-                                    </li>
-                                </ul>
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <li class="dropdown dropdown-user">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <!-- <img alt="" class="img-circle" src="{% static 'assets/layouts/layout2/img/avatar3_small.jpg" /> -->
+                            <span class="username username-hide-on-mobile"> {{ request.session.login_user }} </span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li>
+                                <a href="/log-out/">
+                                    <i class="icon-key"></i> Log Out </a>
                             </li>
-                            <!-- END USER LOGIN DROPDOWN -->
                         </ul>
-                    </div>
-                    <!-- END TOP NAVIGATION MENU -->
-                </div>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
                 <!-- END PAGE TOP -->
             </div>
             <!-- END HEADER INNER -->
@@ -680,6 +684,11 @@ hr {
 						                                                                         style="width: 150px !important; height: 135px; cursor:pointer;"
 						                                                                         title="Upload Image"
 						                                                                         onclick="javascript:$('#display_image').click();">
+						                                                                          {% if display_image %}
+                                                                                            <img id="user_img" src="{{display_image}}" alt="">
+                                                                                            {% else %}
+                                                                                            <img id="user_img" src="{% static 'vendor/default.png' %}" alt="">
+                                                                                            {% endif %}
 						                                                                        <img id="user_img"
 						                                                                             src="{% static 'vendor/default.png' %}"
 						                                                                             alt="">
@@ -706,10 +715,11 @@ hr {
                                                                                             Business Name
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input id="supplier_id" hidden value="{{ supplier_id }}"></input>
                                                                                         <input type="text"
                                                                                                id="business_name"
                                                                                                name="business_name"
-                                                                                               class="form-control"/> </input>
+                                                                                               class="form-control"/ value="{{ business_name }}"> </input>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
                                                                                     </div>
@@ -722,7 +732,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <textarea id="business" maxlength="5000"
-                                                                                                  class="form-control"></textarea>
+                                                                                                  class="form-control">{{business_details}}</textarea>
                                                                                         <label id="short_discription_count" class="control-label  dis_count" style="font-size:15px;; float:right">
                                                                                                         0 /5000 Characters
                                                                                                     </label>
@@ -739,7 +749,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text" 
-                                                                                               name="phone_no" onkeypress="return validateIntKeyPress(this,event);"
+                                                                                               name="phone_no" value="{{phone_no}}" onkeypress="return validateIntKeyPress(this,event);"
                                                                                                id="phone_no" maxlength="10"
                                                                                                class="form-control "/>
                                                                                         <label class="error"
@@ -752,7 +762,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Secondary Number
                                                                                             
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{secondary_phone_no}}" 
                                                                                                onkeypress="return validateIntKeyPress(this,event);"
                                                                                                name="sec_phone_no"
                                                                                                maxlength="10"  id="sec_phone_no"
@@ -769,7 +779,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Primary Email
                                                                                             <span class="required"> * </span>
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{supplier_email}}"
                                                                                                name="pri_email"
                                                                                                id="pri_email"
                                                                                                class="form-control "/>
@@ -784,7 +794,7 @@ hr {
                                                                                             Email
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               
+                                                                                               value="{{secondary_email}}"
                                                                                                name="sec_email"
                                                                                                id="sec_email"
                                                                                                class="form-control "/></input>
@@ -810,7 +820,7 @@ hr {
                                                                                             Line 1
                                                                                             <span class="required"> * </span>
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{address1}}"
                                                                                                class="form-control"
                                                                                                name="address1"
                                                                                                id="address1"/></input>
@@ -825,7 +835,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Address
                                                                                             Line 2
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="text" value="{{address2}}"
                                                                                                class="form-control"
                                                                                                name="address2"
                                                                                                id="address2"/>
@@ -837,6 +847,7 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Country
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input type="hidden" value="{{country}}" id="selectedCountry"/>
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 onchange="getState();"
                                                                                                 id="country"
@@ -858,12 +869,16 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">State
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        	<input type="hidden" value="{{state}}" id="selectedState"/>	
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 id="state" onchange="getCity();"
                                                                                                 name="state">
                                                                                             <option value="">
                                                                                                 Select State
                                                                                             </option>
+                                                                                               {% for state in state_list %}	
+															                        										<option value="{{ state.state_id }}"> {{ state.state_name }}</option>
+															                        									{% endfor %}
                                                                                         </select>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -875,12 +890,16 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">City
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input type="hidden" value="{{city}}" id="selectedCity"/>
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 id="city" onchange="getPincode();"
                                                                                                 name="city">
                                                                                             <option value="">
                                                                                                 Select City
                                                                                             </option>
+                                                                                            {% for city in city_list %}	
+	                                      			                           							<option value="{{ city.city_place_id }}"> {{ city.city_id.city_name }}</option>
+																		                       						{% endfor %}
                                                                                         </select>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -892,12 +911,20 @@ hr {
                                                                                         <label class="control-label " style="font-size:15px; ">Pincode
                                                                                             <span class="required"> * </span>
                                                                                         </label>
+                                                                                        <input type="hidden" value="{{pincode}}" id="selectedPincode"/>
                                                                                         <select class="form-control sel2 select2-hidden-accessible"
                                                                                                 id="pincode"
                                                                                                 name="pincode">
                                                                                             <option value="">
                                                                                                 Select Pincode
                                                                                             </option>
+                                                                                            {% for pincode in pincode_list %}	
+																			                         {% if pincode == user_pincode %}
+																		                           <option selected value="{{user_pincode}}">{{user_pincode}}</option>
+																		                           {% else %}
+																		                           <option value="{{pincode}}"> {{pincode}}</option>
+																		                           {% endif %}	                        
+																			                        {% endfor %}
                                                                                         </select>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -919,7 +946,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               name="user_name"
+                                                                                               name="user_name" value="{{contact_person}}"
                                                                                                id="user_name"
                                                                                                class="form-control contact_name"/></input>
                                                                                         <label class="error"
@@ -934,7 +961,7 @@ hr {
                                                                                         </label>
                                                                                         <input type="text"
                                                                                                onkeypress="return validateIntKeyPress(this,event);"
-                                                                                               name="user_contact_no"
+                                                                                               name="user_contact_no" value="{{contact_no}}"
                                                                                                maxlength="10" id="user_contact_no"
                                                                                                class="form-control phone_number"/></input>
                                                                                         <label class="error"
@@ -947,7 +974,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               name="user_email"
+                                                                                               name="user_email" value="{{contact_email}}"
                                                                                                id="user_email"
                                                                                                class="form-control"/></input>
                                                                                         <label class="error"
@@ -957,8 +984,7 @@ hr {
                                                                             </div>
 
                                                                             <br>
-                                                                            
-                                                                            <div class="row div-border div-color">
+                                                                                                      <div class="row div-border div-color">
                                                                                 <div class="col-lg-12 col-md-12">
                                                                                     <div class="form-group" style="margin-top: 10px;margin-bottom: 0px;">
                                                                                         <label  style="font-size:15px; font-weight:700;">Sales Person Details </label>
@@ -971,7 +997,7 @@ hr {
                                                                                         </label>
                                                                                         <input type="text"
                                                                                                name="user_name"
-                                                                                               id="sale_person_name"
+                                                                                               id="sale_person_name" value="{{ sales_person_name }}"
                                                                                                class="form-control contact_name"/></input>
                                                                                         <label class="error"
                                                                                                style="color:red; display:none;"></label>
@@ -985,7 +1011,7 @@ hr {
                                                                                         </label>
                                                                                         <input type="text"
                                                                                                onkeypress="return validateIntKeyPress(this,event);"
-                                                                                               name="user_contact_no"
+                                                                                               name="user_contact_no" value="{{ sales_person_contact_number }}"
                                                                                                maxlength="10" id="sale_person_contact_no"
                                                                                                class="form-control phone_number"/></input>
                                                                                         <label class="error"
@@ -998,7 +1024,7 @@ hr {
                                                                                             <span class="required"> * </span>
                                                                                         </label>
                                                                                         <input type="text"
-                                                                                               name="user_email"
+                                                                                               name="user_email" value="{{ sales_person_email  }}"
                                                                                                id="sale_person_email"
                                                                                                class="form-control"/></input>
                                                                                         <label class="error"
@@ -1039,7 +1065,7 @@ hr {
                                                                             <div class="col-lg-4 col-md-6">
                                                                                 <div class="form-group">
                                                                                     <label class="control-label font-18 font-bold font-blue"> Business Category </label>
-                                                                                    <input type="hidden" name="supplier_id"
+                                                                                    <input type="" name="supplier_id" value="{{contact_email}} "
                                                                                           id="user_id">
                                                                                     <span class="required"> * </span>
                                                                                     <select data-level="0"
@@ -1963,6 +1989,9 @@ $(".sel2").select2({
 
 });
 
+	$('#country option[value='+ $('#selectedCountry').val() +']').attr("selected", "selected");
+$('#state option[value='+ $('#selectedState').val() +']').attr("selected", "selected");
+$('#city option[value='+ $('#selectedCity').val() +']').attr("selected", "selected");
   	/* Get State */
 
     function getState() {
@@ -2379,6 +2408,7 @@ function validateData(){
 
 	
 		formData.append("logo",file);
+		formData.append("supplier_id",$('#supplier_id').val());
 		formData.append("business_name",$('#business_name').val());
 		formData.append("phone_no",$('#phone_no').val());    
 		formData.append("sec_phone_no",$('#sec_phone_no').val());    
@@ -2397,11 +2427,12 @@ function validateData(){
 		formData.append("sale_person_name",$('#sale_person_name').val());
 		formData.append("sale_person_contact_no",$('#sale_person_contact_no').val());
 		formData.append("sale_person_email",$('#sale_person_email').val());
+		
 
   			$.ajax({
   				  
 				  type	: "POST",
-				   url : '/save-supplier/',
+				   url : '/update-subscriber/',
  					data : formData,
 					cache: false,
 		         processData: false,
@@ -2428,19 +2459,24 @@ function validateData(){
 	}
 	});
 	
+	
 	/*  End  */
 	
 	/*--------------------Save Business Details on Save and Continue Button*/
 	
-	$("#save-continue").click(function(event)  {
-		  event.preventDefault();
-		 
-if(validateData()){
-	  	var input = document.getElementById("display_image");  	  
+		$("#save-continue").click(function(event)  {
+	     event.preventDefault();  			
+	if(validateData()){	
+	
+		  	var input = document.getElementById("display_image");  	  
 		file = input.files[0];
+
 	   var formData= new FormData();
+	   
+
 	
 		formData.append("logo",file);
+		formData.append("supplier_id",$('#supplier_id').val());
 		formData.append("business_name",$('#business_name').val());
 		formData.append("phone_no",$('#phone_no').val());    
 		formData.append("sec_phone_no",$('#sec_phone_no').val());    
@@ -2459,17 +2495,18 @@ if(validateData()){
 		formData.append("sale_person_name",$('#sale_person_name').val());
 		formData.append("sale_person_contact_no",$('#sale_person_contact_no').val());
 		formData.append("sale_person_email",$('#sale_person_email').val());
+		
 
   			$.ajax({
   				  
 				  type	: "POST",
-				   url : '/save-supplier/',
+				   url : '/update-subscriber/',
  					data : formData,
 					cache: false,
 		         processData: false,
-		    		contentType: false,                       
-              success: function (response) {
-	              if(response.success=='true'){
+		    		contentType: false,  
+		    		 success: function (response) {                     
+					        if(response.success=='true'){
 	           	  		$("#tab_1").removeClass("active");
                     $("#number_1").text("");
                     $("#number_1").addClass("fa fa-check");
@@ -2481,7 +2518,7 @@ if(validateData()){
                     $("#tab_2").addClass("active");
                     $("#tab1").removeClass("active");
                     $("#tab2").addClass("active");
-                    $("#user_id").val(response.email);
+                    
 	              	}
 	      			if (response.success == "false") {
 							$("#error-modal").modal('show');                    
@@ -2498,9 +2535,10 @@ if(validateData()){
             	}              
            });   
 	
-	}
-
-});	
+	}       		
+       		
+	});
+		
 	
 	/*  End  */
 	

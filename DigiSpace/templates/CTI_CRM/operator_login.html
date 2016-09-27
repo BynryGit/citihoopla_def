@@ -19,7 +19,7 @@ License: You must have a valid license purchased only from themeforest(the above
 {% load staticfiles %}
     <head>
         <meta charset="utf-8" />
-        <title>City Hoopla | User Login </title>
+        <title>City Hoopla | CTI-CRM Login </title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta content="" name="description" />
@@ -289,7 +289,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                 success: function(response) {
                                     if(response.success=='true'){
                                         
-                                            location.href="/CTI-CRM/crm_home/"
+                                            location.href="/CTI-CRM/crm_details/?number="+response.number
                                         
                                     }
                                     if(response.success=='false'){

@@ -148,6 +148,16 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='AdvertReview',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('ratings', models.CharField(max_length=10, null=True, blank=True)),
+                ('review', models.CharField(max_length=500, null=True, blank=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('advert_id', models.ForeignKey(blank=True, to='digispaceapp.Advert', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='AdvertShares',
             fields=[
                 ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
@@ -321,6 +331,25 @@ class Migration(migrations.Migration):
                 ('category_updated_by', models.CharField(max_length=30, null=True, blank=True)),
                 ('category_updated_date', models.DateTimeField(null=True, blank=True)),
                 ('parent_category_id', models.ForeignKey(blank=True, to='digispaceapp.CategoryLevel4', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='CategoryWiseRateCard',
+            fields=[
+                ('rate_card_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('service_name', models.CharField(max_length=30)),
+                ('category_id', models.CharField(max_length=30)),
+                ('category_level', models.CharField(max_length=30)),
+                ('cost_for_3_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_7_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_30_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_90_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_180_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('rate_card_status', models.CharField(default=b'1', max_length=15, null=True, blank=True, choices=[(b'1', b'1'), (b'0', b'0')])),
+                ('rate_card_created_date', models.DateTimeField(null=True, blank=True)),
+                ('rate_card_created_by', models.CharField(max_length=30, null=True, blank=True)),
+                ('rate_card_updated_by', models.CharField(max_length=30, null=True, blank=True)),
+                ('rate_card_updated_date', models.DateTimeField(null=True, blank=True)),
             ],
         ),
         migrations.CreateModel(
@@ -640,12 +669,30 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='RateCard',
+            fields=[
+                ('rate_card_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('service_name', models.CharField(max_length=30)),
+                ('cost_for_3_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_7_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_30_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_90_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('cost_for_180_days', models.CharField(max_length=30, null=True, blank=True)),
+                ('rate_card_status', models.CharField(default=b'1', max_length=15, null=True, blank=True, choices=[(b'1', b'1'), (b'0', b'0')])),
+                ('rate_card_created_date', models.DateTimeField(null=True, blank=True)),
+                ('rate_card_created_by', models.CharField(max_length=30, null=True, blank=True)),
+                ('rate_card_updated_by', models.CharField(max_length=30, null=True, blank=True)),
+                ('rate_card_updated_date', models.DateTimeField(null=True, blank=True)),
+                ('city_place_id', models.ForeignKey(blank=True, to='digispaceapp.City_Place', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='SellTicket',
             fields=[
                 ('sellticket_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
                 ('event_name', models.CharField(max_length=50, null=True, blank=True)),
                 ('event_venue', models.CharField(max_length=50, null=True, blank=True)),
-                ('start_date', models.DateTimeField(null=True, blank=True)),
+                ('start_date', models.CharField(max_length=50, null=True, blank=True)),
                 ('start_time', models.CharField(max_length=50, null=True, blank=True)),
                 ('select_activation_date', models.CharField(max_length=50, null=True, blank=True)),
                 ('other_comments', models.CharField(max_length=5000, null=True, blank=True)),
@@ -659,6 +706,45 @@ class Migration(migrations.Migration):
                 ('image_three', models.ImageField(default=None, upload_to=b'images/user_images/', max_length=500, verbose_name=b'Image')),
                 ('image_four', models.ImageField(default=None, upload_to=b'images/user_images/', max_length=500, verbose_name=b'Image')),
                 ('created_date', models.DateTimeField(default=datetime.datetime.now, null=True, blank=True)),
+                ('sellticket_views', models.CharField(max_length=10, null=True, blank=True)),
+                ('user_id', models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='SellTicketFavourite',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('sellticket_id', models.ForeignKey(blank=True, to='digispaceapp.SellTicket', null=True)),
+                ('user_id', models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='SellTicketLike',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('sellticket_id', models.ForeignKey(blank=True, to='digispaceapp.SellTicket', null=True)),
+                ('user_id', models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='SellTicketReview',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('review', models.CharField(max_length=500, null=True, blank=True)),
+                ('ratings', models.CharField(max_length=10, null=True, blank=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('sellticket_id', models.ForeignKey(blank=True, to='digispaceapp.SellTicket', null=True)),
+                ('user_id', models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='SellTicketShares',
+            fields=[
+                ('id', models.AutoField(serialize=False, editable=False, primary_key=True)),
+                ('creation_date', models.DateTimeField(null=True, blank=True)),
+                ('sellticket_id', models.ForeignKey(blank=True, to='digispaceapp.SellTicket', null=True)),
                 ('user_id', models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True)),
             ],
         ),
@@ -745,7 +831,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, to=settings.AUTH_USER_MODEL)),
                 ('user_id', models.AutoField(serialize=False, editable=False, primary_key=True)),
-                ('user_name', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('user_first_name', models.CharField(default=None, max_length=100, null=True, blank=True)),
+                ('user_last_name', models.CharField(default=None, max_length=100, null=True, blank=True)),
                 ('user_contact_no', models.CharField(default=None, max_length=200, null=True, blank=True)),
                 ('usre_email_id', models.CharField(default=None, max_length=100, null=True, blank=True)),
                 ('user_status', models.CharField(default=b'1', max_length=100, null=True, choices=[(b'1', b'1'), (b'0', b'0')])),
@@ -846,6 +933,11 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(to='digispaceapp.State', blank=True),
         ),
         migrations.AddField(
+            model_name='categorywiseratecard',
+            name='city_place_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.City_Place', null=True),
+        ),
+        migrations.AddField(
             model_name='categorycitymap',
             name='city_place_id',
             field=models.ForeignKey(blank=True, to='digispaceapp.City_Place', null=True),
@@ -887,6 +979,11 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='advertshares',
+            name='user_id',
+            field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
+        ),
+        migrations.AddField(
+            model_name='advertreview',
             name='user_id',
             field=models.ForeignKey(blank=True, to='digispaceapp.ConsumerProfile', null=True),
         ),
