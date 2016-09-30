@@ -116,19 +116,19 @@ def get_subcategory_ratecard(request):
                     sub_30days = str( "%0.2f" % float(rate_card.cost_for_30_days))
                     sub_90days = str( "%0.2f" % float(rate_card.cost_for_90_days))
                     sub_180days = str( "%0.2f" % float(rate_card.cost_for_180_days))
-                if rate_card.service_name == "Listing No 1":
+                if rate_card.service_name == "No.1 Listing":
                     no1_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
                     no1_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
                     no1_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
                     no1_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
                     no1_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
-                if rate_card.service_name == "Listing No 2":
+                if rate_card.service_name == "No.2 Listing":
                     no2_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
                     no2_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
                     no2_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
                     no2_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
                     no2_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
-                if rate_card.service_name == "Listing No 3":
+                if rate_card.service_name == "No.3 Listing":
                     no3_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
                     no3_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
                     no3_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
@@ -577,7 +577,7 @@ def save_cat_wise_ratecard(request):
         category_id = request.POST.get('category_id')
         category_level = request.POST.get('category_level')
         #service_name_list = request.POST.getlist('service_name')
-        service_name_list = ["Subscription","Listing No 1","Listing No 2","Listing No 3"]
+        service_name_list = ["Subscription","No.1 Listing","No.2 Listing","No.3 Listing"]
         days_3_list = request.POST.getlist('3_days_price')
         days_7_list = request.POST.getlist('7_days_price')
         days_30_list = request.POST.getlist('30_days_price')
@@ -626,7 +626,7 @@ def update_cat_wise_ratecard(request):
         category_id = request.POST.get('category_id')
         category_level = request.POST.get('category_level')
         #service_name_list = request.POST.getlist('service_name')
-        service_name_list = ["Subscription","Listing No 1","Listing No 2","Listing No 3"]
+        service_name_list = ["Subscription","No.1 Listing","No.2 Listing","No.3 Listing"]
         days_3_list = request.POST.getlist('3_days_price')
         days_7_list = request.POST.getlist('7_days_price')
         days_30_list = request.POST.getlist('30_days_price')
@@ -676,19 +676,19 @@ def update_cat_wise_ratecard(request):
                 sub_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
                 sub_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
                 sub_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
-            if rate_card.service_name == "Listing No 1":
+            if rate_card.service_name == "No.1 Listing":
                 no1_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
                 no1_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
                 no1_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
                 no1_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
                 no1_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
-            if rate_card.service_name == "Listing No 2":
+            if rate_card.service_name == "No.2 Listing":
                 no2_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
                 no2_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
                 no2_30days = str("%0.2f" % float(rate_card.cost_for_30_days))
                 no2_90days = str("%0.2f" % float(rate_card.cost_for_90_days))
                 no2_180days = str("%0.2f" % float(rate_card.cost_for_180_days))
-            if rate_card.service_name == "Listing No 3":
+            if rate_card.service_name == "No.3 Listing":
                 no3_3days = str("%0.2f" % float(rate_card.cost_for_3_days))
                 no3_7days = str("%0.2f" % float(rate_card.cost_for_7_days))
                 no3_30days = str("%0.2f" % float(rate_card.cost_for_30_days))

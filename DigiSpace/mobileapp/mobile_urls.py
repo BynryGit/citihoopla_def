@@ -49,5 +49,6 @@ mobileapp_urlpattern = patterns('',
     url(r'^post-advert-review/', 'mobileapp.views.post_advert_review',name='post_advert_review'),
 
     url(r'^get-about-city/', 'mobileapp.views.get_about_city',name='get_about_city'),
-   
+    url(r'^user-advert-activity/', 'mobileapp.views.user_advert_activity',name='user_advert_activity'),
+
 ) + static( settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

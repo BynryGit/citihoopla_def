@@ -2644,7 +2644,6 @@ def check_category(request):
             cat_obj = CategoryLevel4.objects.filter(parent_category_id=request.POST.get('category_id'))
         if request.POST.get('cat_level') == '5':
             cat_obj = CategoryLevel5.objects.filter(parent_category_id=request.POST.get('category_id'))
-        print cat_obj
         cat_list = []
         if cat_obj:
             for cat in cat_obj:

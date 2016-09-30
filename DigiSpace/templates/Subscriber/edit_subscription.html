@@ -288,7 +288,6 @@ License: You must have a valid license purchased only from themeforest(the above
     }
 
     .error{
-        font-family: 'Roboto Bold', 'Roboto';
         font-weight: 400;
         font-style: normal;
         font-size: 12px;
@@ -638,6 +637,7 @@ License: You must have a valid license purchased only from themeforest(the above
         font-weight:500;
     }
 
+
     </style>
 
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
@@ -740,7 +740,8 @@ License: You must have a valid license purchased only from themeforest(the above
             <ul class="page-sidebar-menu  page-header-fixed page-sidebar-menu-hover-submenu "
                 data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                 <li class="nav-item ">
-                    <a href="/subscriber-portal/subscriber-dashboard/?supplier_id={{request.session.supplier_id}}" class="nav-link nav-toggle" style="background-color: rgb(13, 103, 230);">
+                    <a href="/subscriber-portal/subscriber-dashboard/?supplier_id={{request.session.supplier_id}}"
+                       class="nav-link nav-toggle" style="background-color: rgb(13, 103, 230);">
                         <i class="fa fa-home" style="display: inline-block; color: #ffffff !important;"
                            aria-hidden="true"></i>
                         <span class="title" style="display: inline-block;"> Dashboard </span>
@@ -790,7 +791,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="row">
                                 <div class="col-lg-12 col-md-12">
                                     <a href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}"
-                                       class="brad-crum-1">Adverts</a>
+                                       class="brad-crum-1">Advert</a>
                                     &nbsp;<i class="fa fa-angle-right"></i>&nbsp;
                                     <span class="brad-crum-2">Edit subscription</span>
                                     <div class="portlet-body">
@@ -802,212 +803,313 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 {% csrf_token %}
                                                 <div class="form-wizard">
                                                     <div class="form-body">
-                                                        <ul class="nav nav-pills nav-justified steps"
-                                                            style="padding-bottom: 0px;">
-                                                            <li id="tab_1">
-                                                                <a href="#tab1" data-toggle="tab" class="step ">
-                                                                    <span id="number_1" class="number"> 1 </span>
-                                                                    <br>
-                                                                        <span id="desc_1" class="desc">
-                                                                            <i class="fa fa-check"></i> Subscription Details
-                                                                        </span>
-                                                                </a>
-                                                            </li>
-                                                            <li id="tab_2">
-                                                                <a href="#tab2" data-toggle="tab" class="step ">
-                                                                    <span id="number_2" class="number"> 2 </span>
-                                                                    <br>
-                                                                        <span id="desc_2" class="desc">
-                                                                            <i class="fa fa-check"></i> Payment
-                                                                        </span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-
-                                                        <!--<div id="bar" class="progress progress-striped"-->
-                                                        <!--role="progressbar">-->
-                                                        <!--<div class="progress-bar progress-bar-success"></div>-->
-                                                        <!--</div>-->
-                                                        <div class="tab-content">
-                                                            <!--   <div class="alert alert-danger display-none">
-                                                                  <button class="close" data-dismiss="alert"></button> You have some form errors. Please check below. </div>
-                                                              <div class="alert alert-success display-none">
-                                                                  <button class="close" data-dismiss="alert"></button> Your form validation is successful! </div> -->
-
-                                                            <div class="tab-pane active" id="tab1">
-                                                                <hr>
-                                                                <form id="subscription_form" method="POST">
-                                                                    <div class="row">
-                                                                        <input type="text" name="business_id" hidden
-                                                                               value="{{business_data.business_id}}">
-                                                                        <div class="col-lg-4 col-md-4">
-                                                                            <div class="form-group">
-                                                                                <label class="control-label font-18 font-bold font-blue">Select
-                                                                                    Business Category </label>
-                                                                                <input type="hidden" name="user_id"
-                                                                                       value="2"/>
-                                                                                <span class="required"> * </span>
-                                                                                <select data-level="0"
-                                                                                        class="form-control sel2"
-                                                                                        id="sub_category"
-                                                                                        name="sub_category">
-                                                                                    <option value="">Select
-                                                                                        Category
+                                                        <form id="subscription_form" method="POST">
+                                                            <label class="control-label font-18 font-bold font-blue">Select
+                                                                            Business Category </label>
+                                                            <div class="row">
+                                                                <input type="text" name="business_id" hidden
+                                                                       value="{{business_data.business_id}}">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label style="font-size:15px; ">Category</label>
+                                                                        <input type="hidden" name="user_id"
+                                                                               value="2"/>
+                                                                        <span class="required"> * </span>
+                                                                        <select data-level="0"
+                                                                                class="form-control sel2"
+                                                                                id="sub_category" onchange="check_cat(1,this)"
+                                                                                name="sub_category">
+                                                                            <option value="">Select Category</option>
+                                                                            {% for cat in category_list %}
+                                                                                {% if business_data.category_id == cat.category_id %}
+                                                                                    <option selected value="{{ cat.category_id }}">
+                                                                                        {{ cat.category }}
                                                                                     </option>
-                                                                                    {% for cat in category_list %}
+                                                                                {%else%}
                                                                                     <option value="{{ cat.category_id }}">
                                                                                         {{ cat.category }}
                                                                                     </option>
-                                                                                    {% endfor %}
-                                                                                </select>
-                                                                                <label id="sub_category_lebel"
-                                                                                       class="error font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
+                                                                                {%endif%}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label id="sub_category_lebel"
+                                                                               class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                {% if business_data.category_level_1 %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl1_row" >
+                                                                {% else %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl1_row" style="display:none;">
+                                                                {% endif %}
+                                                                    <div class="form-group">
+                                                                        <label style="font-size:15px; ">Sub Category(Level 1) </label>
+                                                                        <span class="required"> * </span>
+                                                                        <select class="form-control subcat_select sel2"
+                                                                                onchange="check_cat(2,this)"
+                                                                                id="lvl1" name="lvl1">
+                                                                            <option value="">Select Sub Category</option>
+                                                                            {% for cat in category_lvl1_list %}
+                                                                                {% if business_data.category_level_1 == cat.category_id %}
+                                                                                    <option selected value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%else%}
+                                                                                    <option value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%endif%}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                {% if business_data.category_level_2 %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl2_row" >
+                                                                {% else %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl2_row" style="display:none;">
+                                                                {% endif %}
+                                                                    <div class="form-group">
+                                                                        <label  style="font-size:15px; ">Sub Category(Level 2) </label>
+                                                                        <span class="required"> * </span>
+                                                                        <select class="form-control subcat_select sel2"
+                                                                                onchange="check_cat(3,this)"
+                                                                                id="lvl2" name="lvl2">
+                                                                            <option value="">Select Sub Category</option>
+                                                                            {% for cat in category_lvl2_list %}
+                                                                                {% if business_data.category_level_2 == cat.category_id %}
+                                                                                    <option selected value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%else%}
+                                                                                    <option value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%endif%}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                {% if business_data.category_level_3 %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl3_row" >
+                                                                {% else %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl3_row" style="display:none;">
+                                                                {% endif %}
+                                                                    <div class="form-group">
+                                                                        <label  style="font-size:15px; ">Sub Category(Level 3) </label>
+                                                                        <span class="required"> * </span>
+                                                                        <select class="form-control subcat_select sel2"
+                                                                                onchange="check_cat(4,this)"
+                                                                                id="lvl3" name="lvl3">
+                                                                            <option value="">Select Sub Category</option>
+                                                                            {% for cat in category_lvl3_list %}
+                                                                                {% if business_data.category_level_3 == cat.category_id %}
+                                                                                    <option selected value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%else%}
+                                                                                    <option value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%endif%}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                {% if business_data.category_level_4 %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl4_row" >
+                                                                {% else %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl4_row" style="display:none;">
+                                                                {% endif %}
+                                                                    <div class="form-group">
+                                                                        <label  style="font-size:15px; ">Sub Category(Level 4) </label>
+                                                                        <span class="required"> * </span>
+                                                                        <select class="form-control subcat_select sel2"
+                                                                                onchange="check_cat(5,this)"
+                                                                                id="lvl4" name="lvl4">
+                                                                            <option value="">Select Sub Category</option>
+                                                                            {% for cat in category_lvl4_list %}
+                                                                                {% if business_data.category_level_4 == cat.category_id %}
+                                                                                    <option selected value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%else%}
+                                                                                    <option value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%endif%}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                                {% if business_data.category_level_5 %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl5_row" >
+                                                                {% else %}
+                                                                    <div class="col-lg-4 col-md-6" id="lvl5_row" style="display:none;">
+                                                                {% endif %}
+                                                                    <div class="form-group">
+                                                                        <label  style="font-size:15px; ">Sub Category(Level 5) </label>
+                                                                        <span class="required"> * </span>
+                                                                        <select class="form-control subcat_select sel2"
+                                                                                onchange="check_cat(6,this)"
+                                                                                id="lvl5" name="lvl5">
+                                                                            <option value="">Select Sub Category</option>
+                                                                            {% for cat in category_lvl5_list %}
+                                                                                {% if business_data.category_level_5 == cat.category_id %}
+                                                                                    <option selected value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%else%}
+                                                                                    <option value="{{ cat.category_id }}">
+                                                                                        {{ cat.category_name }}
+                                                                                    </option>
+                                                                                {%endif%}
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                        <label class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="subscription_div">
+                                                                <div class="col-lg-10 col-md-10"
+                                                                     style="padding-top:16px; padding-left: 0px; border-right: 1px solid #6B6B6B;">
+                                                                    <label class="control-label font-18 font-bold font-blue">Subscription
+                                                                        Plans
+                                                                    </label>
+                                                                    <div class="form-group"
+                                                                         style="margin-bottom: 7px;">
+                                                                        <div class="row" id="service">
+                                                                            <div class="col-lg-12 col-md-12">
+                                                                                <label class="control-label font-15 font-bold font-green"
+                                                                                       style="margin-bottom: 0px; padding-bottom: 0px;">Basic
+                                                                                    Subscription
+                                                                                </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                <label class="error font-12">Atleast
+                                                                                    one basic Plan needs to be
+                                                                                    selected</label>
+
                                                                             </div>
                                                                         </div>
+
+                                                                    </div>
+                                                                    <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
+
+                                                                    <div class="form-group">
+                                                                        <div class="row" id="duration">
+                                                                            <div class="col-lg-12 col-md-12"
+                                                                                 style="padding-left: 0px;padding-right: 0px;">
+                                                                                <ul class="radio-list list-inline"
+                                                                                    data-error-container="#form_2_membership_error">
+                                                                                    <div class="col-lg-4 col-md-4">
+                                                                                        <label class="control-label font-15 font-regular">Duration
+                                                                                            <span class="required"> * </span>
+                                                                                        </label>
+                                                                                        <select data-level="0"
+                                                                                                class="form-control sel2"
+                                                                                                id="duration_list"
+                                                                                                name="duration_list">
+                                                                                            <option value="">Select Duration</option>
+                                                                                            <option value="3">3 Days</option>
+                                                                                            <option value="7">7 Days</option>
+                                                                                            <option value="30">30 Days</option>
+                                                                                            <option value="90">90 Days</option>
+                                                                                            <option value="180">180 Days</option>
+                                                                                        </select>
+                                                                                        <label id="selectedDuration"
+                                                                                               style="color:red; display:none;"></label>
+                                                                                    </div>
+                                                                                    <div class="col-lg-4 col-md-4">
+                                                                                        <label class="font-15 font-regular">
+                                                                                            Start
+                                                                                            Date </label>
+                                                                                        <input type="text"
+                                                                                               name="start_date"
+                                                                                               id="dt50"
+                                                                                               onchange="basic_subscription()"
+                                                                                               class="form-control date-picker">
+                                                                                        <label id="basicStartDate"
+                                                                                               class="font-12 font-regular"
+                                                                                               style="color:red; display:none;"></label>
+                                                                                    </div>
+                                                                                    <div class="col-lg-4 col-md-4">
+                                                                                        <label class="font-15 font-regular">End
+                                                                                            Date </label>
+                                                                                        <input type="text"
+                                                                                               id="dt2" readonly
+                                                                                               class="form-control end-date"
+                                                                                               name="end_date"/>
+                                                                                        <label id="basicEndDate"
+                                                                                               class="font-12 font-regular"
+                                                                                               style="color:red; display:none;"></label>
+                                                                                    </div>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <label class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
                                                                     </div>
 
-                                                                    <div class="col-lg-10 col-md-10"
-                                                                         style="padding-top:16px; padding-left: 0px; border-right: 1px solid #6B6B6B;">
-                                                                        <label class="control-label font-18 font-bold font-blue">Subscription
-                                                                            Plans
-                                                                        </label>
-                                                                        <div class="form-group"
-                                                                             style="margin-bottom: 7px;">
-                                                                            <div class="row" id="service">
-                                                                                <div class="col-lg-12 col-md-12">
-                                                                                    <label class="control-label font-15 font-bold font-green"
-                                                                                           style="margin-bottom: 0px; padding-bottom: 0px;">Basic
-                                                                                        Subscription
-                                                                                    </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                                    <label class="error font-12">Atleast
-                                                                                        one basic Plan needs to be
-                                                                                        selected</label>
-
-                                                                                </div>
-                                                                            </div>
-
-                                                                        </div>
-                                                                        <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-
-                                                                        <div class="form-group">
-                                                                            <div class="row" id="duration">
-                                                                                <div class="col-lg-12 col-md-12"
-                                                                                     style="padding-left: 0px;padding-right: 0px;">
+                                                                    <div class="form-group"
+                                                                         style="padding-top:20px;">
+                                                                        <div class="row" id="premium_service">
+                                                                            <div class="col-lg-12 col-md-12">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label font-15 font-bold font-green">Buy
+                                                                                        Premium Service
+                                                                                    </label>
+                                                                                    <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
+                                                                                    {% for advert_service in advert_service_list %}
                                                                                     <ul class="radio-list list-inline"
                                                                                         data-error-container="#form_2_membership_error">
-                                                                                        <div class="col-lg-4 col-md-4">
-                                                                                            <label class="control-label font-15 font-regular">Duration
-                                                                                                <span class="required"> * </span>
-                                                                                            </label>
-                                                                                            <select data-level="0"
-                                                                                                    class="form-control sel2"
-                                                                                                    id="duration_list"
-                                                                                                    name="duration_list">
-                                                                                                <option value="">Select
-                                                                                                    Duration
-                                                                                                </option>
-                                                                                                <option value="3">3
-                                                                                                    Days
-                                                                                                </option>
-                                                                                                <option value="7">7
-                                                                                                    Days
-                                                                                                </option>
-                                                                                                <option value="30">30
-                                                                                                    Days
-                                                                                                </option>
-                                                                                                <option value="90">90
-                                                                                                    Days
-                                                                                                </option>
-                                                                                                <option value="180">180
-                                                                                                    Days
-                                                                                                </option>
-                                                                                            </select>
-                                                                                            <label id="selectedDuration"
-                                                                                                   style="color:red; display:none;"></label>
-                                                                                        </div>
-                                                                                        <div class="col-lg-4 col-md-4">
-                                                                                            <label class="font-15 font-regular">
-                                                                                                Start
-                                                                                                Date </label>
-                                                                                            <input type="text"
-                                                                                                   name="start_date"
-                                                                                                   id="dt50"
-                                                                                                   onchange="basic_subscription()"
-                                                                                                   class="form-control date-picker">
-                                                                                            <label id="basicStartDate"
-                                                                                                   class="font-12 font-regular"
-                                                                                                   style="color:red; display:none;"></label>
-                                                                                        </div>
-                                                                                        <div class="col-lg-4 col-md-4">
-                                                                                            <label class="font-15 font-regular">End
-                                                                                                Date </label>
-                                                                                            <input type="text"
-                                                                                                   id="dt2" readonly
-                                                                                                   class="form-control end-date"
-                                                                                                   name="end_date"/>
-                                                                                            <label id="basicEndDate"
-                                                                                                   class="font-12 font-regular"
-                                                                                                   style="color:red; display:none;"></label>
-                                                                                        </div>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <label class="error font-12 font-regular"
-                                                                                   style="color:red; display:none;"></label>
-                                                                        </div>
-
-                                                                        <div class="form-group"
-                                                                             style="padding-top:20px;">
-                                                                            <div class="row" id="premium_service">
-                                                                                <div class="col-lg-12 col-md-12">
-                                                                                    <div class="form-group">
-                                                                                        <label class="control-label font-15 font-bold font-green">Buy
-                                                                                            Premium Service
-                                                                                        </label>
-                                                                                        <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-                                                                                        {% for advert_service in advert_service_list %}
-                                                                                        <ul class="radio-list list-inline"
-                                                                                            data-error-container="#form_2_membership_error">
-                                                                                            <div class="row">
-                                                                                                <div class="col-lg-3 col-md-3 check-advert"
-                                                                                                     style="padding-top: 30px;">
-                                                                                                    <li>
-                                                                                                        <label id="lebel_{{advert.advert_rate_card_id}}"
-                                                                                                               class="font-15 font-regular">
-                                                                                                        {% if advert_service.checked == "true" %}
-                                                                                                        <input type="checkbox"
-                                                                                                               autocomplete="off"
-                                                                                                               id="check_{{advert_service.advert_rate_card_id}}"
-                                                                                                               value="{{advert_service.service_name}}"
-                                                                                                               onclick='check_advert({{advert_service.advert_rate_card_id}});'
-                                                                                                               name="premium_service"
-                                                                                                               checked
-                                                                                                               class="premium_checkbox"/>{{advert_service.service_name}}</label>
-                                                                                                        {% else %}
-                                                                                                        <input type="checkbox"
-                                                                                                               autocomplete="off"
-                                                                                                               id="check_{{advert_service.advert_rate_card_id}}"
-                                                                                                               value="{{advert_service.service_name}}"
-                                                                                                               onclick='check_advert({{advert_service.advert_rate_card_id}});'
-                                                                                                               name="premium_service"
-                                                                                                               class="premium_checkbox"/>{{advert_service.service_name}}</label>
-                                                                                                        {% endif %}
-                                                                                                    </li>
-                                                                                                </div>
-                                                                                                <div class="col-lg-3 col-md-3">
-                                                                                                    <label class="control-label font-15 font-regular">Duration</label>
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-3 col-md-3 check-advert"
+                                                                                                 style="padding-top: 30px;">
+                                                                                                <li>
+                                                                                                    <label id="lebel_{{advert.advert_rate_card_id}}"
+                                                                                                           class="font-15 font-regular">
                                                                                                     {% if advert_service.checked == "true" %}
+                                                                                                        <input type="checkbox"
+                                                                                                           autocomplete="off"
+                                                                                                           id="check_{{advert_service.advert_rate_card_id}}"
+                                                                                                           value="{{advert_service.service_name}}"
+                                                                                                           onclick='check_advert({{advert_service.advert_rate_card_id}});'
+                                                                                                           name="premium_service"
+                                                                                                           checked
+                                                                                                           class="premium_checkbox"/>{{advert_service.service_name}}</label>
+                                                                                                    {% else %}
+                                                                                                        <input type="checkbox"
+                                                                                                           autocomplete="off"
+                                                                                                           id="check_{{advert_service.advert_rate_card_id}}"
+                                                                                                           value="{{advert_service.service_name}}"
+                                                                                                           onclick='check_advert({{advert_service.advert_rate_card_id}});'
+                                                                                                           name="premium_service"
+                                                                                                           class="premium_checkbox"/>{{advert_service.service_name}}</label>
+                                                                                                    {% endif %}
+                                                                                                </li>
+                                                                                            </div>
+                                                                                            <div class="col-lg-3 col-md-3">
+                                                                                                <label class="control-label font-15 font-regular">Duration</label>
+                                                                                                {% if advert_service.checked == "true" %}
                                                                                                     <select id="day_{{advert_service.advert_rate_card_id}}"
-                                                                                                            name="premium_ser_duration"
-                                                                                                            onchange="premium_duration({{advert_service.advert_rate_card_id}})"
-                                                                                                            class="form-control days al_days">
-                                                                                                        <option value="0">
-                                                                                                            Days
-                                                                                                        </option>
-                                                                                                        {% if business_data.service_rate_card_duration >= 3 %}
-                                                                                                            {% if advert_service.service_duration == 3 %}
+                                                                                                        name="premium_ser_duration"
+                                                                                                        onchange="premium_duration({{advert_service.advert_rate_card_id}})"
+                                                                                                        class="form-control days al_days">
+                                                                                                        <option value="0">Days</option>
+                                                                                                    {% if business_data.service_rate_card_duration >= 3 %}
+                                                                                                        {% if advert_service.service_duration == 3 %}
                                                                                                             <option selected
                                                                                                                     value="3">
                                                                                                                 3 Days
@@ -1018,8 +1120,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                             </option>
                                                                                                             {% endif %}
                                                                                                         {% endif %}
-                                                                                                        {% if business_data.service_rate_card_duration >= 7 %}
-                                                                                                            {% if advert_service.service_duration == 7 %}
+                                                                                                    {% if business_data.service_rate_card_duration >= 7 %}
+                                                                                                        {% if advert_service.service_duration == 7 %}
                                                                                                             <option selected
                                                                                                                     value="7">
                                                                                                                 7 Days
@@ -1028,10 +1130,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                             <option value="7">
                                                                                                                 7 Days
                                                                                                             </option>
-                                                                                                            {% endif %}
                                                                                                         {% endif %}
-                                                                                                        {% if business_data.service_rate_card_duration >= 30 %}
-                                                                                                            {% if advert_service.service_duration == 30 %}
+                                                                                                    {% endif %}
+                                                                                                    {% if business_data.service_rate_card_duration >= 30 %}
+                                                                                                        {% if advert_service.service_duration == 30 %}
                                                                                                             <option selected
                                                                                                                     value="30">
                                                                                                                 30 Days
@@ -1040,10 +1142,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                             <option value="30">
                                                                                                                 30 Days
                                                                                                             </option>
-                                                                                                            {% endif %}
                                                                                                         {% endif %}
-                                                                                                        {% if business_data.service_rate_card_duration >= 90 %}
-                                                                                                            {% if advert_service.service_duration == 90 %}
+                                                                                                    {% endif %}
+                                                                                                    {% if business_data.service_rate_card_duration >= 90 %}
+                                                                                                        {% if advert_service.service_duration == 90 %}
                                                                                                             <option selected
                                                                                                                     value="90">
                                                                                                                 90 Days
@@ -1052,10 +1154,10 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                             <option value="90">
                                                                                                                 90 Days
                                                                                                             </option>
-                                                                                                            {% endif %}
                                                                                                         {% endif %}
-                                                                                                        {% if business_data.service_rate_card_duration == 180 %}
-                                                                                                            {% if advert_service.service_duration == 180 %}
+                                                                                                    {% endif %}
+                                                                                                    {% if business_data.service_rate_card_duration == 180 %}
+                                                                                                        {% if advert_service.service_duration == 180 %}
                                                                                                             <option selected
                                                                                                                     value="180">
                                                                                                                 180 Days
@@ -1064,366 +1166,238 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                                                             <option value="180">
                                                                                                                 180 Days
                                                                                                             </option>
-                                                                                                            {% endif %}
+                                                                                                        {% endif %}
+                                                                                                    {% endif %}
+                                                                                                </select>
+                                                                                                {% else %}
+                                                                                                <select id="day_{{advert_service.advert_rate_card_id}}"
+                                                                                                        disabled="disabled"
+                                                                                                        name="premium_ser_duration"
+                                                                                                        onchange="premium_duration({{advert_service.advert_rate_card_id}})"
+                                                                                                        class="form-control days">
+                                                                                                </select>
+                                                                                                {% endif %}
+                                                                                            </div>
+                                                                                            <div class="col-lg-3 col-md-3">
+                                                                                                <label class="control-label font-15 font-regular">Start
+                                                                                                    Date
+                                                                                                </label>
+                                                                                                {% if advert_service.checked == "true" %}
+                                                                                                <input type="text"
+                                                                                                       value="{{advert_service.service_start_date}}"
+                                                                                                       id="start_{{advert_service.advert_rate_card_id}}"
+                                                                                                       autocomplete="off"
+                                                                                                       onchange="premium_startdate({{advert_service.advert_rate_card_id}})"
+                                                                                                       class="form-control pre_start_date date-picker1"
+                                                                                                       name="premium_start_date">
+                                                                                                {% else %}
+                                                                                                <input type="text"
+                                                                                                       id="start_{{advert_service.advert_rate_card_id}}"
+                                                                                                       autocomplete="off"
+                                                                                                       disabled="disabled"
+                                                                                                       onchange="premium_startdate({{advert_service.advert_rate_card_id}})"
+                                                                                                       class="form-control pre_start_date date-picker1"
+                                                                                                       name="premium_start_date">
+                                                                                                {% endif %}
+                                                                                            </div>
+                                                                                            <div class="col-lg-3 col-md-3">
+                                                                                                <label class="control-label font-15 font-regular">End
+                                                                                                    Date
+                                                                                                </label>
+                                                                                                {% if advert_service.checked == "true" %}
+                                                                                                <input type="text"
+                                                                                                       value="{{advert_service.service_end_date}}"
+                                                                                                       id="end_{{advert_service.advert_rate_card_id}}"
+                                                                                                       class="form-control pre_end_date"
+                                                                                                       readonly
+                                                                                                       autocomplete="off"
+                                                                                                       name="premium_end_date">
+                                                                                                {% else %}
+                                                                                                <input type="text"
+                                                                                                       id="end_{{advert_service.advert_rate_card_id}}"
+                                                                                                       class="form-control pre_end_date"
+                                                                                                       readonly
+                                                                                                       autocomplete="off"
+                                                                                                       name="premium_end_date">
+                                                                                                {% endif %}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </ul>
+                                                                                    {% endfor %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label id="mismatch-days"
+                                                                               class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                        <label id="startdateemptyerror"
+                                                                               class="font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
+                                                                    </div>
+                                                                    <div class="form-group" style="padding-top:20px;">
+                                                                        <div class="row" id="telephone_service">
+                                                                            <div class="col-lg-12">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label font-15 font-bold font-green">Telephone Enquiry Premium Service
+                                                                                    </label>
+                                                                                    <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
+                                                                                    {% for rate_card in telephone_rate_card %}
+                                                                                    <ul class="radio-list list-inline"
+                                                                                        data-error-container="#form_2_membership_error">
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-3 col-md-3 check-advert"
+                                                                                                 style="padding-top: 30px;">
+                                                                                                <li>
+                                                                                                    <label id="tel_lebel_{{rate_card.rate_card_id}}"
+                                                                                                           class="font-15 font-regular">
+                                                                                                        {% if enquiry_service_data.enquiry_service_name == rate_card.service_name %}
+                                                                                                            <input type="radio" onclick='check_tel({{rate_card.rate_card_id}});'
+                                                                                                                   id="tel_check_{{rate_card.rate_card_id}}" name="tel_service_name"
+                                                                                                                   value="{{rate_card.service_name}}" checked
+                                                                                                                   class="telephone_radio"/>{{rate_card.service_name}}</label>
+                                                                                                        {%else%}
+                                                                                                            <input type="radio" onclick='check_tel({{rate_card.rate_card_id}});'
+                                                                                                                   id="tel_check_{{rate_card.rate_card_id}}" name="tel_service_name"
+                                                                                                                   value="{{rate_card.service_name}}"
+                                                                                                                   class="telephone_radio"/>{{rate_card.service_name}}</label>
+                                                                                                        {%endif%}
+                                                                                                </li>
+                                                                                            </div>
+                                                                                            <div class="col-lg-3 col-md-3">
+                                                                                                <!--                                                                                <input type="text" id="advert2" disabled="disabled" class="form-control days"  name="to" placeholder="No of days">  -->
+                                                                                                <label class="control-label font-15 font-regular">Duration
+                                                                                                </label>
+                                                                                                {% if enquiry_service_data.enquiry_service_name == rate_card.service_name %}
+                                                                                                    <select name="tel_ser_duration" id="tel_dur_{{rate_card.rate_card_id}}"
+                                                                                                            class="form-control subcat_selects days tel_dur"
+                                                                                                            onchange="telphone_duration({{rate_card.rate_card_id}})">
+                                                                                                        <option value="">Select Duration</option>
+                                                                                                        {% if enquiry_service_data.enquiry_service_duration == '3' %}
+                                                                                                            <option value="3" selected>3 Days</option>
+                                                                                                        {% else %}
+                                                                                                            <option value="3">3 Days</option>
+                                                                                                        {% endif %}
+                                                                                                        {% if enquiry_service_data.enquiry_service_duration == '7' %}
+                                                                                                            <option value="7" selected>7 Days</option>
+                                                                                                        {% else %}
+                                                                                                            <option value="7">7 Days</option>
+                                                                                                        {% endif %}
+                                                                                                        {% if enquiry_service_data.enquiry_service_duration == '30' %}
+                                                                                                            <option value="30" selected>30 Days</option>
+                                                                                                        {% else %}
+                                                                                                            <option value="30">30 Days</option>
+                                                                                                        {% endif %}
+                                                                                                        {% if enquiry_service_data.enquiry_service_duration == '90' %}
+                                                                                                            <option value="90" selected>90 Days</option>
+                                                                                                        {% else %}
+                                                                                                            <option value="90">90 Days</option>
+                                                                                                        {% endif %}
+                                                                                                        {% if enquiry_service_data.enquiry_service_duration == '180' %}
+                                                                                                            <option value="180" selected>180 Days</option>
+                                                                                                        {% else %}
+                                                                                                            <option value="180">180 Days</option>
                                                                                                         {% endif %}
                                                                                                     </select>
-                                                                                                    {% else %}
-                                                                                                    <select id="day_{{advert_service.advert_rate_card_id}}"
-                                                                                                            disabled="disabled"
-                                                                                                            name="premium_ser_duration"
-                                                                                                            onchange="premium_duration({{advert_service.advert_rate_card_id}})"
-                                                                                                            class="form-control days">
+                                                                                                {% else %}
+                                                                                                    <select name="tel_ser_duration" id="tel_dur_{{rate_card.rate_card_id}}"
+                                                                                                            class="form-control subcat_selects days tel_dur" disabled
+                                                                                                            onchange="telphone_duration({{rate_card.rate_card_id}})">
                                                                                                     </select>
-                                                                                                    {% endif %}
-                                                                                                </div>
-                                                                                                <div class="col-lg-3 col-md-3">
-                                                                                                    <label class="control-label font-15 font-regular">Start
-                                                                                                        Date
-                                                                                                    </label>
-                                                                                                    {% if advert_service.checked == "true" %}
-                                                                                                    <input type="text"
-                                                                                                           value="{{advert_service.service_start_date}}"
-                                                                                                           id="start_{{advert_service.advert_rate_card_id}}"
-                                                                                                           autocomplete="off"
-                                                                                                           onchange="premium_startdate({{advert_service.advert_rate_card_id}})"
-                                                                                                           class="form-control pre_start_date date-picker1"
-                                                                                                           name="premium_start_date">
-                                                                                                    {% else %}
-                                                                                                    <input type="text"
-                                                                                                           id="start_{{advert_service.advert_rate_card_id}}"
-                                                                                                           autocomplete="off"
-                                                                                                           disabled="disabled"
-                                                                                                           onchange="premium_startdate({{advert_service.advert_rate_card_id}})"
-                                                                                                           class="form-control pre_start_date date-picker1"
-                                                                                                           name="premium_start_date">
-                                                                                                    {% endif %}
-                                                                                                </div>
-                                                                                                <div class="col-lg-3 col-md-3">
-                                                                                                    <label class="control-label font-15 font-regular">End
-                                                                                                        Date
-                                                                                                    </label>
-                                                                                                    {% if advert_service.checked == "true" %}
-                                                                                                    <input type="text"
-                                                                                                           value="{{advert_service.service_end_date}}"
-                                                                                                           id="end_{{advert_service.advert_rate_card_id}}"
-                                                                                                           class="form-control pre_end_date"
-                                                                                                           readonly
-                                                                                                           autocomplete="off"
-                                                                                                           name="premium_end_date">
-                                                                                                    {% else %}
-                                                                                                    <input type="text"
-                                                                                                           id="end_{{advert_service.advert_rate_card_id}}"
-                                                                                                           class="form-control pre_end_date"
-                                                                                                           readonly
-                                                                                                           autocomplete="off"
-                                                                                                           name="premium_end_date">
-                                                                                                    {% endif %}
-                                                                                                </div>
+                                                                                                {% endif %}
                                                                                             </div>
-                                                                                        </ul>
-                                                                                        {% endfor %}
-                                                                                    </div>
+                                                                                            <div class="col-lg-3 col-md-3">
+                                                                                                <label class="control-label font-15 font-regular">Start
+                                                                                                    Date
+                                                                                                </label>
+                                                                                                {% if enquiry_service_data.enquiry_service_name == rate_card.service_name %}
+                                                                                                    <input type="text"
+                                                                                                       readonly value="{{enquiry_service_data.enquiry_service_start_date}}"
+                                                                                                       id="tel_start_{{rate_card.rate_card_id}}"
+                                                                                                       class="form-control tel_start_date"
+                                                                                                       name="tel_start_date">
+                                                                                                {% else %}
+                                                                                                    <input type="text"
+                                                                                                       readonly
+                                                                                                       id="tel_start_{{rate_card.rate_card_id}}"
+                                                                                                       class="form-control tel_start_date"
+                                                                                                       name="tel_start_date">
+                                                                                                {% endif %}
+                                                                                            </div>
+                                                                                            <div class="col-lg-3 col-md-3">
+                                                                                                <label class="control-label font-15 font-regular">End
+                                                                                                    Date
+                                                                                                </label>
+                                                                                                {% if enquiry_service_data.enquiry_service_name == rate_card.service_name %}
+                                                                                                    <input type="text"
+                                                                                                       class="form-control tel_end_date"
+                                                                                                       readonly value="{{enquiry_service_data.enquiry_service_end_date}}"
+                                                                                                       id="tel_end_{{rate_card.rate_card_id}}"
+                                                                                                       name="tel_end_date">
+                                                                                                {% else %}
+                                                                                                    <input type="text"
+                                                                                                       class="form-control tel_end_date"
+                                                                                                       readonly
+                                                                                                       id="tel_end_{{rate_card.rate_card_id}}"
+                                                                                                       name="tel_end_date">
+                                                                                                {% endif %}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </ul>
+                                                                                    {% endfor %}
                                                                                 </div>
                                                                             </div>
-                                                                            <label id="mismatch-days"
-                                                                                   class="error font-12 font-regular"
-                                                                                   style="color:red; display:none;"></label>
-                                                                            <label id="startdateemptyerror"
-                                                                                   class="font-12 font-regular"
-                                                                                   style="color:red; display:none;"></label>
                                                                         </div>
-
-                                                                    </div>
-                                                                    <div class="col-lg-2 col-md-2">
-                                                                        <label class="control-label font-15 font-bold font-green">Subscription
-                                                                            Amount
-                                                                        </label>
-                                                                        <label class="control-label font-12 font-regular">(
-                                                                            Excluding Tax )
-                                                                        </label>
-                                                                        <input type="text" value="{{total_amount}}"
-                                                                               id="amount" readonly
-                                                                               style="border-left:none; border-right:none; border-top:none; background-color: #fff;"
-                                                                               class="form-control"
-                                                                               name=""/>
-                                                                    </div>
-                                                                    <div class="col-lg-12 col-md-12  row">
-                                                                        <hr>
+                                                                        <label id="tel-mismatch-days"
+                                                                               class="error font-12 font-regular"
+                                                                               style="color:red; display:none;"></label>
                                                                     </div>
 
-                                                                    <br>
-
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12 col-md-12 text-right">
-
-                                                                            <a type="button"
-                                                                               href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}"
-                                                                               class="btn btn-outline grey_color">
-                                                                                Cancel </a>
-                                                                            <input type="button" value="Update & Quit"
-                                                                                   id="save-service-detail"
-                                                                                   class="btn btn-outline grey_color">
-                                                                            <input type="button"
-                                                                                   value="Update & Continue"
-                                                                                   id="continue-service-detail"
-                                                                                   class="btn btn-outline done_btn">
-                                                                        </div>
-                                                                    </div>
-                                                                </form>
+                                                                </div>
+                                                                <div class="col-lg-2 col-md-2">
+                                                                <label class="control-label font-15 font-bold font-green">Subscription
+                                                                    Amount
+                                                                </label>
+                                                                <label class="control-label font-12 font-regular">(
+                                                                    Excluding Tax )
+                                                                </label>
+                                                                <input type="text" value="{{total_amount}}"
+                                                                       id="amount" readonly
+                                                                       style="border-left:none; border-right:none; border-top:none; background-color: #fff;"
+                                                                       class="form-control"
+                                                                       name=""/>
+                                                            </div>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12  row">
+                                                                <hr>
                                                             </div>
 
-                                                            <div class="tab-pane" id="tab2">
-                                                                <hr>
-                                                                <div class="form-group">
-                                                                    <form id="payment_form">
-                                                                        <input type="text" name="business_id" hidden
-                                                                               value="{{business_data.business_id}}">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12 col-md-12"
-                                                                                 id="sub_success_div">
-                                                                                <label id="sub_success"
-                                                                                       class="font-15 font-regular"></label>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-lg-4 col-md-4">
-                                                                                <label class="control-label font-15 font-regular">Subscription
-                                                                                    Amount
-                                                                                    <span class="required"> * </span>
-                                                                                </label>
-                                                                                <input id="generated_amount"
-                                                                                       onkeyup="changeprice_edit()"
-                                                                                       readonly type="text"
-                                                                                       value="{{payment_details.total_amount}}"
-                                                                                       class="form-control"
-                                                                                       name="payment_amount"/>
-                                                                            </div>
+                                                            <br>
 
-                                                                            <div class="col-lg-4 col-md-4">
-                                                                                <label class="control-label font-15 font-regular">Tax
-                                                                                    Payable
-                                                                                    <span class="required"> * </span>
-                                                                                </label>
-                                                                                <select id="tax_type" name="tax_type"
-                                                                                        style="width:100%;"
-                                                                                        onchange="changeprice_edit()"
-                                                                                        class="form-control">
-                                                                                    <option value=""> Tax Type</option>
-                                                                                    {% for tax in tax_list %}
-                                                                                    {% if payment_details.tax_type == tax.tax_rate %}
-                                                                                    <option selected
-                                                                                            value="{{tax.tax_rate}}">
-                                                                                        {{tax.tax_type}}
-                                                                                    </option>
-                                                                                    {% else %}
-                                                                                    <option value="{{tax.tax_rate}}">
-                                                                                        {{tax.tax_type}}
-                                                                                    </option>
-                                                                                    {% endif %}
-                                                                                    {% endfor %}
-                                                                                </select>
-                                                                                <label class="error font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 text-right">
 
-                                                                            <label class="error font-12 font-regular"
-                                                                                   style="color:red; display:none;"></label>
-                                                                            <div class="col-lg-4 col-md-4">
-                                                                                <label class="control-label font-15 font-bold">Total
-                                                                                    Amount Payable
-                                                                                    <span class="required"> * </span>
-                                                                                </label>
-                                                                                <input type="text" id="payable_amount"
-                                                                                       value="{{payment_details.payable_amount}}"
-                                                                                       readonly class="form-control"
-                                                                                       name="total_payable_amount"/>
-                                                                            </div>
-                                                                        </div>
-                                                                        <br>
-                                                                        <hr style="border-top: 1px dashed #6B6B6B; margin-top: 0px; padding-top: 0px;">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-4 col-md-4">
-                                                                                <label class="control-label font-15 font-regular">Total
-                                                                                    Amount Paid
-                                                                                </label>
-                                                                                <input type="text" id="paid_amount"
-                                                                                       onkeypress="return validateIntKeyPress(this,event);"
-                                                                                       class="form-control"
-                                                                                       value="{{payment_details.paid_amount}}"
-                                                                                       name="total_paid_amount"/>
-                                                                                <label class="error font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                            </div>
-                                                                            <div class="col-lg-8 col-md-8"
-                                                                                 id="payment_mode">
-                                                                                <label class="control-label font-15 font-regular">
-                                                                                    Payment Mode
-                                                                                    <span class="required"> * </span>
-                                                                                </label>
-                                                                                <ul class="radio-list list-inline"
-                                                                                    data-error-container="#form_2_membership_error">
-
-                                                                                    <li>
-                                                                                        {% if payment_details.payment_mode == 'cash' %}
-                                                                                        <label class="font-15 font-regular">
-                                                                                            <input type="radio"
-                                                                                                   class="radio" checked
-                                                                                                   name="payment_mode"
-                                                                                                   value="cash"/> Cash
-                                                                                        </label>
-                                                                                        {% else %}
-                                                                                        <label class="font-15 font-regular">
-                                                                                            <input type="radio"
-                                                                                                   class="radio"
-                                                                                                   name="payment_mode"
-                                                                                                   value="cash"/> Cash
-                                                                                        </label>
-                                                                                        {% endif %}
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        {% if payment_details.payment_mode == 'cheque' %}
-                                                                                        <label class="font-15 font-regular">
-                                                                                            <input type="radio"
-                                                                                                   id="cheque" checked
-                                                                                                   class="radio"
-                                                                                                   name="payment_mode"
-                                                                                                   value="cheque"/>
-                                                                                            Cheque
-                                                                                        </label>
-                                                                                        {% else %}
-                                                                                        <label class="font-15 font-regular">
-                                                                                            <input type="radio"
-                                                                                                   id="cheque"
-                                                                                                   class="radio"
-                                                                                                   name="payment_mode"
-                                                                                                   value="cheque"/>
-                                                                                            Cheque </label>
-                                                                                        {% endif %}
-
-                                                                                        <!--  <label>
-                                                                                         <input type="radio" class="radio" name="payment_mode" value="bank_transfer" /> Bank Transfer </label> -->
-                                                                                    </li>
-                                                                                </ul>
-
-                                                                            </div>
-                                                                            <label class="error col-lg-offset-4 col-md-offset-4 col-md-8 col-lg-12 font-12 font-regular"
-                                                                                   style="color:red; display:none;"></label>
-                                                                        </div>
-
-
-                                                                        <div class="row" id="che">
-                                                                            <br>
-                                                                            <label class="control-label font-15 font-regular"
-                                                                                   style="margin-left: 14px;">Cheque
-                                                                                Details </label>
-                                                                            <div class="form-group">
-
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-regular">
-                                                                                        Bank Name
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <input type="text"
-                                                                                           class="form-control"
-                                                                                           id="bank_name"
-                                                                                           value="{{payment_details.bank_name}}"
-                                                                                           name="bank_name"/>
-                                                                                    <label class="error font-12 font-regular"
-                                                                                           style="color:red; display:none;"></label>
-                                                                                </div>
-
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-regular">
-                                                                                        Bank Branch Name
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <input type="text"
-                                                                                           value="{{payment_details.branch_name}}"
-                                                                                           class="form-control"
-                                                                                           id="bank_branch_name"
-                                                                                           name="bank_branch_name"/>
-                                                                                    <label class="error font-12 font-regular"
-                                                                                           style="color:red; display:none;"></label>
-                                                                                </div>
-
-                                                                                <div class="col-lg-4 col-md-4">
-                                                                                    <label class="control-label font-15 font-regular">
-                                                                                        Cheque Number
-                                                                                        <span class="required"> * </span>
-                                                                                    </label>
-                                                                                    <input type="text"
-                                                                                           value="{{payment_details.cheque_number}}"
-                                                                                           onkeypress="return validateFloatKeyPresss(this,event);"
-                                                                                           class="form-control"
-                                                                                           id="cheque_number"
-                                                                                           name="cheque_number"/>
-                                                                                    <label class="error font-12 font-regular"
-                                                                                           style="color:red; display:none;"></label>
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </div>
-                                                                        <br>
-
-                                                                        <!--                                                    <div class="form-group"  style="padding-top: 6px;"> -->
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12 col-md-12">
-                                                                                <label class="control-label font-15 font-regular">Note
-                                                                                    <span class="required"> * </span>
-                                                                                </label>
-                                                                                    <textarea type="text" id="note"
-                                                                                              class="form-control"
-                                                                                              name="payment_note"></textarea>
-                                                                                <label class="error col-lg-12 font-12 font-regular"
-                                                                                       style="color:red; display:none;"></label>
-                                                                            </div>
-
-
-                                                                        </div>
-                                                                    </form>
-                                                                    <!--                                                  </div> -->
-                                                                    <br>
-                                                                    <hr>
-
-
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12 col-md-12 text-right">
-                                                                            <a type="button"
-                                                                               href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}"
-                                                                               class="btn btn-outline grey_color">
-                                                                                Cancel </a>
-                                                                            <button type="button"
-                                                                                    id="save_payment_detail"
-                                                                                    class="btn btn-outline done_btn">
-                                                                                Update
-                                                                            </button>
-                                                                            <!--<button type="submit"-->
-                                                                            <!--id="prev-subscription-detail"-->
-                                                                            <!--class="btn btn-outline blue">Prev-->
-                                                                            <!--</button>-->
-                                                                            <!--<button type="button"-->
-                                                                            <!--id="next-advert-detail"-->
-                                                                            <!--class="btn btn-outline blue">Next-->
-                                                                            <!--</button>-->
-                                                                        </div>
-                                                                    </div>
+                                                                    <a type="button"
+                                                                       href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}"
+                                                                       class="btn btn-outline grey_color">
+                                                                        Cancel </a>
+                                                                    <input type="button" value="Update"
+                                                                           id="save-service-detail"
+                                                                           class="btn btn-outline done_btn">
                                                                 </div>
                                                             </div>
-
-
-                                                        </div>
+                                                        </form>
                                                     </div>
-                                                    <!-- END FORM-->
                                                 </div>
+                                                <!-- END FORM-->
                                             </div>
-                                            <!-- END PORTLET-->
                                         </div>
+                                        <!-- END PORTLET-->
                                     </div>
                                 </div>
-                                <!-- END CONTENT BODY -->
                             </div>
-                            <!-- END CONTENT -->
+                            <!-- END CONTENT BODY -->
                         </div>
+                        <!-- END CONTENT -->
                     </div>
                 </div>
             </div>
@@ -1788,17 +1762,20 @@ License: You must have a valid license purchased only from themeforest(the above
 
     $("#duration_list").val("{{business_data.service_rate_card_duration}}").change();
     $("#dt50").val("{{business_data.start_date}}");
-    $("#sub_category").val("{{business_data.category_id}}").change();
     $("#dt2").val("{{business_data.end_date}}");
-    $("#note").text("{{payment_details.note}}");
     $('.al_days').prop("disabled", false);
 
     startDate = $("#dt50").val();
     endDate = $("#dt2").val();
 
-    $( ".date-picker1").datepicker({
-        minDate: new Date(startDate),
-        maxDate: new Date(endDate),
+    var from = $("#dt50").val().split("/");
+    var startDate = new Date(from[2], from[1] - 1, from[0]);
+
+    var from = $("#dt2").val().split("/");
+    var endDate = new Date(from[2], from[1] - 1, from[0]);
+
+    $( "#dt50").datepicker({
+        dateFormat: 'dd/mm/yy'
     });
 
     $( ".date-picker1" ).datepicker({});
@@ -1819,74 +1796,86 @@ License: You must have a valid license purchased only from themeforest(the above
     amount_3 = {{amount_3}};
     amount_4 = {{amount_4}};
     amount_5 = {{amount_5}};
+    tel_amount_1 = {{tel_amount_1}};
+    tel_amount_2 = {{tel_amount_2}};
+    tel_amount_3 = {{tel_amount_3}};
+    tel_amount_4 = {{tel_amount_4}};
+    tel_amount_5 = {{tel_amount_5}};
+    tel_amount_6 = {{tel_amount_6}};
     total_amount = {{total_amount}};
 
+    var cat_lvl = {{cat_lvl}};
+    var cat_id = {{cat_id}};
 
-    $('html').bind('keypress', function(e)
-    {
-       if(e.keyCode == 13)
-       {
-          return false;
-       }
-    });
+    function check_cat(lvl,this_val){
+        if($(this_val).attr('data-level')=="0"){
+        clear_subcat();
+        }
+        $.ajax({
+            type    : "POST",
+            url : '/subscriber-portal/check-category/',
+            data : {'category_id':$(this_val).val(),'cat_level':lvl},
+            success: function (response) {
+                if(response.success!='false'){
+                    $('#lvl'+lvl).html('');
+                    $('.subcat_select').select2();
+                    $('.subcat_selects').select2();
+                    $('.select2').css("width","100%");
+                    $('#lvl'+lvl).append('<option value="">Select SubCategory</option>');
+                    $.each(response.category_list, function (index, item) {
+                        $('#lvl'+lvl).append(item);
+                    });
+                    for(i=1;i<=lvl;i++){
+                        $('#lvl'+i+'_row').show();
+                    }
+                    $('#lvl'+lvl).attr('required','required');
+                }
+                if(response.success =='false'){
+                    if(response.has_rate_card == 'true'){
+                        cat_lvl = parseInt(lvl) - 1;
+                        cat_id = $(this_val).val();
+                        $("#subscription_div").css("display","block");
+                        $("#selectedDuration").css("display","none");
+                    }
+                    else{
+                        cat_lvl = '';
+                        cat_id = '';
+                        $("#subscription_div").css("display","none");
+                    }
+                }
+            },
+            error : function(response){
+                alert("_Error");
+            }
+        });
+    }
 
-    $("#next-payment-detail").click(function(){
-        $("#tab_1").removeClass("active");
-        $("#tab_2").addClass("active");
-        $("#tab1").removeClass("active");
-        $("#tab2").addClass("active");
-        $(".progress-bar-success").css("width","66.667%");
-        return false;
-    });
-
-    $("#prev-subscription-detail").click(function(){
-        $("#tab_2").removeClass("active");
-        $("#tab_1").addClass("active");
-        $("#tab2").removeClass("active");
-        $("#tab1").addClass("active");
-        $(".progress-bar-success").css("width","33.334%");
-        return false;
-    });
-
-    $("#next-advert-detail").click(function(){
-        $("#tab_2").removeClass("active");
-        $("#tab_3").addClass("active");
-        $("#tab2").removeClass("active");
-        $("#tab3").addClass("active");
-        $(".progress-bar-success").css("width","100%");
-        return false;
-    });
-
-    $("#prev-payment-detail").click(function(){
-        $("#tab_3").removeClass("active");
-        $("#tab_2").addClass("active");
-        $("#tab3").removeClass("active");
-        $("#tab2").addClass("active");
-        $(".progress-bar-success").css("width","66.667%");
-        return false;
-    });
+    function clear_subcat(){
+        $("#subscription_div").css("display","none");
+        for(i=1;i<=5;i++){
+            $('#lvl'+i+'_row').hide();
+            $('#lvl'+i).removeAttr('required');
+        }
+    }
 
     function basic_subscription(){
-
-        var date = new Date($("#dt50").val()),
+        var from = $("#dt50").val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
         days = parseInt($("#duration_list").val(), 10) - 1;
-
         if(!isNaN(date.getTime())){
             date.setDate(date.getDate() + days);
             var yyyy = date.getFullYear().toString();
             var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
             var dd  = date.getDate().toString();
-            newdate = (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]) + "/"+ yyyy  ; // padding
+            newdate = (dd[1]?dd:"0"+dd[0]) + "/" + (mm[1]?mm:"0"+mm[0]) + "/"+ yyyy  ; // padding
             $("#dt2").val(newdate);
         } else {
             alert("Invalid Date");
         }
-
-        //$(".duration").attr("disabled","disabled");
-        //$(".service-duration").attr("disabled","disabled");
         $(".premium_checkbox").prop("disabled", false);
+        $('.telephone_radio').prop("disabled", false);
         $(".checker").removeClass("disabled");
-
+        $(".radio").removeClass("disabled");
     }
 
     $("#duration_list").change(function(){
@@ -1895,21 +1884,31 @@ License: You must have a valid license purchased only from themeforest(the above
         $('#dt2').val('');
         $('#amount').val('');
         $('.premium_checkbox').prop("disabled", true);
+        $('.telephone_radio').prop("disabled", true);
         $('.checker').addClass("disabled");
+        $('.checker').addClass("focus");
         $('.checker').children("span").removeClass("checked");
+        $('.radio').addClass("disabled");
+        $('.radio').addClass("focus");
+        $('.radio').children("span").removeClass("checked");
         $('.days').empty();
         $('.days').prop("disabled", true);
-        $('.service-duration').val('');
         $('.days').html('').select2({data: {id:null, text: null}});
         $('.pre_start_date').prop("disabled", true);
         $('.pre_start_date').val('');
         $('.pre_end_date').val('');
+        $(".tel_start_date").each(function() {
+            $(this).val('');
+        });
+        $(".tel_end_date").each(function() {
+            $(this).val('');
+        });
         if (duration != ""){
             $("#dt50").prop("disabled", false);
             $.ajax({
                 type : "POST",
-                url : '/subscriber-portal/get-basic-subscription-amount/',
-                data : {'duration':duration},
+                url : '/subscriber-portal/get-premium-subscription-amount/',
+                data : {'duration':duration,'service_name':'Subscription','cat_lvl':cat_lvl,'cat_id':cat_id},
 
                 success: function (response) {
                     if(response.success=='true'){
@@ -1941,7 +1940,6 @@ License: You must have a valid license purchased only from themeforest(the above
     {
         var check_id = id;
         duration = $("#duration_list").val();
-
         if(document.getElementById('check_'+id).checked) {
             $('#day_'+id).prop("disabled", false);
             service_name = $('#lebel_'+id).text();
@@ -1962,7 +1960,6 @@ License: You must have a valid license purchased only from themeforest(the above
             }
         } else {
             $('#day_'+id).prop("disabled", true);
-            //$('#day_'+id).select2('val','0');
             $('#start_'+id).prop("disabled", true);
             $('#start_'+id).val('');
             $('#end_'+id).val('');
@@ -2008,28 +2005,165 @@ License: You must have a valid license purchased only from themeforest(the above
             $('#day_'+id).find('[value="90"]').remove();
             $('#day_'+id).find('[value="180"]').remove();
         }
+    }
 
+    function check_tel(id){
+        var check_id = id;
+        duration = $("#duration_list").val();
+        $(".tel_start_date").each(function() {
+            $(this).val('');
+        });
+        $(".tel_end_date").each(function() {
+            $(this).val('');
+        });
+        $(".tel_dur").each(function() {
+            $('.tel_dur').html('').select2({data: {id:null, text: null}});
+            $('.tel_dur').prop("disabled", true);
+        });
+        $('#tel_dur_'+id).prop("disabled", false);
+
+        service_name = $('#tel_lebel_'+id).text();
+        total_amount = parseInt(total_amount) - parseInt(tel_amount_1);
+        total_amount = parseInt(total_amount) - parseInt(tel_amount_2);
+        total_amount = parseInt(total_amount) - parseInt(tel_amount_3);
+        total_amount = parseInt(total_amount) - parseInt(tel_amount_4);
+        total_amount = parseInt(total_amount) - parseInt(tel_amount_5);
+        total_amount = parseInt(total_amount) - parseInt(tel_amount_6);
+        $("#amount").val(parseFloat(total_amount).toFixed(2));
+        tel_amount_1 = 0;
+        tel_amount_2 = 0;
+        tel_amount_3 = 0;
+        tel_amount_4 = 0;
+        tel_amount_5 = 0;
+        tel_amount_6 = 0;
+        var list = referanceDay[duration];
+        list = list.split(",");
+        $('#tel_dur_'+id).html('').select2({data: {id:null, text: null}});
+        $('#tel_dur_'+id).append('<option value="">Select Duration</option>');
+        $('#tel_dur_'+id).val('');
+        var days = [3,7,30,90,180];
+        $.each(list, function (index, item) {
+            $('#tel_dur_'+id).append('<option value="'+days[index]+'">'+item+'</option>');
+        });
+    }
+
+    function telphone_duration(id){
+        duration = $('#tel_dur_'+id).val();
+        service_name = $('#tel_lebel_'+id).text();
+        if(duration == "0"){
+            return false;
+        }
+        var from = $("#dt50").val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
+        days = parseInt(duration, 10) - 1;
+        if(!isNaN(date.getTime())){
+            date.setDate(date.getDate() + days);
+            var yyyy = date.getFullYear().toString();
+            var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
+            var dd  = date.getDate().toString();
+            newdate = (dd[1]?dd:"0"+dd[0]) + "/" + (mm[1]?mm:"0"+mm[0]) + "/"+ yyyy  ; // padding
+        } else {
+            alert("Invalid Date");
+        }
+        $("#tel_start_"+id).val($("#dt50").val());
+        $("#tel_end_"+id).val(newdate);
+
+        $.ajax({
+            type : "POST",
+            url : '/subscriber-portal/get-telephone-subscription-amount/',
+            data : {'duration':duration,'service_name':service_name.trim()},
+            success: function (response) {
+                if(response.success=='true'){
+                    if (service_name.trim() == 'Platinum'){
+                        tel_amount_1 = parseInt(response.amount);
+                        tel_amount_2 = 0;
+                        tel_amount_3 = 0;
+                        tel_amount_4 = 0;
+                        tel_amount_5 = 0;
+                        tel_amount_6 = 0;
+                    }
+                    if (service_name.trim() == 'Diamond'){
+                        tel_amount_2 = parseInt(response.amount);
+                        tel_amount_1 = 0;
+                        tel_amount_3 = 0;
+                        tel_amount_4 = 0;
+                        tel_amount_5 = 0;
+                        tel_amount_6 = 0;
+                    }
+                    if (service_name.trim() == 'Gold'){
+                        tel_amount_3 = parseInt(response.amount);
+                        tel_amount_1 = 0;
+                        tel_amount_2 = 0;
+                        tel_amount_4 = 0;
+                        tel_amount_5 = 0;
+                        tel_amount_6 = 0;
+                    }
+                    if (service_name.trim() == 'Silver'){
+                        tel_amount_4 = parseInt(response.amount);
+                        tel_amount_1 = 0;
+                        tel_amount_2 = 0;
+                        tel_amount_3 = 0;
+                        tel_amount_5 = 0;
+                        tel_amount_6 = 0;
+                    }
+                    if (service_name.trim() == 'Bronze'){
+                        tel_amount_5 = parseInt(response.amount);
+                        tel_amount_1 = 0;
+                        tel_amount_2 = 0;
+                        tel_amount_3 = 0;
+                        tel_amount_4 = 0;
+                        tel_amount_6 = 0;
+                    }
+                    if (service_name.trim() == 'Value'){
+                        tel_amount_6 = parseInt(response.amount);
+                        tel_amount_1 = 0;
+                        tel_amount_2 = 0;
+                        tel_amount_3 = 0;
+                        tel_amount_4 = 0;
+                        tel_amount_5 = 0;
+                    }
+                    total_amount = parseInt(amount) + parseInt(amount_1) + parseInt(amount_2) + parseInt(amount_3) + parseInt(amount_4) + parseInt(amount_5);
+                    total_amount = parseInt(total_amount) + parseInt(tel_amount_1) + parseInt(tel_amount_2) + parseInt(tel_amount_3) + parseInt(tel_amount_4) + parseInt(tel_amount_5) + parseInt(tel_amount_6);
+                    $("#amount").val(parseFloat(total_amount).toFixed(2));
+                }
+                if (response.success == "false") {
+                    $("#error-modal1").modal('show');
+                    $("#error-message1").text(response.message);
+                }
+            },
+            beforeSend: function () {
+                $("#processing").css('display','block');
+            },
+            complete: function () {
+                $("#processing").css('display','none');
+            },
+            error : function(response){
+                    alert("_Error");
+            }
+        });
     }
 
     function premium_duration(id){
-
-
-        startDate = $("#dt50").val();
-        endDate = $("#dt2").val();
-
+        var from = $("#dt50").val().split("/");
+        var startDate = new Date(from[2], from[1] - 1, from[0]);
+        var from = $("#dt2").val().split("/");
+        var endDate = new Date(from[2], from[1] - 1, from[0]);
+        $( "#start_"+id ).val('');
+        $( "#end_"+id ).val('');
         $( "#start_"+id ).prop("disabled", false);
         $( "#start_"+id ).datepicker({
             minDate: "",
             maxDate: "",
         });
         $( "#start_"+id ).datepicker( "destroy" );
-        $( "#start_"+id ).datepicker({
+        $( ".pre_start_date" ).datepicker({
             minDate: new Date(startDate),
             maxDate: new Date(endDate),
+            dateFormat: 'dd/mm/yy'
         });
 
         duration = $('#day_'+id).val();
-        service_name = $('#lebel_'+id).text();
+        service_name = $('#check_'+id).val();
 
         if(duration == "0"){
             return false;
@@ -2038,7 +2172,7 @@ License: You must have a valid license purchased only from themeforest(the above
         $.ajax({
             type : "POST",
             url : '/subscriber-portal/get-premium-subscription-amount/',
-            data : {'duration':duration,'service_name':service_name.trim()},
+            data : {'duration':duration,'service_name':service_name.trim(),'cat_lvl':cat_lvl,'cat_id':cat_id},
 
             success: function (response) {
                 if(response.success=='true'){
@@ -2059,6 +2193,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     }
 
                     total_amount = parseInt(amount) + parseInt(amount_1) + parseInt(amount_2) + parseInt(amount_3) + parseInt(amount_4) + parseInt(amount_5);
+                    total_amount = parseInt(total_amount) + parseInt(tel_amount_1) + parseInt(tel_amount_2) + parseInt(tel_amount_3) + parseInt(tel_amount_4) + parseInt(tel_amount_5) + parseInt(tel_amount_6);
                     $("#amount").val(parseFloat(total_amount).toFixed(2));
                 }
                 if (response.success == "false") {
@@ -2076,25 +2211,32 @@ License: You must have a valid license purchased only from themeforest(the above
                     alert("_Error");
             }
         });
-
     }
 
     function premium_startdate(id){
-        var date = new Date($('#start_'+id).val());
+        var from = $('#start_'+id).val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
         days = parseInt($('#day_'+id).val(), 10) - 1;
         if(!isNaN(date.getTime())){
             date.setDate(date.getDate() + days);
             var yyyy = date.getFullYear().toString();
             var mm = (date.getMonth()+1).toString(); // getMonth() is zero-based
             var dd  = date.getDate().toString();
-            newdate = (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]) + "/"+ yyyy  ; // padding
+            newdate = (dd[1]?dd:"0"+dd[0]) + "/" + (mm[1]?mm:"0"+mm[0]) + "/"+ yyyy  ; // padding
+            new_date = (mm[1]?mm:"0"+mm[0]) + "/" + (dd[1]?dd:"0"+dd[0]) + "/"+ yyyy  ; // padding
             $("#end_"+id).val(newdate);
-            if(new Date($('#dt2').val()) < new Date(newdate))
+
+            var from = $('#dt2').val().split("/");
+            if(new Date(from[2], from[1] - 1, from[0]) < new Date(new_date))
             {
                 $('#mismatch-days').css("display", "block");
                 $('#mismatch-days').text("Premium Service end date should be less than or equal to Duration end date ");
             }
             else{
+                var from = newdate.split("/");
+                var newdate = new Date(from[2], from[1] - 1, from[0]);
+                var from = $('#start_'+id).val().split("/");
+                var date = new Date(from[2], from[1] - 1, from[0]);
                 $('#mismatch-days').css("display", "none");
                 $('#mismatch-days').text("");
             }
@@ -2104,12 +2246,19 @@ License: You must have a valid license purchased only from themeforest(the above
     }
 
     $("#save-service-detail").click(function(e){
-        //e.preventDefault();
-
+        if(cat_lvl == ''){
+            return false;
+        }
         valid_cat = validate_subscription("#sub_category","#sub_category_lebel","Please select Category");
         if(valid_cat == false){
             return false;
         }
+
+        valid_sub_cat = check_Subcategory();
+        if(valid_cat == false){
+            return false;
+        }
+
         valid_dur = validate_subscription("#duration_list","#selectedDuration","Please select Duration");
         if(valid_dur == false){
             return false;
@@ -2127,6 +2276,12 @@ License: You must have a valid license purchased only from themeforest(the above
         if(valid_premium_sub == 1){
             return false;
         }
+
+        valid_premium_sub =  validate_enquiry_subscription();
+        if(valid_premium_sub == 1){
+            return false;
+        }
+
 
         var str = $("#subscription_form").serialize();
         $.ajax({
@@ -2138,78 +2293,6 @@ License: You must have a valid license purchased only from themeforest(the above
                 if(response.success=='true'){
                     $("#error-modal").modal('show');
                     $("#error-message").text(response.message);
-                }
-                if (response.success == "false") {
-                    $("#error-modal1").modal('show');
-                    $("#error-message1").text(response.message);
-                }
-            },
-            beforeSend: function () {
-                $("#processing").css('display','block');
-            },
-            complete: function () {
-                $("#processing").css('display','none');
-            },
-              error : function(response){
-                    alert("_Error");
-            }
-        });
-    });
-
-    var business_id = ''
-
-    $("#continue-service-detail ").click(function(e){
-        //e.preventDefault();
-
-        valid_cat = validate_subscription("#sub_category","#sub_category_lebel","Please select Category");
-        if(valid_cat == false){
-            return false;
-        }
-        valid_dur = validate_subscription("#duration_list","#selectedDuration","Please select Duration");
-        if(valid_dur == false){
-            return false;
-        }
-        valid_start_date = validate_subscription("#dt50","#basicStartDate","Please add Start Date");
-        if(valid_start_date == false){
-            return false;
-        }
-        valid_end_date = validate_subscription("#dt2","#basicEndDate","Please add End Date");
-        if(valid_start_date == false){
-            return false;
-        }
-
-        valid_premium_sub = validate_premium_subscription();
-        if(valid_premium_sub == 1){
-            return false;
-        }
-
-        var str = $("#subscription_form").serialize();
-        $.ajax({
-            type : "POST",
-            url : '/subscriber-portal/update-subscription-plan/',
-            data : $("#subscription_form").serialize(),
-
-            success: function (response) {
-                if(response.success=='true'){
-                    $("#generated_amount").val($("#amount").val());
-                    if("{{total_amount}}" != $("#amount").val()){
-                        $("#tax_type").val("").change();
-                    }
-                    $("#sub_success").text(response.message);
-                    $("#business_id").val(response.business_id);
-                    $("#sub_success_div").css("background","#36c6d3");
-                    $("#tab_1").removeClass("active");
-                    $("#number_1").text("");
-                    $("#number_1").addClass("fa fa-check");
-                    $("#number_1").addClass("done");
-                    $("#desc_1").addClass("desc_done");
-                    $("#number_1").css("padding-top","15px");
-                    $("#number_1").css("padding-left","13px");
-                    $("#number_1").css("font-size","18px");
-                    $("#tab_2").addClass("active");
-                    $("#tab1").removeClass("active");
-                    $("#tab2").addClass("active");
-                    $(".progress-bar-success").css("width","66.667%");
                 }
                 if (response.success == "false") {
                     $("#error-modal1").modal('show');
@@ -2283,236 +2366,6 @@ License: You must have a valid license purchased only from themeforest(the above
         return flag;
     }
 
-
-
-    $('#save_payment_detail').click(function(event){
-        event.preventDefault();
-        if(check_data()){
-            $.ajax({
-                type    : "POST",
-                url : '/subscriber-portal/update-payment-details/',
-                data : $("#payment_form").serialize(),
-
-                success: function (response) {
-                    if(response.success=='true'){
-                        $("#error-modal").modal('show');
-                        $("#error-message").text(response.message);
-
-                    }
-                    if (response.success == "false") {
-                        $("#error-modal").modal('show');
-                    }
-                },
-                beforeSend: function () {
-                    $("#processing").css('display','block');
-                },
-                complete: function () {
-                    $("#processing").css('display','none');
-                },
-                error : function(response){
-                    alert("_Error");
-                }
-            });
-
-        }
-    });
-
-
-
-    $('#save_payment_continue').click(function(event){
-        event.preventDefault();
-        if(check_data()){
-            $.ajax({
-                type    : "POST",
-                url : '/subscriber-portal/update-payment-details/',
-                data : $("#payment_form").serialize(),
-
-                success: function (response) {
-                    if(response.success=='true'){
-                        cat_id = $("#sub_category").val();
-                        if (cat_id != "{{business_data.category_id}}"){
-                            $("#categ").val(cat_id).change();
-                        }
-                        $("#payment_success").text(response.message);
-                        $("#payment_success_div").css("background","#36c6d3");
-                        $("#tab_2").removeClass("active");
-                        $("#number_2").text("");
-                        $("#number_2").addClass("fa fa-check");
-                        $("#number_2").addClass("done");
-                        $("#desc_2").addClass("desc_done");
-                        $("#number_2").css("padding-top","15px");
-                        $("#number_2").css("padding-left","13px");
-                        $("#number_2").css("font-size","18px");
-                        $("#tab_3").addClass("active");
-                        $("#tab2").removeClass("active");
-                        $("#tab3").addClass("active");
-                        $(".progress-bar-success").css("width","100%");
-                    }
-                    if (response.success == "false") {
-                        $("#error-modal").modal('show');
-                    }
-                },
-                beforeSend: function () {
-                    $("#processing").css('display','block');
-                },
-                complete: function () {
-                    $("#processing").css('display','none');
-                },
-                error : function(response){
-                    alert("_Error");
-                }
-            });
-
-        }
-    });
-
-    function check_data()
-    {
-        if(checkTax("#tax_type")&checkPaymentMode()&checkbank()& checkbankbranch()&checknumber()&checkNote("#note")&checkPaidAmount('#paid_amount')){
-            return true;
-        }
-        return false;
-    }
-
-
-    function checkTax(tax_type){
-        if($(tax_type).val()!='' && $(tax_type).val()!=null)
-        {
-            $(tax_type).parent().children('.error').css("display", "none");
-            return true;
-        }
-        else {
-            $('#tax_type').parent().children('.error').css("display", "block");
-            $('#tax_type').parent().children('.error').text("Please select Tax Type");
-            return false;
-        }
-    }
-
-    function checkPaymentMode(){
-        payment_mode = $("input[name='payment_mode']:checked").val()
-        if(payment_mode)
-        {
-            $("#payment_mode").parent().find('.error').css("display", "none");
-            return true;
-        }
-        else
-        {
-            $("#payment_mode").parent().find('.error').css("display", "block");
-            $("#payment_mode").parent().find('.error').text("Please select Payment mode");
-            return false;
-        }
-    }
-
-    function checkNote(note){
-        note = $(note).val()
-        note = note.trim()
-        if(note!='')
-        {
-            $("#note").parent().find('.error').css("display", "none");
-            return true;
-        }
-        else{
-            $("#note").parent().find('.error').css("display", "block");
-            $("#note").parent().find('.error').text("Please enter Note");
-            return false;
-        }
-    }
-
-    function checkPaidAmount(paid_amount){
-        amount = $(paid_amount).val()
-        payable_amount = $(payable_amount).val()
-        if(amount=='')
-        {
-            $("#paid_amount").parent().find('.error').css("display", "none");
-            return true;
-        }
-        else{
-            if(parseInt(amount) > parseInt(payable_amount)){
-                $("#paid_amount").parent().find('.error').css("display", "block");
-                $("#paid_amount").parent().find('.error').text("Paid amount shoul be less than Payable Amount");
-                return false;
-            }
-            else{
-                $("#paid_amount").parent().find('.error').css("display", "none");
-                return true;
-            }
-        }
-    }
-
-    function checkbank(){
-        payment_mode = $("input[name='payment_mode']:checked").val()
-        var namePattern = /^[0-9]*$/;
-        var bank =  $("#bank_name").val();
-        if(payment_mode=="cheque")
-        {
-            if($("#bank_name").val()==""){
-                $("#bank_name").parent().find('.error').css("display", "block");
-                $("#bank_name").parent().find('.error').text("Please enter Bank Name");
-                return false;
-            }else{
-                if(namePattern.test(bank)){
-                    $("#bank_name").parent().find('.error').css("display", "block");
-                    $("#bank_name").parent().find('.error').text("Please enter valid Bank Name");
-                return false;
-                }else{
-                    $("#bank_name").parent().find('.error').css("display", "none");
-                return true;
-                }
-            }
-
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    function checkbankbranch(){
-        payment_mode = $("input[name='payment_mode']:checked").val()
-        var namePattern = /^[0-9]*$/;
-        var bankbranch = $("#bank_branch_name").val();
-        if(payment_mode=="cheque")
-        {
-            if($("#bank_branch_name").val()==""){
-                $("#bank_branch_name").parent().find('.error').css("display", "block");
-                $("#bank_branch_name").parent().find('.error').text("Please enter Bank Branch Name");
-                return false;
-            }else{
-                if(namePattern.test(bankbranch)){
-                    $("#bank_branch_name").parent().find('.error').css("display", "block");
-                    $("#bank_branch_name").parent().find('.error').text("Please enter valid Bank Branch Name");
-                    return false;
-                }else{
-                    $("#bank_branch_name").parent().find('.error').css("display", "none");
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
-
-    function checknumber(){
-        payment_mode = $("input[name='payment_mode']:checked").val()
-        if(payment_mode=="cheque")
-            {
-            if($("#cheque_number").val()==""){
-                $("#cheque_number").parent().find('.error').css("display", "block");
-                $("#cheque_number").parent().find('.error').text("Please enter Cheque Number");
-                return false;
-            }else{
-                $("#cheque_number").parent().find('.error').css("display", "none");
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
-
     $(function() {
 
         $("#tax_type").select2({});
@@ -2533,60 +2386,64 @@ License: You must have a valid license purchased only from themeforest(the above
             width: '100%'
         });
 
-        if("{{payment_details.payment_mode}}" == 'cash' || "{{payment_details.payment_mode}}" == ''){
-            $("#che").hide();
-        }
-
-
-        $('input[type="radio"]').click(function() {
-            if($(this).attr('id') == 'cheque') {
-                $('#che').show();
-                $("#bank_name").val('');
-                $("#bank_branch_name").val('');
-                $("#cheque_number").val('');
-            }
-            else {
-                $('#che').hide();
-                $("#bank_name").val('');
-                $("#bank_branch_name").val('');
-                $("#cheque_number").val('');
-            }
-        });
-
     });
 
-    var final_q;
-    function changeprice_edit()
-    {
-        var price=$("#generated_amount").val();
-        var tax=$("#tax_type").val();
-        var amount=(tax/100)*price;
-        final_q= parseFloat(price) +parseFloat(amount);
-        $("#payable_amount").val(final_q);
+    subcat_list = []
+    function check_Subcategory(){
+        isValid = false;
+        $('.subcat_select').each(function(){
+            //alert('SubCat Value: '+$(this).val());
+            if($(this).val()=='' && $(this).attr('required')){
+            //alert('If: '+$(this).val());
+            $(this).parent().children('.error').css("display", "block");
+                $(this).parent().children('.error').text("Please select Sub Category");
+                isValid = false;
+                return false;
+            }else{
+            //alert('Else: '+$(this).val());
+                 $(this).parent().children('.error').css("display", "none");
+                 subcat_list.push($(this).val());
+                 //alert('Pushing... '+subcat_list);
+                 isValid = true;
+                 return true;
+            }
+        });
+        return isValid;
     }
 
-    function isNumberKey(evt) {
-        var charCode = (evt.which) ? evt.which : event.keyCode
-        if (charCode > 31 && (charCode < 48 || charCode > 57 || charCode == 43 || charCode == 45 ))
-            return false;
-        return true;
-    }
-
-    function validateFloatKeyPresss(el, evt) {
-        var charCode = (evt.which) ? evt.which : event.keyCode;
-        var number = el.value.split('+');
-        var number1 = el.value.split('-');
-        if (charCode != 45 && charCode != 43 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-        //just one dot
-        if (number.length > 1 && charCode == 43) {
-            return false;
-        }
-        if (number1.length > 1 && charCode == 45) {
-            return false;
-        }
-        return true;
+    function validate_enquiry_subscription(){
+        flag = 0;
+        $.each($("input[name='tel_service_name']:checked"), function(){
+            check_id = $(this).attr('id');
+            id = check_id.split('_');
+            if($("#tel_dur_"+id[2]).val() == "0" || $("#tel_dur_"+id[2]).val() == ""){
+                $("#tel-mismatch-days").css("display", "block");
+                msg = "Please select Duration for "+$(this).val();
+                $("#tel-mismatch-days").text(msg);
+                flag = 1;
+                return false;
+            }
+            else if($("#tel_start_"+id[2]).val() == ""){
+                $("#tel-mismatch-days").css("display", "block");
+                msg = "Please add Start Date for "+$(this).val();
+                $("#tel-mismatch-days").text(msg);
+                flag = 1;
+                return false;
+            }
+            else if($("#tel_end_"+id[2]).val() == ""){
+                $("#tel-mismatch-days").css("display", "block");
+                msg = "Please add Start Date for "+$(this).val();
+                $("#tel-mismatch-days").text(msg);
+                flag = 1;
+                return false;
+            }
+            else{
+                $("#tel-mismatch-days").css("display", "none");
+                flag = 0;
+                return true;
+            }
+        });
+        return flag;
     }
 
 </script>

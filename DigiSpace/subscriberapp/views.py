@@ -66,32 +66,92 @@ def add_advert(request):
         user_id = request.session['supplier_id']
         business_id = request.GET.get('business_id')
         tax_list = Tax.objects.all()
+        supplier_obj = Supplier.objects.get(supplier_id=user_id)
+        city_place_id = str(supplier_obj.city_place_id)
 
-        service_list = ServiceRateCard.objects.filter(service_rate_card_status='1').values('service_name').distinct()
-        advert_service_list, item_ids = [], []
-        for item in AdvertRateCard.objects.filter(advert_rate_card_status='1'):
-            if item.advert_service_name not in item_ids:
-                advert_service_list.append(str(item.advert_rate_card_id))
-                item_ids.append(item.advert_service_name)
+        telephone_rate_card = TelephoneEnquiryRateCard.objects.filter(city_place_id = city_place_id)
 
-        advert_service_list = AdvertRateCard.objects.filter(advert_rate_card_id__in=advert_service_list)
-
-        data = {'tax_list': tax_list, 'advert_service_list': advert_service_list, 'service_list': service_list,
+        data = {'tax_list': tax_list, 'telephone_rate_card':telephone_rate_card,
                 'username': request.session['login_user'], 'user_id': user_id, 'category_list': get_category(request),
                 'country_list': get_country(request), 'phone_category': get_phone_category(request),
                 'business_id': business_id,
                 'state_list': get_states(request)}
         if business_id:
+            category_level_1 = ''
+            category_level_2 = ''
+            category_level_3 = ''
+            category_level_4 = ''
+            category_level_5 = ''
             business_obj = Business.objects.get(business_id=business_id)
-            data = {'tax_list': tax_list, 'advert_service_list': advert_service_list, 'service_list': service_list,
+            if business_obj.category:
+                category_id = str(business_obj.category.category_id)
+            if business_obj.category_level_1:
+                category_level_1 = str(business_obj.category_level_1.category_id)
+            if business_obj.category_level_2:
+                category_level_2 = str(business_obj.category_level_2.category_id)
+            if business_obj.category_level_3:
+                category_level_3 = str(business_obj.category_level_3.category_id)
+            if business_obj.category_level_4:
+                category_level_4 = str(business_obj.category_level_4.category_id)
+            if business_obj.category_level_5:
+                category_level_5 = str(business_obj.category_level_5.category_id)
+            data = {'tax_list': tax_list,
                     'username': request.session['login_user'], 'user_id': user_id,
                     'category_list': get_category(request), 'category_id': str(business_obj.category.category_id),
                     'country_list': get_country(request), 'phone_category': get_phone_category(request),
-                    'business_id': business_id,
+                    'business_id': business_id,'category_level_1':category_level_1,'category_level_2':category_level_2,
+                    'category_level_3': category_level_3,'category_level_4': category_level_4,'category_level_5': category_level_5,
                     'state_list': get_states(request)}
             return render(request, 'Subscriber/add_advert_form.html', data)
         else:
             return render(request, 'Subscriber/add_advert.html', data)
+
+
+@csrf_exempt
+def check_category(request):
+    # pdb.set_trace()
+    has_rate_card = 'false'
+    try:
+        if request.POST.get('cat_level') != '6':
+            if request.POST.get('cat_level') == '1':
+                cat_obj = CategoryLevel1.objects.filter(parent_category_id=request.POST.get('category_id'))
+            if request.POST.get('cat_level') == '2':
+                cat_obj = CategoryLevel2.objects.filter(parent_category_id=request.POST.get('category_id'))
+            if request.POST.get('cat_level') == '3':
+                cat_obj = CategoryLevel3.objects.filter(parent_category_id=request.POST.get('category_id'))
+            if request.POST.get('cat_level') == '4':
+                cat_obj = CategoryLevel4.objects.filter(parent_category_id=request.POST.get('category_id'))
+            if request.POST.get('cat_level') == '5':
+                cat_obj = CategoryLevel5.objects.filter(parent_category_id=request.POST.get('category_id'))
+            cat_list = []
+            if cat_obj:
+                for cat in cat_obj:
+                    options_data = '<option value=' + str(cat.category_id) + '>' + cat.category_name + '</option>'
+                    cat_list.append(options_data)
+                data = {'category_list': cat_list}
+            else:
+                supplier_obj = Supplier.objects.get(supplier_id = request.session['supplier_id'])
+                rate_card = RateCard.objects.filter(city_place_id = str(supplier_obj.city_place_id))
+                service_rate_card = CategoryWiseRateCard.objects.filter(city_place_id = str(supplier_obj.city_place_id),
+                                                                   category_id=request.POST.get('category_id'))
+                if rate_card and service_rate_card:
+                    has_rate_card = 'true'
+                data = {'success': 'false','has_rate_card':has_rate_card}
+        else:
+            cat_level = int(request.POST.get('cat_level')) - 1
+            supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
+            rate_card = RateCard.objects.filter(city_place_id=str(supplier_obj.city_place_id))
+            service_rate_card = CategoryWiseRateCard.objects.filter(city_place_id=str(supplier_obj.city_place_id),
+                                                                    category_id=request.POST.get('category_id'),
+                                                                    category_level=cat_level,
+                                                                    rate_card_status = '1')
+            if rate_card and service_rate_card:
+                has_rate_card = 'true'
+            data = {'success': 'false', 'has_rate_card': has_rate_card}
+    except Exception, e:
+        print e
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 def delete_advert(request):
     try:
@@ -155,10 +215,10 @@ def advert_bookings(request):
             advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=str(coupons.advert_id))
             start_date = advert_sub_obj.business_id.start_date
             end_date = advert_sub_obj.business_id.end_date
-            start_date = datetime.strptime(start_date, "%m/%d/%Y")
-            end_date = datetime.strptime(end_date, "%m/%d/%Y")
-            pre_date = datetime.now().strftime("%m/%d/%Y")
-            pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+            start_date = datetime.strptime(start_date, "%d/%m/%Y")
+            end_date = datetime.strptime(end_date, "%d/%m/%Y")
+            pre_date = datetime.now().strftime("%d/%m/%Y")
+            pre_date = datetime.strptime(pre_date, "%d/%m/%Y")
             date_gap = end_date - pre_date
             if int(date_gap.days) >= 0:
                 status = 'Active'
@@ -253,21 +313,58 @@ def get_states(request):
 
 
 @csrf_exempt
-def get_basic_subscription_amount(request):
-    print "--------------------------------"
-    duration = request.POST.get('duration')
-    service_obj = ServiceRateCard.objects.get(duration=duration)
-    data = {'success': 'true', 'amount': str(service_obj.cost)}
-    return HttpResponse(json.dumps(data), content_type='application/json')
-
-
-@csrf_exempt
 def get_premium_subscription_amount(request):
     print "--------------------------------", request.POST
     duration = request.POST.get('duration')
     service_name = request.POST.get('service_name')
-    rate_card_obj = AdvertRateCard.objects.get(advert_service_name=service_name, duration=duration)
-    data = {'success': 'true', 'amount': str(rate_card_obj.cost)}
+    cat_lvl = request.POST.get('cat_lvl')
+    cat_id = request.POST.get('cat_id')
+    user_id = request.session['supplier_id']
+    supplier_obj = Supplier.objects.get(supplier_id=user_id)
+    city_place_id = str(supplier_obj.city_place_id)
+
+    if service_name == "Subscription" or service_name == "No.1 Listing" or service_name == "No.2 Listing" or service_name == "No.3 Listing":
+        rate_card_obj = CategoryWiseRateCard.objects.get(service_name=service_name,category_id=cat_id,rate_card_status = '1',
+                                                         category_level=cat_lvl,city_place_id = city_place_id)
+    else:
+        rate_card_obj = RateCard.objects.get(service_name=service_name,rate_card_status = '1',city_place_id = city_place_id)
+    if duration == '3':
+        amount = str(rate_card_obj.cost_for_3_days)
+    if duration == '7':
+        amount = str(rate_card_obj.cost_for_7_days)
+    if duration == '30':
+        amount = str(rate_card_obj.cost_for_30_days)
+    if duration == '90':
+        amount = str(rate_card_obj.cost_for_90_days)
+    if duration == '180':
+        amount = str(rate_card_obj.cost_for_180_days)
+    data = {'success': 'true', 'amount': amount}
+    return HttpResponse(json.dumps(data), content_type='application/json')
+
+@csrf_exempt
+def get_telephone_subscription_amount(request):
+    print "--------------------------------", request.POST
+    duration = request.POST.get('duration')
+    service_name = request.POST.get('service_name')
+    user_id = request.session['supplier_id']
+    supplier_obj = Supplier.objects.get(supplier_id=user_id)
+    city_place_id = str(supplier_obj.city_place_id)
+    try:
+        rate_card_obj = TelephoneEnquiryRateCard.objects.get(service_name=service_name,rate_card_status = '1',city_place_id = city_place_id)
+        if duration == '3':
+            amount = str(rate_card_obj.cost_for_3_days)
+        if duration == '7':
+            amount = str(rate_card_obj.cost_for_7_days)
+        if duration == '30':
+            amount = str(rate_card_obj.cost_for_30_days)
+        if duration == '90':
+            amount = str(rate_card_obj.cost_for_90_days)
+        if duration == '180':
+            amount = str(rate_card_obj.cost_for_180_days)
+        data = {'success': 'true', 'amount': amount}
+    except Exception as e:
+        print e
+        data = {'success': 'true', 'amount': '0'}
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
@@ -276,8 +373,9 @@ def save_subscription_plan(request):
     print "-----------------save---------------", request.POST
     try:
         supplier_id = request.session['supplier_id']
+        supplier_obj = Supplier.objects.get(supplier_id=supplier_id)
+        city_place_id = str(supplier_obj.city_place_id)
         category_id = request.POST.get('sub_category')
-
         duration = request.POST.get('duration_list')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
@@ -287,13 +385,37 @@ def save_subscription_plan(request):
         premium_start_date_list = request.POST.getlist('premium_start_date')
         premium_end_date_list = request.POST.getlist('premium_end_date')
         premium_end_date_list = filter(None, premium_end_date_list)
-        # print supplier_id,category_id,duration,start_date,end_date
+
+        enquiry_service_list = request.POST.get('tel_service_name')
+        enquiry_service_duration_list = request.POST.get('tel_ser_duration')
+        enquiry_start_date_list = request.POST.getlist('tel_start_date')
+        enquiry_end_date_list = request.POST.getlist('tel_end_date')
+        enquiry_start_date_list = filter(None, enquiry_start_date_list)
+        enquiry_end_date_list = filter(None, enquiry_end_date_list)
+
+        cat_id = ''
+        cat_lvl = ''
+        if request.POST.get('lvl1'):
+            cat_id = request.POST.get('lvl1')
+            cat_lvl = '1'
+        if request.POST.get('lvl2'):
+            cat_id = request.POST.get('lvl2')
+            cat_lvl = '2'
+        if request.POST.get('lvl3'):
+            cat_id = request.POST.get('lvl3')
+            cat_lvl = '3'
+        if request.POST.get('lvl4'):
+            cat_id = request.POST.get('lvl4')
+            cat_lvl = '4'
+        if request.POST.get('lvl5'):
+            cat_id = request.POST.get('lvl5')
+            cat_lvl = '5'
 
         zip_premium = zip(premium_service_list, premium_service_duration_list, premium_start_date_list,
                           premium_end_date_list)
 
         if premium_service_list:
-            check_premium_service = check_date(zip_premium, category_id)
+            check_premium_service = check_date(zip_premium, cat_id, city_place_id, cat_lvl)
             if check_premium_service['success'] == 'false':
                 data = {'success': 'false', 'message': check_premium_service['msg']}
                 return HttpResponse(json.dumps(data), content_type='application/json')
@@ -302,7 +424,7 @@ def save_subscription_plan(request):
         pwdSize = 8
         password = ''.join(random.choice(chars) for _ in range(pwdSize))
 
-        supplier_obj = Supplier.objects.get(supplier_id=supplier_id)
+
         category_obj = Category.objects.get(category_id=category_id)
         service_ratecard_obj = ServiceRateCard.objects.get(duration=duration, service_name='Basic Subscription Plan')
 
@@ -319,6 +441,17 @@ def save_subscription_plan(request):
             business_created_by=supplier_obj.contact_email
         )
         business_obj.save()
+        if request.POST.get('lvl1'):
+            business_obj.category_level_1 = CategoryLevel1.objects.get(category_id=request.POST.get('lvl1'))
+        if request.POST.get('lvl2'):
+            business_obj.category_level_2 = CategoryLevel2.objects.get(category_id=request.POST.get('lvl2'))
+        if request.POST.get('lvl3'):
+            business_obj.category_level_3 = CategoryLevel3.objects.get(category_id=request.POST.get('lvl3'))
+        if request.POST.get('lvl4'):
+            business_obj.category_level_4 = CategoryLevel4.objects.get(category_id=request.POST.get('lvl4'))
+        if request.POST.get('lvl5'):
+            business_obj.category_level_5 = CategoryLevel5.objects.get(category_id=request.POST.get('lvl5'))
+        business_obj.save()
 
         transaction_code = "TID" + str(password)
         if premium_service_list:
@@ -326,7 +459,9 @@ def save_subscription_plan(request):
                 premium_service_obj = PremiumService(
                     premium_service_name=premium_service,
                     no_of_days=premium_service_duration,
-                    category_id=category_obj,
+                    category_id=cat_id,
+                    category_level=cat_lvl,
+                    city_place_id = City_Place.objects.get(city_place_id=city_place_id),
                     start_date=premium_start_date,
                     end_date=premium_end_date,
                     business_id=business_obj,
@@ -335,8 +470,28 @@ def save_subscription_plan(request):
                     premium_service_created_by=supplier_obj.contact_email
                 )
                 premium_service_obj.save()
+
+        print enquiry_service_list, enquiry_service_duration_list, enquiry_start_date_list, enquiry_end_date_list
+        if enquiry_service_list:
+            enquiry_service_obj = EnquiryService(
+                enquiry_service_name=enquiry_service_list,
+                no_of_days=enquiry_service_duration_list,
+                category_id=cat_id,
+                category_level=cat_lvl,
+                city_place_id=City_Place.objects.get(city_place_id=city_place_id),
+                start_date=enquiry_start_date_list[0],
+                end_date=enquiry_end_date_list[0],
+                business_id=business_obj,
+                enquiry_service_status="1",
+                enquiry_service_created_date=datetime.now(),
+                enquiry_service_created_by=supplier_obj.contact_email
+            )
+            enquiry_service_obj.save()
+
+        send_email(str(password), supplier_obj.contact_person)
+
         data = {'success': 'true',
-                'message': 'The subscription is created successfully with transaction ID :' + transaction_code + '. Please proceed with the payment .',
+                'message': 'Thank you for the subscription purchase. CityHoopla team will contact you for the payment. Once your payment has been confirmed, you can go ahead and add the advert details.',
                 'business_id': str(business_obj)
                 }
     except Exception as e:
@@ -345,7 +500,7 @@ def save_subscription_plan(request):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
-def check_date(zip_premium, category_id):
+def check_date(zip_premium, category_id, city_place_id, category_level):
     flag_1, flag_2, flag_3, flag_4, flag_5 = 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'
     service_list = ''
     for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
@@ -353,8 +508,8 @@ def check_date(zip_premium, category_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(category_level=str(category_level)) &
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).count()
@@ -365,8 +520,8 @@ def check_date(zip_premium, category_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(category_level=str(category_level)) &
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).count()
@@ -379,8 +534,8 @@ def check_date(zip_premium, category_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(category_level=str(category_level)) &
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).count()
@@ -389,8 +544,7 @@ def check_date(zip_premium, category_id):
         if premium_service == 'Advert Slider':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).count()
@@ -399,8 +553,7 @@ def check_date(zip_premium, category_id):
         if premium_service == 'Top Advert':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).count()
@@ -538,8 +691,10 @@ def save_advert(request):
                 happy_hour_offer=request.POST.get('happy_hour_offer'),
                 facility=request.POST.get('facility'),
                 keywords=request.POST.get('advert_keywords'),
-                image_video_space_used=request.POST.get('image_and_video_space')
-            );
+                image_video_space_used=request.POST.get('image_and_video_space'),
+                creation_date = datetime.now(),
+                created_by = Supplier.objects.get(supplier_id=request.session['supplier_id']).contact_email
+            )
             advert_obj.save()
             if request.POST.get('any_other_details'):
                 advert_obj.any_other_details = request.POST.get('any_other_details')
@@ -906,13 +1061,67 @@ def edit_subscription(request):
 
         business_obj = Business.objects.get(business_id=business_id)
 
+        supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
+        city_place_id = str(supplier_obj.city_place_id)
+
+        telephone_rate_card = TelephoneEnquiryRateCard.objects.filter(city_place_id=city_place_id)
+
         business_data = {
             'business_id': str(business_obj.business_id),
-            'category_id': str(business_obj.category.category_id),
             'service_rate_card_duration': int(business_obj.service_rate_card_id.duration),
             'start_date': str(business_obj.start_date),
             'end_date': str(business_obj.end_date)
         }
+
+        category_lvl1_list = []
+        category_lvl2_list = []
+        category_lvl3_list = []
+        category_lvl4_list = []
+        category_lvl5_list = []
+        cat_id = ''
+        cat_lvl = ''
+
+        if business_obj.category:
+            business_data['category_id'] = business_obj.category.category_id
+            cat_id = business_obj.category.category_id
+            cat_lvl = ''
+
+        if business_obj.category_level_1:
+            business_data['category_level_1'] = business_obj.category_level_1.category_id
+            cat_id = business_obj.category_level_1.category_id
+            cat_lvl = '1'
+            category_lvl1_list = CategoryLevel1.objects.filter(
+                parent_category_id=str(business_obj.category.category_id))
+
+        if business_obj.category_level_2:
+            business_data['category_level_2'] = business_obj.category_level_2.category_id
+            cat_id = business_obj.category_level_2.category_id
+            cat_lvl = '2'
+            category_lvl2_list = CategoryLevel2.objects.filter(
+                parent_category_id=str(business_obj.category_level_1.category_id))
+
+        if business_obj.category_level_3:
+            cat_id = business_obj.category_level_3.category_id
+            cat_lvl = '3'
+            business_data['category_level_3'] = business_obj.category_level_3.category_id
+            category_lvl3_list = CategoryLevel3.objects.filter(
+                parent_category_id=str(business_obj.category_level_2.category_id))
+
+        if business_obj.category_level_4:
+            business_data['category_level_4'] = business_obj.category_level_4.category_id
+            cat_id = business_obj.category_level_4.category_id
+            cat_lvl = '4'
+            category_lvl4_list = CategoryLevel4.objects.filter(
+                parent_category_id=str(business_obj.category_level_3.category_id))
+
+        if business_obj.category_level_5:
+            business_data['category_level_5'] = business_obj.category_level_5.category_id
+            cat_id = business_obj.category_level_5.category_id
+            cat_lvl = '5'
+            category_lvl5_list = CategoryLevel5.objects.filter(
+                parent_category_id=str(business_obj.category_level_4.category_id))
+
+        print business_data
 
         basic_amount = int(business_obj.service_rate_card_id.cost)
         amount_1 = 0
@@ -921,23 +1130,101 @@ def edit_subscription(request):
         amount_4 = 0
         amount_5 = 0
 
-        premium_service_list = []
+        tel_amount_1 = 0
+        tel_amount_2 = 0
+        tel_amount_3 = 0
+        tel_amount_4 = 0
+        tel_amount_5 = 0
+        tel_amount_6 = 0
 
-        premium_service_obj = PremiumService.objects.filter(business_id=str(business_obj.business_id))
-        for premium_service in premium_service_obj:
-            advert_rate_obj = AdvertRateCard.objects.get(advert_service_name=premium_service.premium_service_name,
-                                                         duration=premium_service.no_of_days
-                                                         )
-            if premium_service.premium_service_name == 'No.1 Listing':
-                amount_1 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'No.2 Listing':
-                amount_2 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'No.3 Listing':
-                amount_3 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'Advert Slider':
-                amount_4 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'Top Advert':
-                amount_5 = int(advert_rate_obj.cost)
+        premium_service_list = []
+        try:
+            premium_service_obj = PremiumService.objects.filter(business_id=str(business_obj.business_id))
+            for premium_service in premium_service_obj:
+
+                if premium_service.premium_service_name == 'No.1 Listing':
+                    rate_obj = CategoryWiseRateCard.objects.get(
+                        service_name=premium_service.premium_service_name,
+                        category_id=str(premium_service.category_id),
+                        category_level=str(premium_service.category_level)
+                    )
+                    if premium_service.no_of_days == '3':
+                        amount_1 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_1 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_1 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_1 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_1 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'No.2 Listing':
+                    rate_obj = CategoryWiseRateCard.objects.get(
+                        service_name=premium_service.premium_service_name,
+                        category_id=premium_service.category_id,
+                        category_level=premium_service.category_level,
+                    )
+                    if premium_service.no_of_days == '3':
+                        amount_2 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_2 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_2 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_2 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_2 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'No.3 Listing':
+                    rate_obj = CategoryWiseRateCard.objects.get(
+                        service_name=premium_service.premium_service_name,
+                        category_id=premium_service.category_id,
+                        category_level=premium_service.category_level,
+                    )
+                    if premium_service.no_of_days == '3':
+                        amount_3 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_3 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_3 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_3 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_3 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'Advert Slider':
+                    rate_obj = RateCard.objects.get(service_name=premium_service.premium_service_name,
+                                                    city_place_id=premium_service.city_place_id,
+                                                    )
+                    if premium_service.no_of_days == '3':
+                        amount_4 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_4 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_4 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_4 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_4 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'Top Advert':
+                    rate_obj = RateCard.objects.get(service_name=premium_service.premium_service_name,
+                                                    city_place_id=premium_service.city_place_id,
+                                                    )
+                    if premium_service.no_of_days == '3':
+                        amount_5 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_5 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_5 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_5 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_5 = int(rate_obj.cost_for_180_days)
+        except Exception as e:
+            print e
+            pass
 
             premium_service_data = {
                 'premium_service_name': premium_service.premium_service_name,
@@ -947,79 +1234,172 @@ def edit_subscription(request):
             }
             premium_service_list.append(premium_service_data)
 
+        try:
+            enquiry_service_obj = EnquiryService.objects.get(business_id=str(business_obj.business_id))
+            enquiry_service_data = {
+                'enquiry_service_name': enquiry_service_obj.enquiry_service_name,
+                'enquiry_service_duration': enquiry_service_obj.no_of_days,
+                'enquiry_service_start_date': enquiry_service_obj.start_date,
+                'enquiry_service_end_date': enquiry_service_obj.end_date
+            }
+            if enquiry_service_obj.enquiry_service_name == 'Platinum':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_1 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_1 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_1 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_1 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_1 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Diamond':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_2 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_2 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_2 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_2 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_2 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Gold':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_3 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_3 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_3 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_3 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_3 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Silver':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_4 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_4 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_4 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_4 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_4 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Bronze':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_5 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_5 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_5 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_5 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_5 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Value':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_6 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_6 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_6 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_6 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_6 = int(rate_obj.cost_for_180_days)
+        except Exception as e:
+            print e
+            enquiry_service_data = {}
+            pass
         total_amount = basic_amount + amount_1 + amount_2 + amount_3 + amount_4 + amount_5
-        service_list = ServiceRateCard.objects.filter(service_rate_card_status='1').values('service_name').distinct()
-        advert_service_list, item_ids = [], []
-        for item in AdvertRateCard.objects.filter(advert_rate_card_status='1'):
-            if item.advert_service_name not in item_ids:
-                advert_service_list.append(str(item.advert_rate_card_id))
-                item_ids.append(item.advert_service_name)
+        total_amount = total_amount + tel_amount_1 + tel_amount_2 + tel_amount_3 + tel_amount_4 + tel_amount_5 + tel_amount_6
 
-        advert_services_list = []
-        advert_service_list = AdvertRateCard.objects.filter(advert_rate_card_id__in=advert_service_list)
-        print advert_service_list
-        for advert_service in advert_service_list:
+        advert_service_list =[]
+        advert_service_lists =[]
+
+        rate_card_obj = CategoryWiseRateCard.objects.filter(
+            rate_card_status='1',
+            category_id=cat_id,
+            category_level=cat_lvl,
+            city_place_id = city_place_id
+        ).exclude(service_name = 'Subscription')
+        advert_service_lists.extend(rate_card_obj)
+        rate_card_obj = RateCard.objects.filter(
+            rate_card_status='1',
+            city_place_id=city_place_id
+        )
+        advert_service_lists.extend(rate_card_obj)
+
+        for advert_service in advert_service_lists:
+            print advert_service
             try:
-                premium_obj = PremiumService.objects.get(premium_service_name=advert_service.advert_service_name,
-                                                         business_id=str(business_obj.business_id),
-                                                         category_id=str(business_obj.category.category_id)
-                                                         )
+                premium_obj = PremiumService.objects.get(
+                    premium_service_name=advert_service.service_name,
+                    business_id=str(business_obj.business_id),
+                    category_id=cat_id,
+                    category_level=cat_lvl,
+                )
                 advert_service_data = {
-                    'service_name': advert_service.advert_service_name,
-                    'advert_rate_card_id': advert_service.advert_rate_card_id,
+                    'service_name': advert_service.service_name,
+                    'advert_rate_card_id': advert_service.rate_card_id,
                     'checked': 'true',
                     'service_duration': int(premium_obj.no_of_days),
                     'service_start_date': premium_obj.start_date,
                     'service_end_date': premium_obj.end_date
                 }
-                advert_services_list.append(advert_service_data)
+                advert_service_list.append(advert_service_data)
             except Exception as e:
+                print e
                 advert_service_data = {
-                    'service_name': advert_service.advert_service_name,
-                    'advert_rate_card_id': advert_service.advert_rate_card_id,
+                    'service_name': advert_service.service_name,
+                    'advert_rate_card_id': advert_service.rate_card_id,
                     'checked': 'false',
                     'service_duration': 0,
                     'service_start_date': '',
                     'service_end_date': ''
                 }
-                advert_services_list.append(advert_service_data)
+                advert_service_list.append(advert_service_data)
                 pass
 
-        try:
-            payment_obj = PaymentDetail.objects.get(business_id=str(business_obj.business_id))
-            payment_details = {
-                'payment_mode': payment_obj.payment_mode,
-                'paid_amount': round(float(payment_obj.paid_amount), 2),
-                'payable_amount': round(float(payment_obj.payable_amount), 2),
-                'total_amount': round(float(payment_obj.total_amount), 2),
-                'tax_type': payment_obj.tax_type.tax_rate,
-                'note': payment_obj.note,
-                'bank_name': payment_obj.bank_name,
-                'branch_name': payment_obj.branch_name,
-                'cheque_number': payment_obj.cheque_number
-            }
-            # print payment_details
-        except Exception:
-            payment_details = {
-                'payment_mode': '',
-                'paid_amount': '',
-                'payable_amount': '',
-                'total_amount': '',
-                'tax_type': '',
-                'note': '',
-                'bank_name': '',
-                'branch_name': '',
-                'cheque_number': ''
-            }
-            pass
-
-        data = {'tax_list': tax_list, 'advert_service_list': advert_services_list, 'service_list': service_list,
+        data = {'tax_list': tax_list, 'advert_service_list': advert_service_list,
                 'username': request.session['login_user'], 'category_list': get_category(request),
-                'business_data': business_data,
-                'premium_service_list': premium_service_list,
+                'business_data': business_data, 'telephone_rate_card': telephone_rate_card,
+                'premium_service_list': premium_service_list,'enquiry_service_data':enquiry_service_data,
                 'total_amount': float(total_amount), 'basic_amount': basic_amount, 'amount_1': amount_1,
                 'amount_2': amount_2, 'amount_3': amount_3, 'amount_4': amount_4, 'amount_5': amount_5,
-                'payment_details': payment_details,
+                'tel_amount_1': tel_amount_1, 'tel_amount_2': tel_amount_2, 'tel_amount_3': tel_amount_3,
+                'tel_amount_4': tel_amount_4, 'tel_amount_5': tel_amount_5, 'tel_amount_6': tel_amount_6,
+                'category_lvl1_list':category_lvl1_list,
+                'category_lvl2_list': category_lvl2_list,
+                'category_lvl3_list': category_lvl3_list,
+                'category_lvl4_list': category_lvl4_list,
+                'category_lvl5_list': category_lvl5_list,
+                'cat_id':cat_id,'cat_lvl':cat_lvl
                 }
         return render(request, 'Subscriber/edit_subscription.html', data)
 
@@ -1033,14 +1413,63 @@ def edit_advert(request):
 
         advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
         business_obj = Business.objects.get(business_id=str(advert_sub_obj.business_id))
-
+        supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
+        city_place_id = str(supplier_obj.city_place_id)
+        telephone_rate_card = TelephoneEnquiryRateCard.objects.filter(city_place_id=city_place_id)
         business_data = {
             'business_id': str(business_obj.business_id),
-            'category_id': str(business_obj.category.category_id),
             'service_rate_card_duration': int(business_obj.service_rate_card_id.duration),
             'start_date': str(business_obj.start_date),
             'end_date': str(business_obj.end_date)
         }
+
+        category_lvl1_list = []
+        category_lvl2_list = []
+        category_lvl3_list = []
+        category_lvl4_list = []
+        category_lvl5_list = []
+        cat_id = ''
+        cat_lvl = ''
+
+        if business_obj.category:
+            business_data['category_id'] = business_obj.category.category_id
+            cat_id = business_obj.category.category_id
+            cat_lvl = ''
+
+        if business_obj.category_level_1:
+            business_data['category_level_1'] = business_obj.category_level_1.category_id
+            cat_id = business_obj.category_level_1.category_id
+            cat_lvl = '1'
+            category_lvl1_list = CategoryLevel1.objects.filter(
+                parent_category_id=str(business_obj.category.category_id))
+
+        if business_obj.category_level_2:
+            business_data['category_level_2'] = business_obj.category_level_2.category_id
+            cat_id = business_obj.category_level_2.category_id
+            cat_lvl = '2'
+            category_lvl2_list = CategoryLevel2.objects.filter(
+                parent_category_id=str(business_obj.category_level_1.category_id))
+
+        if business_obj.category_level_3:
+            cat_id = business_obj.category_level_3.category_id
+            cat_lvl = '3'
+            business_data['category_level_3'] = business_obj.category_level_3.category_id
+            category_lvl3_list = CategoryLevel3.objects.filter(
+                parent_category_id=str(business_obj.category_level_2.category_id))
+
+        if business_obj.category_level_4:
+            business_data['category_level_4'] = business_obj.category_level_4.category_id
+            cat_id = business_obj.category_level_4.category_id
+            cat_lvl = '4'
+            category_lvl4_list = CategoryLevel4.objects.filter(
+                parent_category_id=str(business_obj.category_level_3.category_id))
+
+        if business_obj.category_level_5:
+            business_data['category_level_5'] = business_obj.category_level_5.category_id
+            cat_id = business_obj.category_level_5.category_id
+            cat_lvl = '5'
+            category_lvl5_list = CategoryLevel5.objects.filter(
+                parent_category_id=str(business_obj.category_level_4.category_id))
 
         basic_amount = int(business_obj.service_rate_card_id.cost)
         amount_1 = 0
@@ -1049,23 +1478,101 @@ def edit_advert(request):
         amount_4 = 0
         amount_5 = 0
 
-        premium_service_list = []
+        tel_amount_1 = 0
+        tel_amount_2 = 0
+        tel_amount_3 = 0
+        tel_amount_4 = 0
+        tel_amount_5 = 0
+        tel_amount_6 = 0
 
-        premium_service_obj = PremiumService.objects.filter(business_id=str(business_obj.business_id))
-        for premium_service in premium_service_obj:
-            advert_rate_obj = AdvertRateCard.objects.get(advert_service_name=premium_service.premium_service_name,
-                                                         duration=premium_service.no_of_days
-                                                         )
-            if premium_service.premium_service_name == 'No.1 Listing':
-                amount_1 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'No.2 Listing':
-                amount_2 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'No.3 Listing':
-                amount_3 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'Advert Slider':
-                amount_4 = int(advert_rate_obj.cost)
-            if premium_service.premium_service_name == 'Top Advert':
-                amount_5 = int(advert_rate_obj.cost)
+        premium_service_list = []
+        try:
+            premium_service_obj = PremiumService.objects.filter(business_id=str(business_obj.business_id))
+            for premium_service in premium_service_obj:
+
+                if premium_service.premium_service_name == 'No.1 Listing':
+                    rate_obj = CategoryWiseRateCard.objects.get(
+                        service_name=premium_service.premium_service_name,
+                        category_id=str(premium_service.category_id),
+                        category_level=str(premium_service.category_level)
+                    )
+                    if premium_service.no_of_days == '3':
+                        amount_1 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_1 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_1 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_1 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_1 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'No.2 Listing':
+                    rate_obj = CategoryWiseRateCard.objects.get(
+                        service_name=premium_service.premium_service_name,
+                        category_id=premium_service.category_id,
+                        category_level=premium_service.category_level,
+                    )
+                    if premium_service.no_of_days == '3':
+                        amount_2 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_2 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_2 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_2 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_2 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'No.3 Listing':
+                    rate_obj = CategoryWiseRateCard.objects.get(
+                        service_name=premium_service.premium_service_name,
+                        category_id=premium_service.category_id,
+                        category_level=premium_service.category_level,
+                    )
+                    if premium_service.no_of_days == '3':
+                        amount_3 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_3 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_3 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_3 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_3 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'Advert Slider':
+                    rate_obj = RateCard.objects.get(service_name=premium_service.premium_service_name,
+                                                    city_place_id=premium_service.city_place_id,
+                                                    )
+                    if premium_service.no_of_days == '3':
+                        amount_4 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_4 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_4 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_4 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_4 = int(rate_obj.cost_for_180_days)
+
+                if premium_service.premium_service_name == 'Top Advert':
+                    rate_obj = RateCard.objects.get(service_name=premium_service.premium_service_name,
+                                                    city_place_id=premium_service.city_place_id,
+                                                    )
+                    if premium_service.no_of_days == '3':
+                        amount_5 = int(rate_obj.cost_for_3_days)
+                    if premium_service.no_of_days == '7':
+                        amount_5 = int(rate_obj.cost_for_7_days)
+                    if premium_service.no_of_days == '30':
+                        amount_5 = int(rate_obj.cost_for_30_days)
+                    if premium_service.no_of_days == '90':
+                        amount_5 = int(rate_obj.cost_for_90_days)
+                    if premium_service.no_of_days == '180':
+                        amount_5 = int(rate_obj.cost_for_180_days)
+        except Exception as e:
+            print e
+            pass
 
             premium_service_data = {
                 'premium_service_name': premium_service.premium_service_name,
@@ -1075,42 +1582,157 @@ def edit_advert(request):
             }
             premium_service_list.append(premium_service_data)
 
-        total_amount = basic_amount + amount_1 + amount_2 + amount_3 + amount_4 + amount_5
-        service_list = ServiceRateCard.objects.filter(service_rate_card_status='1').values('service_name').distinct()
-        advert_service_list, item_ids = [], []
-        for item in AdvertRateCard.objects.filter(advert_rate_card_status='1'):
-            if item.advert_service_name not in item_ids:
-                advert_service_list.append(str(item.advert_rate_card_id))
-                item_ids.append(item.advert_service_name)
+        try:
+            enquiry_service_obj = EnquiryService.objects.get(business_id=str(business_obj.business_id))
+            enquiry_service_data = {
+                'enquiry_service_name': enquiry_service_obj.enquiry_service_name,
+                'enquiry_service_duration': enquiry_service_obj.no_of_days,
+                'enquiry_service_start_date': enquiry_service_obj.start_date,
+                'enquiry_service_end_date': enquiry_service_obj.end_date
+            }
+            if enquiry_service_obj.enquiry_service_name == 'Platinum':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_1 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_1 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_1 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_1 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_1 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Diamond':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_2 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_2 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_2 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_2 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_2 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Gold':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_3 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_3 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_3 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_3 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_3 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Silver':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_4 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_4 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_4 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_4 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_4 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Bronze':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_5 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_5 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_5 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_5 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_5 = int(rate_obj.cost_for_180_days)
+            if enquiry_service_obj.enquiry_service_name == 'Value':
+                rate_obj = TelephoneEnquiryRateCard.objects.get(
+                    service_name=enquiry_service_obj.enquiry_service_name,
+                    city_place_id=enquiry_service_obj.city_place_id
+                )
+                if enquiry_service_obj.no_of_days == '3':
+                    tel_amount_6 = int(rate_obj.cost_for_3_days)
+                if enquiry_service_obj.no_of_days == '7':
+                    tel_amount_6 = int(rate_obj.cost_for_7_days)
+                if enquiry_service_obj.no_of_days == '30':
+                    tel_amount_6 = int(rate_obj.cost_for_30_days)
+                if enquiry_service_obj.no_of_days == '90':
+                    tel_amount_6 = int(rate_obj.cost_for_90_days)
+                if enquiry_service_obj.no_of_days == '180':
+                    tel_amount_6 = int(rate_obj.cost_for_180_days)
+        except Exception as e:
+            print e
+            enquiry_service_data = {}
+            pass
 
-        advert_services_list = []
-        advert_service_list = AdvertRateCard.objects.filter(advert_rate_card_id__in=advert_service_list)
-        print advert_service_list
-        for advert_service in advert_service_list:
+        total_amount = basic_amount + amount_1 + amount_2 + amount_3 + amount_4 + amount_5
+        total_amount = total_amount + tel_amount_1 + tel_amount_2 + tel_amount_3 + tel_amount_4 + tel_amount_5 + tel_amount_6
+
+        advert_service_list = []
+        advert_service_lists = []
+
+        rate_card_obj = CategoryWiseRateCard.objects.filter(
+            rate_card_status='1',
+            category_id=cat_id,
+            category_level=cat_lvl,
+            city_place_id=city_place_id
+        ).exclude(service_name='Subscription')
+        advert_service_lists.extend(rate_card_obj)
+        rate_card_obj = RateCard.objects.filter(
+            rate_card_status='1',
+            city_place_id=city_place_id
+        )
+        advert_service_lists.extend(rate_card_obj)
+
+        for advert_service in advert_service_lists:
+            print advert_service
             try:
-                premium_obj = PremiumService.objects.get(premium_service_name=advert_service.advert_service_name,
-                                                         business_id=str(business_obj.business_id),
-                                                         category_id=str(business_obj.category.category_id)
-                                                         )
+                premium_obj = PremiumService.objects.get(
+                    premium_service_name=advert_service.service_name,
+                    business_id=str(business_obj.business_id),
+                    category_id=cat_id,
+                    category_level=cat_lvl,
+                )
                 advert_service_data = {
-                    'service_name': advert_service.advert_service_name,
-                    'advert_rate_card_id': advert_service.advert_rate_card_id,
+                    'service_name': advert_service.service_name,
+                    'advert_rate_card_id': advert_service.rate_card_id,
                     'checked': 'true',
                     'service_duration': int(premium_obj.no_of_days),
                     'service_start_date': premium_obj.start_date,
                     'service_end_date': premium_obj.end_date
                 }
-                advert_services_list.append(advert_service_data)
+                advert_service_list.append(advert_service_data)
             except Exception as e:
+                print e
                 advert_service_data = {
-                    'service_name': advert_service.advert_service_name,
-                    'advert_rate_card_id': advert_service.advert_rate_card_id,
+                    'service_name': advert_service.service_name,
+                    'advert_rate_card_id': advert_service.rate_card_id,
                     'checked': 'false',
                     'service_duration': 0,
                     'service_start_date': '',
                     'service_end_date': ''
                 }
-                advert_services_list.append(advert_service_data)
+                advert_service_list.append(advert_service_data)
                 pass
 
         try:
@@ -1293,14 +1915,23 @@ def edit_advert(request):
                 }
                 nr_hosp_list.append(hospital_data)
 
-        data = {'tax_list': tax_list, 'advert_service_list': advert_services_list, 'service_list': service_list,
+        data = {'tax_list': tax_list, 'advert_service_list': advert_service_list,
                 'username': request.session['login_user'], 'category_list': get_category(request),
                 'country_list': get_country(request), 'phone_category': get_phone_category(request),
                 'state_list': get_states(request), 'business_data': business_data,
-                'premium_service_list': premium_service_list, 'product_list': product_list, 'time_list': time_list,
+                'product_list': product_list, 'time_list': time_list,
                 'total_amount': float(total_amount), 'basic_amount': basic_amount, 'amount_1': amount_1,
                 'amount_2': amount_2, 'advert_data': advert_data, 'advert_id': advert_id,
                 'amount_3': amount_3, 'amount_4': amount_4, 'amount_5': amount_5, 'payment_details': payment_details,
+                'tel_amount_1': tel_amount_1, 'tel_amount_2': tel_amount_2, 'tel_amount_3': tel_amount_3,
+                'tel_amount_4': tel_amount_4, 'tel_amount_5': tel_amount_5, 'tel_amount_6': tel_amount_6,
+                'category_lvl1_list': category_lvl1_list,
+                'category_lvl2_list': category_lvl2_list,
+                'category_lvl3_list': category_lvl3_list,
+                'category_lvl4_list': category_lvl4_list,
+                'category_lvl5_list': category_lvl5_list,
+                'cat_id': cat_id, 'cat_lvl': cat_lvl, 'telephone_rate_card': telephone_rate_card,
+                'premium_service_list': premium_service_list,'enquiry_service_data':enquiry_service_data,
                 'amenities_list': amenities_list, 'add_amenities_list': add_amenities_list,
                 'nr_attr_list': nr_attr_list,
                 'nr_shop_list': nr_shop_list, 'nr_shcl_list': nr_shcl_list, 'nr_hosp_list': nr_hosp_list,
@@ -1322,53 +1953,123 @@ def renew_subscription(request):
         advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
         business_obj = Business.objects.get(business_id=str(advert_sub_obj.business_id))
 
+        supplier_obj = Supplier.objects.get(supplier_id=request.session['supplier_id'])
+        city_place_id = str(supplier_obj.city_place_id)
+
+        telephone_rate_card = TelephoneEnquiryRateCard.objects.filter(city_place_id=city_place_id)
+
         business_data = {
             'business_id': str(business_obj.business_id),
-            'category_id': str(business_obj.category.category_id),
+            'service_rate_card_duration': int(business_obj.service_rate_card_id.duration),
+            'start_date': str(business_obj.start_date),
+            'end_date': str(business_obj.end_date)
         }
 
-        service_list = ServiceRateCard.objects.filter(service_rate_card_status='1').values('service_name').distinct()
-        advert_service_list, item_ids = [], []
-        for item in AdvertRateCard.objects.filter(advert_rate_card_status='1'):
-            if item.advert_service_name not in item_ids:
-                advert_service_list.append(str(item.advert_rate_card_id))
-                item_ids.append(item.advert_service_name)
+        category_lvl1_list = []
+        category_lvl2_list = []
+        category_lvl3_list = []
+        category_lvl4_list = []
+        category_lvl5_list = []
+        cat_id = ''
+        cat_lvl = ''
 
-        advert_services_list = []
-        advert_service_list = AdvertRateCard.objects.filter(advert_rate_card_id__in=advert_service_list)
+        if business_obj.category:
+            business_data['category_id'] = business_obj.category.category_id
+            cat_id = business_obj.category.category_id
+            cat_lvl = ''
 
-        try:
-            payment_obj = PaymentDetail.objects.get(business_id=str(business_obj.business_id))
-            payment_details = {
-                'payment_mode': payment_obj.payment_mode,
-                'paid_amount': round(float(payment_obj.paid_amount), 2),
-                'payable_amount': round(float(payment_obj.payable_amount), 2),
-                'total_amount': round(float(payment_obj.total_amount), 2),
-                'tax_type': payment_obj.tax_type.tax_rate,
-                'note': payment_obj.note,
-                'bank_name': payment_obj.bank_name,
-                'branch_name': payment_obj.branch_name,
-                'cheque_number': payment_obj.cheque_number
-            }
-            # print payment_details
-        except Exception:
-            payment_details = {
-                'payment_mode': '',
-                'paid_amount': '',
-                'payable_amount': '',
-                'total_amount': '',
-                'tax_type': '',
-                'note': '',
-                'bank_name': '',
-                'branch_name': '',
-                'cheque_number': ''
-            }
-            pass
+        if business_obj.category_level_1:
+            business_data['category_level_1'] = business_obj.category_level_1.category_id
+            cat_id = business_obj.category_level_1.category_id
+            cat_lvl = '1'
+            category_lvl1_list = CategoryLevel1.objects.filter(
+                parent_category_id=str(business_obj.category.category_id))
 
-        data = {'tax_list': tax_list, 'advert_service_list': advert_service_list, 'service_list': service_list,
+        if business_obj.category_level_2:
+            business_data['category_level_2'] = business_obj.category_level_2.category_id
+            cat_id = business_obj.category_level_2.category_id
+            cat_lvl = '2'
+            category_lvl2_list = CategoryLevel2.objects.filter(
+                parent_category_id=str(business_obj.category_level_1.category_id))
+
+        if business_obj.category_level_3:
+            cat_id = business_obj.category_level_3.category_id
+            cat_lvl = '3'
+            business_data['category_level_3'] = business_obj.category_level_3.category_id
+            category_lvl3_list = CategoryLevel3.objects.filter(
+                parent_category_id=str(business_obj.category_level_2.category_id))
+
+        if business_obj.category_level_4:
+            business_data['category_level_4'] = business_obj.category_level_4.category_id
+            cat_id = business_obj.category_level_4.category_id
+            cat_lvl = '4'
+            category_lvl4_list = CategoryLevel4.objects.filter(
+                parent_category_id=str(business_obj.category_level_3.category_id))
+
+        if business_obj.category_level_5:
+            business_data['category_level_5'] = business_obj.category_level_5.category_id
+            cat_id = business_obj.category_level_5.category_id
+            cat_lvl = '5'
+            category_lvl5_list = CategoryLevel5.objects.filter(
+                parent_category_id=str(business_obj.category_level_4.category_id))
+
+        advert_service_list = []
+        advert_service_lists = []
+
+        rate_card_obj = CategoryWiseRateCard.objects.filter(
+            rate_card_status='1',
+            category_id=cat_id,
+            category_level=cat_lvl,
+            city_place_id=city_place_id
+        ).exclude(service_name='Subscription')
+        advert_service_lists.extend(rate_card_obj)
+        rate_card_obj = RateCard.objects.filter(
+            rate_card_status='1',
+            city_place_id=city_place_id
+        )
+        advert_service_lists.extend(rate_card_obj)
+
+        for advert_service in advert_service_lists:
+            print advert_service
+            try:
+                premium_obj = PremiumService.objects.get(
+                    premium_service_name=advert_service.service_name,
+                    business_id=str(business_obj.business_id),
+                    category_id=cat_id,
+                    category_level=cat_lvl,
+                )
+                advert_service_data = {
+                    'service_name': advert_service.service_name,
+                    'advert_rate_card_id': advert_service.rate_card_id,
+                    'checked': 'true',
+                    'service_duration': int(premium_obj.no_of_days),
+                    'service_start_date': premium_obj.start_date,
+                    'service_end_date': premium_obj.end_date
+                }
+                advert_service_list.append(advert_service_data)
+            except Exception as e:
+                print e
+                advert_service_data = {
+                    'service_name': advert_service.service_name,
+                    'advert_rate_card_id': advert_service.rate_card_id,
+                    'checked': 'false',
+                    'service_duration': 0,
+                    'service_start_date': '',
+                    'service_end_date': ''
+                }
+                advert_service_list.append(advert_service_data)
+                pass
+
+        data = {'tax_list': tax_list, 'advert_service_list': advert_service_list,'telephone_rate_card':telephone_rate_card,
                 'username': request.session['login_user'], 'category_list': get_category(request),
                 'country_list': get_country(request), 'phone_category': get_phone_category(request),
-                'state_list': get_states(request), 'business_data': business_data, 'advert_name': advert_name
+                'state_list': get_states(request), 'business_data': business_data, 'advert_name': advert_name,
+                'category_lvl1_list': category_lvl1_list,
+                'category_lvl2_list': category_lvl2_list,
+                'category_lvl3_list': category_lvl3_list,
+                'category_lvl4_list': category_lvl4_list,
+                'category_lvl5_list': category_lvl5_list,
+                'cat_id': cat_id, 'cat_lvl': cat_lvl
                 }
         return render(request, 'Subscriber/renew_subscription.html', data)
 
@@ -1378,6 +2079,8 @@ def update_subscription_plan(request):
     print "-----------------save---------------", request.POST
     try:
         supplier_id = request.session['supplier_id']
+        supplier_obj = Supplier.objects.get(supplier_id=supplier_id)
+        city_place_id = str(supplier_obj.city_place_id)
         category_id = request.POST.get('sub_category')
         business_id = request.POST.get('business_id')
 
@@ -1390,11 +2093,36 @@ def update_subscription_plan(request):
         premium_start_date_list = request.POST.getlist('premium_start_date')
         premium_end_date_list = request.POST.getlist('premium_end_date')
 
+        enquiry_service_list = request.POST.get('tel_service_name')
+        enquiry_service_duration_list = request.POST.get('tel_ser_duration')
+        enquiry_start_date_list = request.POST.getlist('tel_start_date')
+        enquiry_end_date_list = request.POST.getlist('tel_end_date')
+        enquiry_start_date_list = filter(None, enquiry_start_date_list)
+        enquiry_end_date_list = filter(None, enquiry_end_date_list)
+
+        cat_id = ''
+        cat_lvl = ''
+        if request.POST.get('lvl1'):
+            cat_id = request.POST.get('lvl1')
+            cat_lvl = '1'
+        if request.POST.get('lvl2'):
+            cat_id = request.POST.get('lvl2')
+            cat_lvl = '2'
+        if request.POST.get('lvl3'):
+            cat_id = request.POST.get('lvl3')
+            cat_lvl = '3'
+        if request.POST.get('lvl4'):
+            cat_id = request.POST.get('lvl4')
+            cat_lvl = '4'
+        if request.POST.get('lvl5'):
+            cat_id = request.POST.get('lvl5')
+            cat_lvl = '5'
+
         premium_end_date_list = filter(None, premium_end_date_list)
         zip_premium = zip(premium_service_list, premium_service_duration_list, premium_start_date_list,
                           premium_end_date_list)
         if premium_service_list:
-            check_premium_service = update_check_date(zip_premium, category_id, business_id)
+            check_premium_service = update_check_date(zip_premium, cat_id, business_id, city_place_id, cat_lvl)
             if check_premium_service['success'] == 'false':
                 data = {'success': 'false', 'message': check_premium_service['msg']}
                 return HttpResponse(json.dumps(data), content_type='application/json')
@@ -1419,11 +2147,13 @@ def update_subscription_plan(request):
         if premium_service_list:
             PremiumService.objects.filter(business_id=business_id).delete()
             for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
-                print "premium_end_date", premium_service, premium_service_duration, premium_start_date, premium_end_date
+                #for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
                 premium_service_obj = PremiumService(
                     premium_service_name=premium_service,
                     no_of_days=premium_service_duration,
-                    category_id=category_obj,
+                    category_id=cat_id,
+                    category_level=cat_lvl,
+                    city_place_id=City_Place.objects.get(city_place_id=city_place_id),
                     start_date=premium_start_date,
                     end_date=premium_end_date,
                     business_id=business_obj,
@@ -1434,8 +2164,27 @@ def update_subscription_plan(request):
                 premium_service_obj.save()
         else:
             PremiumService.objects.filter(business_id=business_id).delete()
+        if enquiry_service_list:
+            EnquiryService.objects.filter(business_id=business_id).delete()
+            enquiry_service_obj = EnquiryService(
+                enquiry_service_name=enquiry_service_list,
+                no_of_days=enquiry_service_duration_list,
+                category_id=cat_id,
+                category_level=cat_lvl,
+                city_place_id=City_Place.objects.get(city_place_id=city_place_id),
+                start_date=enquiry_start_date_list[0],
+                end_date=enquiry_end_date_list[0],
+                business_id=business_obj,
+                enquiry_service_status="1",
+                enquiry_service_created_date=datetime.now(),
+                enquiry_service_created_by=supplier_obj.contact_email
+            )
+            enquiry_service_obj.save()
+        else:
+            EnquiryService.objects.filter(business_id=business_id).delete()
+        send_email_update(business_obj.transaction_code, supplier_obj.contact_person)
         data = {'success': 'true',
-                'message': 'The subscription is updated successfully with transaction ID :' + transaction_code + '. Please proceed with the payment .',
+                'message': 'You have successfully updated subscription purchase. CityHoopla team will contact you for the payment. Once your payment has been confirmed, you can go ahead and add the advert details.',
                 'business_id': str(business_obj)
                 }
     except Exception as e:
@@ -1444,7 +2193,7 @@ def update_subscription_plan(request):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 
-def update_check_date(zip_premium, category_id, business_id):
+def update_check_date(zip_premium, category_id, business_id, city_place_id, category_level):
     flag_1, flag_2, flag_3, flag_4, flag_5 = 'Yes', 'Yes', 'Yes', 'Yes', 'Yes'
     service_list = ''
     for premium_service, premium_service_duration, premium_start_date, premium_end_date in zip_premium:
@@ -1452,8 +2201,8 @@ def update_check_date(zip_premium, category_id, business_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(category_level=str(category_level)) &
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).exclude(business_id=business_id).count()
@@ -1463,8 +2212,8 @@ def update_check_date(zip_premium, category_id, business_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(category_level=str(category_level)) &
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).exclude(business_id=business_id).count()
@@ -1477,8 +2226,8 @@ def update_check_date(zip_premium, category_id, business_id):
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
                 Q(category_id=str(category_id)) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(category_level=str(category_level)) &
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).exclude(business_id=business_id).count()
@@ -1487,8 +2236,7 @@ def update_check_date(zip_premium, category_id, business_id):
         if premium_service == 'Advert Slider':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).exclude(business_id=business_id).count()
@@ -1497,8 +2245,7 @@ def update_check_date(zip_premium, category_id, business_id):
         if premium_service == 'Top Advert':
             premium_service_obj = PremiumService.objects.filter(
                 Q(premium_service_name=premium_service) &
-                # Q(start_date__range=(premium_start_date, premium_end_date)) |
-                # Q(end_date__range=(premium_start_date, premium_end_date)) |
+                Q(city_place_id=str(city_place_id)) &
                 Q(start_date__lte=premium_start_date, end_date__gte=premium_end_date) &
                 Q(premium_service_status='1')
             ).exclude(business_id=business_id).count()
@@ -1921,16 +2668,16 @@ def subscriber_profile(request):
                 #display_image = SERVER_URL + advert_obj.display_image.url
                 count_total = CouponCode.objects.filter(advert_id=advert_id).count()
 
-                pre_date = datetime.now().strftime("%m/%d/%Y")
+                pre_date = datetime.now().strftime("%d/%m/%Y")
                 print '..............pre_date......pre_date........', pre_date
-                pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+                pre_date = datetime.strptime(pre_date, "%d/%m/%Y")
                 print '..............pre_date...222...pre_date........', pre_date
                 advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
 
                 start_date = advert_sub_obj.business_id.start_date
 
                 end_date = advert_sub_obj.business_id.end_date
-                end_date = datetime.strptime(end_date, "%m/%d/%Y")
+                end_date = datetime.strptime(end_date, "%d/%m/%Y")
 
                 date_gap = (end_date - pre_date).days
 
@@ -1946,7 +2693,7 @@ def subscriber_profile(request):
 
                     start_date1 = obj.start_date
                     end_date1 = obj.end_date
-                    end_date1 = datetime.strptime(end_date1, "%m/%d/%Y")
+                    end_date1 = datetime.strptime(end_date1, "%d/%m/%Y")
                     date_gap1 = (end_date1 - pre_date).days
 
                     if date_gap1 > 0:
@@ -2030,8 +2777,9 @@ def subscriber_advert(request):
 
         advert_list = []
         category_list = []
-        pre_date = datetime.now().strftime("%m/%d/%Y")
-        pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+        pre_date = datetime.now().strftime("%d/%m/%Y")
+        pre_date = datetime.strptime(pre_date, "%d/%m/%Y")
+
         print "------------------------------", request.GET
         try:
             supplier_id = request.session['supplier_id']
@@ -2039,37 +2787,49 @@ def subscriber_advert(request):
             end_date_var = request.GET.get('end_date_var')
             category_var = request.GET.get('category_var')
             status_var = request.GET.get('status_var')
-
+            sort_by = request.GET.get('sort_by')
+            if start_date_var:
+                start_date = datetime.strptime(start_date_var, "%d/%m/%Y")- timedelta(days=1)
+            if end_date_var:
+                end_date = datetime.strptime(end_date_var, "%d/%m/%Y")+ timedelta(days=1)
             if start_date_var and end_date_var and status_var and category_var:
-                Advert_list1 = Advert.objects.filter(category_id=request.GET.get('category_var'),
-                                                     supplier_id=supplier_id,
-                                                     creation_date__range=[start_date_var, end_date_var],
-                                                     status=request.GET.get('status_var'))
-
+                Advert_list1 = Advert.objects.filter(
+                    category_id=request.GET.get('category_var'),
+                    supplier_id=supplier_id,
+                    creation_date__range=[start_date, end_date],
+                    status=request.GET.get('status_var')
+                )
             elif start_date_var and end_date_var and category_var:
-                Advert_list1 = Advert.objects.filter(category_id=request.GET.get('category_var'),
-                                                     supplier_id=supplier_id,
-                                                     creation_date__range=[start_date_var, end_date_var])
-
+                Advert_list1 = Advert.objects.filter(
+                    category_id=request.GET.get('category_var'),
+                    supplier_id=supplier_id,
+                    creation_date__range=[start_date, end_date]
+                )
             elif start_date_var and end_date_var and status_var:
-                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id,
-                                                     creation_date__range=[start_date_var, end_date_var],
-                                                     status=request.GET.get('status_var'))
-
+                Advert_list1 = Advert.objects.filter(
+                    supplier_id=supplier_id,
+                    creation_date__range=[start_date, end_date],
+                    status=request.GET.get('status_var')
+                )
+            elif start_date_var and end_date_var:
+                Advert_list1 = Advert.objects.filter(
+                    supplier_id=supplier_id,
+                    creation_date__range=[start_date, end_date]
+                )
+            elif category_var and status_var:
+                Advert_list1 = Advert.objects.filter(
+                    supplier_id=supplier_id,
+                    category_id=request.GET.get('category_var')
+                )
             elif status_var:
                 Advert_list1 = Advert.objects.filter(
-                    status=request.GET.get('status_var'))
-
-            elif start_date_var and end_date_var:
-                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id,
-                                                     creation_date__range=[start_date_var, end_date_var])
-
-            elif category_var:
-                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id,
-                                                     category_id=request.GET.get('category_var'))
-
+                    status=request.GET.get('status_var')
+                )
+            elif sort_by == "oldest_first":
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id).order_by('-creation_date').reverse()
             else:
-                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id)
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id).order_by('-creation_date')
+
 
             category_objs = Category.objects.all()
             for category_obj in category_objs:
@@ -2078,16 +2838,47 @@ def subscriber_advert(request):
                 cat_data = {'category_name': category_name, 'category_id': category_id}
                 category_list.append(cat_data)
 
-            business_obj = Business.objects.filter(supplier_id=supplier_id)
+            if start_date_var and end_date_var and status_var and category_var:
+                business_obj = Business.objects.filter(
+                    category=request.GET.get('category_var'),
+                    supplier=supplier_id,
+                    business_created_date__range=[start_date, end_date]
+                )
+            elif start_date_var and end_date_var and category_var:
+                business_obj = Business.objects.filter(
+                    category=request.GET.get('category_var'),
+                    supplier=supplier_id,
+                    business_created_date__range=[start_date, end_date]
+                )
+            elif start_date_var and end_date_var and status_var:
+                business_obj = Business.objects.filter(
+                    supplier=supplier_id,
+                    business_created_date__range=[start_date, end_date]
+                )
+            elif start_date_var and end_date_var:
+                business_obj = Business.objects.filter(
+                    supplier=supplier_id,
+                    business_created_date__range=[start_date, end_date]
+                )
+            elif category_var:
+                business_obj = Business.objects.filter(
+                    supplier=supplier_id,
+                    category=request.GET.get('category_var')
+                )
+            elif sort_by == "oldest_first":
+                business_obj = Business.objects.filter(supplier=supplier_id).order_by('-business_created_date').reverse()
+            else:
+                business_obj = Business.objects.filter(supplier=supplier_id).order_by('-business_created_date')
+
             for business in business_obj:
                 try:
                     advert_sub_obj = AdvertSubscriptionMap.objects.get(business_id=business.business_id)
                 except:
                     print business
                     start_date = business.start_date
-                    start_date = datetime.strptime(start_date, "%m/%d/%Y")
+                    start_date = datetime.strptime(start_date, "%d/%m/%Y")
                     end_date = business.end_date
-                    end_date = datetime.strptime(end_date, "%m/%d/%Y")
+                    end_date = datetime.strptime(end_date, "%d/%m/%Y")
 
                     date_gap = (end_date - pre_date).days
 
@@ -2164,42 +2955,44 @@ def subscriber_advert(request):
                     display_image = SERVER_URL + advert_obj.display_image.url
                 else:
                     display_image = SERVER_URL + '/static/assets/layouts/layout2/img/City_Hoopla_Logo.jpg'
+                try:
+                    advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
 
-                advert_sub_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
+                    start_date = advert_sub_obj.business_id.start_date
+                    start_date = datetime.strptime(start_date, "%d/%m/%Y")
+                    end_date = advert_sub_obj.business_id.end_date
+                    end_date = datetime.strptime(end_date, "%d/%m/%Y")
 
-                start_date = advert_sub_obj.business_id.start_date
-                start_date = datetime.strptime(start_date, "%m/%d/%Y")
-                end_date = advert_sub_obj.business_id.end_date
-                end_date = datetime.strptime(end_date, "%m/%d/%Y")
+                    date_gap = (end_date - pre_date).days
 
-                date_gap = (end_date - pre_date).days
+                    if date_gap > 0:
+                        date_gap = date_gap
+                    else:
+                        date_gap = 0
 
-                if date_gap > 0:
-                    date_gap = date_gap
-                else:
-                    date_gap = 0
+                    if date_gap <= 10 and date_gap >= 1:
+                        advert_status = 1
+                        subscription_days = "( " + str(date_gap) + " days Remaining )"
+                        subscription_text = "Starts on " + start_date.strftime("%d %b %y")
+                        subscriber_color = "orange"
+                        advert_color = "orange"
+                    elif date_gap == 0:
+                        advert_status = 0
+                        subscription_days = ""
+                        subscription_text = "Expired on " + start_date.strftime("%d %b %y")
+                        subscriber_color = "red"
+                        advert_color = "red"
+                    else:
+                        advert_status = 2
+                        subscription_days = "( " + str(date_gap) + " days Remaining )"
+                        subscription_text = "Starts on " + start_date.strftime("%d %b %y")
+                        subscriber_color = "#333"
+                        advert_color = "green"
+                    business_id = advert_sub_obj.business_id
+                    premium_service_list = premium_list(business_id)
+                except:
+                    pass
 
-                if date_gap <= 10 and date_gap >= 1:
-                    advert_status = 1
-                    subscription_days = "( " + str(date_gap) + " days Remaining )"
-                    subscription_text = "Starts on " + start_date.strftime("%d %b %y")
-                    subscriber_color = "orange"
-                    advert_color = "orange"
-                elif date_gap == 0:
-                    advert_status = 0
-                    subscription_days = ""
-                    subscription_text = "Expired on " + start_date.strftime("%d %b %y")
-                    subscriber_color = "red"
-                    advert_color = "red"
-                else:
-                    advert_status = 2
-                    subscription_days = "( " + str(date_gap) + " days Remaining )"
-                    subscription_text = "Starts on " + start_date.strftime("%d %b %y")
-                    subscriber_color = "#333"
-                    advert_color = "green"
-
-                business_id = advert_sub_obj.business_id
-                premium_service_list = premium_list(business_id)
                 advert_data = {
                     'advert_id': advert_id,
                     'advert_status': advert_status,
@@ -2229,6 +3022,7 @@ def subscriber_advert(request):
                 'status_var': status_var,
                 'supplier_id': supplier_id,
                 'success': 'true',
+                'sort_by':sort_by
             }
 
         except IntegrityError as e:
@@ -2245,16 +3039,16 @@ def subscriber_advert(request):
 def premium_list(business_id):
     premium_ser_list = PremiumService.objects.filter(business_id=business_id)
     premium_service_list = []
-    pre_date = datetime.now().strftime("%m/%d/%Y")
-    pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
+    pre_date = datetime.now().strftime("%d/%m/%Y")
+    pre_date = datetime.strptime(pre_date, "%d/%m/%Y")
     for premium_obj in premium_ser_list:
         status_advert = ''
         date_gap = ''
         premium_service_name = premium_obj.premium_service_name
         start_date = premium_obj.start_date
-        start_date = datetime.strptime(start_date, "%m/%d/%Y")
+        start_date = datetime.strptime(start_date, "%d/%m/%Y")
         end_date = premium_obj.end_date
-        end_date = datetime.strptime(end_date, "%m/%d/%Y")
+        end_date = datetime.strptime(end_date, "%d/%m/%Y")
         date_gap = (end_date - pre_date).days
 
         if date_gap > 0:
@@ -2296,59 +3090,54 @@ def subscriber_booking(request):
         final_list2 = []
 
         try:
-            supplier_id = request.GET.get('supplier_id')
-            print '=======......supplier_id........======', supplier_id
-
+            supplier_id = request.session['supplier_id']
             start_date_var = request.GET.get('start_date_var')
-            print start_date_var
             end_date_var = request.GET.get('end_date_var')
-            print end_date_var
             category_var = request.GET.get('category_var')
-            print category_var
             status_var = request.GET.get('status_var')
-            print status_var
+            sort_by = request.GET.get('sort_by')
+
+            if start_date_var:
+                start_date = datetime.strptime(start_date_var, "%d/%m/%Y") - timedelta(days=1)
+            if end_date_var:
+                end_date = datetime.strptime(end_date_var, "%d/%m/%Y") + timedelta(days=1)
 
             if start_date_var and end_date_var and status_var and category_var:
-                Advert_list1 = Advert.objects.filter(category_id=request.GET.get('category_var'),
-                                                     creation_date__range=[start_date_var, end_date_var],
-                                                     status=request.GET.get('status_var'))
-
-                print '...................All..........................', Advert_list1
-
+                Advert_list1 = Advert.objects.filter(
+                    category_id=request.GET.get('category_var'),
+                    creation_date__range=[start_date, end_date],
+                    supplier_id=supplier_id,
+                    status=request.GET.get('status_var')
+                )
             elif start_date_var and end_date_var and category_var:
-                Advert_list1 = Advert.objects.filter(category_id=request.GET.get('category_var'),
-                                                     creation_date__range=[start_date_var, end_date_var])
-
-                print '...........start_date_var and end_date_var  and category_var............', Advert_list1
-
-
+                Advert_list1 = Advert.objects.filter(
+                    category_id=request.GET.get('category_var'),
+                    supplier_id=supplier_id,
+                    creation_date__range=[start_date, end_date]
+                )
             elif start_date_var and end_date_var and status_var:
                 Advert_list1 = Advert.objects.filter(
-                    creation_date__range=[start_date_var, end_date_var], status=request.GET.get('status_var'))
-
-                print '...................start_date_var and end_date_var  and status_var..........................', Advert_list1
-
-            elif status_var:
-                Advert_list1 = Advert.objects.filter(
-                    status=request.GET.get('status_var'))
-
-                print '...................status_var  and category_var..........................', Advert_list1
-
-            elif start_date_var and end_date_var:
-                Advert_list1 = Advert.objects.filter(
-                    creation_date__range=[start_date_var, end_date_var])
-
-                print '...................start_date_var and end_date_var..........................', Advert_list1
-
+                    creation_date__range=[start_date, end_date],
+                    supplier_id=supplier_id,
+                    status=request.GET.get('status_var')
+                )
             elif category_var:
                 Advert_list1 = Advert.objects.filter(
-                    category_id=request.GET.get('category_var'))
-
-                print '...................category_var..........................', Advert_list1
-
+                    category_id=request.GET.get('category_var'),
+                    supplier_id=supplier_id
+                )
+            elif status_var:
+                Advert_list1 = Advert.objects.filter(
+                    status=request.GET.get('status_var'),
+                    supplier_id=supplier_id
+                )
+            elif start_date_var and end_date_var:
+                Advert_list1 = Advert.objects.filter(
+                    creation_date__range=[start_date, end_date],
+                    supplier_id=supplier_id
+                )
             else:
-                Advert_list1 = Advert.objects.filter(supplier_id=request.GET.get('supplier_id'))
-                print "..................ELSE.........", Advert_list1
+                Advert_list1 = Advert.objects.filter(supplier_id=supplier_id)
 
             category_list = Category.objects.all()
             for category_obj in category_list:
@@ -2358,15 +3147,16 @@ def subscriber_booking(request):
                 final_list2.append(list2)
 
             for advert_obj in Advert_list1:
-
-                # # To find out coupon code
                 advert_id = advert_obj.advert_id
                 print 'advert_id', advert_id
                 if advert_obj.display_image:
                     display_image = SERVER_URL + advert_obj.display_image.url
                 else: 
                     display_image = ''
-                advert_sub_list = CouponCode.objects.filter(advert_id=advert_id)
+                if sort_by == "oldest_first":
+                    advert_sub_list = CouponCode.objects.filter(advert_id=advert_id).order_by('-creation_date').reverse()
+                else:
+                    advert_sub_list = CouponCode.objects.filter(advert_id=advert_id).order_by('-creation_date')
 
                 for advert_sub_obj in advert_sub_list:
                     coupon_code = advert_sub_obj.coupon_code
@@ -2390,18 +3180,13 @@ def subscriber_booking(request):
                         consumer_profile_pic = ''
 
                     # Expiry Date
-                    pre_date = datetime.now().strftime("%m/%d/%Y")
-                    print '............creation_date.11...', pre_date
-                    pre_date = datetime.strptime(pre_date, "%m/%d/%Y")
-                    print '............creation_date..22..', pre_date
+                    pre_date = datetime.now().strftime("%d/%m/%Y")
+                    pre_date = datetime.strptime(pre_date, "%d/%m/%Y")
 
                     expiry_data_obj = AdvertSubscriptionMap.objects.get(advert_id=advert_id)
                     business_id = expiry_data_obj.business_id
-                    print 'business_id', business_id
                     end_date = expiry_data_obj.business_id.end_date
-                    print '............end_date....', end_date
-                    end_date = datetime.strptime(end_date, "%m/%d/%Y")
-                    print '............creation_date....'
+                    end_date = datetime.strptime(end_date, "%d/%m/%Y")
                     date_gap = (end_date - pre_date).days
 
                     if date_gap > 0:
@@ -2422,10 +3207,12 @@ def subscriber_booking(request):
                             }
                     final_list.append(list)
 
-            Supplier_obj = Supplier.objects.get(supplier_id=request.GET.get('supplier_id'))
-            #logo = SERVER_URL + Supplier_obj.logo.url
-
-            data = { 'final_list': final_list, 'success': 'true', 'final_list2': final_list2}
+            data = {
+                'final_list': final_list,
+                'success': 'true',
+                'category_list': final_list2,
+                'sort_by': sort_by
+            }
 
         except IntegrityError as e:
             print e
@@ -2663,7 +3450,7 @@ def subscriber_dashboard2(request):
             print '......$$.supplier_id....$$..', request.GET.get('supplier_id')
 
             # to find last 1 month previous date
-            today_date = datetime.now().strftime("%m/%d/%Y")
+            today_date = datetime.now().strftime("%d/%m/%Y")
             dates = today_date.split('/')
             if dates[0] == '1':
                 dates[0] = 12
@@ -2811,7 +3598,7 @@ def subscriber_dashboard2(request):
                 count_third = count_third + consumer_list2
             count_3 = str(count_third)
 
-            today_date = datetime.now().strftime("%m/%d/%Y")
+            today_date = datetime.now().strftime("%d/%m/%Y")
             dates = today_date.split('/')
             if dates[0] == '1':
                 dates[0] = 12
@@ -4077,19 +4864,18 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 
 @csrf_exempt
-def send_password_email(user_email_id, user_pass):
+def send_email(trans_id, business_name):
     try:
-        # pdb.set_trace()
-
-        subject = "New password for login"
-        description = "Your new password is"
+        subject = "New subscription"
+        description = "Dear Admin,"
+        description = description + '\n' + 'A New subscription with Transaction ID ' + trans_id + ' has been made by ' + business_name + '. Please confirm the payment processing so that the Subscriber can proceed with Advert Addition.'
 
         gmail_user = "cityhoopla2016"
         gmail_pwd = "cityhoopla@2016"
         FROM = 'CityHoopla Admin: <cityhoopla2016@gmail.com>'
-        TO = [user_email_id]
+        TO = ['cityhoopla2016@gmail.com']
 
-        TEXT = description + '=' + user_pass
+        TEXT = description
         SUBJECT = subject
         server = smtplib.SMTP_SSL()
         server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -4104,6 +4890,34 @@ def send_password_email(user_email_id, user_pass):
         print e
     except Exception, e:
         print 'exception', e
+    return 1
 
+@csrf_exempt
+def send_email_update(trans_id, business_name):
+    try:
+        subject = "New subscription"
+        description = "Dear Admin,"
+        description = description + '\n' + 'A subscription has been updated with Transaction ID ' + trans_id + ' by ' + business_name + '. Please confirm the payment processing so that the Subscriber can proceed with Advert Addition.'
+
+        gmail_user = "cityhoopla2016"
+        gmail_pwd = "cityhoopla@2016"
+        FROM = 'CityHoopla Admin: <cityhoopla2016@gmail.com>'
+        TO = ['cityhoopla2016@gmail.com']
+
+        TEXT = description
+        SUBJECT = subject
+        server = smtplib.SMTP_SSL()
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.ehlo()
+        server.starttls()
+
+        server.login(gmail_user, gmail_pwd)
+        message = """From: %s\nTo: %s\nSubject: %s\n\n%s """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
+        server.sendmail(FROM, TO, message)
+        server.quit()
+    except SMTPException, e:
+        print e
+    except Exception, e:
+        print 'exception', e
     return 1
 

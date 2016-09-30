@@ -286,7 +286,6 @@ License: You must have a valid license purchased only from themeforest(the above
     }
 
     .error{
-        font-family: 'Roboto Bold', 'Roboto';
         font-weight: 400;
         font-style: normal;
         font-size: 12px;
@@ -572,6 +571,7 @@ License: You must have a valid license purchased only from themeforest(the above
     }
 
     .grey_color{
+        font-size: 16px;
         border: 1px solid rgb(72, 72, 72);
         color: rgb(255, 255, 255);
         background: rgb(72, 72, 72) none repeat scroll 0% 0%;
@@ -580,6 +580,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
     .done_btn{
         color: rgb(255, 255, 255);
+        font-size: 16px;
         border-radius: 20px !important;
         background-color: #0d67e6;
         background-image: url(images/linear_bg_1.png);
@@ -804,7 +805,7 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="row">
                                 <div class="col-lg-12">
                                     <a href="/subscriber-portal/subscriber-advert/?supplier_id={{request.session.supplier_id}}"
-                                       class="brad-crum-1">Adverts</a>
+                                       class="brad-crum-1">Advert</a>
                                     <i class="fa fa-angle-right"></i>
                                     <span class="brad-crum-2">Add advert</span>
                                     <div class="portlet-body">
@@ -825,7 +826,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             <hr style="margin-top: 5px; color:#484848;">
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-2 col-md-2">
+                                                    <div class="col-lg-2 col-md-2" style="width:17% !important;">
                                                         <div class="row">
                                                             <div class="fileinput fileinput-new"
                                                                  data-provides="fileinput">
@@ -898,8 +899,7 @@ License: You must have a valid license purchased only from themeforest(the above
 
                                                         <div class="row" id="lvl1_row" style="display: none">
                                                             <div class="form-group">
-                                                                <label style="font-size:15px; ">Sub Category(Level
-                                                                    1) </label>
+                                                                <label style="font-size:15px; ">Sub Category(Level 1)</label>
                                                                 <input type="hidden" id="user_id"
                                                                        value="{{ user_id }}"></input>
                                                                 <span class="required"> * </span>
@@ -1469,7 +1469,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                     <input type="text"
                                                                            onkeypress="return validateFloatKeyPresss(this,event);"
                                                                            name="phone_no"
-                                                                           id="phone_no"
+                                                                           id="phone_no" maxlength="10"
                                                                            class="form-control phone_number"/></input>
                                                                     <label class="error font-12 font-regular"
                                                                            style="color:red; display:none;"></label>
@@ -1955,7 +1955,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-4 col-md-4">
+                                                    <div class="col-lg-4 col-md-4" style="width:33% !important;">
                                                         <div class="row">
                                                             <div class="col-lg-12 col-md-12">
                                                                 <div class="form-group">
@@ -1967,7 +1967,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-12 col-md-12"
-                                                                 style="font-size:15px; font-weight:300;">
+                                                                 style="font-size:14px; font-weight:300;">
                                                                 Memory Usage
                                                             </div>
                                                             <div class="col-lg-7 col-md-12"
@@ -1979,7 +1979,7 @@ License: You must have a valid license purchased only from themeforest(the above
                                                                         value="0" max="5"></progress>
                                                             </div>
                                                             <div class="col-lg-5 col-md-12 progress_count"
-                                                                 style="font-size:15px; font-weight:300; margin-bottom:10px">
+                                                                 style="font-size:14px; font-weight:300; margin-bottom:10px">
                                                                 0.00/5.00 MB
                                                             </div>
                                                         </div>
@@ -2623,6 +2623,36 @@ License: You must have a valid license purchased only from themeforest(the above
 
         $(document).ready(function(){
             $("#categ").val("{{category_id}}").change();
+            if ("{{category_level_1}}" != ""){
+                setTimeout(function(){
+                    $("#lvl1").val("{{category_level_1}}").change();
+                    $("#lvl1").prop("disabled", true);
+                }, 500);
+            }
+            if ("{{category_level_2}}" != ""){
+                setTimeout(function(){
+                    $("#lvl2").val("{{category_level_2}}").change();
+                    $("#lvl2").prop("disabled", true);
+                }, 1000);
+            }
+            if ("{{category_level_3}}" != ""){
+                setTimeout(function(){
+                    $("#lvl3").val("{{category_level_3}}").change();
+                    $("#lvl3").prop("disabled", true);
+                }, 1500);
+            }
+            if ("{{category_level_4}}" != ""){
+                setTimeout(function(){
+                    $("#lvl4").val("{{category_level_4}}").change();
+                    $("#lvl4").prop("disabled", true);
+                }, 2000);
+            }
+            if ("{{category_level_5}}" != ""){
+                setTimeout(function(){
+                    $("#lvl5").val("{{category_level_5}}").change();
+                    $("#lvl5").prop("disabled", true);
+                }, 2500);
+            }
             validates();
             $('#address_line1, #address_line2, #area, #city, #statec, #pincode').change(validates);
         });

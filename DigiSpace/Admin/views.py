@@ -149,7 +149,7 @@ def dashboard(request):
         FY_MONTH_LIST = [1,2,3,4,5,6,7,8,9,10,11,12]
         today = date.today()
         start_date = date(today.year,01,01)
-        end_date = date(today.year,12,31) 
+        end_date = date(today.year,12,31)
         monthly_count = []
         # jan,feb,mar,apr,may,jun,jul,aug,sep,octo,nov,dec
         subscriptions = Business.objects.filter(business_created_date__range=[start_date,end_date]).extra(select={'month': "EXTRACT(month FROM business_created_date)"}).values('month').annotate(count=Count('business_id'))
@@ -161,14 +161,14 @@ def dashboard(request):
             print "sub.get('count')",sub.get('count')
             if sub.get('month'):
                 list[sub.get('month')]=sub.get('count') or '0.00'
-        
+
 
         for m in FY_MONTH_LIST:
             try:
                 monthly_count.append(list[m])
             except:
                 monthly_count.append(0)
-                
+
         jan=monthly_count[0]
         feb=monthly_count[1]
         mar=monthly_count[2]
@@ -227,7 +227,7 @@ def dashboard(request):
         temp_var3 = 0
         data = {}
 
-        
+
         ############################Last 1 week new subscription view###############################
         current_date = datetime.now()
         first = calendar.day_name[current_date.weekday()]
@@ -293,7 +293,7 @@ def dashboard(request):
                 hour = ' '+ str(hour) + ':'
 
             consumer_obj_list = PaymentDetail.objects.filter(payment_created_date__contains = str((datetime.now()).strftime("%Y-%m-%d")),payment_created_date__regex= hour)
-            
+
             if consumer_obj_list:
                 for consumer_obj in consumer_obj_list:
 
@@ -301,7 +301,7 @@ def dashboard(request):
                     temp_var2 = temp_var2 + int(total_amount2)
                     #print '....................total total_amount2 ................',temp_var2
 
-        value_2 = str(temp_var2)   
+        value_2 = str(temp_var2)
 
 
         for hour in range(17,24):
@@ -317,19 +317,19 @@ def dashboard(request):
         value_3 = str(temp_var3)
 
 
-        
+
         data ={'jan':jan,'feb':feb,'mar':mar,'apr':apr,'may':may,'jun':jun,'jul':jul,
                'aug':aug,'sep':sep,'oct':octo,'nov':nov,'dec':dec,'count_0':count_zero,
                 'count_1':count_1,'count_2':count_2,'count_3':count_3,'city_list':get_city_dashboard(request),
                 'mon':mon,'tue':tue,'wen':wen,'thus':thus,'fri':fri,'sat':sat,'sun':sun,
                 'value_0':value_0,'value_1':value_1,'value_3':value_3,'value_2':value_2,
-                'username':request.session['login_user'] ,'city_places_list':get_city_places(request), 
+                'username':request.session['login_user'] ,'city_places_list':get_city_places(request),
                 'subscriber_data':subscriber_obj, 'today_date':today_date, 'pre_date':pre_date}
         return render(request,'Admin/index.html',data)
 
 
 def get_city_dashboard(request):
-   
+
    city_list=[]
    try:
       city_objs=City.objects.filter(city_status='1')
@@ -350,15 +350,15 @@ def subscriber(request):
         return redirect('backoffice')
     else:
         data={ 'username':request.session['login_user'] }
-        return render(request,'Admin/supplier_list.html',data)  
+        return render(request,'Admin/supplier_list.html',data)
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)        
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def consumer(request):
     if not request.user.is_authenticated():
         return redirect('backoffice')
     else:
         data ={}
-        return render(request,'Admin/consumer.html',data)        
+        return render(request,'Admin/consumer.html',data)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user(request):
@@ -367,13 +367,13 @@ def user(request):
     else:
         user_role_list = UserRole.objects.filter(role_status='1')
         data = {'user_role_list':user_role_list,'username':request.session['login_user']}
-        return render(request,'Admin/user_list.html',data)        
+        return render(request,'Admin/user_list.html',data)
 
 def notification(request):
     if not request.user.is_authenticated():
         return redirect('backoffice')
     else:
-        return render(request,'Admin/notification.html')   
+        return render(request,'Admin/notification.html')
 
 # @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 # def reference_data(request):
@@ -389,7 +389,7 @@ def add_supplier(request):
         return redirect('backoffice')
     else:
         data = {'username':request.session['login_user'],'category_list':get_category(request),'currency':get_currency(request),'phone_category':get_phone_category(request),'state_list':get_state(request)}
-        return render(request,'Admin/add_supplier.html',data)          
+        return render(request,'Admin/add_supplier.html',data)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_city(request):
@@ -397,7 +397,7 @@ def add_city(request):
         return redirect('backoffice')
     else:
         data = {'country_list':get_country(request),'category_list':get_category(request),'username':request.session['login_user']}
-        return render(request,'Admin/add_city.html',data)  
+        return render(request,'Admin/add_city.html',data)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def category(request):
@@ -405,7 +405,7 @@ def category(request):
         return redirect('backoffice')
     else:
         data = {'username':request.session['login_user']}
-        return render(request,'Admin/category.html',data)  
+        return render(request,'Admin/category.html',data)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user_role(request):
@@ -413,7 +413,7 @@ def user_role(request):
         return redirect('backoffice')
     else:
         data ={'username':request.session['login_user']}
-        return render(request,'Admin/user_role.html',data)  
+        return render(request,'Admin/user_role.html',data)
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_role(request):
@@ -421,8 +421,8 @@ def add_role(request):
         return redirect('backoffice')
     else:
         data ={'username':request.session['login_user']}
-        return render(request,'Admin/add_user_role.html',data)  
-       
+        return render(request,'Admin/add_user_role.html',data)
+
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def add_advert(request):
@@ -469,11 +469,11 @@ def consumer_detail(request):
         return redirect('backoffice')
     else:
         data ={'username':request.session['login_user']}
-        return render(request,'Admin/consumer_detail.html',data) 
-        
+        return render(request,'Admin/consumer_detail.html',data)
+
 def deal_detail(request):
     data ={}
-    return render(request,'Admin/deal_detail.html',data) 
+    return render(request,'Admin/deal_detail.html',data)
 
 
 @csrf_exempt
@@ -502,7 +502,7 @@ def signin(request):
                             if user_profile_obj.user_status == "1":
                                 try:
                                     request.session['login_user'] = user_profile_obj.username
-                                    request.session['first_name'] = user_profile_obj.user_first_name + '' + user_profile_obj.user_last_name
+                                    request.session['first_name'] = str(user_profile_obj.user_first_name) + '' + str(user_profile_obj.user_last_name)
                                     login(request, user)
                                     if 'All' in request.session['privileges']:
                                         redirect_url = '/dashboard/'
@@ -521,8 +521,8 @@ def signin(request):
                                 except Exception as e:
                                     print e
                                 print "USERNAME", request.session['login_user']
-                                data= { 'success' : 'true','username':request.session['first_name'],'redirect_url':redirect_url}
-
+                                data= { 'success' : 'true','redirect_url':redirect_url}
+                                print data
                         else:
                             data= { 'success' : 'false', 'message':'User Is Not Active'}
                             return HttpResponse(json.dumps(data), content_type='application/json')
@@ -532,11 +532,11 @@ def signin(request):
                             return HttpResponse(json.dumps(data), content_type='application/json')
                 except:
                     data= { 'success' : 'false', 'message' :'Invalid Username'}
-                    return HttpResponse(json.dumps(data), content_type='application/json')            
+                    return HttpResponse(json.dumps(data), content_type='application/json')
             else:
                 form = CaptchaForm()
-                data= { 'success' : 'Invalid Captcha', 'message' :'Invalid Captcha'} 
-                print "INVALID CAPTCHA"       
+                data= { 'success' : 'Invalid Captcha', 'message' :'Invalid Captcha'}
+                print "INVALID CAPTCHA"
                 return HttpResponse(json.dumps(data), content_type='application/json')
     except MySQLdb.OperationalError, e:
         print e
@@ -582,7 +582,7 @@ def add_user(request):
             'success':'false',
             'message':str(e)
         }
-    return HttpResponse(json.dumps(data),content_type='application/json')    
+    return HttpResponse(json.dumps(data),content_type='application/json')
 
 
 def view_user_detail(request):
@@ -601,7 +601,7 @@ def view_user_detail(request):
                 user_name = user_obj.user_name
                 user_email_id = user_obj.usre_email_id
                 user_contact_no = user_obj.user_contact_no
-                data = {'success':'true','role_name':role_name,'role_id':role_id,'user_name':user_name,'user_email_id':user_email_id,'user_contact_no':user_contact_no}            
+                data = {'success':'true','role_name':role_name,'role_id':role_id,'user_name':user_name,'user_email_id':user_email_id,'user_contact_no':user_contact_no}
         except IntegrityError as e:
             print e
             data = {'success':'false','message':'Error in  loading page. Please try after some time'}
@@ -614,7 +614,7 @@ def view_user_detail(request):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 @csrf_exempt
-def update_user_detail(request):    
+def update_user_detail(request):
     try:
         if request.method=="POST":
             print "POST method"
@@ -627,7 +627,7 @@ def update_user_detail(request):
             #user_obj.user_name=request.POST.get('username'),
             user_obj.user_contact_no=request.POST.get('e_contact_no')
             user_obj.usre_email_id=request.POST.get('e_email')
-            user_obj.user_role=role_obj               
+            user_obj.user_role=role_obj
             user_obj.save()
             user_obj.set_password(request.POST.get('new_password'))
             user_obj.save()
@@ -702,7 +702,7 @@ def get_state(request):
                    sta.state_id) + '>' + sta.state_name + '</option>'
             state_list.append(options_data)
             print state_list
-        data = {'state_list':state_list,'currency':currency.currency }    
+        data = {'state_list':state_list,'currency':currency.currency }
     except Exception, e:
         print 'Exception ', e
         data = {'state_list':'No states available' }
@@ -739,7 +739,7 @@ def add_currency(request):
             'id':curr,
             'currency':cur_name
          }
-         
+
          currency_list.append(options_data)
          print currency_list
       data = {'currency_list': currency_list}
@@ -765,7 +765,7 @@ def get_phone_category(request):
 
 # TO GET THE CITY
 def get_city_places(request):
-   
+
    city_list=[]
    try:
       city_objs=City_Place.objects.filter(city_status='1')
@@ -782,7 +782,7 @@ def get_city_places(request):
 
 # TO GET THE CITY
 def get_city(request):
-   
+
    state_id=request.GET.get('state_id')
    city_list=[]
    try:
@@ -819,8 +819,8 @@ def get_pincode(request):
    except Exception, ke:
       print ke
       data={'city_list': 'none','message':'No city available'}
-   return HttpResponse(json.dumps(data), content_type='application/json')  
-   
+   return HttpResponse(json.dumps(data), content_type='application/json')
+
 
 # payal
 @csrf_exempt
@@ -844,7 +844,7 @@ def add_user_role(request):
                 role_created_by=request.session['login_user'],
                 role_updated_by=request.session['login_user'],
                 role_updated_date=datetime.now(),
-                
+
             );
             user_role_obj.save();
             print "user_role_obj",user_role_obj
@@ -862,8 +862,8 @@ def add_user_role(request):
             'success':'false',
             'message':str(e)
         }
-    print '===========data================',data    
-    return HttpResponse(json.dumps(data),content_type='application/json')  
+    print '===========data================',data
+    return HttpResponse(json.dumps(data),content_type='application/json')
 
 def save_privilege(prv_list,user_role_obj):
 ##    pdb.set_trace()
@@ -876,13 +876,13 @@ def save_privilege(prv_list,user_role_obj):
             elif prv == 'adm_mang':
                 privi="Admin Management"
             elif prv == 'cons_mang':
-                privi="Consumer Management" 
+                privi="Consumer Management"
             elif prv == 'push_not':
-                privi="Push Notification" 
+                privi="Push Notification"
             elif prv == 'rcm':
-                privi="Rate Card Management" 
+                privi="Rate Card Management"
             elif prv == 'rdm':
-                privi="Ref Data Management" 
+                privi="Ref Data Management"
             elif prv == 'rpm':
                 privi="Record Payment Module"
             elif prv == 'vdd':
@@ -907,10 +907,10 @@ def save_privilege(prv_list,user_role_obj):
             )
             pvr_obj.save()
             data = {'success': 'true'}
-        
+
     except Exception, e:
         print 'Exception ', e
-    return HttpResponse(json.dumps(data), content_type='application/json') 
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 
 def user_role_add(user_role_obj):
@@ -923,7 +923,7 @@ def user_role_add(user_role_obj):
         TEXT = "Hi Admin,\nUser Role " + str(user_role_obj.role_name) + " " +"has been added successfully.\nTo view complete details visit portal and follow - Reference Data -> User Role\n\n Thank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "User Role Added Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -933,8 +933,8 @@ def user_role_add(user_role_obj):
         server.quit()
     except SMTPException,e:
         print e
-    return 1    
- 
+    return 1
+
 def view_user_role_list(request):
     try:
         data = {}
@@ -960,7 +960,7 @@ def view_user_role_list(request):
                     status = 'Inactive'
                     active = '<a class="col-md-2" id="'+str(role_id)+'" onclick="active_service(this.id);" style="text-align: center;letter-spacing: 5px;width:10%;margin-left: 22px !important;" title="Activate" class="edit" data-toggle="modal" href="#edit_subscription"><i class="fa fa-repeat"></i></a>'
                     actions =  active
-             
+
                 list = {'role_name':role_name,'actions':actions,'role_id':role_id,'role_creation_date':role_creation_date,'role_updation_date':role_updation_date,
                         'created_by':role_created_by,'updated_by':role_updated_by}
                 final_list.append(list)
@@ -972,7 +972,7 @@ def view_user_role_list(request):
         print e
     except Exception,e:
         print 'Exception ',e
-    print data    
+    print data
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 @csrf_exempt
@@ -995,7 +995,7 @@ def edit_user_role(request):
                 prv4 =""
                 prv5 =""
                 prv6 =""
-                prv7 =""  
+                prv7 =""
                 prv8 =""
                 prv9 =""
                 prv10 =""
@@ -1013,13 +1013,13 @@ def edit_user_role(request):
                         elif amenities.privilage == "Admin Management":
                             prv1="Admin Management"
                         elif amenities.privilage == "Consumer Management":
-                            prv2="Consumer Management" 
+                            prv2="Consumer Management"
                         elif amenities.privilage == "Push Notification":
-                            prv3="Push Notification" 
+                            prv3="Push Notification"
                         elif amenities.privilage == "Rate Card Management":
-                            prv4="Rate Card Management" 
+                            prv4="Rate Card Management"
                         elif amenities.privilage == "Ref Data Management":
-                            prv5="Ref Data Management" 
+                            prv5="Ref Data Management"
                         elif amenities.privilage == "Record Payment Module":
                             prv6="Record Payment Module"
                         elif amenities.privilage == "View Dashboard Details":
@@ -1038,12 +1038,12 @@ def edit_user_role(request):
                             prv13="All"
                         elif amenities.privilage == "None":
                             prv14="None"
-        
+
                 amenity_list = {'prv':prv,'prv1':prv1,'prv2':prv2,'prv3':prv3,'prv4':prv4,'prv5':prv5,'prv6':prv6,'prv7':prv7,'prv8':prv8,'prv9':prv9,
-                                        'prv10':prv10,'prv11':prv11,'prv12':prv12,'prv13':prv13,'prv14':prv14}                       
-               
+                                        'prv10':prv10,'prv11':prv11,'prv12':prv12,'prv13':prv13,'prv14':prv14}
+
                 data = {'success':'true','role_name':role_name,'role_id':role_id,'prv_list':amenity_list,'username':request.session['login_user']}
-            
+
 
         except IntegrityError as e:
             print e
@@ -1053,8 +1053,8 @@ def edit_user_role(request):
         print e
 
     except Exception,e:
-        print 'Exception ',e 
-    return render(request,'Admin/edit_user_role.html',data)    
+        print 'Exception ',e
+    return render(request,'Admin/edit_user_role.html',data)
 
 
 @csrf_exempt
@@ -1078,11 +1078,11 @@ def update_user_role(request):
 
                 amenity_lis = Privileges.objects.filter(role_id=role_object)
                 amenity_lis.delete()
-                
+
                 amenity_list = request.POST.get('privil_list')
                 amenity_list = amenity_list.split(',')
                 save_privilege(amenity_list,role_object)
-                user_role_edit(role_object)  
+                user_role_edit(role_object)
                 data = {'success':'true'}
             else:
                 data = {'success':'false'}
@@ -1091,13 +1091,13 @@ def update_user_role(request):
             role_object.role_name = request.POST.get('edit_role')
             role_object.role_updated_by=request.session['login_user']
             role_object.role_updated_date=datetime.now()
-            role_object.save() 
+            role_object.save()
             amenity_lis = Privileges.objects.filter(role_id=role_object)
             amenity_lis.delete()
             amenity_list = request.POST.get('privil_list')
             amenity_list = amenity_list.split(',')
             save_privilege(amenity_list,role_object)
-            user_role_edit(role_object)  
+            user_role_edit(role_object)
 
             data={
                 'success':'true',
@@ -1107,8 +1107,8 @@ def update_user_role(request):
                 'success':'false',
                 'message':str(e)
             }
-    print '========data====================',data        
-    return HttpResponse(json.dumps(data),content_type='application/json') 
+    print '========data====================',data
+    return HttpResponse(json.dumps(data),content_type='application/json')
 
 
 def user_role_edit(role_object):
@@ -1121,7 +1121,7 @@ def user_role_edit(role_object):
         TEXT = "Hi Admin,\nUser Role " + str(role_object.role_name) + " " +" has been updated successfully.\nTo view complete details visit portal and follow - Reference Data -> User Role\n\n Thank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "User Role Added Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -1131,7 +1131,7 @@ def user_role_edit(role_object):
         server.quit()
     except SMTPException,e:
         print e
-    return 1    
+    return 1
 
 @csrf_exempt
 def delete_user_role(request):
@@ -1210,7 +1210,7 @@ def user_role_active(role_obj):
         TEXT = "Hi Admin,\nUser Role " + str(role_obj.role_name) + " " +" has been activated successfully.\nTo view complete details visit portal and follow - Reference Data -> User Role\n\n Thank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "User Role Activated Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -1220,7 +1220,7 @@ def user_role_active(role_obj):
         server.quit()
     except SMTPException,e:
         print e
-    return 1 
+    return 1
 
 def user_role_delete(role_obj):
     gmail_user =  "cityhoopla2016"
@@ -1232,7 +1232,7 @@ def user_role_delete(role_obj):
         TEXT = "Hi Admin,\nUser Role " + str(role_obj.role_name) + " " +" has been updated successfully.\nTo view complete details visit portal and follow - Reference Data -> User Role\n\n Thank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "User Role Added Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -1242,8 +1242,8 @@ def user_role_delete(role_obj):
         server.quit()
     except SMTPException,e:
         print e
-    return 1 
-   
+    return 1
+
 @csrf_exempt
 def save_city(request):
     print "IN SAVE CITY", request.POST
@@ -1255,12 +1255,12 @@ def save_city(request):
         # pdb.set_trace()
         try:
             city_obj=City_Place.objects.get(city_id=request.POST.get('city_name'))
-            data={'success':'false','messege':'City Already Exist'}   
+            data={'success':'false','messege':'City Already Exist'}
         except Exception,e:
             city_obj=City_Place(
-         
+
             city_id=City.objects.get(city_id=request.POST.get('city_name')),
-            state_id =State.objects.get(state_id=request.POST.get('state')), 
+            state_id =State.objects.get(state_id=request.POST.get('state')),
             country_id=Country.objects.get(country_id=request.POST.get('country'))
 
             )
@@ -1282,7 +1282,7 @@ def save_city(request):
 
             if request.POST.get('currency'):
                 city_obj.currency=request.POST.get('currency')
-          
+
 
             city_obj.save();
             city_place_id = city_obj.city_place_id
@@ -1300,11 +1300,11 @@ def save_city(request):
             point_of_interest_list = request.POST.get('point_of_interest_list')
             point_of_interest_list = str(point_of_interest_list).split(',')
             point_of_interest_image_list = []
-            
+
             for i in range(int(poi_range)):
                 image = "point_of_interest_image" + str(i)
                 try:
-                    point_of_interest_image_list.append(request.FILES[image])                 
+                    point_of_interest_image_list.append(request.FILES[image])
                 except:
                     point_of_interest_image_list.append('')
 
@@ -1312,7 +1312,7 @@ def save_city(request):
             place_type = 'point_of_interest'
             if(zipped_wk!=[]):
                 save_places(zipped_wk,city_obj,place_type)
-           
+
             shop_list = request.POST.get('shop_list')
             shop_list = str(shop_list).split(',')
             shop_range = request.POST.get('shop_range')
@@ -1320,8 +1320,8 @@ def save_city(request):
             for i in range(int(shop_range)):
                 image = "shop_image" + str(i)
                 try:
-                    shop_image_list.append(request.FILES[image])                 
-                except: 
+                    shop_image_list.append(request.FILES[image])
+                except:
                     shop_image_list.append('')
 
             zipped_wk = zip(shop_list,shop_image_list)
@@ -1337,7 +1337,7 @@ def save_city(request):
             for i in range(int(hospital_range)):
                 image = "hospital_image" + str(i)
                 try:
-                    hospital_image_list.append(request.FILES[image])                 
+                    hospital_image_list.append(request.FILES[image])
                 except:
                     hospital_image_list.append('')
             zipped_wk = zip(hospital_list,hospital_image_list)
@@ -1354,18 +1354,18 @@ def save_city(request):
             for i in range(int(college_range)):
                 image = "college_image" + str(i)
                 try:
-                    college_image_list.append(request.FILES[image])                 
+                    college_image_list.append(request.FILES[image])
                 except:
                     college_image_list.append('')
             zipped_wk = zip(college_list,college_image_list)
             place_type = 'college_and_universities'
             save_places(zipped_wk,city_obj,place_type)
             city_add(city_obj)
-   
+
             data={
                     'success':'true',
                     'message':'City Added Successfully.',
-                    "city_place_id":  city_place_id 
+                    "city_place_id":  city_place_id
                     }
 
 
@@ -1374,7 +1374,7 @@ def save_city(request):
             'success':'false',
             'message':str(e)
         }
-    return HttpResponse(json.dumps(data),content_type='application/json') 
+    return HttpResponse(json.dumps(data),content_type='application/json')
 
 
 
@@ -1404,11 +1404,11 @@ def save_city_data(request):
         point_of_interest_list = request.POST.get('point_of_interest_list')
         point_of_interest_list = str(point_of_interest_list).split(',')
         point_of_interest_image_list = []
-        
+
         for i in range(int(poi_range)):
             image = "point_of_interest_image" + str(i)
             try:
-                point_of_interest_image_list.append(request.FILES[image])                 
+                point_of_interest_image_list.append(request.FILES[image])
             except:
                 point_of_interest_image_list.append('')
 
@@ -1416,7 +1416,7 @@ def save_city_data(request):
         place_type = 'point_of_interest'
         if(zipped_wk!=[]):
             save_places(zipped_wk,city_obj,place_type)
-       
+
         shop_list = request.POST.get('shop_list')
         shop_list = str(shop_list).split(',')
         shop_range = request.POST.get('shop_range')
@@ -1424,8 +1424,8 @@ def save_city_data(request):
         for i in range(int(shop_range)):
             image = "shop_image" + str(i)
             try:
-                shop_image_list.append(request.FILES[image])                 
-            except: 
+                shop_image_list.append(request.FILES[image])
+            except:
                 shop_image_list.append('')
 
         zipped_wk = zip(shop_list,shop_image_list)
@@ -1441,7 +1441,7 @@ def save_city_data(request):
         for i in range(int(hospital_range)):
             image = "hospital_image" + str(i)
             try:
-                hospital_image_list.append(request.FILES[image])                 
+                hospital_image_list.append(request.FILES[image])
             except:
                 hospital_image_list.append('')
         zipped_wk = zip(hospital_list,hospital_image_list)
@@ -1458,14 +1458,14 @@ def save_city_data(request):
         for i in range(int(college_range)):
             image = "college_image" + str(i)
             try:
-                college_image_list.append(request.FILES[image])                 
+                college_image_list.append(request.FILES[image])
             except:
                 college_image_list.append('')
         zipped_wk = zip(college_list,college_image_list)
         place_type = 'college_and_universities'
         save_places(zipped_wk,city_obj,place_type)
         city_add(city_obj)
-        
+
         data={
             'success':'true',
             'message':'City Added Successfully.'
@@ -1477,7 +1477,7 @@ def save_city_data(request):
             'success':'false',
             'message':str(e)
         }
-    return HttpResponse(json.dumps(data),content_type='application/json')    
+    return HttpResponse(json.dumps(data),content_type='application/json')
 
 
 def update_places(zipped_wk,city_obj,place_type):
@@ -1493,9 +1493,9 @@ def update_places(zipped_wk,city_obj,place_type):
                     pass
                 place_obj.updated_by="Admin",
                 place_obj.updated_date=datetime.now()
-                place_obj.save()        
+                place_obj.save()
             except:
-                if interest_name != '' and interest_img != '' : 
+                if interest_name != '' and interest_img != '' :
                     interest_name_obj = Places(
                     city_place_id=city_obj,
                     place_name = interest_name,
@@ -1515,16 +1515,16 @@ def update_places(zipped_wk,city_obj,place_type):
             'success':'false',
             'message':str(e)
         }
-    return HttpResponse(json.dumps(data),content_type='application/json') 
+    return HttpResponse(json.dumps(data),content_type='application/json')
 
 
 def save_places(zipped_wk,city_obj,place_type):
-    
+
     try:
         for interest_name,interest_img in zipped_wk:
 
             if interest_name != '' and interest_img != '' :
-            
+
                 interest_name_obj = Places(
                 city_place_id=city_obj,
                 place_name = interest_name,
@@ -1543,7 +1543,7 @@ def save_places(zipped_wk,city_obj,place_type):
             'success':'false',
             'message':str(e)
         }
-    return 1 
+    return 1
 
 
 
@@ -1588,24 +1588,24 @@ def reference_data(request):
                     print "IN ACTIVE ELSE"
                     delete = 'delete1'
                     edit = 'edit'
-                # edit = '<a class="col-md-offset-1 col-md-1" style="text-align: center; margin-left: 32% ! important;" href="/edit-city/?city_place_id=' + str(adv.city_place_id) + '" class="edit" data-toggle="modal"><i class="fa fa-pencil"></i></a>'    
-                # delete = '<a class="col-md-1" style="text-align: center;" id="'+str(adv.city_place_id)+'" onclick="delete_user_detail(this.id)" class="fa  fa-trash-o fa-lg"><i class="fa fa-trash"></a>'    
+                # edit = '<a class="col-md-offset-1 col-md-1" style="text-align: center; margin-left: 32% ! important;" href="/edit-city/?city_place_id=' + str(adv.city_place_id) + '" class="edit" data-toggle="modal"><i class="fa fa-pencil"></i></a>'
+                # delete = '<a class="col-md-1" style="text-align: center;" id="'+str(adv.city_place_id)+'" onclick="delete_user_detail(this.id)" class="fa  fa-trash-o fa-lg"><i class="fa fa-trash"></a>'
                 # action=edit + delete
             else:
                 status="Inactive"
                 edit = 'no'
                 delete = 'no'
                 # active = '<a class="col-md-2" id="'+str(adv.city_place_id)+'" onclick="active_service(this.id);" style="text-align: center;letter-spacing: 5px;width:15%;margin-left: 31% !important;" title="Activate" class="edit" data-toggle="modal" ><i class="fa fa-repeat"></i></a>'
-                
+
             temp_obj = {'edit':edit,'delete':delete,'city_image':city_image,'city_place_id':city_place_id,'city_name':adv.city_id.city_name,'country':adv.country_id.country_name,'state':adv.state_id.state_name,'status':status}
             adv_list.append(temp_obj)
-                
+
         data = {'success':'true','city_list':adv_list}
 
     except Exception, e:
         print 'Exception : ', e
         data = {'data': 'none'}
-    return render(request,'Admin/rdm.html',data)  
+    return render(request,'Admin/rdm.html',data)
 
 
 
@@ -1627,7 +1627,7 @@ def delete_city(request):
 
 
 def delete_city_sms(city_obj):
-    
+
     authkey = "118994AIG5vJOpg157989f23"
     # user_obj = Supplier.objects.get(supplier_id=su_id)
  #    contact_no = user_obj.contact_no
@@ -1683,7 +1683,7 @@ def city_activate_mail(city_obj):
         TEXT = "Hi Admin,\nCity " + str(city_obj.city_id.city_name) + " " +"has been activated successfully.\nTo view complete details visit portal and follow - Reference Data -> City\n\n Thank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "City Activated Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -1694,8 +1694,8 @@ def city_activate_mail(city_obj):
     except SMTPException,e:
         print e
     return 1
- 
-      
+
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def edit_city(request):
     if not request.user.is_authenticated():
@@ -1703,9 +1703,9 @@ def edit_city(request):
     else:
         try:
             city_obj = City_Place.objects.get(city_place_id=request.GET.get('city_place_id'))
-            
 
-                
+
+
             if city_obj.city_image:
                 city_image = SERVER_URL + city_obj.city_image.url
                 file_name = city_image[47:]
@@ -1717,7 +1717,7 @@ def edit_city(request):
                 'success': 'true',
                 'city_place_id':city_obj.city_place_id,
                 'city_name':city_obj.city_id.city_id,
-                'state':city_obj.state_id.state_id, 
+                'state':city_obj.state_id.state_id,
                 'climate': city_obj.climate or '',
                 'about_city': city_obj.about_city or '',
                 'language': city_obj.language or '',
@@ -1732,7 +1732,7 @@ def edit_city(request):
 
             city_list = City.objects.filter(state_id = city_obj.state_id.state_id)
 
-            intr_list = []      
+            intr_list = []
             point_of_intrest = Places.objects.filter(city_place_id = city_obj,place_type = 'point_of_interest')
             poi_index = 0
             if point_of_intrest:
@@ -1753,9 +1753,9 @@ def edit_city(request):
                             'filename':file_name
                         }
                         intr_list.append(place_data)
-                        i = i+1 
-                    
-            shop_list = []      
+                        i = i+1
+
+            shop_list = []
             shop_name = Places.objects.filter(city_place_id = city_obj,place_type = 'where_to_shop')
             shop_index = 0
             if shop_name:
@@ -1771,9 +1771,9 @@ def edit_city(request):
                             'place_image':place_image,
                             'filename':file_name
                         }
-                        shop_list.append(place_data) 
+                        shop_list.append(place_data)
                         i = i+1
-            hosp_list = []      
+            hosp_list = []
             hospital = Places.objects.filter(city_place_id = city_obj,place_type = 'reputed_hospitals')
             hospital_index = 0
             if hospital:
@@ -1789,9 +1789,9 @@ def edit_city(request):
                             'place_image':place_image,
                             'filename':file_name
                         }
-                        hosp_list.append(place_data) 
+                        hosp_list.append(place_data)
                         i = i+1
-            clg_list = []      
+            clg_list = []
             college = Places.objects.filter(city_place_id = city_obj,place_type = 'college_and_universities')
             college_index = 0
             if college:
@@ -1807,14 +1807,14 @@ def edit_city(request):
                             'place_image':place_image,
                             'filename':file_name
                         }
-                        clg_list.append(place_data) 
+                        clg_list.append(place_data)
                         i = i+1
             data = {'country_list':get_country(request),'poi_index':poi_index,'shop_index':shop_index,'hospital_index':hospital_index,'college_index':college_index,'city':city_dict,'city_list':city_list,'interest':intr_list,'shops':shop_list,'hospitals':hosp_list,'colleges':clg_list,'username':request.session['login_user']}
         except Exception,e:
             print 'Exception:',e
-            data = {'data':e}    
+            data = {'data':e}
         print "Final Data",data
-        return render(request,'Admin/edit_city.html',data)  
+        return render(request,'Admin/edit_city.html',data)
 
 @csrf_exempt
 def update_city(request):
@@ -1825,9 +1825,9 @@ def update_city(request):
             city_obj = City_Place.objects.get(city_place_id=request.POST.get('city_place_id'))
             city_obj.city_id= City.objects.get(city_id = request.POST.get('city_name'))
             city_obj.state_id =State.objects.get(state_id=request.POST.get('state'))
-            city_obj.country_id =Country.objects.get(country_id=request.POST.get('country')) 
+            city_obj.country_id =Country.objects.get(country_id=request.POST.get('country'))
             city_obj.save()
-            
+
             if request.POST.get('about_city'):
                 city_obj.about_city=request.POST.get('about_city')
 
@@ -1863,7 +1863,7 @@ def update_city(request):
     return HttpResponse(json.dumps(data), content_type='application/json')
 
 def update_city_sms(city_obj):
-    
+
     authkey = "118994AIG5vJOpg157989f23"
     # user_obj = Supplier.objects.get(supplier_id=su_id)
  #    contact_no = user_obj.contact_no
@@ -1897,22 +1897,22 @@ def update_city_data(request):
 ##    pdb.set_trace()
     try:
         if request.method == "POST":
-            
+
             city_obj = City_Place.objects.get(city_place_id=request.POST.get('city_place_id'))
 
             poi_range = request.POST.get('poi_range')
             point_of_interest_id_list = request.POST.get('point_of_interest_id_list')
             point_of_interest_id_list = str(point_of_interest_id_list).split(',')
-            
+
             point_of_interest_list = request.POST.get('point_of_interest_list')
             point_of_interest_list = str(point_of_interest_list).split(',')
 
             point_of_interest_image_list = []
-        
+
             for i in range(int(poi_range)+1):
                 image = "point_of_interest_image" + str(i)
                 try:
-                    point_of_interest_image_list.append(request.FILES[image])                 
+                    point_of_interest_image_list.append(request.FILES[image])
                 except:
                     point_of_interest_image_list.append('')
 
@@ -1920,10 +1920,10 @@ def update_city_data(request):
 
             zipped_wk = zip(point_of_interest_id_list,point_of_interest_list,point_of_interest_image_list)
             update_places(zipped_wk,city_obj,place_type)
-                 
+
             shop_id_list = request.POST.get('shop_id_list')
             shop_id_list = str(shop_id_list).split(',')
-            
+
             shop_list = request.POST.get('shop_list')
             shop_list = str(shop_list).split(',')
 
@@ -1932,17 +1932,17 @@ def update_city_data(request):
             for i in range(int(shop_range)+1):
                 image = "shop_image" + str(i)
                 try:
-                    shop_image_list.append(request.FILES[image])                 
-                except: 
+                    shop_image_list.append(request.FILES[image])
+                except:
                     shop_image_list.append('')
 
             zipped_wk = zip(shop_id_list,shop_list,shop_image_list)
             place_type = 'where_to_shop'
             update_places(zipped_wk,city_obj,place_type)
-            
+
             hospital_id_list = request.POST.get('hospital_id_list')
             hospital_id_list = str(hospital_id_list).split(',')
-            
+
             hospital_list = request.POST.get('hospital_list')
             hospital_list = str(hospital_list).split(',')
 
@@ -1951,14 +1951,14 @@ def update_city_data(request):
             for i in range(int(hospital_range)+1):
                 image = "hospital_image" + str(i)
                 try:
-                    hospital_image_list.append(request.FILES[image])                 
+                    hospital_image_list.append(request.FILES[image])
                 except:
                     hospital_image_list.append('')
 
             zipped_wk = zip(hospital_id_list,hospital_list,hospital_image_list)
             place_type = 'reputed_hospitals'
             update_places(zipped_wk,city_obj,place_type)
-            
+
 
             college_id_list = request.POST.get('college_id_list')
             college_id_list = str(college_id_list).split(',')
@@ -1972,21 +1972,21 @@ def update_city_data(request):
             for i in range(int(college_range)+1):
                 image = "college_image" + str(i)
                 try:
-                    college_image_list.append(request.FILES[image])                 
+                    college_image_list.append(request.FILES[image])
                 except:
                     college_image_list.append('')
 
             zipped_wk = zip(college_id_list,college_list,college_image_list)
             place_type = 'college_and_universities'
             update_places(zipped_wk,city_obj,place_type)
-            
+
             data = {'success': 'true'}
         else:
             data = {'success': 'false'}
     except Exception,e:
         data = {'data':'none'}
     return HttpResponse(json.dumps(data), content_type='application/json')
- 
+
 def city_update(city_obj):
     gmail_user =  "cityhoopla2016"
     gmail_pwd =  "cityhoopla@2016"
@@ -1997,7 +1997,7 @@ def city_update(city_obj):
         TEXT = "Hi Admin,\nCity " + str(city_obj.city_id.city_name) + " " +"has been updated successfully.\nTo view complete details visit portal and follow - Reference Data -> City\n\nThank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "City Updated Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -2008,7 +2008,7 @@ def city_update(city_obj):
     except SMTPException,e:
         print e
     return 1
- 
+
 def city_delete(adv_obj):
     gmail_user =  "cityhoopla2016"
     gmail_pwd =  "cityhoopla@2016"
@@ -2019,7 +2019,7 @@ def city_delete(adv_obj):
         TEXT = "Hi Admin,\nCity " + str(adv_obj.city_id.city_name) + " " +"has been deactivated successfully.\nTo view complete details visit portal and follow - Reference Data -> City\n\nThank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "City Deactivated Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -2041,7 +2041,7 @@ def city_add(city_obj):
         TEXT = "Hi Admin,\nCity " + str(city_obj.city_id.city_name) + " " +"has been added successfully.\nTo view complete details visit portal and follow - Reference Data -> City\n\nThank You,"+'\n'+"CityHoopla Team"
         SUBJECT = "City Added Successfully!"
         #server = smtplib.SMTP_SSL()
-        server = smtplib.SMTP("smtp.gmail.com", 587) 
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls()
 
@@ -2051,7 +2051,7 @@ def city_add(city_obj):
         server.quit()
     except SMTPException,e:
         print e
-    return 1   
+    return 1
 
 
 @csrf_exempt
